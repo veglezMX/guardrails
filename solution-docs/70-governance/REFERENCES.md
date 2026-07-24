@@ -54,7 +54,7 @@ Each reference table below carries the following columns, used consistently thro
 | **Document / Reference** | The file (internal) or product/service/framework name (external) being cataloged. |
 | **Authority** | For internal documents, the authority level asserted in that document's own header (`L1` authoritative, `L2`–`L4` derived, decreasing in binding force). For external references, marked `n/a` — external references are descriptive, not authoritative over this solution-docs set. |
 | **Role / Description** | A one-line, qualitative description of what the document or external reference is and why it is relevant to AI Guardrails. No metrics, dates, or figures are stated unless they already appear in `seed.md` or `AGREEMENTS.md`. |
-| **Link status** | `Linked` for files that exist in this repository today; `Planned — not yet authored` for files named as future or sibling documents elsewhere in this set that do not yet exist. Planned documents are shown as plain code paths, not as clickable links, so a broken link is never silently introduced. |
+| **Link status** | `Linked` for files that exist in this repository today — which is every document named in this set as of this revision. `Planned — not yet authored` is reserved for genuinely-future artifacts (for example ADRs beyond `ADR-0001`, which are backlog items) and, when used, such documents are shown as plain code paths rather than clickable links so a broken link is never silently introduced. |
 
 External references are additionally marked with a **canonical URL** cell reading `TBD — add canonical URL`, per this document set's policy against inventing external URLs. Whoever adds a verified canonical link should replace that placeholder in place, not append a new row.
 
