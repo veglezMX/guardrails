@@ -271,5 +271,5 @@ Seed.md §18 (Five-phase delivery, AGR-022) implies a changing balance of owners
 * [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) — the infrastructure Platform operations runs and the packaging the AI Guardrails team ships for Mode C.
 * [`../50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) — the content-exposure model that AGR-008 requires to be tracked separately from operational ownership.
 * [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — full detail behind the five delivery phases referenced in §8 above.
-* `70-governance/RISK-REGISTER.md` *(planned)* — the connector-bypass and policy-fragmentation risks (seed.md §20) that this document's escalation path (§7) and enforcement-posture table (§5) are designed to mitigate.
-* `60-delivery/IMPLEMENTATION-STRATEGY.md`, `60-delivery/RELEASE-CRITERIA.md`, `60-delivery/MILESTONES.md` *(planned)* — sibling delivery-tier documents that will sequence work against the ownership boundaries defined here.
+* [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — the connector-bypass and policy-fragmentation risks (seed.md §20) that this document's escalation path (§7) and enforcement-posture table (§5) are designed to mitigate.
+* [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md), [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md), [`MILESTONES.md`](MILESTONES.md) — sibling delivery-tier documents that sequence work against the ownership boundaries defined here.

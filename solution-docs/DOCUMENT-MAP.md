@@ -206,6 +206,7 @@ solution-docs/
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | Hard constraints on the solution. |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log. |
 | [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) | Open questions awaiting resolution. |
+| [`TRACEABILITY-MATRIX.md`](00-source-of-truth/TRACEABILITY-MATRIX.md) | Maps each agreement to the capability, architecture section, ADR, and executive/sales claim that realize it; the drift-prevention backbone of the set. |
 
 ### `10-charter/` — L2, defining
 

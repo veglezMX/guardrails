@@ -279,7 +279,7 @@ The agent must surface an explicit warning — in the claims-validation report a
 - **Every speaker-notes block** must cite the `seed.md` section and/or `AGR-xxx`/`CON-xxx` anchor backing that slide's content, per [`DECK-BRIEF.md`](../40-sales-deck/DECK-BRIEF.md) Output requirement 2.
 - **Every diagram** must trace to the [`VISUAL-DIRECTION.md`](../40-sales-deck/VISUAL-DIRECTION.md) §10 diagram source map, or to an equivalent citation if the requested deck instantiation calls for a diagram not already listed there.
 - **No orphaned content.** If a slide's content cannot be traced to a permitted source (including this specification's own tiering), it must not appear in the deck — it belongs in the missing-information list instead.
-- This traceability chain (`AGREEMENTS.md`/`CONSTRAINTS.md` → `CLAIMS-REGISTER.md` → sales-deck package → generated deck) mirrors the intended purpose of `../00-source-of-truth/TRACEABILITY-MATRIX.md` *(planned, not yet authored)*; once that matrix exists, the slide-to-source map produced under this specification should be reconcilable against it.
+- This traceability chain (`AGREEMENTS.md`/`CONSTRAINTS.md` → `CLAIMS-REGISTER.md` → sales-deck package → generated deck) mirrors the intended purpose of [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md); the slide-to-source map produced under this specification should be reconcilable against it.
 
 ---
 
@@ -317,9 +317,9 @@ When the deck being produced is specifically `DECK-BRIEF.md`'s 15-slide internal
 
 ## Relationship to other agent-input documents
 
-- [`README.md`](README.md) *(planned, not yet authored)* — will index all `80-agent-inputs/` specifications; this file should be listed there once it exists.
-- [`OUTPUT-CONTRACTS.md`](OUTPUT-CONTRACTS.md) *(planned, not yet authored)* — intended to define, across all agents, the minimum "produces" / "must not" list; the [output format](#output-format) and [conditions requiring warnings](#conditions-requiring-warnings) sections above are written to be consistent with, and should be reconciled against, that contract once it is authored.
-- [`EXECUTIVE-BRIEF-AGENT.md`](EXECUTIVE-BRIEF-AGENT.md), [`ARCHITECTURE-REVIEW-AGENT.md`](ARCHITECTURE-REVIEW-AGENT.md), [`CHARTER-AGENT.md`](CHARTER-AGENT.md) *(all planned, not yet authored)* — sibling agent specifications for other derived artifacts; this document does not duplicate their scope and should not be treated as authoritative for executive-brief or architecture-review output.
+- [`README.md`](README.md) — indexes all `80-agent-inputs/` specifications; this file is listed there.
+- [`OUTPUT-CONTRACTS.md`](OUTPUT-CONTRACTS.md) — defines, across all agents, the minimum "produces" / "must not" list; the [output format](#output-format) and [conditions requiring warnings](#conditions-requiring-warnings) sections above are written to be consistent with, and should be reconciled against, that contract.
+- [`EXECUTIVE-BRIEF-AGENT.md`](EXECUTIVE-BRIEF-AGENT.md), [`ARCHITECTURE-REVIEW-AGENT.md`](ARCHITECTURE-REVIEW-AGENT.md), [`CHARTER-AGENT.md`](CHARTER-AGENT.md) — sibling agent specifications for other derived artifacts; this document does not duplicate their scope and should not be treated as authoritative for executive-brief or architecture-review output.
 
 ---
 

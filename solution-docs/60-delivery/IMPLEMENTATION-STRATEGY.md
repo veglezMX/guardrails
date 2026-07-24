@@ -438,8 +438,8 @@ The charter's risk register (seed.md §20; [`../70-governance/RISK-REGISTER.md`]
 | [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) | Per-mode deployment topology and the Phase 4 packaging plan referenced in §2.3 and §8.5. |
 | [`../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | Measurable targets underlying the evaluation-result comparison described in §8.3. |
 | [`../50-architecture/ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md) | Consolidated architecture view this strategy's build sequence must remain consistent with. |
-| [`MILESTONES.md`](MILESTONES.md) | Delivery-facing milestone tracking for the five phases sequenced here (planned; not yet authored at the time of writing). |
-| [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) | Gate criteria that must evaluate delivery against the MVP boundary in §3 (planned; not yet authored at the time of writing). |
-| [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Detailed test plan for the MVP success demonstration in §3.2 (planned; not yet authored at the time of writing). |
+| [`MILESTONES.md`](MILESTONES.md) | Delivery-facing milestone tracking for the five phases sequenced here. |
+| [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) | Gate criteria that must evaluate delivery against the MVP boundary in §3. |
+| [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Detailed test plan for the MVP success demonstration in §3.2. |
 | [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) | Actively tracked risk register; §9 above restates only its sequencing-relevant subset. |
 | [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) | Must reject any external claim that this strategy's build order implies a delivered capability ahead of its actual phase. |

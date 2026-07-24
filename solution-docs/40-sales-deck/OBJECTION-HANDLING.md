@@ -13,7 +13,7 @@ This document equips sales, sales-engineering, and solution-consulting teams wit
 
 **Ground rule for anyone using this document in a live conversation:** the single largest named risk in the solution charter is *false confidence* — a prospect (or a rep) overstating what guardrails guarantee. Every response below is written to close deals honestly, not to win an objection by overclaiming. Where a stronger-sounding answer would contradict `AGREEMENTS.md`, the honest, narrower answer is the one to give. If an answer here ever appears to conflict with `AGREEMENTS.md` or `CONSTRAINTS.md`, those registers win and this document must be corrected — never the other way around.
 
-Once written, [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) (planned) will hold the definitive, enforceable external-facing wording. This document should be checked against it as soon as it exists.
+[`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) holds the definitive, enforceable external-facing wording. This document should be checked against it directly.
 
 ---
 
@@ -206,6 +206,6 @@ Every response in this document is built on the same discipline the source mater
 - [`../30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) — the executive-level view of the connector bypass, false confidence, latency, and hosted data-exposure risks referenced above.
 - [`../10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — the product principles (policy portability, explicit content-exposure model, guardrails-are-not-authorization, observe-before-enforce) these responses apply.
 - [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — the in-scope, future-scope, and out-of-scope boundaries referenced in §5.
-- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — planned register of enforceable, approved external-facing wording; will govern this document once written.
-- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — planned fuller risk register, including connector bypass and false confidence.
+- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — register of enforceable, approved external-facing wording; governs this document.
+- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — fuller risk register, including connector bypass and false confidence.
 - [seed.md](../../seed.md) — original charter source for every objection response above.

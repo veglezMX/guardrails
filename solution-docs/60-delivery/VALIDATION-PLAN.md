@@ -42,7 +42,7 @@ Each validation item below follows one shape:
 
 | Field | Meaning |
 | --- | --- |
-| **ID** | Stable identifier, `VAL-NNN`, referenced by [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) *(planned)* and [`MILESTONES.md`](MILESTONES.md) *(planned)* as a phase-gate precondition. |
+| **ID** | Stable identifier, `VAL-NNN`, referenced by [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) and [`MILESTONES.md`](MILESTONES.md) as a phase-gate precondition. |
 | **Claim / assumption under test** | The specific proof point (`PP-###`) or assumption (`ASM-###`) this activity is designed to confirm or refute. |
 | **Validation method** | The concrete activity — a prototype, a test, a proof of concept, a review — not a restated hope that the claim is true. |
 | **Owner** | The accountable role, using the naming in [Owner-role mapping](#owner-role-mapping) below. |
@@ -293,10 +293,10 @@ As of this document's date, **all six items are Not started.** None has been exe
 - [`../50-architecture/FEASIBILITY-ASSESSMENT.md`](../50-architecture/FEASIBILITY-ASSESSMENT.md) — the source of PoC 1, PoC 2, PoC 4, and PoC 5's detailed scope and success criteria, referenced rather than duplicated in VAL-001, VAL-002, VAL-003, and VAL-005.
 - [`../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) — the measurable targets (many TBD) that VAL-001, VAL-003, VAL-005, and VAL-006 supply data toward.
 - [`../50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) — the content-handling design VAL-006's data-flow review is checked against.
-- [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) *(planned)* — should gate MVP, pilot, Phase-4, and production readiness on the status of the items in this plan.
-- [`MILESTONES.md`](MILESTONES.md) *(planned)* — should sequence delivery milestones around the "Required before" gates defined here.
-- [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md) *(planned)* — should reflect VAL-001 through VAL-006 as delivery-plan inputs, not afterthoughts.
-- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) *(planned)* — each "If unresolved" consequence above corresponds to a named risk in seed.md §20 (latency, connector bypass, hosted data exposure, false confidence) that should be tracked there.
+- [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) — should gate MVP, pilot, Phase-4, and production readiness on the status of the items in this plan.
+- [`MILESTONES.md`](MILESTONES.md) — should sequence delivery milestones around the "Required before" gates defined here.
+- [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md) — should reflect VAL-001 through VAL-006 as delivery-plan inputs, not afterthoughts.
+- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — each "If unresolved" consequence above corresponds to a named risk in seed.md §20 (latency, connector bypass, hosted data exposure, false confidence) that should be tracked there.
 - [`../30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — executive framing of the MVP demonstration that VAL-001, VAL-002, and VAL-005 collectively substantiate.
 
 ---

@@ -80,24 +80,24 @@ If a generation agent needs a fact that is not present in any source document, t
 
 ## Files in this directory
 
-This directory is populated incrementally, one instruction file per generation agent, plus one shared output-format contract. As of this writing, only this `README.md` has been authored; the remaining files are the planned structure that subsequent authoring work will fill in.
+This directory is populated incrementally, one instruction file per generation agent, plus one shared output-format contract. As of this writing, this `README.md` and all five instruction/contract files listed below have been authored.
 
 | File | Drives generation agent | Produces (target document family) | Status |
 |---|---|---|---|
 | `README.md` | — | This document | Authored |
-| `CHARTER-AGENT.md` | Charter generation agent | [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) and its companions ([`PRINCIPLES.md`](../10-charter/PRINCIPLES.md), [`SCOPE.md`](../10-charter/SCOPE.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) | Not yet authored |
-| `EXECUTIVE-BRIEF-AGENT.md` | Executive brief generation agent | [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) and its companions ([`BUSINESS-CASE.md`](../30-executive/BUSINESS-CASE.md), [`DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md), [`EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md), [`INVESTMENT-SUMMARY.md`](../30-executive/INVESTMENT-SUMMARY.md), [`RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md)) | Not yet authored |
-| `SALES-DECK-AGENT.md` | Sales deck generation agent | [`40-sales-deck/DECK-BRIEF.md`](../40-sales-deck/DECK-BRIEF.md) and the full slide/narrative family under `40-sales-deck/` | Not yet authored |
-| `ARCHITECTURE-REVIEW-AGENT.md` | Architecture review generation agent | [`50-architecture/ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md), the consolidated technical report | Not yet authored |
-| `OUTPUT-CONTRACTS.md` | Shared by all four agents above | Not a document in its own right — defines the structural and format contract every generated output must satisfy | Not yet authored |
+| [`CHARTER-AGENT.md`](./CHARTER-AGENT.md) | Charter generation agent | [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) and its companions ([`PRINCIPLES.md`](../10-charter/PRINCIPLES.md), [`SCOPE.md`](../10-charter/SCOPE.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) | Authored |
+| [`EXECUTIVE-BRIEF-AGENT.md`](./EXECUTIVE-BRIEF-AGENT.md) | Executive brief generation agent | [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) and its companions ([`BUSINESS-CASE.md`](../30-executive/BUSINESS-CASE.md), [`DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md), [`EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md), [`INVESTMENT-SUMMARY.md`](../30-executive/INVESTMENT-SUMMARY.md), [`RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md)) | Authored |
+| [`SALES-DECK-AGENT.md`](./SALES-DECK-AGENT.md) | Sales deck generation agent | [`40-sales-deck/DECK-BRIEF.md`](../40-sales-deck/DECK-BRIEF.md) and the full slide/narrative family under `40-sales-deck/` | Authored |
+| [`ARCHITECTURE-REVIEW-AGENT.md`](./ARCHITECTURE-REVIEW-AGENT.md) | Architecture review generation agent | [`50-architecture/ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md), the consolidated technical report | Authored |
+| [`OUTPUT-CONTRACTS.md`](./OUTPUT-CONTRACTS.md) | Shared by all four agents above | Not a document in its own right — defines the structural and format contract every generated output must satisfy | Authored |
 
-Each future instruction file should be scoped to exactly one generation agent and should itself remain a thin, reference-only document: what to pull, from where, in what order, for which audience — not a restatement of product, architecture, or governance content.
+Each instruction file in this directory should be scoped to exactly one generation agent and should itself remain a thin, reference-only document: what to pull, from where, in what order, for which audience — not a restatement of product, architecture, or governance content.
 
 ---
 
 ## Output contract
 
-Every generation agent listed above must produce output conforming to [`OUTPUT-CONTRACTS.md`](./OUTPUT-CONTRACTS.md) — the shared, cross-agent contract for what a generated document must contain and how it must be shaped, independent of any one document's specific subject matter. That contract is expected to define, at minimum:
+Every generation agent listed above must produce output conforming to [`OUTPUT-CONTRACTS.md`](./OUTPUT-CONTRACTS.md) — the shared, cross-agent contract for what a generated document must contain and how it must be shaped, independent of any one document's specific subject matter. That contract defines, at minimum:
 
 * The standard header block (title, authority level, status, date, "Derived from" line) every generated document must open with.
 * The mandatory disclaimer wording tied to specific agreements — for example, the Mode A data-exposure statement required by [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), the authorization-boundary statement required by [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), and the enforcement-posture statement required by [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
@@ -105,7 +105,7 @@ Every generation agent listed above must produce output conforming to [`OUTPUT-C
 * The prohibition on invented metrics, customer names, dollar figures, dates, SLAs, or performance numbers, and the required use of "TBD" or qualitative description where a figure is genuinely absent from the source material.
 * A closing requirement that every generated document be checked against [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) before publication.
 
-Until `OUTPUT-CONTRACTS.md` is authored, any generation agent instruction file added to this directory must state its formatting and disclaimer requirements inline and flag them for consolidation into that shared contract once it exists.
+Any generation agent instruction file added to this directory must follow the formatting and disclaimer requirements defined in [`OUTPUT-CONTRACTS.md`](./OUTPUT-CONTRACTS.md).
 
 ---
 

@@ -15,18 +15,18 @@ This document is **L3 — derived**. It must not contradict [`AGREEMENTS.md`](..
 
 ### Relationship to other architecture documents
 
-This is a **logical container view**, not a physical network topology and not a component-internals view. It sits between the following (planned) documents in the architecture set:
+This is a **logical container view**, not a physical network topology and not a component-internals view. It sits between the following documents in the architecture set:
 
 | Level | Document | Scope |
 | --- | --- | --- |
-| C4 L1 — System context | `SYSTEM-CONTEXT.md` *(planned)* | External actors (consuming teams, security/governance, model providers) and the platform's outer boundary. |
+| C4 L1 — System context | [`SYSTEM-CONTEXT.md`](SYSTEM-CONTEXT.md) | External actors (consuming teams, security/governance, model providers) and the platform's outer boundary. |
 | **C4 L2 — Container (this document)** | **`CONTAINER-ARCHITECTURE.md`** | Major containers inside the platform boundary and how they communicate. |
-| C4 L3 — Component | `COMPONENT-ARCHITECTURE.md` *(planned)* | Internal decomposition of each container (e.g., what modules live inside the Guardrails Runtime). |
-| Physical / deployment | `DEPLOYMENT-ARCHITECTURE.md` *(planned)* | Account topology, networking, and how containers map onto AWS infrastructure per deployment mode. |
-| Integration contract | `INTEGRATION-ARCHITECTURE.md` *(planned)* | Detailed connector and evaluation-contract specification (request/response shapes, versioning). |
-| Data | `DATA-ARCHITECTURE.md` *(planned)* | Storage schemas, retention, and data flows for policy, registry, and audit data. |
-| Security | `SECURITY-ARCHITECTURE.md` *(planned)* | Authentication, authorization, encryption, and trust-boundary controls across containers. |
-| Operability | `OPERABILITY.md` *(planned)* | Availability objectives, failure behavior, rollout, and monitoring per container. |
+| C4 L3 — Component | [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) | Internal decomposition of each container (e.g., what modules live inside the Guardrails Runtime). |
+| Physical / deployment | [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) | Account topology, networking, and how containers map onto AWS infrastructure per deployment mode. |
+| Integration contract | [`INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md) | Detailed connector and evaluation-contract specification (request/response shapes, versioning). |
+| Data | [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) | Storage schemas, retention, and data flows for policy, registry, and audit data. |
+| Security | [`SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md) | Authentication, authorization, encryption, and trust-boundary controls across containers. |
+| Operability | [`OPERABILITY.md`](OPERABILITY.md) | Availability objectives, failure behavior, rollout, and monitoring per container. |
 
 This document governs the container catalog and inter-container communication; it defers component internals, physical deployment specifics, detailed contract schemas, data models, security controls, and operational targets to the documents above.
 
@@ -204,7 +204,7 @@ Containers 1–3 sit inside the AI Guardrails platform boundary in every deploym
 | **Evaluator adapters** | Vendor- and technique-specific adapters that invoke each configured evaluation engine ([§5](#5-evaluation-engines)) and translate its native output into the Decision engine's normalized input, per AGR-004/AGR-005. |
 | **Audit producer** | Emits decision metadata (never raw content by default, per AGR-014) as audit events for downstream buffering and archival ([§7.4](#74-audit-events-runtime--audit-pipeline)). |
 
-This document describes these five elements at the responsibility level only; their internal structure (interfaces, data flow within the container) is defined in the planned `COMPONENT-ARCHITECTURE.md` (C4 L3).
+This document describes these five elements at the responsibility level only; their internal structure (interfaces, data flow within the container) is defined in [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) (C4 L3).
 
 **Technology.** Per `seed.md` §11:
 
@@ -271,7 +271,7 @@ Three entry points feed the Guardrails Runtime, matching the three deployment mo
 * **Nature:** Asynchronous. The Runtime maintains a local policy cache so that evaluation does not require a synchronous call to the Control Plane on the request path (`seed.md` §15, Policy-cache hit rate; AGR-015).
 * **Contents distributed:** Versioned policy definitions, workload-to-policy bindings (including observe/enforce mode and effective date), and rollout/rollback state (`seed.md` §9, §15).
 * **Mode C requirement:** In Customer-Managed Runtime deployments, this distribution must not become a hard runtime dependency — the customer-hosted Runtime must be able to keep evaluating against its local policy cache through a control-plane outage (AGR-015). Degraded-mode behavior when the local cache is stale is defined as part of the workload's failure behavior (AGR-012), not as an implicit default.
-* **Mechanism detail:** The specific transport (push vs. pull, polling interval, or event-driven sync) is an implementation decision not specified in `seed.md` and is **TBD** at the component-design level (`COMPONENT-ARCHITECTURE.md`, planned).
+* **Mechanism detail:** The specific transport (push vs. pull, polling interval, or event-driven sync) is an implementation decision not specified in `seed.md` and is **TBD** at the component-design level (see [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md)).
 
 ### 7.2 Evaluation calls (entry points → Evaluation API)
 
@@ -416,11 +416,11 @@ Per AGR-017, the platform's six core domain entities must map directly onto the 
 - [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — decision log, including DEC-001 through DEC-004 (platform shape, connector model, evaluation engine, deployment modes) and DEC-006 (five-phase delivery, referenced in [§6.3](#63-guarded-gateway)).
 - [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md) — product charter narrative that this container view is derived from.
 - [`../20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) — capability catalog; each MVP capability in [§6.1 of `seed.md`](../../seed.md) traces to one or more containers described here.
-- `SYSTEM-CONTEXT.md` *(planned)* — C4 Level-1 view this document zooms into.
-- `COMPONENT-ARCHITECTURE.md` *(planned)* — C4 Level-3 breakdown of each container's internals.
-- `DEPLOYMENT-ARCHITECTURE.md` *(planned)* — physical AWS account/network topology per deployment mode, expanding on [§9](#9-containers-across-the-three-deployment-modes).
-- `INTEGRATION-ARCHITECTURE.md` *(planned)* — detailed connector and evaluation-contract specification, expanding on [§6](#6-entry-points--connectors-sdk-guarded-gateway) and [§7.2](#72-evaluation-calls-entry-points--evaluation-api).
-- `DATA-ARCHITECTURE.md` *(planned)* — storage schemas and data flows for the Control Plane and audit pipeline described in [§3](#3-guardrails-control-plane) and [§7.4](#74-audit-events-runtime--audit-pipeline).
-- `SECURITY-ARCHITECTURE.md` *(planned)* — authentication, authorization, and trust-boundary controls across the containers in this view.
-- `OPERABILITY.md` *(planned)* — availability objectives and failure-behavior detail referenced in [§4](#4-guardrails-runtime) and [§7](#7-inter-container-communication).
+- [`SYSTEM-CONTEXT.md`](SYSTEM-CONTEXT.md) — C4 Level-1 view this document zooms into.
+- [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) — C4 Level-3 breakdown of each container's internals.
+- [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) — physical AWS account/network topology per deployment mode, expanding on [§9](#9-containers-across-the-three-deployment-modes).
+- [`INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md) — detailed connector and evaluation-contract specification, expanding on [§6](#6-entry-points--connectors-sdk-guarded-gateway) and [§7.2](#72-evaluation-calls-entry-points--evaluation-api).
+- [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) — storage schemas and data flows for the Control Plane and audit pipeline described in [§3](#3-guardrails-control-plane) and [§7.4](#74-audit-events-runtime--audit-pipeline).
+- [`SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md) — authentication, authorization, and trust-boundary controls across the containers in this view.
+- [`OPERABILITY.md`](OPERABILITY.md) — availability objectives and failure-behavior detail referenced in [§4](#4-guardrails-runtime) and [§7](#7-inter-container-communication).
 - [`adrs/`](adrs/) — Architecture Decision Records capturing design alternatives considered for individual containers.

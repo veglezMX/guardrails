@@ -23,7 +23,7 @@ Related documents:
 - [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) — §3, "The evaluation contract," the artifact the connector-sequencing dependency (§4 below) depends on.
 - [`50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) — NFR-SEC-006 (dependency/container scanning) and the Security section this document's CI dependency operationalizes.
 - [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — the five phases referenced throughout the "Needed for" column.
-- `60-delivery/IMPLEMENTATION-STRATEGY.md`, `60-delivery/MILESTONES.md`, `60-delivery/RELEASE-CRITERIA.md`, `60-delivery/VALIDATION-PLAN.md` — sibling delivery documents (planned; not yet authored at the time of writing) that consume this register for sequencing and phase-gate criteria.
+- [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md), [`MILESTONES.md`](MILESTONES.md), [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md), [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) — sibling delivery documents that consume this register for sequencing and phase-gate criteria.
 
 ---
 
@@ -217,5 +217,5 @@ No dependency in Section 2 is currently marked Confirmed or Complete — this re
 - [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) — §3, "The evaluation contract," and the LiteLLM connector responsibilities the §3.3/§4 sequencing dependency applies to.
 - [`50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) — NFR-SEC-006 (dependency/container scanning), the Security section this document's CI dependency operationalizes.
 - [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — the five delivery phases referenced in the "Needed for" column of Section 2.
-- `60-delivery/IMPLEMENTATION-STRATEGY.md`, `60-delivery/MILESTONES.md`, `60-delivery/RELEASE-CRITERIA.md`, `60-delivery/VALIDATION-PLAN.md` — sibling delivery documents (planned) that should consume this register when phase-gate criteria and detailed sequencing are authored.
+- [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md), [`MILESTONES.md`](MILESTONES.md), [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md), [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) — sibling delivery documents that consume this register for phase-gate criteria and detailed sequencing.
 - [seed.md](../../seed.md) §11 (AWS implementation direction), §14 (Security requirements), §18 (Delivery phases), §20 (Key risks) — original source material this register is derived from.

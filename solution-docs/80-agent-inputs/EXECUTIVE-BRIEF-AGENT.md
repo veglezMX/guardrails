@@ -112,10 +112,7 @@ Each numbered section must:
 
 1. **No invented figures.** Do not write a specific dollar amount, date, SLA number, percentage, throughput figure, or customer/deal name unless it is present, verbatim or by direct computation from values present, in a permitted source file. Where a figure is genuinely needed but absent, write **TBD** and, where possible, point to the register that owns resolving it (usually `ASSUMPTIONS.md` or `OPEN-QUESTIONS.md`).
 2. **Obey the claims register.** Before publishing, every externally facing claim (a capability statement, a competitive statement, a statement of what the product "is" or "does") must be checked against [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md).
-   * **As of this specification's date, `70-governance/CLAIMS-REGISTER.md` does not yet exist** (the `70-governance/` directory is currently empty). Until it exists and is populated:
-     * You may refresh or restructure claims that were already present in the prior version of `EXECUTIVE-BRIEF.md`, since those were vetted through the AGR/CON layer directly.
-     * You must **not** add a materially new external-facing claim that is not a direct restatement of an AGR or CON, and you must raise the warning in [Section 7, item 2](#7-conditions-requiring-warnings) whenever you would otherwise want to.
-   * Once `CLAIMS-REGISTER.md` exists, treat it as authoritative for claim wording and update the "Derived from" line in the header to read `seed.md + AGREEMENTS.md + CLAIMS-REGISTER.md`.
+   * **`70-governance/CLAIMS-REGISTER.md` exists and is populated.** Treat it as authoritative for claim wording, and ensure the "Derived from" line in the header reads `seed.md + AGREEMENTS.md + CLAIMS-REGISTER.md`.
 3. **Forbidden claim patterns.** Regardless of `CLAIMS-REGISTER.md` status, the following are never permitted, because they directly contradict a standing agreement:
    * Describing Mode A (Remote Evaluation) as private, data-local, or as keeping tenant content off the hosted service — contradicts [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model).
    * Describing a guardrail decision as a business-authorization decision, or implying the platform authorizes tool execution or resource access — contradicts [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
@@ -138,7 +135,7 @@ Each numbered section must:
   2. `**Authority level:** L4`
   3. `**Status:** Draft` (or the correct status if the document has been promoted — do not change this field without an explicit instruction to do so)
   4. `**Date:** <refresh date>` — update to the date the refresh is performed
-  5. `**Derived from:** seed.md + AGREEMENTS.md` (append `+ CLAIMS-REGISTER.md` once that register exists and was consulted, per §5.2)
+  5. `**Derived from:** seed.md + AGREEMENTS.md + CLAIMS-REGISTER.md` (per §5.2)
 * **Opening blockquote**: retain the authority disclaimer blockquote (this brief is derived, not a source of new commitments; every claim traces to `AGREEMENTS.md` or the charter; TBD used instead of invented figures).
 * **Section numbering:** `## 1.` through `## 10.`, followed by an unnumbered `## Related documents` footer — matching [Section 4](#4-required-structure) above.
 * **Links:** use relative Markdown links from `30-executive/` (e.g., `../00-source-of-truth/AGREEMENTS.md#agr-009--...`), matching the path convention already used throughout this corpus. Do not use absolute paths or bare URLs for in-repo references.
@@ -214,4 +211,4 @@ flowchart TD
 * [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) — fuller risk/dependency detail (L3).
 * [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — fuller outcomes/success-metric detail (L4).
 * [`30-executive/DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md) — fuller decision framing (L4).
-* `70-governance/CLAIMS-REGISTER.md` — claims-validation authority once populated; does not yet exist as of this document's date (see [§5, item 2](#5-claim-validation-rules) and [§7, item 2](#7-conditions-requiring-warnings)).
+* [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — claims-validation authority (see [§5, item 2](#5-claim-validation-rules) and [§7, item 2](#7-conditions-requiring-warnings)).

@@ -11,9 +11,9 @@
 
 This document translates the pains organizations face when adopting LLMs and agentic workflows into the specific benefits AI Guardrails is designed to deliver, and the business outcomes those benefits support. It is written for sales, sales-engineering, and customer-facing product roles who need a single reference that connects **pain → benefit → business outcome** without drifting from the authoritative agreement register.
 
-This is an **L4** document: a derived sales artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), and every benefit statement below is phrased using the same "designed to / supports / is intended to" language discipline required of [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — this document's wording must be checked against that register once it exists, and the register governs if the two ever diverge. No dollar figures, adoption percentages, SLA numbers, or customer names appear here; where the source material does not supply a figure, this document says **TBD** rather than inventing one.
+This is an **L4** document: a derived sales artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), and every benefit statement below is phrased using the same "designed to / supports / is intended to" language discipline required of [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — this document's wording must be checked against that register, and the register governs if the two ever diverge. No dollar figures, adoption percentages, SLA numbers, or customer names appear here; where the source material does not supply a figure, this document says **TBD** rather than inventing one.
 
-This document assumes the pain inventory that will be formalized in the forthcoming `CUSTOMER-PAIN-POINTS.md` (same directory). Until that document exists, the pain statements below are drawn directly from the current-state problem framing in [`../20-product/PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) and seed.md §1, §2, §7, and §20, so that this document does not get ahead of its own source material.
+This document assumes the pain inventory formalized in [`CUSTOMER-PAIN-POINTS.md`](CUSTOMER-PAIN-POINTS.md) (same directory). The pain statements below are drawn directly from the current-state problem framing in [`../20-product/PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) and seed.md §1, §2, §7, and §20, so that this document does not get ahead of its own source material.
 
 ---
 
@@ -149,7 +149,7 @@ The six benefits above land differently depending on which stakeholder group (se
 
 ## 5. Claims discipline and language guardrails
 
-Every benefit and outcome statement above uses "designed to / supports / is intended to" language rather than proven-performance language, consistent with the discipline [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) will enforce once written. Sales usage of this document must preserve that discipline. In particular, this document does **not** claim:
+Every benefit and outcome statement above uses "designed to / supports / is intended to" language rather than proven-performance language, consistent with the discipline [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) enforces. Sales usage of this document must preserve that discipline. In particular, this document does **not** claim:
 
 * That Remote Evaluation (Mode A) keeps tenant content local or private — it does not; content reaches the hosted Evaluation API ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
 * That a guardrail decision constitutes business authorization, tenant isolation, or approval — these remain the consuming application's responsibility ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
@@ -170,7 +170,7 @@ Every benefit and outcome statement above uses "designed to / supports / is inte
 * [`../20-product/DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md) — what makes these benefits distinct from a single embedded gateway feature or point detection model.
 * [`../20-product/TARGET-USERS.md`](../20-product/TARGET-USERS.md) — full detail on the stakeholder groups referenced in Section 4.
 * [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) — the executive-level framing of business impact and expected outcomes.
-* `CUSTOMER-PAIN-POINTS.md` — the forthcoming, formalized pain inventory this document's pain column is derived ahead of (planned, same directory).
-* `DECK-BRIEF.md` — the forthcoming sales-deck narrative brief this document supports (planned, same directory).
-* [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative external-facing claims wording this document's language must align with (planned).
-* [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — the full risk register behind the mitigations cited in Section 3 (planned).
+* [`CUSTOMER-PAIN-POINTS.md`](CUSTOMER-PAIN-POINTS.md) — the formalized pain inventory this document's pain column is derived from (same directory).
+* [`DECK-BRIEF.md`](DECK-BRIEF.md) — the sales-deck narrative brief this document supports (same directory).
+* [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative external-facing claims wording this document's language must align with.
+* [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — the full risk register behind the mitigations cited in Section 3.

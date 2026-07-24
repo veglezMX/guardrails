@@ -11,7 +11,7 @@
 
 This is not the deck. It is the **instruction document** a deck-generation agent (human or automated) must follow to produce the AI Guardrails internal pitch deck. Every section below is a constraint or an input, not a suggestion — where this brief specifies content, tone, or a claim boundary, the generated deck must comply with it exactly.
 
-This is an **L4** document: a derived audience-collateral artifact. It must not contradict [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both **L1**), and its claims sections are written to align with the restricted phrasing that [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) *(planned)* will enforce once authored. **Until `CLAIMS-REGISTER.md` exists, this brief's "Claims that may be used" and "Claims that must not be made" sections are the authoritative claims boundary for the deck.** Once `CLAIMS-REGISTER.md` is published, it governs, and any divergence found here must be corrected to match it — not the reverse. No figure, metric, SLA, date, or dollar amount appears below unless it is present in `seed.md` or `AGREEMENTS.md`; where the source material does not supply one, this brief says **TBD** or describes the point qualitatively, and the generated deck must do the same.
+This is an **L4** document: a derived audience-collateral artifact. It must not contradict [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both **L1**), and its claims sections are written to align with the restricted phrasing enforced by [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md). **`CLAIMS-REGISTER.md` governs the claims boundary for the deck; this brief's "Claims that may be used" and "Claims that must not be made" sections are written to align with it, and any divergence found here must be corrected to match it — not the reverse.** No figure, metric, SLA, date, or dollar amount appears below unless it is present in `seed.md` or `AGREEMENTS.md`; where the source material does not supply one, this brief says **TBD** or describes the point qualitatively, and the generated deck must do the same.
 
 ---
 
@@ -62,7 +62,7 @@ Do not write this deck as if it will be shown to an external customer, an analys
 * **Venue (likely):** A platform investment review, an architecture/governance review board, or an internal leadership forum where funding or pilot commitments are made.
 * **Presenter:** Product or technical leadership for AI Guardrails, speaking in the same voice as [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md).
 * **Stage of the proposal:** Pre-approval. AI Guardrails has **not yet been built or piloted** at the time this deck is used — the MVP demonstration in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) is a target outcome of Phase 1, not a completed fact. The deck must never imply the platform is already running in production or already proven; it is asking for the resourcing to prove it.
-* **Not this:** Not a customer-facing sales call, not a conference keynote, not a marketing launch, not a document intended for external distribution without a separate review against [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) *(planned)* once it exists.
+* **Not this:** Not a customer-facing sales call, not a conference keynote, not a marketing launch, not a document intended for external distribution without a separate review against [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md).
 
 ---
 
@@ -75,7 +75,7 @@ Do not write this deck as if it will be shown to an external customer, an analys
 * Confirm at least one additional team, beyond the team proposing AI Guardrails, willing to operate an organizationally independent LiteLLM instance as part of the two-instance MVP demonstration ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration); `../00-source-of-truth/ASSUMPTIONS.md` ASM-002, ASM-003).
 * Agree that the pilot workload will run in **Observe mode** first — never Block mode on day one ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
 
-**Secondary ask (fallback if the primary ask cannot be closed in the room):** Schedule a follow-up technical deep-dive or architecture review with the requesting team(s), using [`../50-architecture/`](../50-architecture/) material *(planned)* as the working document.
+**Secondary ask (fallback if the primary ask cannot be closed in the room):** Schedule a follow-up technical deep-dive or architecture review with the requesting team(s), using [`../50-architecture/`](../50-architecture/) material as the working document.
 
 **Explicitly not being asked for in this deck:** A commitment to Phases 2–5, a specific budget figure or headcount (these are **TBD**, per [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §7), or approval of any deployment mode beyond what Phase 1 exercises (Remote Evaluation via the LiteLLM connector).
 
@@ -160,7 +160,7 @@ Every claim below traces to an accepted agreement or constraint. Use **"designed
 
 ## Claims that must not be made
 
-These are hard prohibitions. If a slide, speaker note, or ad-lib answer during Q&A would assert any of the following, it must be rewritten before the deck is used. This list must be re-checked against [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) *(planned)* once that register is published, and this brief corrected if the register is stricter.
+These are hard prohibitions. If a slide, speaker note, or ad-lib answer during Q&A would assert any of the following, it must be rewritten before the deck is used. This list must be re-checked against [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md), and this brief corrected if the register is stricter.
 
 | Prohibited claim | Why it's prohibited |
 |---|---|
@@ -246,7 +246,7 @@ The deck-generation agent must deliver output meeting all of the following:
 4. **No fabricated figures.** Any metric, percentage, date, or dollar amount not present in `seed.md` or `AGREEMENTS.md` must render on-slide as **TBD** or be omitted and replaced with a qualitative statement — never estimated or invented for narrative effect.
 5. **Mandatory scope-boundary slide.** Slide 10 ("What this is — and isn't") is required, not optional, and must not be cut, shortened to a footnote, or moved to backup — it is load-bearing for the security/compliance segment of the audience.
 6. **Phase discipline.** The deck must visually and verbally distinguish what Phase 1 delivers from what Phases 2–5 will later deliver. No slide may present a Phase 3/4/5 capability (managed gateway, customer-managed runtime, agent/tool authorization, etc.) as available today or as part of the current ask.
-7. **Claims-register check.** Before this deck is used in any setting beyond the immediate drafting team — and again before any reuse once [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) *(planned)* is published — every claim must be re-checked against that register (or, until it exists, against [Claims that may be used](#claims-that-may-be-used) / [Claims that must not be made](#claims-that-must-not-be-made) above).
+7. **Claims-register check.** Before this deck is used in any setting beyond the immediate drafting team, and again before any reuse, every claim must be re-checked against [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) (cross-checked against [Claims that may be used](#claims-that-may-be-used) / [Claims that must not be made](#claims-that-must-not-be-made) above).
 8. **Self-contained for a first-time viewer.** Per [Audience knowledge level](#audience-knowledge-level), the deck must introduce every AI Guardrails-specific term on first use; it must not assume the audience has read any other solution-docs artifact.
 9. **A closing slide that names the decision, not just "thank you."** Slide 15 must restate the specific ask from [Desired audience action](#desired-audience-action) as the last thing the audience sees.
 10. **Format note.** Markdown slide outline is the primary deliverable of this brief's instructions. If a presentation-design tool or template is used downstream to build the visual deck, this brief remains the source of truth for *content and claims*; the tool governs layout and styling only, subject to [Visual direction](#visual-direction).
@@ -267,5 +267,5 @@ The deck-generation agent must deliver output meeting all of the following:
 - [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — phase-by-phase delivery detail behind slide 12.
 - [`../20-product/FAQ.md`](../20-product/FAQ.md) — source material for the objection-handling backup slide.
 - [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) — the fuller written decision document this deck is the live counterpart to.
-- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) *(planned)* — the authoritative external-claims register that will supersede this brief's claims sections once published.
-- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) *(planned)* — risks (connector bypass, false confidence, hosted data exposure) that qualify several claims above.
+- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative external-claims register that supersedes this brief's claims sections.
+- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — risks (connector bypass, false confidence, hosted data exposure) that qualify several claims above.

@@ -138,7 +138,7 @@ Moving a document out of the active tree and into `90-archive/` is a change to t
 
 The `CHANGELOG.md` entry that records the archival should name **both** the active-tree document that changed (or was removed) and the resulting archived filename, so a reader can find one from the other without consulting this index separately. In the ordinary case, the archival is the direct outcome of a Path A amendment or a Path B correction that already required a `CHANGELOG.md` entry — the archival does not need a second, independent entry, but that entry must not omit the archived filename.
 
-`CHANGELOG.md` is referenced by `DOCUMENT-GOVERNANCE.md` and by `folder-spectation.md` as the intended root-level ledger of documentation-set changes, but as of this date it has not yet been authored in this document set. Once it exists at `solution-docs/CHANGELOG.md`, every future archival event must be logged there under this rule.
+[`../CHANGELOG.md`](../CHANGELOG.md) is referenced by `DOCUMENT-GOVERNANCE.md` and by `folder-spectation.md` as the intended root-level ledger of documentation-set changes, and it exists in this document set at `solution-docs/CHANGELOG.md`. Every future archival event must be logged there under this rule.
 
 ---
 
@@ -158,6 +158,6 @@ No document has been archived yet. This table is updated as the final step of th
 - [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — L1 authoritative agreements; agreement-level supersession happens in place within this register, not via this archive (see [§3](#3-what-does-not-belong-in-this-archive)).
 - [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — the product/organizational/delivery decision log; same in-place versioning pattern as agreements.
 - [`../50-architecture/adrs/README.md`](../50-architecture/adrs/README.md) — the sibling lifecycle for Architecture Decision Records, which are never relocated to this archive.
-- [`../CHANGELOG.md`](../CHANGELOG.md) — the chronological ledger every archival must be recorded in (planned; not yet authored as of this date).
+- [`../CHANGELOG.md`](../CHANGELOG.md) — the chronological ledger every archival must be recorded in.
 - [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — must never cite an archived document as evidence for a live external-facing claim.
 - [`../../folder-spectation.md`](../../folder-spectation.md) — the original documentation-set proposal that reserved this directory and first described `CHANGELOG.md`'s purpose.

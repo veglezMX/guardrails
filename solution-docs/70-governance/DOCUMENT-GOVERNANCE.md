@@ -7,7 +7,7 @@
 
 ---
 
-> This document governs the `solution-docs/` set itself — not the AI Guardrails product. It defines the L1–L5 authority model, the non-contradiction rule and how conflicts resolve, ownership per documentation area, the change-control process, review cadence, and how [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](CHANGELOG.md) keep the set from drifting away from [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md). It is itself an **L2 — Defining** document: durable and structural, like the [charter](../10-charter/CHARTER.md), but subordinate to [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md). Where this document and either L1 register could be read as conflicting, the L1 register wins and this document must be corrected.
+> This document governs the `solution-docs/` set itself — not the AI Guardrails product. It defines the L1–L5 authority model, the non-contradiction rule and how conflicts resolve, ownership per documentation area, the change-control process, review cadence, and how [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](../CHANGELOG.md) keep the set from drifting away from [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md). It is itself an **L2 — Defining** document: durable and structural, like the [charter](../10-charter/CHARTER.md), but subordinate to [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md). Where this document and either L1 register could be read as conflicting, the L1 register wins and this document must be corrected.
 
 ---
 
@@ -38,7 +38,7 @@ This document exists to prevent that by defining, once, for the whole set:
 * **Ownership** of each documentation area, so that every change has an accountable owner.
 * The **change-control process** used to propose, review, and land a change — including the distinction between amending an L1 register and editing a derived view.
 * The **review cadence** appropriate to each level.
-* How [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](CHANGELOG.md) are used together to detect and correct drift.
+* How [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](../CHANGELOG.md) are used together to detect and correct drift.
 
 **Scope.** This document governs every file under `solution-docs/`, plus [`../seed.md`](../../seed.md) as the frozen origin material those files are derived from. It does not govern the AI Guardrails product itself — that is what the rest of the set describes.
 
@@ -111,15 +111,15 @@ The table below maps every directory in `solution-docs/` to the authority level(
 
 | Directory | Levels present | Representative documents | Owning role(s) (§5) |
 | --- | --- | --- | --- |
-| [`00-source-of-truth/`](../00-source-of-truth/) | **L1** | `AGREEMENTS.md`, `CONSTRAINTS.md`, `DECISIONS.md`, `ASSUMPTIONS.md`, `OPEN-QUESTIONS.md`, and (planned) `TRACEABILITY-MATRIX.md` | Product lead + Technical lead + Security and governance lead (joint) |
+| [`00-source-of-truth/`](../00-source-of-truth/) | **L1** | `AGREEMENTS.md`, `CONSTRAINTS.md`, `DECISIONS.md`, `ASSUMPTIONS.md`, `OPEN-QUESTIONS.md`, `TRACEABILITY-MATRIX.md` | Product lead + Technical lead + Security and governance lead (joint) |
 | [`10-charter/`](../10-charter/) | **L2** | `CHARTER.md`, `PRINCIPLES.md`, `SCOPE.md`, `SUCCESS-CRITERIA.md` | Product lead + Technical lead |
 | [`20-product/`](../20-product/) | **L2** (`CAPABILITIES.md`) / **L4** (all others) | `PRODUCT-OVERVIEW.md`, `USE-CASES.md`, `TARGET-USERS.md`, `VALUE-PROPOSITION.md`, `DIFFERENTIATORS.md`, `PROBLEM-STATEMENT.md`, `PRODUCT-ROADMAP.md`, `FAQ.md` | Product lead |
 | [`30-executive/`](../30-executive/) | **L3** (`BUSINESS-CASE.md`, `INVESTMENT-SUMMARY.md`, `RISKS-AND-DEPENDENCIES.md`) / **L4** (`EXECUTIVE-BRIEF.md`, `EXPECTED-OUTCOMES.md`, `DECISION-REQUEST.md`) | as listed | Product lead, with Technical lead review on L3 items |
 | [`40-sales-deck/`](../40-sales-deck/) | **L4** | `DECK-BRIEF.md`, `SLIDE-OUTLINE.md`, `SALES-NARRATIVE.md`, `OBJECTION-HANDLING.md`, `PROOF-POINTS.md`, `CUSTOMER-PAIN-POINTS.md`, `AUDIENCE-AND-PERSONAS.md`, `BENEFITS-AND-OUTCOMES.md`, `CALL-TO-ACTION.md`, `VISUAL-DIRECTION.md` | Product lead (accuracy); sales/marketing enablement consumes but does not own |
 | [`50-architecture/`](../50-architecture/) | **L2** (`NON-FUNCTIONAL-REQUIREMENTS.md`) / **L3** (`ARCHITECTURE-REPORT.md`, `SYSTEM-CONTEXT.md`, `COMPONENT-ARCHITECTURE.md`, `CONTAINER-ARCHITECTURE.md`, `DATA-ARCHITECTURE.md`, `DEPLOYMENT-ARCHITECTURE.md`, `INTEGRATION-ARCHITECTURE.md`, `OPERABILITY.md`, `FEASIBILITY-ASSESSMENT.md`) / **L1 once accepted** (`adrs/*`) | as listed | Technical lead + Architecture lead |
-| [`60-delivery/`](../60-delivery/) *(planned)* | **L3** | `IMPLEMENTATION-STRATEGY.md`, `MILESTONES.md`, `RELEASE-CRITERIA.md`, `VALIDATION-PLAN.md` — referenced by [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) but not yet authored | Delivery lead + Technical lead |
+| [`60-delivery/`](../60-delivery/) | **L3** | `IMPLEMENTATION-STRATEGY.md`, `MILESTONES.md`, `DEPENDENCIES.md`, `RELEASE-CRITERIA.md`, `TEAM-AND-OWNERSHIP.md`, `VALIDATION-PLAN.md` — referenced by [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | Delivery lead + Technical lead |
 | [`70-governance/`](.) | **L2** (`DOCUMENT-GOVERNANCE.md` — this file, `CLAIMS-REGISTER.md`, `GLOSSARY.md`) / **L3** (`RISK-REGISTER.md`) / cross-cutting (`CHANGELOG.md`) | as listed | Product lead + Technical lead + Security and governance lead (joint) |
-| [`80-agent-inputs/`](../80-agent-inputs/) *(planned)* | **L5** | Machine-consumable extracts/digests of this set, regenerated from L1–L4 for agent consumption | Technical lead |
+| [`80-agent-inputs/`](../80-agent-inputs/) | **L4** | Reusable generation-agent instructions and output contracts (`README.md`, `EXECUTIVE-BRIEF-AGENT.md`, `SALES-DECK-AGENT.md`, `ARCHITECTURE-REVIEW-AGENT.md`, `CHARTER-AGENT.md`, `OUTPUT-CONTRACTS.md`) that reference L1–L4 sources rather than duplicating them | Technical lead |
 | [`90-archive/`](../90-archive/) *(planned)* | Frozen copy of whatever level the document had when archived | Superseded or retired document versions | Owned passively by the role that owned the live document before archival (§10) |
 
 ---
@@ -164,7 +164,7 @@ Used whenever a change would alter the substance of an existing agreement or con
 3. **Update the L1 register.** The entry lands in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), including its `Affected documents` list.
 4. **Cascade via the matrix.** [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) is updated so every affected document is flagged for review (§8).
 5. **Correct affected documents.** Each affected document's owner (§5) updates their document to reflect the new or amended agreement, and must not reintroduce the prior, now-superseded position.
-6. **Log it.** An entry is added to [`CHANGELOG.md`](CHANGELOG.md) (§9) recording the amendment and which documents were cascaded.
+6. **Log it.** An entry is added to [`CHANGELOG.md`](../CHANGELOG.md) (§9) recording the amendment and which documents were cascaded.
 
 An **Accepted** ADR follows the same path: it is drafted by Technical lead/Architecture lead, but it does not become L1 — and therefore binding on every downstream document — until its `Status` is `Accepted`, at which point it is change-controlled exactly like an agreement.
 
@@ -176,7 +176,7 @@ Used for the overwhelming majority of day-to-day documentation work: clarifying 
 2. The owner self-checks the edit against every L1 entry and, where relevant, the L2 documents above it in the hierarchy — using [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) to find which agreements/constraints govern that section.
 3. If the edit is purely additive and non-contradictory, it merges directly.
 4. If the edit turns out to require saying something L1 does not currently support, it is **not** made — it is redirected to Path A.
-5. The change is logged in [`CHANGELOG.md`](CHANGELOG.md).
+5. The change is logged in [`CHANGELOG.md`](../CHANGELOG.md).
 
 ```mermaid
 flowchart TD
@@ -241,7 +241,7 @@ Without the matrix, "derived documents must not contradict agreements" is a prin
 
 ## 9. Change history — CHANGELOG.md
 
-[`CHANGELOG.md`](CHANGELOG.md), maintained in this same directory, is the chronological ledger of edits made to the **documentation set itself** — which file changed, on what date, what kind of change it was (Path A amendment vs. Path B correction/addition), and which [`CHANGELOG.md`](CHANGELOG.md) entry or `AGR-NNN` it traces to.
+[`CHANGELOG.md`](../CHANGELOG.md), maintained at the `solution-docs/` root, is the chronological ledger of edits made to the **documentation set itself** — which file changed, on what date, what kind of change it was (Path A amendment vs. Path B correction/addition), and which [`CHANGELOG.md`](../CHANGELOG.md) entry or `AGR-NNN` it traces to.
 
 This is deliberately distinct from [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md), which logs **product, organizational, and delivery decisions** (`DEC-NNN`), not document edits — a single accepted decision in `DECISIONS.md` can, and typically will, trigger many rows in `CHANGELOG.md` as each affected document is corrected.
 
@@ -291,11 +291,11 @@ Accepted ADRs follow this same lifecycle at L1 rigor: an ADR can itself be super
 | [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | Chronological log of product/delivery decisions — distinct from `CHANGELOG.md` (§9). |
 | [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | Register of load-bearing assumptions; subject to the same L1 discipline. |
 | [`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | Tracks undecided items and already references `TRACEABILITY-MATRIX.md` for status tracking. |
-| [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) | The drift-prevention mechanism described in §8 (planned; not yet authored). |
-| [`CHANGELOG.md`](CHANGELOG.md) | Chronological ledger of documentation-set edits, described in §9 (planned; not yet authored). |
-| [`CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | Approved/rejected external-facing claim patterns; enforces §3's claims discipline (planned; not yet authored). |
-| [`RISK-REGISTER.md`](RISK-REGISTER.md) | Actively tracked product risk register (L3); referenced in §4/§5 (planned; not yet authored). |
-| [`GLOSSARY.md`](GLOSSARY.md) | Canonical terminology (L2), including "import" and the core domain-model terms (planned; not yet authored). |
+| [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) | The drift-prevention mechanism described in §8. |
+| [`CHANGELOG.md`](../CHANGELOG.md) | Chronological ledger of documentation-set edits, described in §9. |
+| [`CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | Approved/rejected external-facing claim patterns; enforces §3's claims discipline. |
+| [`RISK-REGISTER.md`](RISK-REGISTER.md) | Actively tracked product risk register (L3); referenced in §4/§5. |
+| [`GLOSSARY.md`](GLOSSARY.md) | Canonical terminology (L2), including "import" and the core domain-model terms. |
 | [`CHARTER.md`](../10-charter/CHARTER.md) | The L2 document this one is styled after and works alongside. |
 | [`ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md) | Representative L3 document referenced in §2/§4. |
 | [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) | Representative L4 document referenced in §2/§4. |

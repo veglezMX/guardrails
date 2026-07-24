@@ -359,11 +359,11 @@ Policies must support controlled promotion, workload-scoped rollout, and immedia
 - [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — the scope boundary (in-scope, future, out-of-scope, non-goals) this requirements register must not exceed.
 - [`../10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — guiding principles these requirements operationalize.
 - [`../20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) — capability-level catalog; every `FR-` here implements one or more `CAP-` entries there.
-- `COMPONENT-ARCHITECTURE.md` (planned) — the component design (Policy model, Workload registry, Policy binding, Evaluation API, Policy resolver, Decision engine, Evaluator adapters) that satisfies Sections 1–3, 5, 8, and 9 of this document.
-- `INTEGRATION-ARCHITECTURE.md` (planned) — the connector and generic-SDK design that satisfies Sections 4, 6, and 7 of this document.
-- `DATA-ARCHITECTURE.md` (planned) — the storage and retention design that satisfies Section 10 of this document.
-- `SECURITY-ARCHITECTURE.md` (planned) — the authentication, authorization, and evaluator-plugin governance design referenced in Sections 7, 8, and 13.
-- `DEPLOYMENT-ARCHITECTURE.md` (planned) — the hosted and customer-managed deployment design referenced in Sections 10 and 13.
-- `OPERABILITY.md` (planned) — the availability, timeout, and performance-metric design that satisfies Section 11 of this document.
-- [`../60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) (planned) — must gate MVP release on every `MVP`-priority requirement in this document, and on none of the `Future`-priority ones.
-- [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) (planned) — intended to cross-reference each `FR-` ID to its implementing architecture section and test artifact once authored.
+- [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) — the component design (Policy model, Workload registry, Policy binding, Evaluation API, Policy resolver, Decision engine, Evaluator adapters) that satisfies Sections 1–3, 5, 8, and 9 of this document.
+- [`INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md) — the connector and generic-SDK design that satisfies Sections 4, 6, and 7 of this document.
+- [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) — the storage and retention design that satisfies Section 10 of this document.
+- [`SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md) — the authentication, authorization, and evaluator-plugin governance design referenced in Sections 7, 8, and 13.
+- [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) — the hosted and customer-managed deployment design referenced in Sections 10 and 13.
+- [`OPERABILITY.md`](OPERABILITY.md) — the availability, timeout, and performance-metric design that satisfies Section 11 of this document.
+- [`../60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) — gates MVP release on every `MVP`-priority requirement in this document, and on none of the `Future`-priority ones.
+- [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) — cross-references each `FR-` ID to its implementing architecture section and test artifact.

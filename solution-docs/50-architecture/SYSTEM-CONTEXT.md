@@ -25,7 +25,7 @@ It intentionally does **not** show:
 * Detailed request/response contracts — that belongs in a future `50-architecture/INTEGRATION-ARCHITECTURE.md`.
 * Threat modeling and control detail — that belongs in a future `50-architecture/SECURITY-ARCHITECTURE.md`.
 
-This document is authoritative only for the *shape of the boundary*. It must not contradict [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md), and in particular must remain consistent with **AGR-001** (standalone platform), **AGR-002** (three deployment modes), **AGR-003** (LiteLLM as first connector, not the boundary), and **AGR-006** (one logical evaluation contract across modes).
+This document is authoritative only for the *shape of the boundary*. It must not contradict [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md), and in particular must remain consistent with **AGR-001** (standalone platform), **AGR-002** (three deployment modes), **AGR-003** (LiteLLM as first connector, not the boundary), and **AGR-006** (one logical evaluation contract across modes).
 
 ---
 
@@ -327,14 +327,14 @@ To keep this view at Level 1, the following are intentionally deferred to other 
 
 ## Related documents
 
-* [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) — authoritative agreements referenced throughout this document
-* [`10-charter/CHARTER.md`](10-charter/CHARTER.md) — solution charter
-* [`10-charter/PRINCIPLES.md`](10-charter/PRINCIPLES.md) — product principles (policy portability, one contract, observe-before-enforce)
-* [`10-charter/SCOPE.md`](10-charter/SCOPE.md) — in-scope, future-scope, and out-of-scope boundaries
-* [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) — capability-level product description
-* [`20-product/PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md) — product overview
-* [`50-architecture/INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) — evaluation contract detail (planned)
-* [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) — per-mode deployment topology (planned)
-* [`50-architecture/COMPONENT-ARCHITECTURE.md`](50-architecture/COMPONENT-ARCHITECTURE.md) — internal component view (planned)
-* [`50-architecture/SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) — security controls and threat model (planned)
-* [`50-architecture/DATA-ARCHITECTURE.md`](50-architecture/DATA-ARCHITECTURE.md) — data and retention model (planned)
+* [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements referenced throughout this document
+* [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) — solution charter
+* [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — product principles (policy portability, one contract, observe-before-enforce)
+* [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) — in-scope, future-scope, and out-of-scope boundaries
+* [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) — capability-level product description
+* [`20-product/PRODUCT-OVERVIEW.md`](../20-product/PRODUCT-OVERVIEW.md) — product overview
+* [`50-architecture/INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md) — evaluation contract detail
+* [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) — per-mode deployment topology
+* [`50-architecture/COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) — internal component view
+* [`50-architecture/SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md) — security controls and threat model
+* [`50-architecture/DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) — data and retention model

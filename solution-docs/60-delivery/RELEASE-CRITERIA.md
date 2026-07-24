@@ -191,9 +191,9 @@ No release may be declared complete, and no external claim of MVP success may be
 
 | Gate category | Evidence artifact | Where recorded | Sign-off owner |
 | --- | --- | --- | --- |
-| MVP demonstration (`RG-MVP-##`) | Test-run transcripts, binding-configuration snapshots, audit-record excerpts, and policy-version history from the verification sequence in [Section 1.3](#13-verification-sequence). | [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) (planned) | Delivery lead, countersigned by Technical lead and Security and governance lead |
+| MVP demonstration (`RG-MVP-##`) | Test-run transcripts, binding-configuration snapshots, audit-record excerpts, and policy-version history from the verification sequence in [Section 1.3](#13-verification-sequence). | [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Delivery lead, countersigned by Technical lead and Security and governance lead |
 | NFR threshold gates (`RG-NFR-##`) | Availability/latency/audit-delivery dashboards and reports, pilot workload owner acceptance records. | [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) summary table; [`OPERABILITY.md`](../50-architecture/OPERABILITY.md) runbook | Architecture lead, countersigned by Platform operations lead |
-| Security gates (`RG-SEC-##`) | Network/TLS scan output, IAM/credential audit, telemetry schema review, CI/CD container and dependency scan results. | Security review record referenced by `SECURITY-ARCHITECTURE.md` (planned) | Security and governance lead |
+| Security gates (`RG-SEC-##`) | Network/TLS scan output, IAM/credential audit, telemetry schema review, CI/CD container and dependency scan results. | Security review record referenced by [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) | Security and governance lead |
 
 A gate is considered **passed** only when its evidence artifact exists, is attributable to the specific release under review, and has been reviewed by the named sign-off owner(s) — a gate is never passed on the basis of a prior release's evidence or an unrecorded verbal confirmation.
 
@@ -212,8 +212,8 @@ A gate is considered **passed** only when its evidence artifact exists, is attri
 | [`../50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md) | Operational runbook and failure-path detail that the verification methods in Sections 1–2 exercise directly (timeout, retry, cached-policy, degraded-mode, circuit-breaker behavior). |
 | [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) | Per-mode infrastructure that RG-MVP-09 and the account-model constraints (CON-001, CON-002) depend on. |
 | [`../50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) | Connector contract that RG-MVP-01, RG-MVP-03, and RG-MVP-09 verify has not changed between hosted and packaged deployment. |
-| [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Should define the concrete test environments and data sets used to execute every gate in this document (planned). |
-| [`MILESTONES.md`](MILESTONES.md) | Should sequence delivery of the two independent LiteLLM deployments needed to exercise Section 1 (planned). |
-| [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md) | Build sequence for the MVP components these gates verify once built (planned). |
+| [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Should define the concrete test environments and data sets used to execute every gate in this document. |
+| [`MILESTONES.md`](MILESTONES.md) | Should sequence delivery of the two independent LiteLLM deployments needed to exercise Section 1. |
+| [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md) | Build sequence for the MVP components these gates verify once built. |
 | [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) | Tracks the connector-bypass, false-confidence, latency, and hosted-data-exposure risks these gates exist to surface before release. |
 | [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) | Must reject any external claim of MVP success or release readiness that is not backed by a passed gate recorded here. |

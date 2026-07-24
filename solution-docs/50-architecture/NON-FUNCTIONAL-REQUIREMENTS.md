@@ -558,8 +558,8 @@ flowchart TD
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — L1 boundary conditions (CON-001 through CON-016) that the Security, Privacy, and Compliance sections above restate as measurable targets.
 - [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — MVP scope boundaries referenced by NFR-COMPL-002 and the Cost section.
 - [`../10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — product principles (portability, one contract, observe-before-enforce, explicit failure behavior) that motivate the Portability, Reliability, and Operability sections.
-- `SECURITY-ARCHITECTURE.md` — implements the Security-section NFRs in concrete controls (planned).
-- `DATA-ARCHITECTURE.md` — implements the Privacy- and Compliance-section NFRs (planned).
-- `DEPLOYMENT-ARCHITECTURE.md` — implements the Availability, Scalability, and Recovery NFRs per deployment mode (planned).
-- `OPERABILITY.md` — expands the Operability-section NFRs into concrete runbooks and dashboards (planned).
-- `COMPONENT-ARCHITECTURE.md` — component-level design that must satisfy the Maintainability- and Portability-section NFRs (planned).
+- [`SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md) — implements the Security-section NFRs in concrete controls.
+- [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) — implements the Privacy- and Compliance-section NFRs.
+- [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) — implements the Availability, Scalability, and Recovery NFRs per deployment mode.
+- [`OPERABILITY.md`](OPERABILITY.md) — expands the Operability-section NFRs into concrete runbooks and dashboards.
+- [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) — component-level design that must satisfy the Maintainability- and Portability-section NFRs.

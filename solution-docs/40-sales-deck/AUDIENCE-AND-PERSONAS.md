@@ -259,6 +259,6 @@ Every "message that lands" above uses "designed to / supports / is intended to" 
 - [`DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md) — the honest-scoping and portability differentiators referenced in several objection answers above.
 - [`FAQ.md`](../20-product/FAQ.md) — longer-form answers to the same objections raised here, suitable for follow-up questions after a deck.
 - [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) — the fuller executive-facing narrative the Executive Sponsor profile is drawn from.
-- `DECK-BRIEF.md` — the deck narrative and slide structure this audience/persona set is designed to support (sibling document in this directory, not yet written).
-- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative register of approved external-facing claims language (planned).
-- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — the fuller risk register behind the objections raised above (planned).
+- [`DECK-BRIEF.md`](DECK-BRIEF.md) — the deck narrative and slide structure this audience/persona set is designed to support (sibling document in this directory).
+- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative register of approved external-facing claims language.
+- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — the fuller risk register behind the objections raised above.

@@ -72,7 +72,7 @@ The root source material and the authoritative agreements/constraints/decisions 
 | [`00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | L1 | The product/organizational/delivery decision log, distinct from architecture-level ADRs. | Linked |
 | [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | L1 | The register of unvalidated beliefs (demand/adoption, technical/infrastructure feasibility, security/governance, and other categories) underlying scope and delivery-dependency status. | Linked |
 | [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | L1 | Open governance and design questions not yet resolved into an agreement or decision (e.g., promotion-governance process). | Linked |
-| `00-source-of-truth/TRACEABILITY-MATRIX.md` | L1 (planned) | Named as an affected document under [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) and [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model); intended to trace agreements/constraints through to their implementing architecture and delivery artifacts. | Planned — not yet authored |
+| [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) | L1 | Named as an affected document under [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) and [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model); intended to trace agreements/constraints through to their implementing architecture and delivery artifacts. | Linked |
 
 ---
 
@@ -180,7 +180,7 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 | [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | L2 | What the product may and may not claim — the register this document defers to for anything resembling a marketing or capability claim about an external service. | Linked |
 | [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) | L2 | The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per `seed.md` §20). | Linked |
 | `70-governance/REFERENCES.md` | L2 | This document. | Linked (self) |
-| `70-governance/GLOSSARY.md` | L2 (planned) | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Planned — not yet authored |
+| [`70-governance/GLOSSARY.md`](GLOSSARY.md) | L2 | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Linked |
 
 ---
 
@@ -276,7 +276,7 @@ flowchart TB
 
 * **Adding an internal document.** When a new file is added anywhere under `solution-docs/`, add one row to the relevant table in Sections 3–7, using the authority level stated in that document's own header. Do not mark it `Linked` until the file exists in the repository.
 * **Adding an external reference.** When a new external product, AWS service, or framework is introduced into any document in this set, add a row to the appropriate table in Sections 8–11 (or a new subsection if it does not fit an existing category), and mark its canonical URL `TBD — add canonical URL` until a reviewer has verified and inserted the real link. Do not insert a URL from memory.
-* **Planned documents.** `00-source-of-truth/TRACEABILITY-MATRIX.md` and `70-governance/GLOSSARY.md` are named as affected documents in `AGREEMENTS.md` but do not yet exist. They are listed in Sections 3 and 7.2 as **Planned — not yet authored**, as plain code paths rather than links, so this register does not silently claim they exist. When either is authored, update its row to `Linked` and convert the path to a markdown link.
+* **Previously-planned documents.** [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`70-governance/GLOSSARY.md`](GLOSSARY.md) were named as affected documents in `AGREEMENTS.md` ahead of being authored. Both now exist; their rows in Sections 3 and 7.2 are marked **Linked**, with markdown links in place of the earlier plain code paths.
 * **Conflicts.** If any row in this register appears to imply something [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) does not support — for example, a claim of data-locality for Mode A, or a description of a cooperative connector as a hard security boundary — the agreement or constraint wins, and this register (and the offending source document) must be corrected.
 
 ---

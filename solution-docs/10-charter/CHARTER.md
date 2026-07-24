@@ -206,7 +206,7 @@ The product supports exactly three primary deployment modes at general availabil
 flowchart LR
     subgraph A["Mode A — Remote Evaluation"]
         A1[Application] --> A2[Team-owned LiteLLM]
-        A2 -- input/output evaluation --> A3[Hosted Guardrails Runtime]
+        A2 -- input/output evaluation --> A3[Hosted Evaluation API]
     end
 
     subgraph B["Mode B — Guarded Gateway"]

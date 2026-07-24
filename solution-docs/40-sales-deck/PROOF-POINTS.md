@@ -9,7 +9,7 @@
 
 ## Purpose and scope
 
-This document is an **evidence register**, not a pitch. It exists to keep what can be claimed about AI Guardrails separate from how it gets said — sales, executive, and marketing language belongs in [`DECK-BRIEF.md`](DECK-BRIEF.md) *(planned)* and in [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) *(planned)*; this document only records, per claim, what it rests on and how far it can honestly be stretched.
+This document is an **evidence register**, not a pitch. It exists to keep what can be claimed about AI Guardrails separate from how it gets said — sales, executive, and marketing language belongs in [`DECK-BRIEF.md`](DECK-BRIEF.md) and in [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md); this document only records, per claim, what it rests on and how far it can honestly be stretched.
 
 Every entry below follows one format:
 
@@ -67,7 +67,7 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 **Evidence status:** Confirmed design. This is a directly accepted agreement, not an inferred benefit.
 
-**Supporting sources:** [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) (meaning of "import"); [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm) (standalone platform, not embedded in a single team's LiteLLM); seed.md §4 (Definition of the import capability, onboarding flow diagram); seed.md §3, Mode A (consuming team retains LiteLLM availability, model routing, retry/fallback, gateway upgrades, inference capacity, model-provider costs); `50-architecture/adrs/ADR-0001-example-decision.md` *(planned — records the standalone-platform architecture decision this claim depends on)*.
+**Supporting sources:** [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) (meaning of "import"); [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm) (standalone platform, not embedded in a single team's LiteLLM); seed.md §4 (Definition of the import capability, onboarding flow diagram); seed.md §3, Mode A (consuming team retains LiteLLM availability, model routing, retry/fallback, gateway upgrades, inference capacity, model-provider costs); [`../50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md) (records the standalone-platform architecture decision this claim depends on).
 
 **Restrictions:** Do not describe "import" as taking administrative control of, cloning, or remotely operating another team's gateway — the onboarding flow (register workload → select policy → generate integration manifest → install connector → observe → review → enforce) is the only sanctioned reference implementation of the term. Do not imply zero engineering effort: a connector must still be installed and, in cooperative mode, maintained by the consuming team. Do not cite an onboarding-duration figure — "time required to onboard a workload" is listed in seed.md §19 as an adoption metric to be measured, not a number available today.
 
@@ -91,7 +91,7 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 **Evidence status:** Confirmed design.
 
-**Supporting sources:** [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) (LiteLLM as first connector, not the boundary); [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) (Bedrock Guardrails as first engine, vendor-independent contract); [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) (policy portability); seed.md §5.1 (Policy portability); seed.md §22 (Decision summary: "the public product contract will remain vendor-independent"); [CON-003](../00-source-of-truth/CONSTRAINTS.md#con-003--no-coupling-to-litellm-configuration-structures), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats); `50-architecture/adrs/ADR-0001-example-decision.md` *(planned)*.
+**Supporting sources:** [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) (LiteLLM as first connector, not the boundary); [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) (Bedrock Guardrails as first engine, vendor-independent contract); [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) (policy portability); seed.md §5.1 (Policy portability); seed.md §22 (Decision summary: "the public product contract will remain vendor-independent"); [CON-003](../00-source-of-truth/CONSTRAINTS.md#con-003--no-coupling-to-litellm-configuration-structures), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats); [`../50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md).
 
 **Restrictions:** Do not state or imply that every model provider or gateway is already supported — LiteLLM and Amazon Bedrock Guardrails are the only validated initial integrations (seed.md §12, §22). Do not describe Bedrock Guardrails as the product's permanent or exclusive detection engine — per AGR-004, additional evaluation engines must be addable behind the same adapter pattern. This is a claim about where the seams are designed to be, not a claim of broad out-of-the-box provider coverage.
 
@@ -176,8 +176,8 @@ Where sales or executive materials need one of the figures above, the correct ac
 * [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — the non-negotiable boundaries (CON IDs) cited alongside several proof points.
 * [`../20-product/DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md) — the product-facing framing this evidence supports.
 * [`../20-product/VALUE-PROPOSITION.md`](../20-product/VALUE-PROPOSITION.md) — audience-level benefit statements built on the same claims discipline.
-* `DECK-BRIEF.md` — the sales narrative this register is meant to keep honest *(planned)*.
-* [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative register of approved external-facing wording; where this document and the claims register diverge, the claims register governs exact phrasing *(planned)*.
-* [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — risks (false confidence, connector bypass, hosted data exposure) that qualify several claims above *(planned)*.
-* `../50-architecture/adrs/ADR-0001-example-decision.md` — the architecture decision record backing the standalone-platform claim in PP-001 and PP-003 *(planned)*.
+* [`DECK-BRIEF.md`](DECK-BRIEF.md) — the sales narrative this register is meant to keep honest.
+* [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative register of approved external-facing wording; where this document and the claims register diverge, the claims register governs exact phrasing.
+* [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — risks (false confidence, connector bypass, hosted data exposure) that qualify several claims above.
+* [`../50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md) — the architecture decision record backing the standalone-platform claim in PP-001 and PP-003.
 * [`../30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — executive framing of the MVP demonstration referenced in PP-006.

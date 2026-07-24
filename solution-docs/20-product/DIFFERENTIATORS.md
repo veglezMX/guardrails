@@ -166,7 +166,7 @@ To avoid overclaiming, this document deliberately does not assert:
 - [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements this document derives from.
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — checkable boundary conditions underlying these differentiators.
 - [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — decision log recording when and why these positions were adopted.
-- `CAPABILITIES.md` — the corresponding in-scope capability list (planned).
-- `PRODUCT-OVERVIEW.md` — the broader product narrative this document supports (planned).
-- `../70-governance/CLAIMS-REGISTER.md` — the restricted external-facing wording that governs how these differentiators may be stated in sales and executive materials (planned).
-- `../50-architecture/DEPLOYMENT-ARCHITECTURE.md` — architectural detail behind the three deployment modes (planned).
+- [`CAPABILITIES.md`](CAPABILITIES.md) — the corresponding in-scope capability list.
+- [`PRODUCT-OVERVIEW.md`](PRODUCT-OVERVIEW.md) — the broader product narrative this document supports.
+- [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the restricted external-facing wording that governs how these differentiators may be stated in sales and executive materials.
+- [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) — architectural detail behind the three deployment modes.

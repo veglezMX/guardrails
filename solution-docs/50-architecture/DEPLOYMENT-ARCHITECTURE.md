@@ -20,7 +20,7 @@ Related documents:
 - [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — the product principles this architecture implements (policy portability, one contract, policies vs. connectors, explicit content exposure, observe-before-enforce, failure behavior as policy).
 - [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) — MVP and future-scope boundaries referenced throughout.
 - [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — the five delivery phases this document's Phase 4 section elaborates.
-- `50-architecture/SYSTEM-CONTEXT.md`, `50-architecture/COMPONENT-ARCHITECTURE.md`, `50-architecture/INTEGRATION-ARCHITECTURE.md`, `50-architecture/DATA-ARCHITECTURE.md`, `50-architecture/SECURITY-ARCHITECTURE.md`, `50-architecture/OPERABILITY.md`, `50-architecture/ARCHITECTURE-REPORT.md` — sibling architecture documents (planned; not yet authored at the time of writing) that consume the topologies defined here.
+- [`50-architecture/SYSTEM-CONTEXT.md`](SYSTEM-CONTEXT.md), [`50-architecture/COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md), [`50-architecture/INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md), [`50-architecture/DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md), [`50-architecture/SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md), [`50-architecture/OPERABILITY.md`](OPERABILITY.md), [`50-architecture/ARCHITECTURE-REPORT.md`](ARCHITECTURE-REPORT.md) — sibling architecture documents that consume the topologies defined here.
 
 ---
 

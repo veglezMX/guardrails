@@ -43,7 +43,7 @@ Each capability is assigned a stable identifier (`CAP-001` …) so that later do
 | **Description** | What the capability does, stated qualitatively and derived only from `seed.md`. |
 | **Status** | `MVP` — committed to the initial product scope (`seed.md` §6.1, §16). `Future` — architecturally permitted but explicitly **not** built during the MVP (`seed.md` §6.2). |
 | **Related AGR** | The [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) entries this capability implements or is bounded by. |
-| **Related architecture section** | The `50-architecture/` document expected to specify this capability's design. These architecture documents have not yet been authored as of this draft; the reference identifies where the design belongs, not that the section already exists. |
+| **Related architecture section** | The `50-architecture/` document expected to specify this capability's design. These architecture documents exist as of this draft; the reference identifies where the design belongs within them, not that every capability-specific section has necessarily been elaborated in full. |
 
 > **Explicit rule (per [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)):** a capability marked `Future` is **not** part of the MVP. It may be designed for extensibility, but it must not be scheduled, resourced, or silently included in MVP delivery. Any change to a capability's status is a scope-change decision, not an editorial one, and must be reflected first in `AGREEMENTS.md`.
 
@@ -199,8 +199,8 @@ Per `seed.md` §6.3, these capabilities "may be introduced only after the core i
 - [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements this catalog implements.
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — non-negotiable boundaries that bound how MVP capabilities may be implemented.
 - [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — the decision log recording why the MVP and future scope were bounded as they are (see DEC-005, DEC-006, DEC-007).
-- `10-charter/CHARTER.md` — narrative product charter this catalog operationalizes into a checkable list (planned).
-- `20-product/PRODUCT-ROADMAP.md` — phase-level roadmap showing when Future capabilities may be picked up (planned).
-- `50-architecture/COMPONENT-ARCHITECTURE.md`, `50-architecture/INTEGRATION-ARCHITECTURE.md`, `50-architecture/DATA-ARCHITECTURE.md`, `50-architecture/SECURITY-ARCHITECTURE.md`, `50-architecture/DEPLOYMENT-ARCHITECTURE.md`, `50-architecture/OPERABILITY.md` — architecture documents that will specify the design behind each capability (planned).
-- `60-delivery/RELEASE-CRITERIA.md` — must gate MVP release on all `MVP`-status capabilities in this catalog, and on none of the `Future`-status ones (planned).
-- `00-source-of-truth/TRACEABILITY-MATRIX.md` — intended to cross-reference each `CAP-` ID to its implementing architecture and test artifacts once authored (planned).
+- [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md) — narrative product charter this catalog operationalizes into a checkable list.
+- [`PRODUCT-ROADMAP.md`](PRODUCT-ROADMAP.md) — phase-level roadmap showing when Future capabilities may be picked up.
+- [`../50-architecture/COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md), [`../50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md), [`../50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md), [`../50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md), [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [`../50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md) — architecture documents that specify the design behind each capability.
+- [`../60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) — must gate MVP release on all `MVP`-status capabilities in this catalog, and on none of the `Future`-status ones.
+- [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) — cross-references each `CAP-` ID to its implementing architecture and test artifacts.

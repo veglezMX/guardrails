@@ -11,11 +11,11 @@
 
 This document gives the deck-building agent (or any human designer assembling `40-sales-deck` materials) concrete, checkable presentation guidance: what tokens exist and which are placeholders, what diagrams to draw and from which source, which chart types are acceptable given the current absence of real metrics, and what production rules (editability, speaker notes) are mandatory.
 
-This is an **L4** document: a derived presentation-guidance artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), and every restriction below is written to stay inside the phrasing boundaries that a future `CLAIMS-REGISTER.md` will enforce for external-facing material. Where this document and that register diverge once written, the claims register governs.
+This is an **L4** document: a derived presentation-guidance artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), and every restriction below is written to stay inside the phrasing boundaries that [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) enforces for external-facing material. Where this document and that register diverge, the claims register governs.
 
 **What this document is not:**
 
-* It is not the deck itself, and it is not `DECK-BRIEF.md` (the sibling document that will define the deck's narrative arc, slide sequence, and audience). This document governs *how things look and are built*; `DECK-BRIEF.md` governs *what is said and in what order*.
+* It is not the deck itself, and it is not [`DECK-BRIEF.md`](DECK-BRIEF.md) (the sibling document that defines the deck's narrative arc, slide sequence, and audience). This document governs *how things look and are built*; [`DECK-BRIEF.md`](DECK-BRIEF.md) governs *what is said and in what order*.
 * It is not a finalized brand guideline. No brand package exists yet in the source material. Every visual token below is explicitly marked **TBD** or **placeholder** and must be replaced once a real brand kit is issued — nothing here should be treated as a final color, font, or logo decision.
 * It does not introduce any metric, dollar figure, SLA, date, or customer name absent from `seed.md`. Where a chart or slide would conventionally show a number, this document tells the deck agent what to do in the absence of one (see [§3](#3-preferred-chart-types) and [§4](#4-image-policy)).
 
@@ -94,7 +94,7 @@ At minimum, the deck must include native, editable versions of:
 5. **Observe-before-enforce progression** — Disabled → Observe → Warn → Redact → Block, from `seed.md` §5.6, as a horizontal stepped progression bar. This diagram is reused wherever the deck discusses policy rollout, since it is the same progression referenced by [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression).
 6. **Policy vs. connector separation** — the two-box "Policy: detect and block" / "Connector: invoke during pre-call" contrast from `seed.md` §5.3, used wherever the deck needs to make the policy/connector distinction concrete (this is a frequent buyer-confusion point per [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 
-Diagrams 1–2 are the core "how it works" slides; diagrams 3–6 are supporting slides used where the narrative in `DECK-BRIEF.md` calls for them.
+Diagrams 1–2 are the core "how it works" slides; diagrams 3–6 are supporting slides used where the narrative in [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for them.
 
 ---
 
@@ -110,7 +110,7 @@ Diagrams 1–2 are the core "how it works" slides; diagrams 3–6 are supporting
 | Ownership / RACI-style table | Stakeholder needs (`seed.md` §7) and ownership boundaries (`seed.md` §21) | Rows = responsibility area, columns = owning party. |
 | Capability grid (icon + label, no numbers) | In-scope vs. future-scope capability counts (`seed.md` §6) | Present as a categorized list/grid, not a bar chart with counts, unless the count is a literal, verifiable enumeration of named items already listed in the source (e.g., number of named MVP components in `seed.md` §16 — count the list, do not estimate it). |
 
-**Not permitted:** bar, line, or pie charts depicting adoption rates, latency numbers, false-positive rates, ROI, cost savings, or any other quantity not explicitly present in `seed.md`. If a slide in `DECK-BRIEF.md` calls for this kind of metric visualization before real pilot or production data exists, the deck agent must render a clearly labeled placeholder chart shell — axes and legend present, data area replaced with a "TBD — pending pilot data" watermark or callout — rather than plausible-looking sample data that a viewer could mistake for a real result.
+**Not permitted:** bar, line, or pie charts depicting adoption rates, latency numbers, false-positive rates, ROI, cost savings, or any other quantity not explicitly present in `seed.md`. If a slide in [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for this kind of metric visualization before real pilot or production data exists, the deck agent must render a clearly labeled placeholder chart shell — axes and legend present, data area replaced with a "TBD — pending pilot data" watermark or callout — rather than plausible-looking sample data that a viewer could mistake for a real result.
 
 ---
 
@@ -183,7 +183,7 @@ Each slide's speaker notes must include:
 
 ## 9. Diagram editability
 
-**All diagrams must remain fully editable in the deck's native format.** This applies to every diagram listed in [§2.3](#23-required-diagram-set) and to any additional diagram `DECK-BRIEF.md` calls for.
+**All diagrams must remain fully editable in the deck's native format.** This applies to every diagram listed in [§2.3](#23-required-diagram-set) and to any additional diagram [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for.
 
 * Diagrams must be built as native, grouped/ungrouped vector shapes in the deck-authoring tool (e.g., native shapes/SmartArt in a slide tool, or vector objects imported from a diagramming tool that exports editable groups) — never as a flattened raster image, a screenshot, or literal pasted ASCII/monospace text.
 * Mermaid (as used illustratively in [§2.2](#22-worked-example-redrawing-an-ascii-source-as-a-clean-diagram)) or the ASCII diagrams in `seed.md` §3 and §10 may be used as an authoring or staging aid, but the diagram is not considered deck-ready until it has been rebuilt as native editable shapes.
@@ -218,7 +218,7 @@ The following must be resolved before this deck (or any drafts built against the
 * Confirmed, licensed typography for headings and body text.
 * Confirmed icon set license (or a decision to commission a custom outline set).
 * Explicit confirmation of whether any AWS co-branding or partner badging is authorized for use, or whether all AWS references remain text-only implementation detail per [§6](#6-color-restrictions).
-* Confirmation from `DECK-BRIEF.md`, once written, that the slide sequence and narrative claims built against these visual rules stay inside the phrasing boundaries of the future `CLAIMS-REGISTER.md`.
+* Confirmation from [`DECK-BRIEF.md`](DECK-BRIEF.md) that the slide sequence and narrative claims built against these visual rules stay inside the phrasing boundaries of [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md).
 
 ---
 
@@ -230,5 +230,5 @@ The following must be resolved before this deck (or any drafts built against the
 - [`DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md) — precise, non-overclaiming phrasing this deck's visuals must stay consistent with.
 - [`CAPABILITIES.md`](../20-product/CAPABILITIES.md) — capability lifecycle and scope detail behind the capability-grid slides.
 - [`PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — phase sequence behind the delivery-timeline diagram.
-- `DECK-BRIEF.md` *(planned, not yet written)* — will define the deck's narrative arc and slide sequence; this document supplies the visual rules that narrative is built within.
-- `70-governance/CLAIMS-REGISTER.md` *(planned, not yet written)* — will govern permitted external phrasing; this document's color, image, and chart restrictions are written to anticipate it.
+- [`DECK-BRIEF.md`](DECK-BRIEF.md) — defines the deck's narrative arc and slide sequence; this document supplies the visual rules that narrative is built within.
+- [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — governs permitted external phrasing; this document's color, image, and chart restrictions are written to remain consistent with it.

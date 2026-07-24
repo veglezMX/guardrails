@@ -231,7 +231,7 @@ Ownership of the **documentation set** is defined in [`70-governance/DOCUMENT-GO
 
 ## 7. Start here by role
 
-For a fuller, role-oriented reading path through this set, see **`DOCUMENT-MAP.md`** *(planned; not yet authored — follow the pointers below in the meantime, and consult [`70-governance/REFERENCES.md`](70-governance/REFERENCES.md) for the complete document inventory)*.
+For a fuller, role-oriented reading path through this set, see [`DOCUMENT-MAP.md`](DOCUMENT-MAP.md).
 
 | If you are a... | Start with |
 | --- | --- |
