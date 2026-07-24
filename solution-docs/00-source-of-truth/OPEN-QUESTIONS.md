@@ -1,0 +1,340 @@
+**AI Guardrails — Open Questions**
+
+**Authority level:** L1
+**Status:** Draft
+**Date:** 2026-07-24
+**Derived from:** seed.md + AGREEMENTS.md
+
+---
+
+## Purpose and how this register is used
+
+This register is authoritative about **which decisions remain open** — it is not authoritative about their answers. Where [AGREEMENTS.md](AGREEMENTS.md) records what has been decided (AGR-001 through AGR-022), this document records what has **not** been decided but could materially change scope, feasibility, cost, or architecture if resolved differently than the current working assumption.
+
+Rules for using this register:
+
+* No derived document may treat an open question's "current working assumption" as a settled agreement. Assumptions are load-bearing enough to plan against, but they are provisional, not accepted.
+* No derived document may contradict [AGREEMENTS.md](AGREEMENTS.md) while attempting to resolve an item listed here. If a proposed resolution would contradict an existing AGR, the AGR must be revisited explicitly, not silently overridden.
+* When an item is resolved, the decision is recorded as a new entry in [AGREEMENTS.md](AGREEMENTS.md) (next available `AGR-0NN`), this entry is marked **Resolved** with a pointer to that AGR, and the corresponding row is removed from active tracking in [`00-source-of-truth/TRACEABILITY-MATRIX.md`](TRACEABILITY-MATRIX.md).
+* This register is distinct from a risk register: seed §20 risks describe known negative outcomes with mitigations already assigned; the items below describe decisions not yet made. Several risks and open questions reference the same underlying uncertainty from different angles — cross-references are noted where relevant.
+
+### Resolution lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Open
+    Open --> UnderReview: Owner engaged, evidence gathered
+    UnderReview --> Resolved: Decision made
+    UnderReview --> Deferred: Insufficient evidence, target date pushed
+    Deferred --> UnderReview: Revisited at next phase gate
+    Resolved --> [*]: Recorded as a new AGR-0NN in AGREEMENTS.md
+```
+
+---
+
+## Table of contents
+
+- [Summary table](#summary-table)
+- [Phase-gate view](#phase-gate-view)
+- [A. Enforcement and trust model](#a-enforcement-and-trust-model)
+  - [OQ-001 — Enforcement model required for the first external customers](#oq-001--enforcement-model-required-for-the-first-external-customers)
+- [B. Connectivity, regions, and data residency](#b-connectivity-regions-and-data-residency)
+  - [OQ-002 — PrivateLink / private connectivity](#oq-002--privatelink--private-connectivity)
+  - [OQ-003 — Regional deployment strategy and data residency](#oq-003--regional-deployment-strategy-and-data-residency)
+- [C. Advanced evaluation and agent-protection roadmap](#c-advanced-evaluation-and-agent-protection-roadmap)
+  - [OQ-004 — Streaming output evaluation timeline](#oq-004--streaming-output-evaluation-timeline)
+  - [OQ-005 — Retrieval-content evaluation and indirect prompt-injection detection timeline](#oq-005--retrieval-content-evaluation-and-indirect-prompt-injection-detection-timeline)
+  - [OQ-006 — Tool-call validation, tool-result evaluation, and MCP authorization scope](#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope)
+  - [OQ-007 — Human approval workflows: introduction timing and ownership](#oq-007--human-approval-workflows-introduction-timing-and-ownership)
+  - [OQ-008 — Multilingual policy pack timeline](#oq-008--multilingual-policy-pack-timeline)
+- [D. Infrastructure and deployment topology](#d-infrastructure-and-deployment-topology)
+  - [OQ-009 — Trigger point for three-account AWS separation](#oq-009--trigger-point-for-three-account-aws-separation)
+  - [OQ-010 — Dedicated tenant runtimes and air-gapped deployment timeline](#oq-010--dedicated-tenant-runtimes-and-air-gapped-deployment-timeline)
+- [E. Commercial model](#e-commercial-model)
+  - [OQ-011 — Commercial metering and policy marketplace](#oq-011--commercial-metering-and-policy-marketplace)
+- [F. Policy governance and integrity](#f-policy-governance-and-integrity)
+  - [OQ-012 — Policy signing and policy inheritance design](#oq-012--policy-signing-and-policy-inheritance-design)
+  - [OQ-013 — Customer-specific evaluator plugin governance](#oq-013--customer-specific-evaluator-plugin-governance)
+- [G. Promotion governance](#g-promotion-governance)
+  - [OQ-014 — Go/no-go criteria to move a workload from observe to enforce](#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce)
+- [H. Compliance and availability posture](#h-compliance-and-availability-posture)
+  - [OQ-015 — Full compliance certification target and scope](#oq-015--full-compliance-certification-target-and-scope)
+  - [OQ-016 — Multi-region active-active availability need](#oq-016--multi-region-active-active-availability-need)
+
+---
+
+## Summary table
+
+| ID | Question (condensed) | Owner | Target decision date | Impact if unresolved |
+|---|---|---|---|---|
+| [OQ-001](#oq-001--enforcement-model-required-for-the-first-external-customers) | Which enforcement posture (cooperative, platform-managed, or network/IAM-enforced) is required for the first external customers? | Security and governance lead, Product lead | TBD — before any external-customer commitment | Risk of selling a bypassable connector as a hard boundary, or over-building enforcement no customer yet needs |
+| [OQ-002](#oq-002--privatelink--private-connectivity) | Is PrivateLink / private connectivity required for Mode A or Mode B, and by when? | Architecture lead, Security and governance lead | TBD — revisit at Phase 3/4 planning | Cannot onboard customers with strict network-egress requirements; or premature investment ahead of demand |
+| [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency) | Which AWS Regions are supported at GA, and how are per-tenant residency commitments enforced? | Product lead, Architecture lead | TBD — before Guarded Gateway GA | "Allowed Regions" exists in the domain model with no enforcement mechanism; residency claims could be made without a technical backstop |
+| [OQ-004](#oq-004--streaming-output-evaluation-timeline) | When does streaming output evaluation ship, and what applies to streaming workloads until then? | Technical lead | TBD — Phase 5 candidate, but the workload attribute exists now | Workloads with streaming requirements have no defined evaluation behavior; risk of false confidence that streaming is covered |
+| [OQ-005](#oq-005--retrieval-content-evaluation-and-indirect-prompt-injection-detection-timeline) | When are retrieval-content evaluation and indirect prompt-injection detection introduced? | Technical lead, Security and governance lead | TBD — Phase 5 candidate | RAG-based workloads onboard without a supported evaluation stage for retrieved content |
+| [OQ-006](#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope) | What is the scope and timing of tool-call validation, tool-result evaluation, and MCP authorization? | Technical lead, Product lead | TBD — Phase 5, pending explicit scope approval | Agentic workloads may assume tool-call safety the platform does not provide (relates to AGR-010) |
+| [OQ-007](#oq-007--human-approval-workflows-introduction-timing-and-ownership) | When are human approval workflows introduced, and who owns the approval UX? | Product lead | TBD — Phase 5 candidate | `require_approval` exists as a future decision action with no owning workflow or UI |
+| [OQ-008](#oq-008--multilingual-policy-pack-timeline) | When are multilingual policy packs introduced, and which languages first? | Product lead, Technical lead | TBD — no committed phase | Non-English workloads may receive degraded detection quality with no documented limitation |
+| [OQ-009](#oq-009--trigger-point-for-three-account-aws-separation) | What measurable trigger moves the MVP from two AWS accounts to three-or-more? | Platform operations lead, Security and governance lead | TBD — reassess at each phase gate, especially before Phase 3/4 | Account separation could be delayed past a compliance-driven need, or triggered prematurely and slow delivery |
+| [OQ-010](#oq-010--dedicated-tenant-runtimes-and-air-gapped-deployment-timeline) | When (if ever) are dedicated tenant runtimes and air-gapped installation offered? | Technical lead, Platform operations lead | TBD — no committed phase | Regulated or air-gapped prospects cannot be given a credible timeline |
+| [OQ-011](#oq-011--commercial-metering-and-policy-marketplace) | Will commercial metering and a policy marketplace be pursued, and on what timeline? | Product lead, business/commercial stakeholder (TBD) | TBD — revisit after Phase 3 usage patterns are observed | Phase 3 needs at least interim cost/rate tracking; without a decision, its scope is ambiguous |
+| [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design) | How will policy signing and policy inheritance work once introduced? | Technical lead, Security and governance lead | TBD — evaluate at Phase 2→Phase 3 transition | Workload-specific overrides could accumulate ungoverned (worsens policy-fragmentation risk); distributed policy artifacts to Mode C runtimes are unverifiable |
+| [OQ-013](#oq-013--customer-specific-evaluator-plugin-governance) | What is the security and compatibility review model for customer-specific evaluator plugins? | Technical lead, Security and governance lead | TBD — before this future-scope item is designed | Third-party evaluator code could be onboarded without a defined trust boundary |
+| [OQ-014](#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce) | What are the objective go/no-go criteria to promote a workload from observe to enforce? | Security and governance lead, workload owners | TBD — needed before Phase 2 onboarding scales past pilot workloads | Promotion stays subjective, risking premature enforcement or indefinite observe-mode stagnation |
+| [OQ-015](#oq-015--full-compliance-certification-target-and-scope) | Which compliance certifications (if any) are targeted, and for which phase? | Security and governance lead, Product lead | TBD — no committed phase | Security/compliance stakeholders (seed §7) have no certification roadmap to plan against |
+| [OQ-016](#oq-016--multi-region-active-active-availability-need) | Is multi-region active-active availability ever required, independent of data residency? | Architecture lead, Platform operations lead | TBD — no committed phase | Availability objective (seed §15) cannot be finalized without knowing the target topology |
+
+---
+
+## Phase-gate view
+
+The five delivery phases in [AGREEMENTS.md § AGR-022](AGREEMENTS.md#agr-022--five-phase-delivery) are the natural checkpoints for revisiting most of these questions. This view is advisory — it does not commit any OQ to a hard deadline — but it shows which decisions should not be allowed to drift past a given phase boundary without an explicit choice.
+
+```mermaid
+flowchart LR
+    P1["Phase 1\nIntegration proof"] --> P2["Phase 2\nInternal multi-team platform"]
+    P2 --> P3["Phase 3\nGuarded Gateway"]
+    P3 --> P4["Phase 4\nCustomer-managed runtime"]
+    P4 --> P5["Phase 5\nAdvanced agent protection"]
+
+    OQ014["OQ-014\nObserve→Enforce criteria"] -.gates.-> P2
+    OQ009a["OQ-009\nThree-account trigger"] -.reassessed at.-> P2
+
+    OQ001["OQ-001\nEnforcement model for\nexternal customers"] -.gates.-> P3
+    OQ002["OQ-002\nPrivateLink need"] -.gates.-> P3
+    OQ011["OQ-011\nCommercial metering"] -.gates.-> P3
+    OQ009b["OQ-009\nThree-account trigger"] -.reassessed at.-> P3
+
+    OQ003["OQ-003\nRegional / residency\nstrategy"] -.gates.-> P4
+    OQ012["OQ-012\nPolicy signing\n& inheritance"] -.gates.-> P4
+    OQ010["OQ-010\nDedicated / air-gapped\nruntimes"] -.informs.-> P4
+
+    OQ004["OQ-004\nStreaming evaluation"] -.scopes.-> P5
+    OQ005["OQ-005\nRetrieval & injection\ndetection"] -.scopes.-> P5
+    OQ006["OQ-006\nTool-call & MCP\nauthorization"] -.scopes.-> P5
+    OQ007["OQ-007\nHuman approval\nworkflows"] -.scopes.-> P5
+    OQ008["OQ-008\nMultilingual policy\npacks"] -.scopes.-> P5
+    OQ013["OQ-013\nEvaluator plugin\ngovernance"] -.scopes.-> P5
+```
+
+OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cross-cutting and are not tied to a single phase; they are revisited whenever a prospect, deal, or regulatory requirement forces the question.
+
+---
+
+## A. Enforcement and trust model
+
+### OQ-001 — Enforcement model required for the first external customers
+
+**Status:** Open
+**Question:** Which of the three enforcement postures defined in seed §8 — cooperative integration, platform-managed enforcement, or network/IAM-enforced gateway — will the first external (non-internal) customers actually require, and at what point in the five-phase delivery plan does that requirement need to be satisfied?
+**Owner:** Security and governance lead, Product lead
+**Target decision date:** TBD — must be resolved before any external-customer commitment is made, and no later than Phase 3 (Guarded Gateway) scope commitment.
+**Impact if unresolved:** Seed §8 and [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model) are explicit that a cooperative connector must never be represented as a hard security boundary. Without this decision, the platform risks either (a) presenting a bypassable cooperative posture to a customer who actually needs bypass-proof enforcement, contradicting AGR-018 and creating compliance exposure, or (b) over-building network/IAM-enforced controls before any customer or compliance driver justifies the cost, contradicting the MVP-boundary discipline in [AGR-019](AGREEMENTS.md#agr-019--mvp-scope-boundaries). This directly affects the connector-bypass risk in seed §20.
+**Current working assumption:** Cooperative integration remains the posture for Phase 1–2 internal teams. Platform-managed enforcement and the network/IAM-enforced gateway posture (seed §8, explicitly out of MVP scope per §17) are deferred until an external customer, compliance requirement, or specific bypass-prevention mandate is identified — mirroring the same trigger-based logic already accepted for AWS account separation in [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model).
+**Related:** seed §8, §6.3, §20 (connector bypass); [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model); [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md); [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md).
+
+---
+
+## B. Connectivity, regions, and data residency
+
+### OQ-002 — PrivateLink / private connectivity
+
+**Status:** Open
+**Question:** Is AWS PrivateLink or another form of private connectivity required for Mode A (Remote Evaluation) or Mode B (Guarded Gateway), and if so, by which delivery phase must it be available?
+**Owner:** Architecture lead, Security and governance lead
+**Target decision date:** TBD — revisit during Phase 3 (Guarded Gateway) and Phase 4 (Customer-Managed Runtime) planning, or immediately if a specific prospect requires it sooner.
+**Impact if unresolved:** Seed §17 explicitly places PrivateLink outside MVP non-goals, and seed §20 lists "private connectivity when justified" as a mitigation for hosted data exposure. Without a decision on when "justified" is reached, the platform cannot commit a timeline to customers with strict network-egress policies, and architecture work could either be deferred past the point a real deal needs it, or started speculatively with no confirmed demand.
+**Current working assumption:** Not required for the MVP. Public, TLS-secured endpoints (per seed §14) are sufficient until a specific customer or compliance driver is identified; Customer-Managed Runtime (Mode C) remains the recommended path for any prospect whose requirement is actually "no tenant content leaves our network," since PrivateLink to a hosted service does not change the content-exposure model described in [AGR-009](AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model).
+**Related:** seed §17, §20 (hosted data exposure); [AGR-009](AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model); [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md).
+
+---
+
+### OQ-003 — Regional deployment strategy and data residency
+
+**Status:** Open
+**Question:** Which AWS Regions will the hosted runtime support at general availability, and by what mechanism are a tenant's "Allowed Regions" (part of the Tenant entity, seed §9) actually enforced rather than merely recorded?
+**Owner:** Product lead, Architecture lead
+**Target decision date:** TBD — before Guarded Gateway (Phase 3) general availability, and required before any residency-sensitive customer is onboarded to a hosted mode.
+**Impact if unresolved:** The domain model already contains an "Allowed Regions" attribute (seed §9), and seed §20 lists "regional deployments" as a named mitigation for hosted data exposure, but no seed section defines which Regions are supported or how the attribute is enforced at runtime. Without resolution, the platform risks making an implicit residency claim (via the presence of the field) that the runtime cannot technically back — the same category of risk [AGR-009](AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) already guards against for Mode A generally.
+**Current working assumption:** A single AWS Region (specific Region TBD) is sufficient for the MVP. Multi-Region hosted deployment and per-tenant residency enforcement are deferred to a post-MVP phase, gated on demonstrated demand from a residency-sensitive tenant; until then, tenants with hard residency requirements are directed to Customer-Managed Runtime (Mode C), where residency is a natural consequence of the customer's own AWS account and Region choice.
+**Related:** seed §9, §20; [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md); [`50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md). See also [OQ-016](#oq-016--multi-region-active-active-availability-need), which concerns availability topology rather than residency.
+
+---
+
+## C. Advanced evaluation and agent-protection roadmap
+
+### OQ-004 — Streaming output evaluation timeline
+
+**Status:** Open
+**Question:** When is streaming output evaluation introduced, and what is the defined behavior for workloads that declare a streaming requirement before that capability ships?
+**Owner:** Technical lead
+**Target decision date:** TBD — currently a Phase 5 candidate (seed §18), but the Workload entity already carries a "Streaming requirements" attribute (seed §9) that implies an earlier need to define at least an interim behavior.
+**Impact if unresolved:** Seed §6.2 lists streaming output evaluation as permitted-but-not-required future scope, and seed §17 explicitly excludes "streaming guardrail enforcement" from the MVP. Without an interim behavior, a workload that registers as streaming has no documented evaluation path — creating exactly the kind of false confidence risk described in seed §20, where a team could assume output guardrails apply when they structurally cannot for a streamed response.
+**Current working assumption:** Streaming workloads are evaluated only on buffered, non-streamed content (for example, a final aggregated response) until true streaming evaluation ships, or are run in observe/log-only mode with the limitation explicitly documented to the workload owner. The "Streaming requirements" attribute is captured now for planning and future-scoping purposes only, not as a signal that streaming is currently supported.
+**Related:** seed §6.2, §9, §17, §20 (false confidence); [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md).
+
+---
+
+### OQ-005 — Retrieval-content evaluation and indirect prompt-injection detection timeline
+
+**Status:** Open
+**Question:** When are the future evaluation stage `retrieval` (seed §9) and indirect prompt-injection detection (seed §6.2) introduced, and how do they interact with the connector-agnostic evaluation contract ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes))?
+**Owner:** Technical lead, Security and governance lead
+**Target decision date:** TBD — Phase 5 candidate per seed §18; no committed date.
+**Impact if unresolved:** RAG-based and agentic workloads may onboard under the impression that retrieved documents are evaluated, when seed §13 currently limits MVP support to "user/model input and model output" only. Absent a stated timeline, application teams cannot plan around this gap, and security/compliance teams (seed §7) cannot assess residual risk for retrieval-heavy workloads.
+**Current working assumption:** Retrieval-content evaluation and indirect prompt-injection detection are not part of the MVP and are not scheduled; workloads that retrieve external documents must treat those documents as unevaluated content until this item is resolved, and this limitation must be stated explicitly during onboarding rather than left implicit.
+**Related:** seed §6.2, §9, §13; [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md).
+
+---
+
+### OQ-006 — Tool-call validation, tool-result evaluation, and MCP authorization scope
+
+**Status:** Open
+**Question:** What is the intended scope and delivery timing of tool-call validation, tool-result evaluation, and MCP authorization (seed §6.2, Phase 5 in §18), and how will the platform avoid being perceived as a "general MCP security platform," which seed §6.3 explicitly excludes?
+**Owner:** Technical lead, Product lead
+**Target decision date:** TBD — Phase 5, pending an explicit scope-approval decision; must not be scheduled as an MVP prerequisite per [AGR-022](AGREEMENTS.md#agr-022--five-phase-delivery).
+**Impact if unresolved:** Seed §5.5 and [AGR-010](AGREEMENTS.md#agr-010--guardrails-are-not-authorization) are explicit that a guardrail decision that a tool call "appears safe" is not the same as authorization to execute it. Without a defined scope and timeline for tool-call validation, agentic-workload teams may conflate future guardrail capability with authorization the platform will never provide, recreating the false-confidence risk in seed §20 in its most consequential form (autonomous tool execution).
+**Current working assumption:** Tool-call validation, tool-result evaluation, and MCP authorization remain future-scope-only (seed §6.2) and are not part of the MVP (seed §6.3, §17). No commitment exists yet on which subset ships first in Phase 5. Business authorization for tool calls remains, and will remain, the consuming application's responsibility regardless of what guardrail-side tool-call evaluation is eventually built.
+**Related:** seed §5.5, §6.2, §6.3, §18 (Phase 5), §20; [AGR-010](AGREEMENTS.md#agr-010--guardrails-are-not-authorization); [`10-charter/SCOPE.md`](../10-charter/SCOPE.md).
+
+---
+
+### OQ-007 — Human approval workflows: introduction timing and ownership
+
+**Status:** Open
+**Question:** When are human approval workflows introduced (seed §6.2, §18 Phase 5), and which team owns the approval UX, the `require_approval` decision action (seed §9), and its audit trail?
+**Owner:** Product lead
+**Target decision date:** TBD — Phase 5 candidate; no committed date.
+**Impact if unresolved:** `require_approval` already appears in the domain model as a future decision action (seed §9), but no owner exists for the workflow, interface, or notification path that would make it usable. Without resolution, this remains an unimplementable placeholder that could be mistaken for a near-term capability.
+**Current working assumption:** Human approval workflows are not part of the MVP and have no assigned owner yet; the `require_approval` action is reserved in the decision schema for forward compatibility only.
+**Related:** seed §6.2, §9, §18; [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md).
+
+---
+
+### OQ-008 — Multilingual policy pack timeline
+
+**Status:** Open
+**Question:** When are multilingual policy packs (seed §6.2) introduced, and which languages are prioritized first?
+**Owner:** Product lead, Technical lead
+**Target decision date:** TBD — no committed phase.
+**Impact if unresolved:** Without a stated limitation, non-English workloads may be onboarded with an undocumented expectation gap in detection quality, which is itself a form of the false-confidence risk in seed §20.
+**Current working assumption:** The MVP evaluators (Bedrock Guardrails and deterministic organization rules, seed §16) are assumed to be primarily English-language-effective; non-English workload owners must be informed of this limitation explicitly during onboarding until multilingual packs are scoped.
+**Related:** seed §6.2, §20; [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md).
+
+---
+
+## D. Infrastructure and deployment topology
+
+### OQ-009 — Trigger point for three-account AWS separation
+
+**Status:** Open
+**Question:** Seed §11 and [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) list qualitative triggers for moving beyond the minimal two-account model (external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, dedicated tenant deployments) — but what measurable threshold or decision process determines that a given trigger has actually been reached?
+**Owner:** Platform operations lead, Security and governance lead
+**Target decision date:** TBD — reassessed at each phase gate, with mandatory reassessment before Phase 3 (Guarded Gateway) and before onboarding any external or regulated customer.
+**Impact if unresolved:** Without an operational definition of "justified," account separation could be delayed past a point where a compliance or audit-integrity need has already materialized (creating security and evidentiary exposure), or could be triggered prematurely on subjective judgment, slowing delivery without a validated need — directly implicated in [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)'s own implication that "any request for additional account separation must be justified against the listed triggers before being implemented."
+**Current working assumption:** The two-account model continues through Phase 2. A dedicated go/no-go review against the seed §11 trigger list occurs before Phase 3 commitment and again before any external or regulated customer is onboarded to a hosted mode.
+**Related:** seed §11; [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md); [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md).
+
+---
+
+### OQ-010 — Dedicated tenant runtimes and air-gapped deployment timeline
+
+**Status:** Open
+**Question:** Seed §6.2 lists "dedicated hosted runtimes" and "air-gapped installation" as architecturally permitted future scope, while seed §17 explicitly excludes both from the MVP — on what timeline, if any, are they offered as supported deployment artifacts?
+**Owner:** Technical lead, Platform operations lead
+**Target decision date:** TBD — no committed phase; likely evaluated alongside Phase 4 (Customer-Managed Runtime) maturity.
+**Impact if unresolved:** Regulated or air-gapped prospects (a named driver for Mode C in seed §3) cannot be given a credible delivery timeline, and Phase 4 scope (seed §18) risks silently expanding to include these items without an explicit scope-change decision, which [AGR-019](AGREEMENTS.md#agr-019--mvp-scope-boundaries) requires.
+**Current working assumption:** Dedicated tenant runtimes and air-gapped installation are not scheduled. Phase 4 delivers a shared customer-managed runtime container, Helm chart, ECS template, and infrastructure module (seed §18) capable of asynchronous policy sync per [AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), but not a fully air-gapped install path, until this question is resolved.
+**Related:** seed §3, §6.2, §17, §18; [AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection); [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md).
+
+---
+
+## E. Commercial model
+
+### OQ-011 — Commercial metering and policy marketplace
+
+**Status:** Open
+**Question:** Will commercial metering and a policy/evaluator marketplace (seed §6.2) be pursued as product capabilities, and if so, on what timeline relative to the five delivery phases — particularly relative to Phase 3, whose deliverables already include "cost and rate controls" (seed §18)?
+**Owner:** Product lead, business/commercial stakeholder (owner TBD)
+**Target decision date:** TBD — revisit after Phase 3 (Guarded Gateway) usage patterns are observed; no committed date for a marketplace.
+**Impact if unresolved:** Seed §17 excludes "a billing platform" from MVP non-goals, yet Phase 3's Guarded Gateway deliverables already require cost and rate controls (seed §18) and success metrics include "number of onboarded workloads" and adoption tracking (seed §19) that are commercially adjacent. Without a decision, it is unclear whether Phase 3 needs only internal operational usage tracking or a genuine commercial metering system — an ambiguity that could block Phase 3 estimation and staffing.
+**Current working assumption:** Phase 3 includes internal cost/rate telemetry sufficient for operational control (quota enforcement, rate limiting) only. Formal commercial metering (customer-facing billing) and a policy marketplace are not scheduled in any phase and require a separate, explicitly approved business decision before design work begins.
+**Related:** seed §6.2, §17, §18 (Phase 3), §19; [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md); [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md).
+
+---
+
+## F. Policy governance and integrity
+
+### OQ-012 — Policy signing and policy inheritance design
+
+**Status:** Open
+**Question:** Seed §6.2 lists policy signing and policy inheritance as permitted future scope, and seed §17 excludes "a policy-signing infrastructure" and "complex policy inheritance" from the MVP — what design and governance model will apply to each when introduced, and on what timeline?
+**Owner:** Technical lead, Security and governance lead
+**Target decision date:** TBD — evaluate at the Phase 2 → Phase 3 transition, once workload-specific override usage in production can inform the design, and no later than Phase 4 (Customer-Managed Runtime) given that mode's distributed-policy delivery.
+**Impact if unresolved:** Seed §20's "policy fragmentation" risk already warns that too many workload-specific overrides (permitted per binding under the domain model, seed §9) may weaken organizational consistency; without an inheritance model, that fragmentation has no structural containment beyond ad hoc discipline. Separately, seed §3 requires the Customer-Managed Runtime to execute policies without a synchronous control-plane connection ([AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)); without policy signing, the integrity of a policy artifact distributed to and cached inside a customer's own AWS account cannot be cryptographically verified end to end.
+**Current working assumption:** The MVP allows only a limited, explicitly tracked set of override categories per policy binding, with ownership required for each exception (per the seed §20 mitigation), but with no cryptographic signing. Policy integrity for the Customer-Managed Runtime currently relies on transport security (TLS) for the sync channel to the control plane rather than signed artifacts, until this question is resolved.
+**Related:** seed §6.2, §9, §17, §20 (policy fragmentation); [AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection); [`50-architecture/COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md); [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md).
+
+---
+
+### OQ-013 — Customer-specific evaluator plugin governance
+
+**Status:** Open
+**Question:** Seed §6.2 lists "customer-specific evaluator plugins" as permitted future scope — what security review, sandboxing, and compatibility model applies before any third-party or customer-authored evaluator can run inside the guardrail runtime?
+**Owner:** Technical lead, Security and governance lead
+**Target decision date:** TBD — must be resolved before this future-scope item is designed or built, not concurrently with the first plugin request.
+**Impact if unresolved:** Third-party evaluator code running inside the runtime (potentially with access to raw prompts and responses per the evaluator-adapter pattern in seed §10) could be onboarded without a defined trust boundary, directly conflicting with the least-privilege and dependency-scanning requirements in seed §14 and the no-raw-content-retention posture in [AGR-014](AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default).
+**Current working assumption:** Customer-specific evaluator plugins are not supported in the MVP or in any currently committed phase; all evaluators today are first-party (Bedrock Guardrails adapter, deterministic rules) as scoped in seed §16.
+**Related:** seed §6.2, §10, §14, §16; [AGR-014](AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default); [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md).
+
+---
+
+## G. Promotion governance
+
+### OQ-014 — Go/no-go criteria to move a workload from observe to enforce
+
+**Status:** Open
+**Question:** Beyond the general five-state progression (Disabled → Observe → Warn → Redact → Block, seed §5.6, [AGR-011](AGREEMENTS.md#agr-011--observe-before-enforce-progression)), what specific, objective criteria determine that a given workload is ready to promote from observe to enforce?
+**Owner:** Security and governance lead, workload owners
+**Target decision date:** TBD — needed before Phase 2 onboarding scales beyond a small pilot set of workloads.
+**Impact if unresolved:** Seed §15 requires "controlled promotion," "compatibility validation," and "evaluation-result comparison between versions," and seed §19 tracks "percentage of policies promoted from observe to enforce" as a success metric, but no seed section defines a quantitative or procedural gate (for example, an acceptable false-positive ceiling or a minimum observation period). Without one, promotion decisions remain subjective, risking either premature enforcement that breaks production traffic, or indefinite observe-mode stagnation in which the guardrail platform never actually protects anything — the specific manifestation of the "false confidence" risk in seed §20 applied to the platform's own rollout process.
+**Current working assumption:** Promotion is a manual decision made jointly by the workload owner and the security/governance function, informed by observe-mode metrics (false-positive rate, latency, decision distribution) already required by seed §15, but not yet gated by a codified numeric threshold. Each promotion's rationale is recorded in audit metadata (per seed §15) regardless.
+**Related:** seed §5.6, §15, §19, §20; [AGR-011](AGREEMENTS.md#agr-011--observe-before-enforce-progression); [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md); [`50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md).
+
+---
+
+## H. Compliance and availability posture
+
+### OQ-015 — Full compliance certification target and scope
+
+**Status:** Open
+**Question:** Seed §6.3 explicitly excludes "full compliance certification" from the MVP without naming which certification(s) are ever intended — which frameworks (if any) are targeted, and for which delivery phase?
+**Owner:** Security and governance lead, Product lead
+**Target decision date:** TBD — no committed phase.
+**Impact if unresolved:** Security and compliance stakeholders (seed §7) need "audit requirements" and "policy ownership" evidence today, but have no forward roadmap for formal certification to plan against, which can block enterprise sales cycles that require a named framework and target date rather than a general assurance of good practice.
+**Current working assumption:** No specific compliance certification is targeted during the MVP or currently committed phases. The platform's audit metadata, retention controls, and least-privilege posture (seed §14, §15) are designed to be certification-ready in direction, but formal certification pursuit (framework, scope, and timeline) is undecided.
+**Related:** seed §6.3, §7, §14, §15; [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md).
+
+---
+
+### OQ-016 — Multi-region active-active availability need
+
+**Status:** Open
+**Question:** Seed §6.3 excludes "multi-region active-active availability" from the MVP — is active-active availability across Regions ever required as an availability objective (seed §15), independent of the data-residency question in [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency)?
+**Owner:** Architecture lead, Platform operations lead
+**Target decision date:** TBD — no committed phase.
+**Impact if unresolved:** Seed §15 requires the runtime to "define an availability objective," but that objective cannot be finalized while the target topology (single-Region, multi-Region active-passive, or multi-Region active-active) remains undecided. Conflating this with the residency question in OQ-003 risks either under-building for a genuine high-availability requirement or over-building multi-Region infrastructure to solve a residency problem that a single well-chosen Region already satisfies.
+**Current working assumption:** A single-Region deployment with a defined (but not yet numerically specified) availability objective is sufficient for the MVP and near-term phases; multi-Region active-active is not planned and would require its own justification independent of any residency driver.
+**Related:** seed §6.3, §15; [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency); [`50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md).
+
+---
+
+## Change control
+
+Additions, removals, or resolutions of items in this register must be reflected consistently in:
+
+* [`AGREEMENTS.md`](AGREEMENTS.md) — the destination for any resolved decision.
+* [`00-source-of-truth/TRACEABILITY-MATRIX.md`](TRACEABILITY-MATRIX.md) — where open-question status is tracked against seed sections and affected documents.
+* [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — where an unresolved question's downside is also expressed as a standing risk.
+
+No document other than this one may introduce a new open question outside this register, and no document may mark an item here as resolved without a corresponding new entry in [`AGREEMENTS.md`](AGREEMENTS.md).
