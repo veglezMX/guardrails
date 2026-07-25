@@ -55,6 +55,7 @@ flowchart TB
         A3["Bedrock Guardrails adapter +\ndeterministic rules"]
         A4["Observe / enforce modes,\nnormalized decisions, audit + latency metrics"]
         A5["Hosted runtime +\npath to customer-managed"]
+        A6["Multi-region availability\n(per-tenant region pinning, DEC-018)"]
     end
 
     subgraph LATER["Later-phase scope — committed and estimated, Phases 3–5 — §4 (seed §6.2)"]
@@ -63,6 +64,7 @@ flowchart TB
         F2["Streaming evaluation,\ngroundedness, automated reasoning"]
         F3["Policy signing, inheritance,\nmarketplace, commercial metering"]
         F4["Dedicated & air-gapped runtimes,\ncustomer evaluator plugins"]
+        F5["Per-tenant data-residency enforcement (DEC-018);\nmulti-region active-active availability (DEC-019)"]
     end
 
     subgraph OUT["Out of scope for the solution — §5 (seed §6.3)"]
@@ -70,7 +72,7 @@ flowchart TB
         O1["Gateway replacement /\ncomplete AI governance platform"]
         O2["Proprietary detection models,\ncomplete DLP platform, model training"]
         O3["End-user auth,\nbusiness authorization"]
-        O4["Org-wide AWS enforcement,\ncross-cloud, multi-region active-active,\nfull compliance certification"]
+        O4["Org-wide AWS enforcement,\ncross-cloud,\nfull compliance certification"]
     end
 
     subgraph NONGOALS["Delivery non-goals (Phases 1–2) — §6 (seed §17)"]
@@ -112,8 +114,9 @@ Per seed.md §6.1 and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supe
 | 14 | Decision metadata auditing | Persisted audit records (tenant, workload, policy version, stage, decision, reason codes, correlation ID, retention flag). | AGR-014, DEC-008 |
 | 15 | Hosted runtime deployment | The Evaluation API and evaluator adapters running as provider-hosted infrastructure (serves Mode A and Mode B). | AGR-002, DEC-008 |
 | 16 | A path to customer-managed deployment | The runtime is architected so it can later run inside a customer's AWS account (Mode C) without changing the connector contract — full Mode C delivery is Phase 4, not a Phase 1–2 artifact. | AGR-002, AGR-015, DEC-008 |
+| 17 | Multi-region availability (per-tenant region pinning) | The hosted runtime offers multi-region availability from GA, with each tenant's evaluation traffic pinned to a single processing region — not active-active (see [Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 19, and [Section 5](#5-out-of-scope-for-the-solution)). Per-tenant data-residency *enforcement* is a separate, later-phase item ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 18). | AGR-008, AGR-013 (amended), [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) |
 
-These sixteen items, taken together with the observe/enforce and normalized-decision requirements, are also the basis for the **Phase 1–2 validation demonstration** (seed.md §16) — a delivery-plan milestone specified in [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) and verified per [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md); it is not an L1 agreement and not the definition of overall solution success. The core component list and its build sequence are tracked separately in [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) (which supersedes DEC-005); this table states the *boundary*, not the build order.
+These seventeen items, taken together with the observe/enforce and normalized-decision requirements, are also the basis for the **Phase 1–2 validation demonstration** (seed.md §16) — a delivery-plan milestone specified in [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) and verified per [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md); it is not an L1 agreement and not the definition of overall solution success. The core component list and its build sequence are tracked separately in [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) (which supersedes DEC-005); this table states the *boundary*, not the build order.
 
 ---
 
@@ -140,8 +143,10 @@ Per seed.md §6.2 and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supe
 | 15 | Customer-specific evaluator plugins | No third-party or customer-authored evaluator runs inside the runtime until a security/compatibility review model exists. | [OQ-013](../00-source-of-truth/OPEN-QUESTIONS.md#oq-013--customer-specific-evaluator-plugin-governance) | AGR-004, AGR-005, AGR-020, DEC-008 |
 | 16 | Commercial metering | Phase 3 needs only internal cost/rate telemetry for quota and rate-limit enforcement; customer-facing billing is a separate, unscheduled decision. | [OQ-011](../00-source-of-truth/OPEN-QUESTIONS.md#oq-011--commercial-metering-and-policy-marketplace) | AGR-020, DEC-008 |
 | 17 | Policy marketplace capabilities | Not scheduled in any phase; requires a separate, explicitly approved business decision. | [OQ-011](../00-source-of-truth/OPEN-QUESTIONS.md#oq-011--commercial-metering-and-policy-marketplace) | AGR-020, DEC-008 |
+| 18 | Per-tenant data-residency enforcement | The Phase 1–2 multi-region deployment ([Section 3](#3-core-scope--phases-12), item 17) pins each tenant to a single processing region; enforcing that a tenant's content is processed and stored only within its assigned region — not merely recorded — is committed as a later-phase capability, not a Phase 1–2 artifact. | [OQ-003](../00-source-of-truth/OPEN-QUESTIONS.md#oq-003--regional-deployment-strategy-and-data-residency) (resolved by [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga)) | AGR-008, AGR-013 (amended), [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) |
+| 19 | Multi-region active-active availability | Live cross-region failover and replication, providing continuous availability beyond the single-region-per-tenant model of item 17. This explicitly supersedes its prior listing as a seed.md §6.3 exclusion (see [Section 5](#5-out-of-scope-for-the-solution)); the architecture must not require redesigning the Phase 1–2 regional model to add it later. | [OQ-016](../00-source-of-truth/OPEN-QUESTIONS.md#oq-016--multi-region-active-active-availability-need) (resolved by [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase)) | AGR-002, AGR-006, [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) |
 
-Later-phase items map primarily onto **Phase 5 — Advanced agent protection** in the [five-phase delivery plan](CHARTER.md#12-success-criteria) ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); items 13–17 above may instead surface as Phase 2–4 governance or commercial decisions, as tracked in the referenced open questions. All seventeen items are part of the full feature set defined and estimated under [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); none may be built during Phases 1–2, and where a row records a separate approval requirement (items 16–17), that approval remains a precondition for the item entering a committed phase.
+Later-phase items map primarily onto **Phase 5 — Advanced agent protection** in the [five-phase delivery plan](CHARTER.md#12-success-criteria) ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); items 13–17 above may instead surface as Phase 2–4 governance or commercial decisions, as tracked in the referenced open questions. All nineteen items are part of the full feature set defined and estimated under [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); none may be built during Phases 1–2, and where a row records a separate approval requirement (items 16–17), that approval remains a precondition for the item entering a committed phase. Items 18–19 were added to the full feature set by [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) and [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) respectively (both Proposed, pending owner ratification).
 
 ---
 
@@ -162,9 +167,10 @@ Per seed.md §6.3, the solution will not attempt to provide any of the following
 | 9 | Fully autonomous agent governance | Advanced agent protection (retrieval, tool-call, memory-write, delegation) arrives as Phase 5 later-phase scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35)); *fully autonomous* agent governance is excluded at every phase. | AGR-010, seed.md §6.3, AGR-020 |
 | 10 | Organization-wide AWS enforcement | The network/IAM-enforced gateway posture is the strongest enforcement model but is explicitly not required for the cooperative Phase 1–2 core; see [OQ-001](../00-source-of-truth/OPEN-QUESTIONS.md#oq-001--enforcement-model-required-for-the-first-external-customers). | AGR-018, seed.md §6.3 |
 | 11 | Cross-cloud deployment | AWS is the primary and initial cloud platform for the solution. | AGR-013, seed.md §6.3 |
-| 12 | Multi-region active-active availability | Not required to prove the core reusable-policy hypothesis; an availability objective is defined per workload, not as multi-region active-active. | seed.md §6.3 |
-| 13 | Full compliance certification | Certification is a distinct, larger undertaking than validating the core integration and policy model. | seed.md §6.3 |
-| 14 | A general MCP security platform | MCP-related later-phase scope (item 5, [Section 4](#4-later-phase-scope--committed-and-estimated-phases-35)) is narrowly scoped to authorization for the platform's own tool-call evaluation, not a general-purpose MCP security product. | AGR-010, seed.md §6.3, AGR-020 |
+| 12 | Full compliance certification | Certification is a distinct, larger undertaking than validating the core integration and policy model. | seed.md §6.3 |
+| 13 | A general MCP security platform | MCP-related later-phase scope (item 5, [Section 4](#4-later-phase-scope--committed-and-estimated-phases-35)) is narrowly scoped to authorization for the platform's own tool-call evaluation, not a general-purpose MCP security product. | AGR-010, seed.md §6.3, AGR-020 |
+
+Multi-region active-active availability was previously listed here as item 12 (seed.md §6.3). [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) explicitly supersedes that exclusion and commits it as later-phase scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 19); the table above is renumbered accordingly.
 
 ---
 
@@ -180,7 +186,7 @@ Per seed.md §17, core (Phase 1–2) delivery does not require the following spe
 | 4 | Three-account AWS separation | The Phase 1–2 account model is one non-production account and one production account. | [OQ-009](../00-source-of-truth/OPEN-QUESTIONS.md#oq-009--trigger-point-for-three-account-aws-separation) | AGR-013, seed.md §17 |
 | 5 | A billing platform | Related to later-phase "commercial metering" ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 16); Phase 3 needs only internal cost/rate telemetry for quota and rate-limit enforcement. | [OQ-011](../00-source-of-truth/OPEN-QUESTIONS.md#oq-011--commercial-metering-and-policy-marketplace) | seed.md §17 |
 | 6 | Dedicated tenant runtime deployments | Also listed as later-phase scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 11). | [OQ-010](../00-source-of-truth/OPEN-QUESTIONS.md#oq-010--dedicated-tenant-runtimes-and-air-gapped-deployment-timeline) | AGR-002, seed.md §17 |
-| 7 | MCP tool authorization | Also listed as later-phase scope and out of scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35) item 5; [Section 5](#5-out-of-scope-for-the-solution) item 14). | [OQ-006](../00-source-of-truth/OPEN-QUESTIONS.md#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope) | AGR-010, seed.md §17 |
+| 7 | MCP tool authorization | Also listed as later-phase scope and out of scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35) item 5; [Section 5](#5-out-of-scope-for-the-solution) item 13). | [OQ-006](../00-source-of-truth/OPEN-QUESTIONS.md#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope) | AGR-010, seed.md §17 |
 | 8 | Organization-wide Bedrock enforcement | Related to out-of-scope item 10 ([Section 5](#5-out-of-scope-for-the-solution)); the network/IAM-enforced gateway posture is deferred until an external customer or compliance driver is identified. | [OQ-001](../00-source-of-truth/OPEN-QUESTIONS.md#oq-001--enforcement-model-required-for-the-first-external-customers) | AGR-018, seed.md §17 |
 | 9 | Complex policy inheritance | Also listed as later-phase scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 14). | [OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design) | AGR-017, seed.md §17 |
 | 10 | Streaming guardrail enforcement | Also listed as later-phase scope ([Section 4](#4-later-phase-scope--committed-and-estimated-phases-35), item 3); a documented interim behavior is required for workloads that declare streaming today. | [OQ-004](../00-source-of-truth/OPEN-QUESTIONS.md#oq-004--streaming-output-evaluation-timeline) | AGR-006, seed.md §17 |

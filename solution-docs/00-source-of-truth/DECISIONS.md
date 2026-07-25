@@ -172,6 +172,8 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 **Related agreements:** [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import), [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery)
 **Related ADRs:** See [`50-architecture/adrs/README.md`](../50-architecture/adrs/README.md).
 
+**Later amendment (Proposed):** [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) expands the defined-and-estimated feature set fixed by this decision — CAP-035 (multi-region availability, [DEC-018](#dec-018--multi-region-availability-at-ga)), CAP-036 (multi-region active-active availability, DEC-019), and CAP-037 (per-category decision metrics, [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope)) are added, bringing the estimated set to CAP-001–CAP-037. DEC-019 explicitly supersedes the multi-region active-active exclusion listed in this entry's Context above (originally a seed.md §6.3 product-category exclusion). Pending owner ratification of DEC-018/019/020.
+
 ---
 
 ## DEC-009 — Adopt the guardrail-category catalog as directional vision
