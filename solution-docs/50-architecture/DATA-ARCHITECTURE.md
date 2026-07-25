@@ -73,7 +73,7 @@ Represents an organization, business unit, or consuming team.
 | Ownership information | Who owns/operates the tenant relationship |
 | AWS account information | Which AWS account(s) the tenant's workloads run in |
 | Data classification | Governs handling and retention expectations for the tenant's content |
-| Assigned region | The single AWS Region within which the tenant's content is processed and stored; enforces per-tenant data residency ([`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md), [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga)) — the platform is multi-region from GA, but a tenant is pinned to one processing region, not active-active across regions (see [2.6](#26-per-tenant-residency-enforcement)) |
+| Allowed Regions | The AWS Region(s) within which the tenant's content may be processed and stored; enforces per-tenant data residency ([`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md), [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga), Status: Proposed) — the platform is multi-region from GA; in the MVP, each tenant is pinned to a single processing region drawn from its Allowed Regions, not active-active across regions (see [2.6](#26-per-tenant-residency-enforcement)) |
 | Retention configuration | The tenant-specific retention setting referenced throughout §13 (see [3. Data-handling policy](#3-data-handling-policy)) |
 | Deployment mode | Which of the three modes (Remote Evaluation, Guarded Gateway, Customer-Managed Runtime) the tenant operates under |
 | Authentication configuration | How the tenant's workloads authenticate to the platform |
@@ -189,7 +189,7 @@ erDiagram
         string ownership_information
         string aws_account_information
         string data_classification
-        string assigned_region
+        string allowed_regions
         string retention_configuration
         string deployment_mode
         string authentication_configuration
@@ -333,16 +333,16 @@ Detailed key-management and IAM boundary design is out of scope for this documen
 
 ### 2.6 Per-tenant residency enforcement
 
-Per [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) and [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga), the platform is multi-region from GA, and a tenant's content is processed and stored only within its assigned Region (`Tenant.Assigned region`, see [1.2](#12-tenant)) — each tenant is pinned to a single processing region, not active-active across regions. Live cross-region failover/replication is a distinct, later-phase capability ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) / CAP-036) and is out of scope here.
+Per [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) and [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) (Status: Proposed), the platform is multi-region from GA, and a tenant's content is processed and stored only within its pinned processing Region, drawn from its `Allowed Regions` (`Tenant.Allowed Regions`, see [1.2](#12-tenant)) — each tenant is pinned to a single processing region, not active-active across regions. Live cross-region failover/replication is a distinct capability, committed as a later phase but not yet delivered ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed) / CAP-036) and is out of scope here.
 
 Residency enforcement applies to every store in [2.1 Storage mapping by entity](#21-storage-mapping-by-entity) that can carry a tenant's content or content-derived data:
 
-* **Evaluation runtime** (transient, in-region) — a Workload's Evaluations execute in the AWS Region matching its owning Tenant's assigned Region; a tenant's evaluation requests do not route to another Region.
-* **Decision metadata (audit) — SQS buffer and S3 archive** — the [audit event pipeline](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) and its S3 archive are provisioned per Region, so a tenant's audit trail is buffered and archived only within its assigned Region.
+* **Evaluation runtime** (transient, in-region) — a Workload's Evaluations execute in the AWS Region matching its owning Tenant's pinned processing Region (drawn from its Allowed Regions); a tenant's evaluation requests do not route to another Region.
+* **Decision metadata (audit) — SQS buffer and S3 archive** — the [audit event pipeline](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) and its S3 archive are provisioned per Region, so a tenant's audit trail is buffered and archived only within its pinned processing Region.
 * **Workload/tenant registry (DynamoDB) and Policy storage** — read on the evaluation path to resolve a workload's effective policy; a tenant's own request path must not depend on a cross-region call.
 * **Customer-Managed Runtime (Mode C)** — residency is inherently satisfied for content that never leaves the customer's own AWS account ([2.4](#24-storage-in-the-customer-managed-runtime)); the Region constraint applies to the customer's own chosen Region, not to the hosted control plane.
 
-This is a constraint on *where* the entities in [Section 1](#1-domain-entity-model) may be processed and stored, expressed through the additive `Tenant.Assigned region` attribute — it does not otherwise change the entities' shape. Regionality is expressed through regional resources, not additional AWS accounts; the two-account model (`AGREEMENTS.md` AGR-013) is retained (DEC-018). The specific enforcement mechanism (e.g., IAM condition keys, region-scoped routing, per-region deployment topology) is a deployment-architecture concern; see [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) and [5. Open items and TBDs](#5-open-items-and-tbds).
+This is a constraint on *where* the entities in [Section 1](#1-domain-entity-model) may be processed and stored, expressed through the additive `Tenant.Allowed Regions` attribute — it does not otherwise change the entities' shape. Regionality is expressed through regional resources, not additional AWS accounts; the two-account model (`AGREEMENTS.md` AGR-013) is retained (DEC-018). The specific enforcement mechanism (e.g., IAM condition keys, region-scoped routing, per-region deployment topology) is a deployment-architecture concern; see [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) and [5. Open items and TBDs](#5-open-items-and-tbds).
 
 ---
 
@@ -453,7 +453,7 @@ Per source-of-truth policy, the following figures are not present in `seed.md` a
 | Customer-managed runtime independence from control plane | §3 (Mode C) | AGR-015 |
 | Audit metadata fields | §15 | — |
 | Content categories and phased scope limitation | §13 | — (scope per [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)) |
-| Per-tenant residency enforcement (`Tenant.Assigned region`, §2.6) | — (post-seed decision) | AGR-013 (amended); [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga); [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) |
+| Per-tenant residency enforcement (`Tenant.Allowed Regions`, §2.6) | — (post-seed decision) | AGR-013 (amended); [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga); [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) |
 | `guardrail_category` field and category-namespaced reason codes | — (post-seed decision) | AGR-017; [`DECISIONS.md` DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension); [`adrs/ADR-0003`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) |
 
 ---

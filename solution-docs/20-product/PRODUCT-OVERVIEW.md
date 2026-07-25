@@ -134,9 +134,11 @@ The full solution also includes capabilities such as retrieval-content evaluatio
 
 ### Explicitly out of scope
 
-AI Guardrails is not, and does not attempt to be: a general-purpose LLM gateway replacement, a complete AI governance platform, a model training or fine-tuning system, a proprietary prompt-injection or moderation model, a complete DLP platform, an end-user authentication system, an application business-authorization system, a fully autonomous agent-governance system, organization-wide AWS enforcement, a cross-cloud deployment, a multi-region active-active service, a fully certified compliance product, or a general MCP security platform.
+AI Guardrails is not, and does not attempt to be: a general-purpose LLM gateway replacement, a complete AI governance platform, a model training or fine-tuning system, a proprietary prompt-injection or moderation model, a complete DLP platform, an end-user authentication system, an application business-authorization system, a fully autonomous agent-governance system, organization-wide AWS enforcement, a cross-cloud deployment, a fully certified compliance product, or a general MCP security platform.
 
 *(seed.md §6.3 — Out of scope for the MVP)*
+
+Multi-region active-active availability was formerly part of this exclusion list; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Proposed, pending owner ratification) supersedes that exclusion and commits it as a later-phase capability ([`CAP-036`](CAPABILITIES.md)) — not yet delivered, but no longer excluded from the feature set.
 
 ---
 

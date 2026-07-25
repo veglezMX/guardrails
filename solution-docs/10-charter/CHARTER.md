@@ -122,11 +122,12 @@ The solution will not attempt to provide:
 * Fully autonomous agent governance.
 * Organization-wide AWS enforcement.
 * Cross-cloud deployment.
-* Multi-region active-active availability.
 * Full compliance certification.
 * A general MCP security platform.
 
 These exclusions are binding for the solution per seed.md §6.3, reaffirmed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — they are not part of the full feature set. They may be introduced only after the core integration and policy model have been validated, and only through an explicit scope-change decision — never by silent inclusion. Full scope boundaries are maintained in [`SCOPE.md`](SCOPE.md).
+
+Multi-region active-active availability was previously listed here as an exclusion; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Proposed, pending owner ratification) explicitly supersedes that exclusion and commits it as a later-phase capability ([`CAP-036`](../20-product/CAPABILITIES.md)) — not yet delivered, but no longer excluded.
 
 ---
 
