@@ -159,6 +159,7 @@ Phases 1–2 deliver the core platform, whose purpose is to prove that one reusa
 | **CAP-034 — Commercial metering** | Usage-based metering suitable for commercial billing of evaluation volume. | **Later phase — not available today** | seed.md §6.2, [`SCOPE.md`](../10-charter/SCOPE.md) | `50-architecture/OPERABILITY.md` (planned) |
 | **CAP-035 — Multi-region availability & per-tenant residency enforcement** | The platform offers multi-region availability, with each tenant's evaluation traffic pinned to a single processing region (not active-active — see CAP-036). Per-tenant data-residency requirements are enforced so that a given tenant's content is processed and stored only within its assigned region. | Core (Phases 1–2) — availability; **Later phase — committed** — per-tenant residency enforcement | [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) (amended), [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (regionality), `50-architecture/DATA-ARCHITECTURE.md` (residency enforcement, planned) |
 | **CAP-036 — Multi-region active-active availability** | Live cross-region failover and replication providing continuous availability across regions, beyond the single-region-per-tenant model of CAP-035. | **Later phase — committed** | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (supersedes seed.md §6.3 exclusion) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (planned) |
+| **CAP-037 — Per-category decision metrics** | Block/redact/allow rates and counts aggregated by guardrail category, enabled by the category-namespaced reason codes and `guardrail_category` decision field ([DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension)/[ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md)). | **Later phase — committed (proposed, DEC-020)** | [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension), [DEC-020](../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | `50-architecture/OPERABILITY.md` (planned) |
 
 ---
 
@@ -189,8 +190,8 @@ Per `seed.md` §6.3, these capabilities "may be introduced only after the core i
 | Category | Count |
 |---|---|
 | Core capabilities — Phases 1–2 (`CAP-001`–`CAP-017`) | 17 |
-| Later-phase capabilities — committed and estimated, Phases 3–5 (`CAP-018`–`CAP-036`) | 19 |
-| **Total cataloged capabilities — the defined-and-estimated full solution** | **36** |
+| Later-phase capabilities — committed and estimated, Phases 3–5 (`CAP-018`–`CAP-037`) | 20 |
+| **Total cataloged capabilities — the defined-and-estimated full solution** | **37** |
 | Explicitly excluded items (seed §6.3, not cataloged with an ID and not part of the full feature set) | 13 |
 
 ---
@@ -217,7 +218,7 @@ The guardrail-category catalog ([`GUARDRAIL-CATALOG.md`](GUARDRAIL-CATALOG.md), 
 | [GR-014](GUARDRAIL-CATALOG.md#gr-014--data-lifecycle-audit-and-provenance) Data Lifecycle, Audit and Provenance | CAP-014, CAP-015 | CAP-028 |
 | [GR-015](GUARDRAIL-CATALOG.md#gr-015--policy-lifecycle-and-governance) Policy Lifecycle and Governance | CAP-001, CAP-003, CAP-013 | CAP-028, CAP-029, CAP-031 |
 | [GR-016](GUARDRAIL-CATALOG.md#gr-016--supply-chain-and-deployment-security) Supply-Chain and Deployment Security | — (platform property, no customer-facing CAP) | CAP-028, CAP-030 (review prerequisite) |
-| [GR-017](GUARDRAIL-CATALOG.md#gr-017--monitoring-evaluation-and-incident-response) Monitoring, Evaluation and Incident Response | CAP-014, CAP-015 | — |
+| [GR-017](GUARDRAIL-CATALOG.md#gr-017--monitoring-evaluation-and-incident-response) Monitoring, Evaluation and Incident Response | CAP-014, CAP-015 | CAP-037 |
 | [GR-018](GUARDRAIL-CATALOG.md#gr-018--business-and-domain-specific-controls) Business and Domain-Specific Controls | CAP-010 | CAP-030 |
 
 ---
