@@ -157,6 +157,8 @@ Phases 1–2 deliver the core platform, whose purpose is to prove that one reusa
 | **CAP-032 — Dedicated hosted runtimes** | Per-tenant dedicated hosted runtime instances, as opposed to a shared multi-tenant hosted runtime. | **Later phase — not available today** | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), seed.md §6.2, [`SCOPE.md`](../10-charter/SCOPE.md) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (planned) |
 | **CAP-033 — Air-gapped installation** | A runtime packaging and policy-distribution model that functions with no network connectivity to the hosted control plane at all — a stronger guarantee than the standard "no synchronous connection required" behavior of the Customer-Managed Runtime. | **Later phase — not available today** | [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), seed.md §6.2, [`SCOPE.md`](../10-charter/SCOPE.md) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (planned) |
 | **CAP-034 — Commercial metering** | Usage-based metering suitable for commercial billing of evaluation volume. | **Later phase — not available today** | seed.md §6.2, [`SCOPE.md`](../10-charter/SCOPE.md) | `50-architecture/OPERABILITY.md` (planned) |
+| **CAP-035 — Multi-region availability & per-tenant residency enforcement** | The platform offers multi-region availability, with each tenant's evaluation traffic pinned to a single processing region (not active-active — see CAP-036). Per-tenant data-residency requirements are enforced so that a given tenant's content is processed and stored only within its assigned region. | Core (Phases 1–2) — availability; **Later phase — committed** — per-tenant residency enforcement | [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) (amended), [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (regionality), `50-architecture/DATA-ARCHITECTURE.md` (residency enforcement, planned) |
+| **CAP-036 — Multi-region active-active availability** | Live cross-region failover and replication providing continuous availability across regions, beyond the single-region-per-tenant model of CAP-035. | **Later phase — committed** | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (supersedes seed.md §6.3 exclusion) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (planned) |
 
 ---
 
@@ -175,11 +177,10 @@ Phases 1–2 deliver the core platform, whose purpose is to prove that one reusa
 * Fully autonomous agent governance.
 * Organization-wide AWS enforcement.
 * Cross-cloud deployment.
-* Multi-region active-active availability.
 * Full compliance certification.
 * A general MCP security platform.
 
-Per `seed.md` §6.3, these capabilities "may be introduced only after the core integration and policy model have been validated" — i.e., only via a new scope decision, never by implication from this catalog.
+Per `seed.md` §6.3, these capabilities "may be introduced only after the core integration and policy model have been validated" — i.e., only via a new scope decision, never by implication from this catalog. Multi-region active-active availability was previously listed here; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) explicitly supersedes that exclusion and commits it as CAP-036 above.
 
 ---
 
@@ -188,9 +189,9 @@ Per `seed.md` §6.3, these capabilities "may be introduced only after the core i
 | Category | Count |
 |---|---|
 | Core capabilities — Phases 1–2 (`CAP-001`–`CAP-017`) | 17 |
-| Later-phase capabilities — committed and estimated, Phases 3–5 (`CAP-018`–`CAP-034`) | 17 |
-| **Total cataloged capabilities — the defined-and-estimated full solution** | **34** |
-| Explicitly excluded items (seed §6.3, not cataloged with an ID and not part of the full feature set) | 14 |
+| Later-phase capabilities — committed and estimated, Phases 3–5 (`CAP-018`–`CAP-036`) | 19 |
+| **Total cataloged capabilities — the defined-and-estimated full solution** | **36** |
+| Explicitly excluded items (seed §6.3, not cataloged with an ID and not part of the full feature set) | 13 |
 
 ---
 
