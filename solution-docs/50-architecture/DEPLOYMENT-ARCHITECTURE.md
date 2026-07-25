@@ -82,7 +82,7 @@ The consuming team's LiteLLM (or equivalent gateway) lives entirely inside the *
 | Are tool arguments transmitted? | Not in the MVP; tool-call evaluation is future scope (seed.md §6.2). |
 | Is content persisted? | Not by default. The hosted runtime persists decision metadata, not raw prompts/responses, unless the tenant explicitly configures retention (CON-014). |
 | What telemetry leaves the runtime? | Decision metadata, evaluation latency, and audit records flow to the hosted control plane and audit pipeline as part of normal operation — this is not optional telemetry, it is how the hosted service functions. |
-| Which AWS accounts/Regions are involved? | The team's own account/Region for LiteLLM; the AI Guardrails hosted account/Region for the Evaluation API and audit pipeline. |
+| Which AWS accounts/Regions are involved? | The team's own account/Region for LiteLLM; the AI Guardrails hosted account for the Evaluation API and audit pipeline, served from that tenant's pinned processing Region (§7.4, DEC-018/CAP-035). |
 
 **Bottom line:** Mode A reduces the consuming team's *operational* burden for evaluation (they do not run detectors), but it does **not** reduce data exposure — prompts, responses, and any additional evaluated content reach the hosted Evaluation API on every call. Teams with data-residency or "content must never leave our account" requirements must use [Mode C](#4-mode-c--customer-managed-runtime), not Mode A.
 
@@ -127,7 +127,7 @@ Here the AI Guardrails provider operates **both** the LLM gateway and the guardr
 | Where are prompts/responses processed? | Entirely within the provider-managed Guarded Gateway — guardrails, routing, and model invocation all occur inside the provider's boundary. |
 | Is content persisted? | Governed by the same no-raw-retention-by-default policy as the hosted runtime (CON-014); decision metadata is retained, raw content is not, absent explicit tenant configuration. |
 | What telemetry leaves the runtime? | None — there is no separate "runtime" to leave from; the gateway *is* the provider's environment. Usage and audit reporting are delivered back to the tenant as a service output. |
-| Which AWS accounts/Regions are involved? | Entirely the provider's hosted account/Region(s); the consuming team supplies no infrastructure. |
+| Which AWS accounts/Regions are involved? | Entirely the provider's hosted account, served from the tenant's pinned processing Region (§7.4, DEC-018/CAP-035); the consuming team supplies no infrastructure. |
 
 **Bottom line:** Mode B provides the strongest centralized control and the lowest integration burden, but it also creates the **largest operational, security, and compliance scope for the provider** — the provider participates in the complete inference path, including holding or brokering model-provider credentials. It is intended for teams that do not operate LiteLLM, want a managed OpenAI-compatible endpoint, and accept that the provider sits inside the full request path.
 
@@ -194,7 +194,7 @@ The customer-managed runtime **must** be capable of executing policies without a
 | Is retrieved content / are tool arguments transmitted? | Only within the customer's own account, if the workload is configured to evaluate them; nothing is transmitted outside the account for this purpose. |
 | Is content persisted? | Local audit storage is entirely customer-controlled; retention configuration is the customer's decision, not a platform default. |
 | What telemetry leaves the runtime? | Only what the customer explicitly configures — anywhere from full operational telemetry (health, product version, policy version, aggregated evaluation counts, reason-code totals, latency metrics, sanitized decision metadata) down to **no telemetry at all** (AGR-016, CON-013). Raw content must never leave the customer-managed runtime unless explicitly configured. |
-| Which AWS accounts/Regions are involved? | Entirely the customer's own AWS account and chosen Region(s); the hosted control plane is contacted only for asynchronous policy sync and any telemetry the customer has opted into. |
+| Which AWS accounts/Regions are involved? | Entirely the customer's own AWS account and chosen Region(s), independent of the hosted side's own DEC-018/CAP-035 Region posture (§7.4); the hosted control plane is contacted only for asynchronous policy sync and any telemetry the customer has opted into. |
 
 **Bottom line:** Mode C is the only mode where raw prompt/response content stays inside the customer's environment by default. It is intended for regulated workloads, data-residency requirements, high-volume workloads, air-gapped environments, teams that prohibit prompt/response content from leaving their account, and customers requiring independent operational ownership.
 
@@ -290,7 +290,7 @@ flowchart TB
     GW["Guarded Gateway front door<br/>(Mode B)"] --> ALB
 ```
 
-This diagram represents the hosted control plane and hosted runtime that Modes A and B call into, and that Mode C's policy synchronization talks to asynchronously. It is illustrative of the target logical layout, not a final infrastructure-as-code layout — actual resource boundaries are defined in `50-architecture/COMPONENT-ARCHITECTURE.md` and the Phase 4/Phase 2 delivery artifacts.
+This diagram represents the hosted control plane and hosted runtime that Modes A and B call into, and that Mode C's policy synchronization talks to asynchronously. It is illustrative of the target logical layout, not a final infrastructure-as-code layout — actual resource boundaries are defined in `50-architecture/COMPONENT-ARCHITECTURE.md` and the Phase 4/Phase 2 delivery artifacts. It shows a single logical "Hosted account(s)" grouping for clarity; per §7.4 below (DEC-018/CAP-035), the hosted side is not single-Region — this layout is replicated across more than one AWS Region from GA, with each tenant pinned to one of them.
 
 ### 7.3 Logical customer-managed-side AWS layout (Mode C)
 
@@ -307,6 +307,37 @@ flowchart TB
     Cache -. "async policy sync" .-> CP["Hosted control plane"]
     RT -. "optional, customer-selected<br/>telemetry only" .-> CP
 ```
+
+### 7.4 Multi-region availability and per-tenant residency pinning (DEC-018 / CAP-035)
+
+Per [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) (Status: Proposed — register-level, owner ratification required) and [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md#extended-deployment-and-commercial), the **hosted** side of the platform — the accounts and Regions behind Modes A and B, and the control plane Mode C's policy synchronization talks to — offers **multi-region availability from GA**. This supersedes any single-Region reading of §7.1–§7.3 above: those sections describe the hosted account/service topology, not a claim that it runs in one AWS Region only.
+
+The model is **tenant-pinned single-Region processing, not active-active**:
+
+- Each tenant is assigned to exactly one processing Region. All of that tenant's evaluation traffic — Mode A's Evaluation API calls, Mode B's Guarded Gateway traffic, and the audit pipeline behind them — is served from that Region.
+- There is no live cross-Region failover or replication of an individual tenant's in-flight evaluation traffic under DEC-018/CAP-035; that is a separate, later-phase commitment — see §7.5 (DEC-019/CAP-036) — and must not be assumed here.
+- Region assignment is carried on the tenant record via the `Allowed Regions` attribute (`50-architecture/DATA-ARCHITECTURE.md` §1.2 Tenant), which constrains which AWS Region(s) may process that tenant's requests.
+
+**Residency enforcement is on a different commitment timeline than availability itself.** CAP-035 bundles two things this document keeps distinct:
+
+| Sub-scope | Status |
+|---|---|
+| Multi-region availability (running hosted infrastructure in more than one Region; placing a tenant in one) | **Core (Phases 1–2)** |
+| Per-tenant residency enforcement (guaranteeing a tenant's content is actually processed and stored only within its assigned Region, not merely defaulted there) | **Later phase — committed** |
+
+Until the residency-enforcement mechanism ships, Region assignment is a placement/configuration fact, not yet a technically enforced boundary, and must not be represented to a tenant as an enforced residency guarantee before that capability lands — consistent with the explicit content-exposure documentation requirement of §1 above (AGR-008, CON-007). `50-architecture/DATA-ARCHITECTURE.md` (residency enforcement, planned) is the authoritative home for the enforcement mechanism's design once built.
+
+**No account-model impact.** Regionality is expressed through **regional resources deployed inside the existing two hosted accounts** (§8.1), never through additional AWS accounts. Per the [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) amendment, multi-region availability does not by itself trigger a move beyond the two-account model — that remains gated on the [OQ-009](../00-source-of-truth/OPEN-QUESTIONS.md#oq-009--trigger-point-for-three-account-aws-separation) triggers (§8.2), reassessed at each phase gate, not on how many Regions the platform serves from.
+
+**Mode C is unaffected in kind.** Mode C's runtime already runs entirely inside the customer's own AWS account and whichever Region(s) the customer chooses (§4); DEC-018/CAP-035 governs the **hosted** side's own multi-Region posture and does not change or constrain Mode C's per-customer regional autonomy.
+
+### 7.5 Multi-region active-active — later phase (DEC-019 / CAP-036)
+
+[`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed — register-level, owner ratification required) commits **multi-region active-active availability** — live cross-Region failover and replication providing continuous availability across Regions — as a **later phase, committed** capability, [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md#extended-deployment-and-commercial). This supersedes the prior `seed.md` §6.3 listing of active-active as an out-of-scope exclusion.
+
+**Explicitly distinct from §7.4.** DEC-018/CAP-035 is region *availability* with a tenant *pinned* to a single processing Region; DEC-019/CAP-036 is live cross-Region *high availability* on top of that — replication and failover so that a Region-level event does not interrupt an in-flight tenant's evaluation traffic. CAP-036 layers onto the CAP-035 multi-Region footprint; it is not a prerequisite for CAP-035, and CAP-035 does not imply it. Until CAP-036 ships, a Region-level outage affecting a tenant's assigned Region is an availability event for that tenant, handled per the failure-behavior requirements of §1 above (AGR-012) — it is not masked by cross-Region failover.
+
+This document does not define CAP-036's concrete AWS design (replication topology, failover mechanics, data-consistency model) — that is out of scope until the capability is designed; §7.1–§7.4 above should not be read as already implementing it.
 
 ---
 
@@ -332,6 +363,8 @@ Per AGR-013 / CON-002, the MVP does **not** require separate management, product
 ```
 
 This two-account model applies to the **hosted side of the platform** (i.e., the AI Guardrails provider's own infrastructure supporting Modes A and B, and the control plane behind Mode C). It is independent of however many AWS accounts a given Mode C customer chooses to deploy the customer-managed runtime into — that is the customer's own account topology decision.
+
+**Multi-region availability does not change this account count.** Per §7.4 (DEC-018/CAP-035) and the [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) amendment, each AWS Region the hosted side operates in deploys its own regional instances of the resources named in §7.1 (e.g., a Region-scoped evaluation runtime, policy storage, audit pipeline) **inside these same two accounts** — non-production and production — not into a new account per Region. Regionality is not one of the §8.2 triggers below and does not by itself justify additional account separation.
 
 ### 8.2 When to add account separation
 
@@ -414,4 +447,5 @@ This guide is directional; it does not override the explicit content-exposure an
 - Mode A must never be marketed as data-local (AGR-009); only Mode C keeps raw content in the customer's account by default.
 - Mode C's runtime (policy cache, Bedrock Guardrails adapter, custom evaluators, local audit) must operate without a synchronous control-plane connection (AGR-015), with explicit degraded-mode behavior when the local policy cache goes stale.
 - The MVP AWS footprint follows the seed.md §11 service mapping and a minimal two-account model (AGR-013, CON-002); additional account separation is added only against a documented trigger, never speculatively.
+- The hosted side offers multi-region availability from GA, with each tenant pinned to a single processing Region — not active-active (DEC-018, CAP-035, §7.4); per-tenant residency *enforcement* is a distinct, later-phase-committed sub-scope layered on top of that Core-phase availability. Live cross-Region active-active availability is a separate, later-phase-committed capability (DEC-019, CAP-036, §7.5), explicitly distinguished from single-Region pinning. Neither changes the two-account model (AGR-013, amended, §8.1).
 - Phase 4 turns Mode C from an architectural capability into a consumable product: runtime container, Helm chart, ECS template, IaC module, local policy cache, policy synchronization, customer-controlled telemetry, and upgrade compatibility checks — all without changing the connector contract validated in earlier phases.

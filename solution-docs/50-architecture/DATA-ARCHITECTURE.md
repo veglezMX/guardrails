@@ -35,6 +35,7 @@ No metric, dollar figure, SLA, retention period, or performance number is assert
   - [2.3 Audit event pipeline: SQS buffering to S3 archive](#23-audit-event-pipeline-sqs-buffering-to-s3-archive)
   - [2.4 Storage in the Customer-Managed Runtime](#24-storage-in-the-customer-managed-runtime)
   - [2.5 Encryption and transport](#25-encryption-and-transport)
+  - [2.6 Per-tenant residency enforcement](#26-per-tenant-residency-enforcement)
 - [3. Data-handling policy](#3-data-handling-policy)
   - [3.1 Default behavior (hosted runtime)](#31-default-behavior-hosted-runtime)
   - [3.2 Content categories that may be evaluated](#32-content-categories-that-may-be-evaluated)
@@ -72,7 +73,7 @@ Represents an organization, business unit, or consuming team.
 | Ownership information | Who owns/operates the tenant relationship |
 | AWS account information | Which AWS account(s) the tenant's workloads run in |
 | Data classification | Governs handling and retention expectations for the tenant's content |
-| Allowed Regions | Constrains which AWS Regions may process the tenant's requests |
+| Assigned region | The single AWS Region within which the tenant's content is processed and stored; enforces per-tenant data residency ([`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md), [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga)) — the platform is multi-region from GA, but a tenant is pinned to one processing region, not active-active across regions (see [2.6](#26-per-tenant-residency-enforcement)) |
 | Retention configuration | The tenant-specific retention setting referenced throughout §13 (see [3. Data-handling policy](#3-data-handling-policy)) |
 | Deployment mode | Which of the three modes (Remote Evaluation, Guarded Gateway, Customer-Managed Runtime) the tenant operates under |
 | Authentication configuration | How the tenant's workloads authenticate to the platform |
@@ -155,7 +156,8 @@ Initial actions: `allow`, `block`, `redact`, `log_only`. Future actions: `rewrit
 |---|---|
 | Action | One of the initial (or future) actions above |
 | Allowed status | Whether the evaluated content is allowed to proceed |
-| Reason codes | Normalized codes explaining the decision, independent of the underlying evaluator/vendor |
+| Reason codes | Normalized codes explaining the decision, independent of the underlying evaluator/vendor; emitted in category-namespaced form `GR-0NN:<evaluator-family>:<code>`, where `GR-0NN` is the guardrail-category ID from `GUARDRAIL-CATALOG.md` ([`DECISIONS.md` DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension); [`adrs/ADR-0003`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md)) |
+| Guardrail category | First-class category dimension, populated from the category segment of the reason code(s) that drove the decision's `action` (DEC-013; ADR-0003) — an additive field on this existing entity (`AGREEMENTS.md` AGR-017 "extend, don't fork"), enabling per-category metrics and catalog→decision traceability directly from the decision record, with no external evaluator-code-to-category mapping table |
 | Policy name and version | Restated on the Decision itself so the record is self-describing without a live binding lookup |
 | Evaluator metadata | Which evaluator engines/adapters produced the result |
 | Transformed content | Present only where a transformation (e.g., redaction) was applied |
@@ -187,7 +189,7 @@ erDiagram
         string ownership_information
         string aws_account_information
         string data_classification
-        string allowed_regions
+        string assigned_region
         string retention_configuration
         string deployment_mode
         string authentication_configuration
@@ -241,6 +243,7 @@ erDiagram
         string action
         string allowed_status
         string reason_codes
+        string guardrail_category
         string policy_name
         string policy_version
         string evaluator_metadata
@@ -328,6 +331,19 @@ All storage described in this section is subject to the transport and cryptograp
 
 Detailed key-management and IAM boundary design is out of scope for this document; see [`SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md).
 
+### 2.6 Per-tenant residency enforcement
+
+Per [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) and [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga), the platform is multi-region from GA, and a tenant's content is processed and stored only within its assigned Region (`Tenant.Assigned region`, see [1.2](#12-tenant)) — each tenant is pinned to a single processing region, not active-active across regions. Live cross-region failover/replication is a distinct, later-phase capability ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) / CAP-036) and is out of scope here.
+
+Residency enforcement applies to every store in [2.1 Storage mapping by entity](#21-storage-mapping-by-entity) that can carry a tenant's content or content-derived data:
+
+* **Evaluation runtime** (transient, in-region) — a Workload's Evaluations execute in the AWS Region matching its owning Tenant's assigned Region; a tenant's evaluation requests do not route to another Region.
+* **Decision metadata (audit) — SQS buffer and S3 archive** — the [audit event pipeline](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) and its S3 archive are provisioned per Region, so a tenant's audit trail is buffered and archived only within its assigned Region.
+* **Workload/tenant registry (DynamoDB) and Policy storage** — read on the evaluation path to resolve a workload's effective policy; a tenant's own request path must not depend on a cross-region call.
+* **Customer-Managed Runtime (Mode C)** — residency is inherently satisfied for content that never leaves the customer's own AWS account ([2.4](#24-storage-in-the-customer-managed-runtime)); the Region constraint applies to the customer's own chosen Region, not to the hosted control plane.
+
+This is a constraint on *where* the entities in [Section 1](#1-domain-entity-model) may be processed and stored, expressed through the additive `Tenant.Assigned region` attribute — it does not otherwise change the entities' shape. Regionality is expressed through regional resources, not additional AWS accounts; the two-account model (`AGREEMENTS.md` AGR-013) is retained (DEC-018). The specific enforcement mechanism (e.g., IAM condition keys, region-scoped routing, per-region deployment topology) is a deployment-architecture concern; see [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) and [5. Open items and TBDs](#5-open-items-and-tbds).
+
 ---
 
 ## 3. Data-handling policy
@@ -398,7 +414,8 @@ Per `seed.md` §15 ("Operational requirements — Auditing"), audit metadata mus
 | Policy version | The specific immutable policy version applied, per [1.4 Policy](#14-policy) |
 | Evaluation stage | `input`, `output`, or a future stage, per [1.6 Evaluation](#16-evaluation) |
 | Decision | The normalized decision produced, per [1.7 Decision](#17-decision) |
-| Reason codes | Normalized codes explaining the decision |
+| Reason codes | Normalized codes explaining the decision, in category-namespaced form `GR-0NN:<evaluator-family>:<code>` ([`DECISIONS.md` DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension); [`adrs/ADR-0003`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md)) |
+| Guardrail category | The `GR-0NN` catalog category the decision's reason code(s) belong to, mirrored from `Decision.Guardrail category` ([1.7](#17-decision)); a first-class audit/metric dimension enabling per-category reporting (e.g., block/redact counts by category) directly from audit records, with no external code-to-category mapping table (DEC-013; ADR-0003) |
 | Evaluator versions | Versions of the evaluator engines/adapters invoked |
 | Timestamp | When the evaluation occurred |
 | Correlation identifier | Ties the audit record back to the originating request across connector, runtime, and any downstream system |
@@ -419,6 +436,7 @@ Per source-of-truth policy, the following figures are not present in `seed.md` a
 | Specific input-size limits per evaluation stage | TBD — see `CONSTRAINTS.md` CON-015 | CON-015 |
 | Specific timeout values per stage/detector | TBD — see `CONSTRAINTS.md` CON-016 | CON-016 |
 | Choice between DynamoDB and versioned S3 for Policy storage | TBD — seed.md §11 lists both as acceptable without selecting one | [2.2](#22-policy-storage-dynamodb-or-versioned-s3) |
+| Specific mechanism enforcing the per-tenant Region boundary (IAM condition keys, region-scoped routing, per-region deployment topology) | TBD — CAP-035/DEC-018 establish the requirement; the enforcement mechanism is a `DEPLOYMENT-ARCHITECTURE.md` concern not yet specified | [2.6](#26-per-tenant-residency-enforcement) |
 
 ---
 
@@ -435,6 +453,8 @@ Per source-of-truth policy, the following figures are not present in `seed.md` a
 | Customer-managed runtime independence from control plane | §3 (Mode C) | AGR-015 |
 | Audit metadata fields | §15 | — |
 | Content categories and phased scope limitation | §13 | — (scope per [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)) |
+| Per-tenant residency enforcement (`Tenant.Assigned region`, §2.6) | — (post-seed decision) | AGR-013 (amended); [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga); [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) |
+| `guardrail_category` field and category-namespaced reason codes | — (post-seed decision) | AGR-017; [`DECISIONS.md` DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension); [`adrs/ADR-0003`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) |
 
 ---
 
@@ -443,7 +463,9 @@ Per source-of-truth policy, the following figures are not present in `seed.md` a
 - [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreement register, in particular AGR-008, AGR-009, AGR-014, AGR-015, AGR-016, AGR-017.
 - [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — authoritative constraint register, in particular CON-007, CON-009, CON-013, CON-014.
 - [`CHARTER.md`](../10-charter/CHARTER.md) — product charter narrative.
-- [`CAPABILITIES.md`](../20-product/CAPABILITIES.md) — capability catalog referencing this same domain model.
+- [`CAPABILITIES.md`](../20-product/CAPABILITIES.md) — capability catalog referencing this same domain model; in particular CAP-035 (multi-region availability and per-tenant residency enforcement) and CAP-036 (multi-region active-active, later phase).
+- [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — decision log; in particular DEC-013 (reason-code taxonomy and `guardrail_category` field) and DEC-018 (multi-region availability and per-tenant residency enforcement).
+- [`adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) — design detail and alternatives for the category-namespaced reason-code taxonomy and the `guardrail_category` field.
 - `SECURITY-ARCHITECTURE.md` — IAM, KMS key management, and transport security detail (implements CON-008 through CON-012).
 - `DEPLOYMENT-ARCHITECTURE.md` — account model and per-mode deployment topology (implements CON-001, CON-002, CON-005).
 - `INTEGRATION-ARCHITECTURE.md` — connector and evaluation-contract detail (implements CON-003, CON-004, CON-006).
