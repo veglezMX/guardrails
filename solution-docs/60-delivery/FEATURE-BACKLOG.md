@@ -39,17 +39,17 @@ It is a **derived, analytical view (L3)**. It introduces **no new scope**. Every
 | # | Axis | Now (MVP) | Later — committed | Vision — uncommitted | Out-of-boundary |
 |---|---|---|---|---|---|
 | 1 | Enforcement posture | Cooperative connector | Platform-managed enforcement (Mode B); network/IAM-enforced gateway (optional-advanced) | — | Org-wide AWS enforcement |
-| 2 | Serving / deployment mode | Mode A — Remote Evaluation | Mode B Guarded Gateway (Ph 3); Mode C Customer-Managed Runtime (Ph 4); air-gapped installation (CAP-033) | Dedicated-tenant runtimes / "if ever" timing (OQ-010) | Cross-cloud deployment |
+| 2 | Serving / deployment mode | Mode A — Remote Evaluation | Mode B Guarded Gateway (Ph 3); Mode C Customer-Managed Runtime (Ph 4); air-gapped installation, committed-but-undated, trigger-gated on first signed regulated/air-gapped customer (CAP-033, DEC-017) | Dedicated-tenant runtimes / "if ever" timing (OQ-010) | Cross-cloud deployment |
 | 3 | Evaluation stages | Input + output only | Retrieval, tool-call, tool-result, memory-write (Ph 5) | agent-plan, tool-selection, memory-read (OQ-018) | — |
 | 4 | Evaluation engines | Bedrock Guardrails | Deterministic rules, PII evaluators | Third-party / customer evaluator plugins (OQ-013) | Proprietary detection models; model training |
 | 5 | Decision actions | observe / warn / redact / block | require_approval → human-approval workflow (Ph 5, OQ-007) | — | Business authorization (AGR-010) |
 | 6 | Connectors | LiteLLM + generic HTTP / SDK | Other gateways | Agent runtimes / MCP integration (OQ-006) | General MCP security platform |
 | 7 | Policy authoring & distribution | Curated packs + author-your-own | Policy signing + inheritance (OQ-012) | Policy marketplace (OQ-011) | — |
-| 8 | Guardrail categories | Core GR set (Ph 1–2) | GR-005 / 006 / 009 / 011 / 013 (later phases) | Vision-status GR entries | GR-010 identity/auth; DLP-complete (GR-003); org-wide enforcement (GR-008); business auth (GR-018) |
+| 8 | Guardrail categories | Core GR set (Ph 1–2) | GR-005 / 006 / 009 / 011 / 013 (later phases); GR-017 per-category decision metrics, graduated from Vision (proposed, DEC-020) | Vision-status GR entries | GR-010 identity/auth; DLP-complete (GR-003); org-wide enforcement (GR-008); business auth (GR-018) |
 | 9 | Streaming | Non-streaming | Streaming output evaluation (Ph 5, OQ-004) | — | — |
-| 10 | Regions & residency | Single region, 2-account model | Residency enforcement (OQ-003); 3+ account model (OQ-009) | — | Multi-region active-active (OQ-016) |
-| 11 | Commercial | Internal / no metering | Interim cost + rate tracking (Ph 3); commercial metering (CAP-034) | Policy marketplace (OQ-011) | — |
-| 12 | Compliance | None | Targeted certifications (OQ-015) | — | Full compliance certification |
+| 10 | Regions & residency | Multi-region availability, tenant-pinned; 2-account model until an OQ-009 trigger fires (CAP-035, DEC-018; DEC-017) | Per-tenant residency enforcement (CAP-035, DEC-018); multi-region active-active availability (CAP-036, DEC-019); 3+ account model, trigger-gated (OQ-009, DEC-017) | — | — |
+| 11 | Commercial | Internal / no metering, free through MVP (DEC-017) | Interim cost + rate tracking (Ph 3); commercial metering, trigger-gated on Phase 3 usage patterns (CAP-034, DEC-017) | Policy marketplace (OQ-011) | — |
+| 12 | Compliance | None | SOC 2 Type II, trigger-gated on first contractually-requiring external customer (OQ-015, DEC-017) | — | Full compliance certification |
 
 The per-axis ladders below expand each row, name the trigger that graduates each rung, and carry the authoritative cross-references.
 
@@ -136,11 +136,11 @@ The per-axis ladders below expand each row, name the trigger that graduates each
 *Which classes of control the taxonomy covers.* Governed by [`AGR-021`](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) / [`DEC-009`](../00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision). Authoritative per-category status lives in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) (`GR-001`–`GR-018`); this axis is a pointer, not a second source of truth.
 
 1. **Now (MVP) — Core GR set (Phases 1–2)** — the categories reachable by input/output evaluation with the MVP engine.
-2. **Later — committed — GR-005, GR-006, GR-009, GR-011, GR-013** — the later-phase categories phase-sequenced by ADR-0002 (agentic/advanced categories land with Phase 5 stages).
-3. **Vision — uncommitted — Vision-status GR entries** — categories classified but not committed; enter scope only via the graduation exercise (EXTENSIBILITY §10).
+2. **Later — committed — GR-005, GR-006, GR-009, GR-011, GR-013** — the later-phase categories phase-sequenced by ADR-0002 (agentic/advanced categories land with Phase 5 stages). Also **Later phase — committed (proposed) — GR-017's "Per-category decision metrics" item** (block/redact rates by guardrail category; new CAP-037, pending owner ratification and formal `CAPABILITIES.md` registration) — [`DEC-020`](../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) graduates this single sub-item of the otherwise-Core GR-017 (Monitoring, Evaluation and Incident Response) category out of Vision.
+3. **Vision — uncommitted — Vision-status GR entries** — categories (and category sub-items, e.g. the remaining GR-017 monitoring items) classified but not committed; enter scope only via the graduation exercise (EXTENSIBILITY §10).
 4. **Out-of-boundary — GR-010 (identity/authorization); DLP-complete items in GR-003; org-wide enforcement in GR-008; business authorization in GR-018** — each carries a named external owner in the catalog and is never a future deliverable (AGR-010, seed.md §6.3).
 
-**Graduates when:** a Vision entry is taken through the recorded scope-change path — the first such exercise is also ADR-0002's own validation criterion.
+**Graduates when:** a Vision entry is taken through the recorded scope-change path — the first such exercise, GR-017's per-category decision metrics item, is now recorded as DEC-020, satisfying ADR-0002's own validation criterion.
 
 ## 9. Streaming
 
@@ -153,33 +153,34 @@ The per-axis ladders below expand each row, name the trigger that graduates each
 
 ## 10. Regions & residency
 
-*Where does processing physically happen, and can residency be enforced?* Governed by [`AGR-013`](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model).
+*Where does processing physically happen, and can residency be enforced?* Governed by [`AGR-013`](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) (amended by DEC-018).
 
-1. **Now (MVP) — Single region, minimal 2-account model** (one non-production, one production).
-2. **Later — committed — Per-tenant residency enforcement (OQ-003); 3+-account separation (OQ-009).** The "Allowed Regions" domain attribute needs an enforcement mechanism before residency is claimed; account separation is added only against the OQ-009 triggers.
-3. **Out-of-boundary — Multi-region active-active availability** (OQ-016 asks whether it is *ever* required; currently excluded by seed.md §6.3).
+1. **Now (MVP) — Multi-region availability, tenant-pinned; minimal 2-account model.** Each tenant's evaluation traffic is pinned to a single processing region ([`CAP-035`](../20-product/CAPABILITIES.md), [`DEC-018`](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga)) — this supersedes the former single-region MVP reading. Regionality is expressed through regional resources inside the existing production account, not additional accounts; the minimal 2-account model (one non-production, one production) is retained until an OQ-009 trigger fires ([`DEC-017`](../00-source-of-truth/DECISIONS.md#dec-017--deployment-and-commercial-posture)).
+2. **Later — committed — Per-tenant residency enforcement** ([`CAP-035`](../20-product/CAPABILITIES.md), [`DEC-018`](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga)). The "Allowed Regions" domain attribute needs this enforcement mechanism before residency is claimed — formerly OQ-003's unresolved backstop, now closed by DEC-018.
+3. **Later — committed — Multi-region active-active availability** ([`CAP-036`](../20-product/CAPABILITIES.md), [`DEC-019`](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase)) — live cross-region failover/replication, beyond the single-region-per-tenant model of CAP-035. Formerly out-of-boundary (OQ-016, seed.md §6.3); DEC-019 explicitly supersedes that exclusion and commits it as a later phase, expanding the DEC-008 estimation basis.
+4. **Later — committed — 3+-account separation, trigger-gated (OQ-009).** Added only on the first external customer, a compliance requirement, or independent security ownership ([`DEC-017`](../00-source-of-truth/DECISIONS.md#dec-017--deployment-and-commercial-posture)).
 
-**Graduates when:** OQ-003 resolves before Guarded Gateway GA; OQ-009 reassessed at each phase gate.
+**Graduates when:** OQ-003 is closed by DEC-018 (residency enforcement is now committed core, not open); OQ-016 is closed by DEC-019 (active-active is now a committed later phase, not out-of-boundary); OQ-009's trigger (DEC-017) is reassessed at each phase gate.
 
 ## 11. Commercial
 
 *How (if at all) is consumption metered and billed?*
 
-1. **Now (MVP) — Internal / no metering.** First consumers include internal dogfooding; no billing surface required to prove policy reuse.
-2. **Later — committed — Interim cost + rate tracking (Phase 3); commercial metering ([`CAP-034`](../20-product/CAPABILITIES.md)).** Phase 3 (Guarded Gateway) needs cost/rate controls even without full billing; usage-based metering suitable for commercial billing is a committed, estimated later-phase capability.
+1. **Now (MVP) — Internal / no metering, free through MVP.** First consumers include internal dogfooding and design partners; no billing surface required to prove policy reuse ([`DEC-017`](../00-source-of-truth/DECISIONS.md#dec-017--deployment-and-commercial-posture)).
+2. **Later — committed — Interim cost + rate tracking (Phase 3); commercial metering ([`CAP-034`](../20-product/CAPABILITIES.md), [`DEC-017`](../00-source-of-truth/DECISIONS.md#dec-017--deployment-and-commercial-posture)).** Phase 3 (Guarded Gateway) needs cost/rate controls even without full billing; usage-based metering suitable for commercial billing is a committed, estimated later-phase capability, built once Phase 3 usage patterns are observed.
 3. **Vision — uncommitted — Policy marketplace (OQ-011).** Whether commercial metering is turned into a billed offering, and whether a third-party policy marketplace is pursued, is the open commercial question. Serving external customers from day one (per the serving-model design) makes the billing decision the first likely to be pulled forward.
 
 **Graduates when:** OQ-011 commercial decision, revisited after Phase 3 usage is observed.
 
 ## 12. Compliance
 
-*What formal certifications back the platform?* Governed by OQ-015.
+*What formal certifications back the platform?* Governed by OQ-015, resolved by [`DEC-017`](../00-source-of-truth/DECISIONS.md#dec-017--deployment-and-commercial-posture).
 
-1. **Now (MVP) — None.** Claims discipline (AGR-009, AGR-010, AGR-018) holds regardless; no certification is claimed.
-2. **Later — committed — Targeted certifications (OQ-015)** — a defined subset, for a defined phase, once selected.
-3. **Out-of-boundary — Full compliance certification** as a product promise (seed.md §6.3).
+1. **Now (MVP) — None.** Claims discipline (AGR-009, AGR-010, AGR-018) holds regardless; no certification is claimed at MVP (DEC-017).
+2. **Later — committed — SOC 2 Type II, trigger-gated** ([`DEC-017`](../00-source-of-truth/DECISIONS.md#dec-017--deployment-and-commercial-posture)) — pursued on the first external customer that contractually requires it; no other certification is committed.
+3. **Out-of-boundary — Full compliance certification** as a product promise (seed.md §6.3); stays excluded per DEC-017.
 
-**Graduates when:** OQ-015 selects which certifications and for which phase; security/compliance stakeholders need this before planning against a roadmap.
+**Graduates when:** the first external customer contractually requires SOC 2 Type II (DEC-017); no other certification has a defined trigger yet.
 
 ---
 
