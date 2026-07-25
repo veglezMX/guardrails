@@ -266,6 +266,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - MVP infrastructure-as-code must not assume a three-or-more-account structure.
 - Any request for additional account separation must be justified against the listed triggers before being implemented.
 - Cross-cloud deployment is excluded from the MVP.
+- Multi-region availability is offered from GA with tenant-pinned single-region processing (DEC-018); this does not by itself trigger additional AWS accounts — the two-account model is retained until an OQ-009 trigger fires. *(Proposed amendment — register-level; owner ratification required.)*
 **Affected documents:**
 - `50-architecture/DEPLOYMENT-ARCHITECTURE.md`
 - `60-delivery/IMPLEMENTATION-STRATEGY.md`
