@@ -19,7 +19,7 @@ Figures, dates, and thresholds are not restated here beyond what `seed.md` speci
 
 ## Quick index
 
-[Action](#action-allow--block--redact--log_only) · [AI Guardrails](#ai-guardrails) · [Audit metadata](#audit-metadata) · [Bedrock Guardrails](#bedrock-guardrails) · [Connector](#connector) · [Control plane](#control-plane) · [Control type](#control-type) · [Correlation identifier](#correlation-identifier) · [Customer-Managed Runtime](#customer-managed-runtime) · [Data plane](#data-plane) · [Decision](#decision) · [Deterministic evaluator](#deterministic-evaluator) · [Enforce mode](#enforce-mode) · [Enforcement layer](#enforcement-layer) · [Evaluation](#evaluation) · [Evaluation contract](#evaluation-contract) · [Evaluator adapter](#evaluator-adapter) · [Extension seam](#extension-seam) · [Failure behavior](#failure-behavior) · [Graduation](#graduation) · [Guarded Gateway](#guarded-gateway) · [Guardrail category](#guardrail-category) · [Guardrail item](#guardrail-item) · [Guardrail policy](#guardrail-policy) · [Import](#import) · [LiteLLM](#litellm) · [Observe mode](#observe-mode) · [PII evaluator](#pii-evaluator) · [Policy binding](#policy-binding) · [Policy pack](#policy-pack) · [Redaction](#redaction) · [Reason code](#reason-code) · [Remote Evaluation](#remote-evaluation) · [Tenant](#tenant) · [Vision — uncommitted](#vision--uncommitted) · [Workload](#workload)
+[Action](#action-allow--block--redact--log_only) · [AI Guardrails](#ai-guardrails) · [Audit metadata](#audit-metadata) · [Bedrock Guardrails](#bedrock-guardrails) · [Category-namespaced reason code](#category-namespaced-reason-code) · [Connector](#connector) · [Control plane](#control-plane) · [Control type](#control-type) · [Correlation identifier](#correlation-identifier) · [Customer-Managed Runtime](#customer-managed-runtime) · [Data plane](#data-plane) · [Decision](#decision) · [Deterministic evaluator](#deterministic-evaluator) · [Enforce mode](#enforce-mode) · [Enforcement layer](#enforcement-layer) · [Evaluation](#evaluation) · [Evaluation contract](#evaluation-contract) · [Evaluator adapter](#evaluator-adapter) · [Extension seam](#extension-seam) · [Failure behavior](#failure-behavior) · [Governance class](#governance-class) · [Graduation](#graduation) · [Guarded Gateway](#guarded-gateway) · [Guardrail category](#guardrail-category) · [Guardrail item](#guardrail-item) · [Guardrail policy](#guardrail-policy) · [Import](#import) · [LiteLLM](#litellm) · [Mandatory policy](#mandatory-policy) · [Observe mode](#observe-mode) · [PII evaluator](#pii-evaluator) · [Policy binding](#policy-binding) · [Policy inheritance (v0)](#policy-inheritance-v0) · [Policy pack](#policy-pack) · [Redaction](#redaction) · [Reason code](#reason-code) · [Remote Evaluation](#remote-evaluation) · [Tenant](#tenant) · [Vision — uncommitted](#vision--uncommitted) · [Workload](#workload)
 
 ---
 
@@ -86,6 +86,14 @@ See also: [Correlation identifier](#correlation-identifier), [Decision](#decisio
 Amazon Bedrock Guardrails, adopted as the platform's **first managed evaluation engine**. Its vendor-specific response format is normalized behind an [evaluator adapter](#evaluator-adapter) into the platform's own decision structure, so the public evaluation contract remains vendor-independent; Bedrock Guardrails must never be described as the product's permanent or exclusive detection engine ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).
 
 See also: [Deterministic evaluator](#deterministic-evaluator), [PII evaluator](#pii-evaluator), [Evaluator adapter](#evaluator-adapter).
+
+---
+
+### Category-namespaced reason code
+
+A [reason code](#reason-code) emitted in the canonical form `GR-0NN:<evaluator-family>:<code>`, tying every decision back to a specific [guardrail category](#guardrail-category) and giving the decision record a first-class `guardrail_category` field for per-category audit and reporting ([DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension), Proposed; design detail in [ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md), Proposed).
+
+See also: [Reason code](#reason-code), [Guardrail category](#guardrail-category), [Decision](#decision).
 
 ---
 
@@ -225,6 +233,14 @@ See also: [Guardrail policy](#guardrail-policy), [Control plane](#control-plane)
 
 ---
 
+### Governance class
+
+One of three classifications a [guardrail policy](#guardrail-policy) carries — **Mandatory (pinned)**, **Recommended (overridable)**, or **Own (consumer-authored)** — that determines who may set, strengthen, or override it. The effective policy for a workload is the mandatory base (locked) layered with consumer overrides and additions, per [policy inheritance (v0)](#policy-inheritance-v0) ([DEC-011](../00-source-of-truth/DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority), Proposed).
+
+See also: [Mandatory policy](#mandatory-policy), [Policy inheritance (v0)](#policy-inheritance-v0), [Guardrail policy](#guardrail-policy).
+
+---
+
 ### Graduation
 
 The governed pipeline by which a [Vision — uncommitted](#vision--uncommitted) catalog entry becomes committed scope: gating open question raised/resolved → decision recorded as a new AGR/DEC (the explicit scope-change decision required by [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §8) → CAP/FR entry created → phased delivery per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) ([`../50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10). Out-of-boundary entries have no graduation path — re-scoping one requires amending the underlying exclusion itself.
@@ -289,6 +305,14 @@ See also: [Connector](#connector), [Guarded Gateway](#guarded-gateway), [Remote 
 
 ---
 
+### Mandatory policy
+
+A policy at the **Mandatory (pinned)** [governance class](#governance-class). The security/governance role — never an application team or a tenant admin — holds the authority to mark a policy Mandatory at org/tenant scope; application teams may only strengthen it (earlier enforcement, tighter thresholds), never disable, unbind, downgrade below the pinned version floor, or otherwise weaken it, and a tenant admin cannot override an org-mandatory policy ([DEC-011](../00-source-of-truth/DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority), Proposed).
+
+See also: [Governance class](#governance-class), [Policy inheritance (v0)](#policy-inheritance-v0), [Guardrail policy](#guardrail-policy).
+
+---
+
 ### Observe mode
 
 The non-blocking [policy binding](#policy-binding) state in which every policy must be capable of running: decisions are recorded and measured without affecting production traffic. Observe mode is the required starting stage of the `Disabled → Observe → Warn → Redact → Block` progression, and onboarding workflows must default new bindings to Observe rather than Block ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
@@ -310,6 +334,14 @@ See also: [Deterministic evaluator](#deterministic-evaluator), [Evaluator adapte
 The association between a [workload](#workload) and a specific [guardrail policy](#guardrail-policy) version. A binding may also define observe or enforce mode, allowed workload-specific overrides, effective date, rollback version, and runtime compatibility requirements (`seed.md` §9). Policy binding is one of the six core domain entities that all architecture and implementation must be expressed in terms of ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 See also: [Workload](#workload), [Guardrail policy](#guardrail-policy), [Enforce mode](#enforce-mode), [Observe mode](#observe-mode).
+
+---
+
+### Policy inheritance (v0)
+
+The MVP-simple composition model for a workload's effective policy: mandatory base (locked) ⊕ consumer overrides and additions. This layering is the v0 form of inheritance, distinct from the structured inheritance/composition capability tracked separately as later-phase CAP-029 ([DEC-011](../00-source-of-truth/DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority), Proposed).
+
+See also: [Governance class](#governance-class), [Mandatory policy](#mandatory-policy), [Guardrail policy](#guardrail-policy).
 
 ---
 
