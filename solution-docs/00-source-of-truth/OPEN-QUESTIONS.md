@@ -64,32 +64,35 @@ stateDiagram-v2
   - [OQ-017 — Token and cost metadata in the evaluation contract](#oq-017--token-and-cost-metadata-in-the-evaluation-contract)
   - [OQ-018 — Evaluation-stage vocabulary expansion beyond the reserved seven](#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven)
   - [OQ-019 — Reason-code taxonomy and guardrail category as an audit/metric dimension](#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension)
+- [J. Policy authority](#j-policy-authority)
+  - [OQ-020 — Mandatory-policy authority (who may pin a policy as mandatory)](#oq-020--mandatory-policy-authority-who-may-pin-a-policy-as-mandatory)
 
 ---
 
 ## Summary table
 
-| ID | Question (condensed) | Owner | Target decision date | Impact if unresolved |
+| ID | Question (condensed) | Owner | Target decision date | Resolution |
 |---|---|---|---|---|
-| [OQ-001](#oq-001--enforcement-model-required-for-the-first-external-customers) | Which enforcement posture (cooperative, platform-managed, or network/IAM-enforced) is required for the first external customers? | Security and governance lead, Product lead | TBD — before any external-customer commitment | Risk of selling a bypassable connector as a hard boundary, or over-building enforcement no customer yet needs |
-| [OQ-002](#oq-002--privatelink--private-connectivity) | Is PrivateLink / private connectivity required for Mode A or Mode B, and by when? | Architecture lead, Security and governance lead | TBD — revisit at Phase 3/4 planning | Cannot onboard customers with strict network-egress requirements; or premature investment ahead of demand |
-| [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency) | Which AWS Regions are supported at GA, and how are per-tenant residency commitments enforced? | Product lead, Architecture lead | TBD — before Guarded Gateway GA | "Allowed Regions" exists in the domain model with no enforcement mechanism; residency claims could be made without a technical backstop |
-| [OQ-004](#oq-004--streaming-output-evaluation-timeline) | When does streaming output evaluation ship, and what applies to streaming workloads until then? | Technical lead | TBD — Phase 5 candidate, but the workload attribute exists now | Workloads with streaming requirements have no defined evaluation behavior; risk of false confidence that streaming is covered |
-| [OQ-005](#oq-005--retrieval-content-evaluation-and-indirect-prompt-injection-detection-timeline) | When are retrieval-content evaluation and indirect prompt-injection detection introduced? | Technical lead, Security and governance lead | TBD — Phase 5 candidate | RAG-based workloads onboard without a supported evaluation stage for retrieved content |
-| [OQ-006](#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope) | What is the scope and timing of tool-call validation, tool-result evaluation, and MCP authorization? | Technical lead, Product lead | TBD — Phase 5, pending explicit scope approval | Agentic workloads may assume tool-call safety the platform does not provide (relates to AGR-010) |
-| [OQ-007](#oq-007--human-approval-workflows-introduction-timing-and-ownership) | When are human approval workflows introduced, and who owns the approval UX? | Product lead | TBD — Phase 5 candidate | `require_approval` exists as a future decision action with no owning workflow or UI |
-| [OQ-008](#oq-008--multilingual-policy-pack-timeline) | When are multilingual policy packs introduced, and which languages first? | Product lead, Technical lead | TBD — no committed phase | Non-English workloads may receive degraded detection quality with no documented limitation |
-| [OQ-009](#oq-009--trigger-point-for-three-account-aws-separation) | What measurable trigger moves the MVP from two AWS accounts to three-or-more? | Platform operations lead, Security and governance lead | TBD — reassess at each phase gate, especially before Phase 3/4 | Account separation could be delayed past a compliance-driven need, or triggered prematurely and slow delivery |
-| [OQ-010](#oq-010--dedicated-tenant-runtimes-and-air-gapped-deployment-timeline) | When (if ever) are dedicated tenant runtimes and air-gapped installation offered? | Technical lead, Platform operations lead | TBD — no committed phase | Regulated or air-gapped prospects cannot be given a credible timeline |
-| [OQ-011](#oq-011--commercial-metering-and-policy-marketplace) | Will commercial metering and a policy marketplace be pursued, and on what timeline? | Product lead, business/commercial stakeholder (TBD) | TBD — revisit after Phase 3 usage patterns are observed | Phase 3 needs at least interim cost/rate tracking; without a decision, its scope is ambiguous |
-| [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design) | How will policy signing and policy inheritance work once introduced? | Technical lead, Security and governance lead | TBD — evaluate at Phase 2→Phase 3 transition | Workload-specific overrides could accumulate ungoverned (worsens policy-fragmentation risk); distributed policy artifacts to Mode C runtimes are unverifiable |
-| [OQ-013](#oq-013--customer-specific-evaluator-plugin-governance) | What is the security and compatibility review model for customer-specific evaluator plugins? | Technical lead, Security and governance lead | TBD — before this future-scope item is designed | Third-party evaluator code could be onboarded without a defined trust boundary |
-| [OQ-014](#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce) | What are the objective go/no-go criteria to promote a workload from observe to enforce? | Security and governance lead, workload owners | TBD — needed before Phase 2 onboarding scales past pilot workloads | Promotion stays subjective, risking premature enforcement or indefinite observe-mode stagnation |
-| [OQ-015](#oq-015--full-compliance-certification-target-and-scope) | Which compliance certifications (if any) are targeted, and for which phase? | Security and governance lead, Product lead | TBD — no committed phase | Security/compliance stakeholders (seed §7) have no certification roadmap to plan against |
-| [OQ-016](#oq-016--multi-region-active-active-availability-need) | Is multi-region active-active availability ever required, independent of data residency? | Architecture lead, Platform operations lead | TBD — no committed phase | Availability objective (seed §15) cannot be finalized without knowing the target topology |
-| [OQ-017](#oq-017--token-and-cost-metadata-in-the-evaluation-contract) | Do resource/cost guardrails (catalog GR-012) require extending the evaluation contract with token/cost metadata? | Technical lead, Architecture lead | TBD — before any GR-012 catalog entry is graduated | GR-012 vision entries cannot graduate; cost controls stay gateway-native with no platform-level classification |
-| [OQ-018](#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) | Should the evaluation-stage vocabulary expand beyond the seven reserved stages (e.g. `retrieval_query`, `agent_plan`, `memory_read`, `tool_selection`)? | Technical lead, Architecture lead | TBD — at Phase 5 scoping | Catalog items that need unreserved stages cannot be classified beyond Vision; risk of parallel stage vocabularies emerging |
-| [OQ-019](#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) | What is the canonical reason-code taxonomy, and does guardrail category become a first-class audit/metric dimension? | Technical lead, Security and governance lead | TBD — before Phase 2 onboarding scales | Per-category reporting and catalog-to-decision traceability remain unimplementable; reason codes stay evaluator-local |
+| [OQ-001](#oq-001--enforcement-model-required-for-the-first-external-customers) | Which enforcement posture (cooperative, platform-managed, or network/IAM-enforced) is required for the first external customers? | Security and governance lead, Product lead | TBD — before any external-customer commitment | Resolved by [DEC-010](DECISIONS.md#dec-010--serve-ai-guardrails-as-a-developer-service-with-mode-a-as-the-front-door) |
+| [OQ-002](#oq-002--privatelink--private-connectivity) | Is PrivateLink / private connectivity required for Mode A or Mode B, and by when? | Architecture lead, Security and governance lead | TBD — revisit at Phase 3/4 planning | Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture) |
+| [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency) | Which AWS Regions are supported at GA, and how are per-tenant residency commitments enforced? | Product lead, Architecture lead | TBD — before Guarded Gateway GA | Resolved by [DEC-018](DECISIONS.md#dec-018--multi-region-availability-at-ga) |
+| [OQ-004](#oq-004--streaming-output-evaluation-timeline) | When does streaming output evaluation ship, and what applies to streaming workloads until then? | Technical lead | TBD — Phase 5 candidate, but the workload attribute exists now | Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing) |
+| [OQ-005](#oq-005--retrieval-content-evaluation-and-indirect-prompt-injection-detection-timeline) | When are retrieval-content evaluation and indirect prompt-injection detection introduced? | Technical lead, Security and governance lead | TBD — Phase 5 candidate | Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing) |
+| [OQ-006](#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope) | What is the scope and timing of tool-call validation, tool-result evaluation, and MCP authorization? | Technical lead, Product lead | TBD — Phase 5, pending explicit scope approval | Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing) |
+| [OQ-007](#oq-007--human-approval-workflows-introduction-timing-and-ownership) | When are human approval workflows introduced, and who owns the approval UX? | Product lead | TBD — Phase 5 candidate | Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing) |
+| [OQ-008](#oq-008--multilingual-policy-pack-timeline) | When are multilingual policy packs introduced, and which languages first? | Product lead, Technical lead | TBD — no committed phase | Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture) |
+| [OQ-009](#oq-009--trigger-point-for-three-account-aws-separation) | What measurable trigger moves the MVP from two AWS accounts to three-or-more? | Platform operations lead, Security and governance lead | TBD — reassess at each phase gate, especially before Phase 3/4 | Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture) |
+| [OQ-010](#oq-010--dedicated-tenant-runtimes-and-air-gapped-deployment-timeline) | When (if ever) are dedicated tenant runtimes and air-gapped installation offered? | Technical lead, Platform operations lead | TBD — no committed phase | Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture) |
+| [OQ-011](#oq-011--commercial-metering-and-policy-marketplace) | Will commercial metering and a policy marketplace be pursued, and on what timeline? | Product lead, business/commercial stakeholder (TBD) | TBD — revisit after Phase 3 usage patterns are observed | Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture) |
+| [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design) | How will policy signing and policy inheritance work once introduced? | Technical lead, Security and governance lead | TBD — evaluate at Phase 2→Phase 3 transition | Resolved by [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority) (inheritance) and [DEC-015](DECISIONS.md#dec-015--evaluator-plugin-and-policy-signing-governance) (signing) |
+| [OQ-013](#oq-013--customer-specific-evaluator-plugin-governance) | What is the security and compatibility review model for customer-specific evaluator plugins? | Technical lead, Security and governance lead | TBD — before this future-scope item is designed | Resolved by [DEC-015](DECISIONS.md#dec-015--evaluator-plugin-and-policy-signing-governance) |
+| [OQ-014](#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce) | What are the objective go/no-go criteria to promote a workload from observe to enforce? | Security and governance lead, workload owners | TBD — needed before Phase 2 onboarding scales past pilot workloads | Resolved by [DEC-012](DECISIONS.md#dec-012--observe-to-enforce-promotion-criteria) |
+| [OQ-015](#oq-015--full-compliance-certification-target-and-scope) | Which compliance certifications (if any) are targeted, and for which phase? | Security and governance lead, Product lead | TBD — no committed phase | Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture) |
+| [OQ-016](#oq-016--multi-region-active-active-availability-need) | Is multi-region active-active availability ever required, independent of data residency? | Architecture lead, Platform operations lead | TBD — no committed phase | Resolved by [DEC-019](DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) |
+| [OQ-017](#oq-017--token-and-cost-metadata-in-the-evaluation-contract) | Do resource/cost guardrails (catalog GR-012) require extending the evaluation contract with token/cost metadata? | Technical lead, Architecture lead | TBD — before any GR-012 catalog entry is graduated | Resolved by [DEC-014](DECISIONS.md#dec-014--evaluation-contract-stability) |
+| [OQ-018](#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) | Should the evaluation-stage vocabulary expand beyond the seven reserved stages (e.g. `retrieval_query`, `agent_plan`, `memory_read`, `tool_selection`)? | Technical lead, Architecture lead | TBD — at Phase 5 scoping | Resolved by [DEC-014](DECISIONS.md#dec-014--evaluation-contract-stability) |
+| [OQ-019](#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) | What is the canonical reason-code taxonomy, and does guardrail category become a first-class audit/metric dimension? | Technical lead, Security and governance lead | TBD — before Phase 2 onboarding scales | Resolved by [DEC-013](DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) |
+| [OQ-020](#oq-020--mandatory-policy-authority-who-may-pin-a-policy-as-mandatory) | Who holds authority to mark a policy Mandatory, and can an app-team or tenant admin weaken or override a mandatory policy? | Security and governance lead, Product lead | Raised by the serving-model spec; resolved 2026-07-24 | Resolved by [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority) |
 
 ---
 
@@ -132,7 +135,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-001 — Enforcement model required for the first external customers
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-010](DECISIONS.md#dec-010--serve-ai-guardrails-as-a-developer-service-with-mode-a-as-the-front-door).
 **Question:** Which of the three enforcement postures defined in seed §8 — cooperative integration, platform-managed enforcement, or network/IAM-enforced gateway — will the first external (non-internal) customers actually require, and at what point in the five-phase delivery plan does that requirement need to be satisfied?
 **Owner:** Security and governance lead, Product lead
 **Target decision date:** TBD — must be resolved before any external-customer commitment is made, and no later than Phase 3 (Guarded Gateway) scope commitment.
@@ -146,7 +150,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-002 — PrivateLink / private connectivity
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture).
 **Question:** Is AWS PrivateLink or another form of private connectivity required for Mode A (Remote Evaluation) or Mode B (Guarded Gateway), and if so, by which delivery phase must it be available?
 **Owner:** Architecture lead, Security and governance lead
 **Target decision date:** TBD — revisit during Phase 3 (Guarded Gateway) and Phase 4 (Customer-Managed Runtime) planning, or immediately if a specific prospect requires it sooner.
@@ -158,7 +163,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-003 — Regional deployment strategy and data residency
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-018](DECISIONS.md#dec-018--multi-region-availability-at-ga).
 **Question:** Which AWS Regions will the hosted runtime support at general availability, and by what mechanism are a tenant's "Allowed Regions" (part of the Tenant entity, seed §9) actually enforced rather than merely recorded?
 **Owner:** Product lead, Architecture lead
 **Target decision date:** TBD — before Guarded Gateway (Phase 3) general availability, and required before any residency-sensitive customer is onboarded to a hosted mode.
@@ -172,7 +178,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-004 — Streaming output evaluation timeline
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing).
 **Question:** When is streaming output evaluation introduced, and what is the defined behavior for workloads that declare a streaming requirement before that capability ships?
 **Owner:** Technical lead
 **Target decision date:** TBD — currently a Phase 5 candidate (seed §18), but the Workload entity already carries a "Streaming requirements" attribute (seed §9) that implies an earlier need to define at least an interim behavior.
@@ -184,7 +191,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-005 — Retrieval-content evaluation and indirect prompt-injection detection timeline
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing).
 **Question:** When are the future evaluation stage `retrieval` (seed §9) and indirect prompt-injection detection (seed §6.2) introduced, and how do they interact with the connector-agnostic evaluation contract ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes))?
 **Owner:** Technical lead, Security and governance lead
 **Target decision date:** TBD — Phase 5 candidate per seed §18; no committed date.
@@ -196,7 +204,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-006 — Tool-call validation, tool-result evaluation, and MCP authorization scope
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing).
 **Question:** What is the intended scope and delivery timing of tool-call validation, tool-result evaluation, and MCP authorization (seed §6.2, Phase 5 in §18), and how will the platform avoid being perceived as a "general MCP security platform," which seed §6.3 explicitly excludes?
 **Owner:** Technical lead, Product lead
 **Target decision date:** TBD — Phase 5, pending an explicit scope-approval decision; must not be scheduled inside Phases 1–2 per [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery).
@@ -208,7 +217,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-007 — Human approval workflows: introduction timing and ownership
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-016](DECISIONS.md#dec-016--phase-5-agentic-scope-timing).
 **Question:** When are human approval workflows introduced (seed §6.2, §18 Phase 5), and which team owns the approval UX, the `require_approval` decision action (seed §9), and its audit trail?
 **Owner:** Product lead
 **Target decision date:** TBD — Phase 5 candidate; no committed date.
@@ -220,7 +230,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-008 — Multilingual policy pack timeline
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture).
 **Question:** When are multilingual policy packs (seed §6.2) introduced, and which languages are prioritized first?
 **Owner:** Product lead, Technical lead
 **Target decision date:** TBD — no committed phase.
@@ -234,7 +245,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-009 — Trigger point for three-account AWS separation
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture).
 **Question:** Seed §11 and [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) list qualitative triggers for moving beyond the minimal two-account model (external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, dedicated tenant deployments) — but what measurable threshold or decision process determines that a given trigger has actually been reached?
 **Owner:** Platform operations lead, Security and governance lead
 **Target decision date:** TBD — reassessed at each phase gate, with mandatory reassessment before Phase 3 (Guarded Gateway) and before onboarding any external or regulated customer.
@@ -246,7 +258,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-010 — Dedicated tenant runtimes and air-gapped deployment timeline
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture).
 **Question:** Seed §6.2 lists "dedicated hosted runtimes" and "air-gapped installation" as architecturally permitted future scope, while seed §17 explicitly excludes both from the MVP — on what timeline, if any, are they offered as supported deployment artifacts?
 **Owner:** Technical lead, Platform operations lead
 **Target decision date:** TBD — no committed phase; likely evaluated alongside Phase 4 (Customer-Managed Runtime) maturity.
@@ -260,7 +273,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-011 — Commercial metering and policy marketplace
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture).
 **Question:** Will commercial metering and a policy/evaluator marketplace (seed §6.2) be pursued as product capabilities, and if so, on what timeline relative to the five delivery phases — particularly relative to Phase 3, whose deliverables already include "cost and rate controls" (seed §18)?
 **Owner:** Product lead, business/commercial stakeholder (owner TBD)
 **Target decision date:** TBD — revisit after Phase 3 (Guarded Gateway) usage patterns are observed; no committed date for a marketplace.
@@ -274,7 +288,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-012 — Policy signing and policy inheritance design
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority) (inheritance) and [DEC-015](DECISIONS.md#dec-015--evaluator-plugin-and-policy-signing-governance) (signing).
 **Question:** Seed §6.2 lists policy signing and policy inheritance as permitted future scope, and seed §17 excludes "a policy-signing infrastructure" and "complex policy inheritance" from the MVP — what design and governance model will apply to each when introduced, and on what timeline?
 **Owner:** Technical lead, Security and governance lead
 **Target decision date:** TBD — evaluate at the Phase 2 → Phase 3 transition, once workload-specific override usage in production can inform the design, and no later than Phase 4 (Customer-Managed Runtime) given that mode's distributed-policy delivery.
@@ -286,7 +301,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-013 — Customer-specific evaluator plugin governance
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-015](DECISIONS.md#dec-015--evaluator-plugin-and-policy-signing-governance).
 **Question:** Seed §6.2 lists "customer-specific evaluator plugins" as permitted future scope — what security review, sandboxing, and compatibility model applies before any third-party or customer-authored evaluator can run inside the guardrail runtime?
 **Owner:** Technical lead, Security and governance lead
 **Target decision date:** TBD — must be resolved before this future-scope item is designed or built, not concurrently with the first plugin request.
@@ -300,7 +316,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-014 — Go/no-go criteria to move a workload from observe to enforce
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-012](DECISIONS.md#dec-012--observe-to-enforce-promotion-criteria).
 **Question:** Beyond the general five-state progression (Disabled → Observe → Warn → Redact → Block, seed §5.6, [AGR-011](AGREEMENTS.md#agr-011--observe-before-enforce-progression)), what specific, objective criteria determine that a given workload is ready to promote from observe to enforce?
 **Owner:** Security and governance lead, workload owners
 **Target decision date:** TBD — needed before Phase 2 onboarding scales beyond a small pilot set of workloads.
@@ -314,7 +331,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-015 — Full compliance certification target and scope
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-017](DECISIONS.md#dec-017--deployment-and-commercial-posture).
 **Question:** Seed §6.3 explicitly excludes "full compliance certification" from the MVP without naming which certification(s) are ever intended — which frameworks (if any) are targeted, and for which delivery phase?
 **Owner:** Security and governance lead, Product lead
 **Target decision date:** TBD — no committed phase.
@@ -326,7 +344,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-016 — Multi-region active-active availability need
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-019](DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase).
 **Question:** Seed §6.3 excludes "multi-region active-active availability" from the MVP — is active-active availability across Regions ever required as an availability objective (seed §15), independent of the data-residency question in [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency)?
 **Owner:** Architecture lead, Platform operations lead
 **Target decision date:** TBD — no committed phase.
@@ -340,7 +359,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-017 — Token and cost metadata in the evaluation contract
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-014](DECISIONS.md#dec-014--evaluation-contract-stability).
 **Question:** The guardrail-category catalog classifies resource, cost, and availability protection as category [GR-012](../20-product/GUARDRAIL-CATALOG.md#gr-012--resource-cost-and-availability-protection) with status Vision — uncommitted. Realizing platform-level cost/resource guardrails would require the evaluation contract to carry per-evaluation token counts, cost estimates, or quota context that it does not carry today. Is that contract extension warranted, or do cost and rate controls remain gateway-native (LiteLLM budgets, Phase 3 Guarded Gateway cost/rate controls per seed §18) with the platform limited to classification and observability?
 **Owner:** Technical lead, Architecture lead
 **Target decision date:** TBD — must be resolved before any GR-012 catalog entry is graduated into committed scope.
@@ -352,7 +372,8 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-018 — Evaluation-stage vocabulary expansion beyond the reserved seven
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-014](DECISIONS.md#dec-014--evaluation-contract-stability).
 **Question:** The domain model reserves seven evaluation stages — `input`, `output` (initial) and `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` (future) per seed §9. The guardrail-category catalog identifies candidate stages beyond these — for example `retrieval_query`, `agent_plan`, `memory_read`, and `tool_selection` — that some vision-classified guardrails would need. Should the reserved stage vocabulary be expanded, and if so, which candidates, in what order, and at which phase?
 **Owner:** Technical lead, Architecture lead
 **Target decision date:** TBD — evaluate at Phase 5 (Advanced agent protection) scoping, when the reserved agentic stages are themselves designed.
@@ -364,13 +385,29 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-019 — Reason-code taxonomy and guardrail category as an audit/metric dimension
 
-**Status:** Open
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-013](DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension).
 **Question:** Every decision carries reason codes, but the canonical reason-code taxonomy (enumerated codes, namespace convention, governance) is TBD per `50-architecture/COMPONENT-ARCHITECTURE.md` §10. Should reason codes be namespaced by guardrail category (GR-001 through GR-018), making category a first-class, queryable dimension of decisions, audit records, and platform metrics — and if so, who governs the code registry?
 **Owner:** Technical lead, Security and governance lead
 **Target decision date:** TBD — needed before Phase 2 onboarding scales, since reason codes are part of the evaluation contract ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) and retrofitting a namespace over live codes would be a breaking change.
 **Impact if unresolved:** Per-category decision counts, block rates, and catalog-to-decision traceability remain unimplementable; audit consumers cannot answer "which guardrail category fired" without evaluator-specific knowledge, weakening the vendor-independence that [AGR-004](AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) requires of everything downstream of the adapters.
 **Current working assumption:** Reason codes remain evaluator-adapter-defined and stable but un-namespaced. The guardrail category of a decision is derivable only indirectly (via which evaluator and policy configuration produced it), and no per-category metric is committed until the taxonomy is resolved. The catalog's category IDs are the natural namespace candidates when this is designed.
 **Related:** [AGR-004](AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model); [`50-architecture/COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md) §6.2/§10; [`50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md); [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md).
+
+---
+
+## J. Policy authority
+
+### OQ-020 — Mandatory-policy authority (who may pin a policy as mandatory)
+
+**Status:** Resolved
+**Resolution:** Resolved by [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority).
+**Question:** Curated policy packs ship with governance classes (Mandatory/pinned, Recommended/overridable, consumer-authored/Own), but who holds the authority to mark a policy Mandatory, and can an application/workload owner or a tenant admin weaken, unbind, or override a mandatory policy once pinned? This question was not originally enumerated in this register; it was raised directly by the serving-model design spec §3 while specifying the policy-inheritance half of [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design).
+**Owner:** Security and governance lead, Product lead
+**Target decision date:** Raised and resolved 2026-07-24, alongside the OQ-012 inheritance resolution.
+**Impact if unresolved:** Without a named authority, mandatory-policy pins could be silently weakened by an application team or a tenant admin, defeating the purpose of a "mandatory" governance class and reopening the policy-fragmentation risk that OQ-012 already flags.
+**Resolution summary:** Authority to mark a policy Mandatory rests with the security/governance role at org/tenant scope. Application/workload owners may strengthen a mandatory policy (earlier enforcement, tighter thresholds) but may never disable, unbind, downgrade below the pinned version floor, or weaken it; a tenant admin cannot override an org-mandatory policy. The effective policy for a workload is the mandatory base (locked) layered with consumer overrides/additions (inheritance v0). Cross-posture semantics are defined per enforcement posture (cooperative, platform-managed, network/IAM).
+**Related:** [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority); [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design); [AGR-005](AGREEMENTS.md#agr-005--policy-portability), [AGR-011](AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model), [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import).
 
 ---
 
