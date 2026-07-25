@@ -204,6 +204,8 @@ Disabled → Observe → Warn → Redact → Block
 
 *(seed.md §5.6; [`AGREEMENTS.md` AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression))*
 
+For the full serving and consumption model behind this flow — the Mode A front door, the managed/self-serve split, the integration contract, and the policy governance classes (Mandatory / Recommended / Own) — see [`20-product/SERVING-MODEL.md`](SERVING-MODEL.md).
+
 ---
 
 ## 9. What AI Guardrails is not

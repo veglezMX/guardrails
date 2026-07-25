@@ -122,6 +122,7 @@ Each table lists the documents in one directory with the authority level declare
 | [`CAPABILITIES.md`](20-product/CAPABILITIES.md) | L2 | The traceable capability catalog (`CAP-NNN`) — what the product does or will do, by delivery status. |
 | [`GUARDRAIL-CATALOG.md`](20-product/GUARDRAIL-CATALOG.md) | L2 | The guardrail-category taxonomy (`GR-001`–`GR-018`) — vision taxonomy with per-entry phase status and enforcement layer; classification, not commitment (AGR-021, DEC-009). |
 | [`PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md) | L4 | The start-here explanation of what AI Guardrails is, for product, sales, and solution-engineering audiences. |
+| [`SERVING-MODEL.md`](20-product/SERVING-MODEL.md) | L4 | How AI Guardrails is served and consumed — the Mode A front door, the managed/self-serve split, the integration contract, and the policy governance classes. |
 | [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) | L4 | States, without solutioning, the problem that justifies building AI Guardrails. |
 | [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) | L4 | Value proposition per stakeholder group — platform teams, application teams, security/compliance, product operators. |
 | [`DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md) | L4 | What distinguishes AI Guardrails from an embedded gateway feature or a single-vendor moderation add-on. |
