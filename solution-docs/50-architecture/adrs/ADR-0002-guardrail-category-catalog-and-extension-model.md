@@ -1,6 +1,6 @@
 **Title: ADR-0002 — Adopt a Guardrail-Category Catalog and a Four-Seam Extension Model**
 
-**Authority level:** L1 (once Accepted)
+**Authority level:** L1 (Accepted — pending owner ratification)
 **Status:** Draft
 **Date:** 2026-07-24
 **Derived from:** seed.md + AGREEMENTS.md
@@ -11,9 +11,9 @@
 
 ## Status
 
-**Proposed**
+**Accepted (pending owner ratification)**
 
-This ADR records the design behind [AGR-021](../../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) and [DEC-009](../../00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision). Until this ADR's status reads `Accepted`, it does not itself carry L1 authority — AGR-021 and DEC-009 do. Per [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../../00-source-of-truth/TRACEABILITY-MATRIX.md), a Proposed ADR does not close the traceability gap for AGR-021.
+This ADR records the design behind [AGR-021](../../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) and [DEC-009](../../00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision). Its Validation Required §2 exercise — the first end-to-end catalog graduation — has now been run and recorded as [DEC-020](../../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope); see Validation Required below. On this working branch, all new decisions land `Proposed` / owner-to-ratify, and the owner ratifies by merging; this ADR's status is recorded here as `Accepted` in that sense — it becomes the L1 record of authority (superseding the need to cite AGR-021/DEC-009 for what this ADR itself settles) once the branch is merged. Per [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../../00-source-of-truth/TRACEABILITY-MATRIX.md), the AGR-021 traceability row closes on the ADR-track upon that ratification.
 
 ## Context
 
@@ -102,6 +102,8 @@ This ADR is validated when:
 
 1. The catalog and extensibility documents exist, are registered in `70-governance/DOCUMENT-GOVERNANCE.md` §4, and contain no statement contradicting `AGREEMENTS.md`, `CONSTRAINTS.md`, or seed.md §6.3 (checked via the claims-register review).
 2. The first real graduation exercise is executed end-to-end: one `Vision — uncommitted` entry is taken through OQ → AGR/DEC → CAP/FR classification per `EXTENSIBILITY-ARCHITECTURE.md` §10, demonstrating the pipeline works and produces a recorded scope-change decision rather than a silent promotion.
+
+   **Executed.** [`GUARDRAIL-CATALOG.md`](../../20-product/GUARDRAIL-CATALOG.md) GR-017's "Per-category decision metrics" item was taken through the pipeline: gating question [OQ-019](../../00-source-of-truth/OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) (resolved by [DEC-013](../../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension)) → recorded scope-change decision [DEC-020](../../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) → CAP classification (new CAP-037, pending formal `CAPABILITIES.md`/`TRACEABILITY-MATRIX.md` registration at ratification). The catalog entry now reads `Later phase — committed (proposed, DEC-020)`, not a silent status edit — the change is traceable to DEC-020 by name.
 3. The claims register review confirms no approved external wording claims delivered or committed coverage for vision or out-of-boundary categories.
 
 ## Related Agreements

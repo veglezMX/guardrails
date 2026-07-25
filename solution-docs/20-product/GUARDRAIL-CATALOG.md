@@ -90,6 +90,10 @@ OWASP LLM-risk identifiers and NIST AI RMF functions appear per category **for o
 
 The `Stages used` field draws on the reserved stage vocabulary of seed.md §9 (`input`, `output` now; `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` reserved for later phases). A stage marked **(proposed, not reserved)** exists only as a catalog candidate gated on [OQ-018](../00-source-of-truth/OPEN-QUESTIONS.md#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) and must not appear in policy schemas or contracts.
 
+### Reason codes
+
+Per [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) / [ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) (Proposed), every reason code is namespaced by category — `GR-0NN:<evaluator-family>:<code>` — making guardrail category a first-class audit/metric dimension of the decision record, not just a classification label on this catalog.
+
 ---
 
 ## Category status lifecycle
@@ -692,7 +696,7 @@ Measure whether guardrails work and respond when they do not: latency and decisi
 | Decision-distribution monitoring | Allow/block/redact/log_only rates per tenant, workload, policy version, stage. | Core (Phases 1–2) |
 | Connector-health telemetry | Reachability, timeout rate, error rate — distinct from decisions; never proof of enforcement (AGR-018). | Core (Phases 1–2) |
 | Observe-mode false-positive measurement | The measurement loop behind observe-before-enforce (AGR-011). | Core (Phases 1–2) |
-| Per-category decision metrics | Block/redact rates by guardrail category. | Vision — uncommitted (gated on OQ-019) |
+| Per-category decision metrics | Block/redact rates by guardrail category. | Later phase — committed (proposed, DEC-020) |
 | Detector-disagreement and threshold-drift monitoring | Comparing evaluator verdicts over time. | Vision — uncommitted |
 | Adversarial regression suites, scheduled red-teaming | Ongoing attack-simulation programs against policies. | Vision — uncommitted |
 | Gateway-bypass detection | Detecting traffic that never reached evaluation; posture-dependent (AGR-018). | Vision — uncommitted |

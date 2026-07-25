@@ -51,6 +51,7 @@ Each entry uses a fixed shape:
 | [DEC-017](#dec-017--deployment-and-commercial-posture) | 2026-07-24 | Deployment and commercial posture | Proposed | AGR-013, AGR-018, AGR-020 |
 | [DEC-018](#dec-018--multi-region-availability-at-ga) | 2026-07-24 | Multi-region availability at GA | Proposed | AGR-006, AGR-008, AGR-013 |
 | [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) | 2026-07-24 | Multi-region active-active availability committed as a later phase | Proposed | AGR-002, AGR-006 |
+| [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | 2026-07-24 | Graduate the GR-017 "per-category decision metrics" catalog entry from Vision — uncommitted to Later phase — committed (ADR-0002 §2 validation exercise) | Proposed | AGR-021, AGR-017, AGR-006 |
 
 ---
 
@@ -311,6 +312,20 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 **Related decisions:** [DEC-008](#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) (estimation basis)
 **Owners:** Architecture lead, platform-ops lead, product lead; register-level — owner ratification required
 **Closes:** OQ-016
+
+---
+
+## DEC-020 — Graduate GR-017 per-category decision metrics from vision to committed scope
+
+**Date:** 2026-07-24
+**Status:** Proposed
+**Decision:** This is the ADR-0002 Validation Required §2 graduation exercise — the first real, end-to-end run of the catalog graduation pipeline ([`EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10), executed to demonstrate that the pipeline produces a recorded scope-change decision rather than a silent promotion. The single catalog item graduated is [`GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) GR-017's "Per-category decision metrics" (block/redact rates by guardrail category). Its status moves from `Vision — uncommitted` to `Later phase — committed`, **pending owner ratification**. Committed scope is a new later-phase capability, **new CAP-037 — Per-category decision metrics**: extending the existing decision-distribution metric (`OPERABILITY.md` §3) with a `guardrail_category` dimension over data the decision record already carries. No evaluation-contract field, stage, or action changes (AGR-006 unaffected) — this is a reporting/aggregation capability, not a new domain concept (AGR-017). Formal registration of CAP-037 in `CAPABILITIES.md` and the corresponding `TRACEABILITY-MATRIX.md` row (graduation-pipeline step 3) follow at owner ratification; until then, `GUARDRAIL-CATALOG.md` records the item's status as "Later phase — committed (proposed, DEC-020)".
+**Context:** The item was blocked on [OQ-019](OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) ("gated on OQ-019" in the catalog; "not committed" per `OPERABILITY.md` §3/§6.1, pending the reason-code taxonomy). [DEC-013](#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) resolved OQ-019 by adopting the category-namespaced reason-code taxonomy (`GR-0NN:<evaluator-family>:<code>`) and adding `guardrail_category` as a first-class decision field (design in ADR-0003, Proposed). With that dependency resolved, per-category decision metrics need no new contract surface — only an aggregation capability over a field the decision record already gains once DEC-013/ADR-0003 ratify. That makes it a low-scope, representative first exercise of the graduation pipeline: the gating OQ was already raised and resolved, so this decision exercises precisely the "record the decision → commit the scope" half of `EXTENSIBILITY-ARCHITECTURE.md` §10 that ADR-0002 §2 requires be demonstrated.
+**Related agreements:** [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) (the graduation pipeline this decision exercises), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model) (extend-don't-fork — a metric dimension, not a new entity), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) (contract unaffected)
+**Related decisions:** [DEC-013](#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) (resolves OQ-019; supplies the `guardrail_category` field this graduation depends on), [DEC-009](#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision) (adopts the catalog this entry graduates within)
+**Related ADRs:** [`ADR-0002`](../50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) — this decision is the Validation Required §2 graduation exercise for that ADR; [`ADR-0003`](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) (Proposed) — supplies the reason-code/`guardrail_category` design this graduation builds on.
+**Owners:** Technical lead, security & governance lead; register-level — owner ratification required
+**Closes:** none (OQ-019 was already closed by DEC-013); this decision performs the recorded-decision → CAP/FR-classification step of the graduation pipeline for the GR-017 "per-category decision metrics" entry.
 
 ---
 
