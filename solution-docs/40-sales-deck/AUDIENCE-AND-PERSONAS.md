@@ -22,7 +22,7 @@ Four of the five personas map directly onto the stakeholder groups named in seed
 | Security & Compliance Lead | Security and compliance teams |
 | Product Operator | Product operators |
 
-The fifth persona, **Executive Sponsor**, is not a named stakeholder group in seed.md §7 — a sales deck needs a decision-maker persona that §7 does not itemize. It is synthesized from material elsewhere in the charter that speaks directly to an executive audience: the product vision (seed.md §2), the decision summary and product statement (seed.md §22–§23), the success-metrics framework (seed.md §19), the key-risks register (seed.md §20, especially "product over-expansion"), and the phased-delivery and MVP-boundary agreements ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)). Nothing in the Executive Sponsor profile below asserts a figure the charter does not supply.
+The fifth persona, **Executive Sponsor**, is not a named stakeholder group in seed.md §7 — a sales deck needs a decision-maker persona that §7 does not itemize. It is synthesized from material elsewhere in the charter that speaks directly to an executive audience: the product vision (seed.md §2), the decision summary and product statement (seed.md §22–§23), the success-metrics framework (seed.md §19), the key-risks register (seed.md §20, especially "product over-expansion"), the phased-delivery agreement ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), and the full-feature-set scope decision ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); scope boundaries per seed.md §6 and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)). Nothing in the Executive Sponsor profile below asserts a figure the charter does not supply.
 
 ---
 
@@ -33,7 +33,7 @@ The fifth persona, **Executive Sponsor**, is not a named stakeholder group in se
 | **Platform / Enablement Lead** | "How do I stop every team reinventing guardrails?" | One versioned policy, bound by many workloads through a thin connector — you own the policy, not each team's detection logic. | "Why build a whole new platform instead of just extending our existing LiteLLM instance?" |
 | **Application / Engineering Lead** | "What does this do to my request path?" | Keep your gateway and provider; bind a policy, run it in observe mode, and only enforce once you've seen the evidence. | "What's the latency cost, and what happens to my traffic when evaluation times out or the API is down?" |
 | **Security & Compliance Lead** | "Can I trust this is actually enforced?" | Every decision is versioned and reason-coded, and the platform tells you plainly which of three enforcement postures a workload really has. | "A cooperative connector can be removed or misconfigured — how is that acceptable evidence for a regulated workload?" |
-| **Executive Sponsor** | "What am I actually approving, and what does it cost?" | This is a bounded, falsifiable Phase 1 — prove the reusable-policy hypothesis with two independent teams before any further phase is funded. | "Give me the ROI and the timeline — and why phase this instead of building the whole governance platform now?" |
+| **Executive Sponsor** | "What am I actually approving, and what does it cost?" | Approve the full solution — defined and estimated across five phases — delivered with a validation gate after every phase, starting with a falsifiable Phase 1–2 demonstration by two independent teams. | "Give me the ROI and the timeline — and why gate delivery in phases instead of building everything at once?" |
 | **Product Operator** | "How do I run this at scale without flying blind?" | Tenant, workload, policy, and binding are registered, first-class entities from day one — not a spreadsheet you maintain yourself. | "Where's the admin portal to manage all of this centrally?" |
 
 ---
@@ -93,7 +93,7 @@ This is the exact question [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001
 **The message that lands:**
 > "You keep your gateway, your model provider, and your routing exactly as they are today. You bind a policy, run it in observe mode against real traffic, and only move to enforcement once you've reviewed the evidence yourself — never as a side effect of someone else's rollout."
 
-This is the onboarding flow itself (seed.md §4; [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)): register workload, select policy, generate integration manifest, install connector, run in observe mode, review results, enable enforcement — and the observe-before-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)) that defaults every new binding to Observe, not Block.
+This is the onboarding flow itself (seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)): register workload, select policy, generate integration manifest, install connector, run in observe mode, review results, enable enforcement — and the observe-before-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)) that defaults every new binding to Observe, not Block.
 
 **The objection they will raise:**
 > "This adds a synchronous call into my request path before and after every model invocation. What's the latency cost, and what happens to my traffic when the Evaluation API is slow, a detector is unavailable, or the control plane can't be reached?"
@@ -118,7 +118,7 @@ The honest answer is that failure behavior is mandatory and explicit, not implic
 
 **Top pains:**
 - Fragmented, bespoke guardrails cannot produce comparable evidence across workloads, because each team's implementation records different things — or nothing at all ([`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §2.3, §6).
-- A cooperative connector — the only enforcement posture the initial MVP requires — can be disabled, removed, or misconfigured by the team that installs it, and must never be represented as a hard security boundary (seed.md §8, §20 "Connector bypass"; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
+- A cooperative connector — the only enforcement posture the initial delivery (Phases 1–2) requires — can be disabled, removed, or misconfigured by the team that installs it, and must never be represented as a hard security boundary (seed.md §8, §20 "Connector bypass"; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 - Teams may conflate "guardrail evaluation passed" with "this workload is fully secure," when in fact authorization, tenant isolation, and application security remain the consuming application's responsibility (seed.md §5.5, §20 "False confidence"; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 - Content-retention posture must be independently verifiable per deployment, not inferred from who operates the infrastructure (seed.md §5.4; [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 
@@ -142,24 +142,24 @@ Both halves of this objection are legitimate and must be answered honestly, not 
 
 **Goals** (derived from seed.md §2 product vision, §22 decision summary, §23 product statement):
 - A model-independent, deployment-flexible platform that lets the organization define governance once rather than pay for it repeatedly per team.
-- A validated hypothesis before further investment, not a large up-front commitment to an unproven capability.
+- A fully defined and estimated scope up front, with a validated hypothesis at every phase gate — execution of each phase proceeds only after the prior phase validates.
 - Strategic alignment: reusability over duplicated engineering spend, and a graduated trust model rather than an overreaching, all-at-once enforcement mandate.
 - Confidence that the initiative will not silently expand into adjacent, unapproved scope (authorization, full AI governance, agent orchestration) before its core premise is proven (seed.md §20 "Product over-expansion").
 
 **Top pains:**
 - No dollar-value ROI, adoption percentage, or SLA figure exists in the source material to justify the investment on a numeric basis alone — the case must be made qualitatively, and the deck must say so rather than inventing a number (seed.md §19; [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §3, §7).
-- Every adjacent capability — gateway replacement, full governance platform, agent authorization, organization-wide enforcement — is a plausible scope-creep target that could turn a bounded MVP into an open-ended program (seed.md §6.3, §20 "Product over-expansion"; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)).
-- A phased commitment (five phases; seed.md §18) requires trusting that each phase will actually be gated on the prior one's validated outcome, not on schedule momentum alone ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)).
+- Every excluded adjacent capability — gateway replacement, full governance platform, business authorization, organization-wide enforcement — is a plausible scope-creep target that could turn a bounded delivery into an open-ended program (seed.md §6.3, §20 "Product over-expansion"; [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)).
+- A phased commitment (five phases; seed.md §18) requires trusting that each phase will actually be gated on the prior one's validated outcome, not on schedule momentum alone ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 **The message that lands:**
-> "This is a bounded, falsifiable Phase 1, not a bet on a finished platform: approve resourcing to prove that one reusable policy applies consistently across two organizationally independent LiteLLM deployments, with no shared credentials and no undocumented failure behavior — then decide, phase by phase, whether to fund the next one."
+> "This is a fully defined, fully estimated solution with a disciplined delivery, not an open-ended program: approve the full feature set across five phases, starting with a falsifiable Phase 1–2 validation demonstration — one reusable policy applied consistently across two organizationally independent LiteLLM deployments, no shared credentials, no undocumented failure behavior — with each subsequent phase proceeding only after the prior one validates."
 
-This is the exact ask in the decision summary and MVP success demonstration (seed.md §16, §22; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)), and is the same decision framed in [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10.
+This is the exact ask in the decision summary and the Phase 1–2 validation demonstration (seed.md §16, §22; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)), and is the same decision framed in [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10.
 
 **The objection they will raise:**
 > "Give me the ROI and the timeline. And if the goal is organization-wide governance eventually, why phase this at all instead of building the complete platform — including authorization and agent protection — now?"
 
-The honest answer, again, is not a number the material doesn't have: budget, headcount, and delivery-date figures for Phase 1 are **TBD**, tracked as open items pending confirmation from delivery and product leads ([`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §7; [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)). On phasing: attempting authorization, full governance, and agent orchestration alongside the core reusable-policy problem is precisely the "product over-expansion" risk the charter names (seed.md §20) — five sequenced phases exist so that each phase's operational and security scope is only taken on once the smaller, prior phase has proven the hypothesis it depends on ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)).
+The honest answer, again, is not a number the material doesn't have: budget, headcount, and delivery-date figures are **TBD** until the full-feature-set estimation is supplied, tracked as open items pending confirmation from delivery and product leads ([`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §7; [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)). On phasing: attempting everything at once alongside the core reusable-policy problem is precisely the "product over-expansion" risk the charter names (seed.md §20) — five sequenced phases exist so that each phase's operational and security scope is only taken on once the smaller, prior phase has proven the hypothesis it depends on ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 ---
 
@@ -181,7 +181,7 @@ The honest answer, again, is not a number the material doesn't have: budget, hea
 - Without a shared registry, there is no way to know what tenants, workloads, and policy bindings actually exist across a growing portfolio ([`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §6).
 - Fragmented, bespoke guardrail implementations produce no comparable service-health or usage signal — each one records different things, if anything at all.
 - As three deployment modes are adopted in parallel, deployment-compatibility drift (which policy version a given runtime or connector actually supports) becomes an operational risk without explicit tracking (seed.md §9 "Policy," §15 "Policy rollout").
-- The MVP intentionally does not ship a full administration portal — operators must be prepared to work through a minimal management API and version-controlled configuration during this phase (seed.md §17).
+- The initial phases intentionally do not ship a full administration portal — operators must be prepared to work through a minimal management API and version-controlled configuration during the early phases (seed.md §17).
 
 **The message that lands:**
 > "Tenant, workload, policy, and policy binding are first-class, registered domain entities from day one — not implicit knowledge scattered across teams. You get evaluation-API availability, timeout rate, detector-specific latency, decision distribution, and policy-cache hit rate as defined operational signals, plus immutable policy versions with controlled promotion and immediate rollback."
@@ -191,7 +191,7 @@ This is the domain model (seed.md §9; [AGR-017](../00-source-of-truth/AGREEMENT
 **The objection they will raise:**
 > "Where's the full administration portal to manage all of this centrally?"
 
-The MVP does not include one, and the deck must say so rather than imply otherwise: a complete administration portal is explicitly named as an MVP non-goal (seed.md §17); a minimal management API and version-controlled configuration are what the MVP provides instead. This is a scope trade-off consistent with the MVP's tight boundary ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)), not an oversight, and should be framed to product operators as "which phase does the fuller operator experience land in," not denied.
+The early phases do not include one, and the deck must say so rather than imply otherwise: a complete administration portal is explicitly named as a non-goal for the initial delivery (seed.md §17); a minimal management API and version-controlled configuration are what the Phase 1–2 core provides instead. This is a sequencing trade-off consistent with the phase-gated delivery (seed.md §6; [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), not an oversight, and should be framed to product operators as "which phase does the fuller operator experience land in," not denied.
 
 ---
 
@@ -211,7 +211,7 @@ flowchart LR
         PO["Product Operator"]
     end
 
-    EX -->|"funds Phase 1, gates Phases 2-5"| PL
+    EX -->|"funds the five-phase solution,<br/>each phase gated on validation"| PL
     PL -->|"defines policy, hands connector to"| AL
     AL -->|"observe-mode results reviewed by"| SC
     SC -->|"approves promotion to enforce"| PL
@@ -230,7 +230,7 @@ A single deck rarely presents all five personas in one uninterrupted narrative t
 1. **Application / Engineering Lead** — establish that adoption does not require ripping out an existing gateway or provider, and that nothing blocks production traffic on day one.
 2. **Platform / Enablement Lead** — establish that one policy, centrally owned, replaces per-team reinvention.
 3. **Security & Compliance Lead** — establish that the resulting evidence and enforcement posture are honest, versioned, and auditable — not asserted.
-4. **Executive Sponsor** — close with the bounded, phased investment ask, now that the audience understands what is actually being adopted and governed.
+4. **Executive Sponsor** — close with the full-solution, phase-gated investment ask, now that the audience understands what is actually being adopted and governed.
 5. **Product Operator** — used in operationally focused conversations (platform engineering reviews, SRE handoffs) rather than in the primary sales narrative, since this persona's concerns are largely post-decision.
 
 This sequencing is a presentation recommendation for deck authors, not a claim recorded in the agreements register.
@@ -245,7 +245,7 @@ Every "message that lands" above uses "designed to / supports / is intended to" 
 - Do not tell the Security & Compliance Lead or the Executive Sponsor that a cooperative-mode connector is bypass-proof — it is not, per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
 - Do not tell the Application / Engineering Lead or Security & Compliance Lead that Remote Evaluation keeps content local — it does not, per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model).
 - Do not tell any persona that a guardrail decision constitutes authorization — it does not, per [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
-- Do not tell the Executive Sponsor that Phase 1 approval commits leadership to Phases 2 through 5 — each remains a separately gated decision, per [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) and [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10.
+- Do not tell the Executive Sponsor that any Phase 3, 4, or 5 capability is available or delivered today — the full solution is approved and estimated, but execution proceeds phase by phase, each validated before the next, per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10.
 
 ---
 

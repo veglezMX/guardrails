@@ -254,7 +254,7 @@ Failure behavior is part of the policy, not an implementation detail left to the
 | B — Guarded Gateway | Inside the provider-managed LiteLLM instance underlying the Guarded Gateway. | The provider's own Guardrails Runtime, in-process or over the private network. |
 | C — Customer-Managed Runtime | Inside the customer's LiteLLM or application. | The customer-hosted Guardrails Runtime, including its local policy cache and Bedrock Guardrails adapter. |
 
-The connector contract itself does not change across modes — only the network destination of the Evaluation API does. This is what allows the runtime to later be packaged for customer-managed deployment without changing the connector contract ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+The connector contract itself does not change across modes — only the network destination of the Evaluation API does. This is what allows the runtime to later be packaged for customer-managed deployment without changing the connector contract (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 
@@ -300,7 +300,7 @@ The product must later support additional integrations — further gateways, age
 3. **Evaluation engines implement an adapter contract, not a decision contract.** Adding a new evaluation engine means normalizing its native output into the existing decision structure (§3.3, §6) — the decision engine and audit producer are unaffected.
 4. **Conformance is testable independently of any one integration.** Because the contract is defined once (§3) and shared across modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)), a conformance test suite can validate any new connector or engine against the same fixtures used for LiteLLM and Bedrock Guardrails, without bespoke per-integration test design.
 
-The MVP success demonstration directly exercises this property: two independent LiteLLM instances must consume the same policy and receive consistent normalized decisions, and the runtime must later be packaged for customer-managed deployment without changing the connector contract ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+The Phase 1–2 validation demonstration directly exercises this property: two independent LiteLLM instances must consume the same policy and receive consistent normalized decisions, and the runtime must later be packaged for customer-managed deployment without changing the connector contract (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 

@@ -18,31 +18,80 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [2026-07-24 — Guardrail-category catalog and extensibility architecture](#2026-07-24--guardrail-category-catalog-and-extensibility-architecture)
 - [2026-07-24 — Initial documentation set](#2026-07-24--initial-documentation-set)
 
 ---
 
 ## [Unreleased]
 
-No documentation-set changes are currently pending.
+**Change type:** Path A (amendment of the L1 register, propagated to every derived layer)
+**Trigger:** [DEC-008](00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — the MVP-bounded scope was too narrow to support a valid delivery estimation; the solution is now defined and estimated over the full feature set, delivered across five phases.
+**Owner:** Product lead, Technical lead (joint)
 
 ### Added
-- _Nothing yet._
+- [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) **DEC-008** — supersedes DEC-005; records the removal of the MVP scope boundary and MVP success demonstration from the register, the register renumbering, and the full-feature-set estimation basis.
 
 ### Changed
-- _Nothing yet._
+- [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) renumbered: "Meaning of import" is now **AGR-019**, "Five-phase delivery" is now **AGR-020**; register is AGR-001–AGR-020 (20 agreements).
+- Scope reframed across the derived set (charter, product, executive, sales-deck, architecture, delivery, governance, agent-input layers): the core capability set (former "MVP scope") is now **Phases 1–2 core scope**, and the former "future scope" capabilities are **later-phase scope — committed and estimated (Phases 3–5)**. Phase gating per AGR-020 is unchanged; the seed.md §6.3 product-category exclusions remain excluded; the claims discipline (AGR-009, AGR-010, AGR-018, TBD figures) is unchanged.
+- Executive and sales-deck ask reframed: approval of the full solution (five-phase program) on a full-feature estimation basis, replacing the Phase-1-only ask; budget/headcount figures remain TBD until supplied.
+- The two-independent-LiteLLM-instances demonstration reframed from register-level "MVP success demonstration" to the **Phase 1–2 validation demonstration** owned by [`60-delivery/VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md).
+- [`40-sales-deck/AI-Guardrails-Project-Proposal.pptx`](40-sales-deck/) regenerated to match the reframed proposal.
 
 ### Deprecated
-- _Nothing yet._
+- _Nothing._
 
 ### Removed
-- _Nothing yet._
+- Former **AGR-019 — MVP scope boundaries** and former **AGR-020 — MVP success demonstration** removed from [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) per DEC-008.
 
 ### Fixed
-- _Nothing yet._
+- _Nothing._
 
 ### Security
-- _Nothing yet._
+- _Nothing._
+
+---
+
+## [2026-07-24] — Guardrail-category catalog and extensibility architecture
+
+**Change type:** Path A ([AGR-021](00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) appended to the L1 register) propagated through the derived set
+**Trigger:** [DEC-009](00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision) — adopt an eighteen-category guardrail taxonomy as directional vision and formalize the architecture's growth model, so incremental guardrail additions are governed instead of ad hoc.
+**Owner:** Product lead, Technical lead, Security and governance lead (joint)
+
+### Added
+- [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) **AGR-021** — Guardrail-category taxonomy and extension model (register is now AGR-001–AGR-021).
+- [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) **DEC-009** — adopt the catalog as directional vision; Vision-status entries stay outside the DEC-008 estimation basis.
+- [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) **OQ-017** (token/cost metadata in the evaluation contract), **OQ-018** (stage-vocabulary expansion beyond the reserved seven), **OQ-019** (reason-code taxonomy and category as an audit/metric dimension), under a new theme "I. Guardrail-catalog growth and contract vocabulary".
+- [`20-product/GUARDRAIL-CATALOG.md`](20-product/GUARDRAIL-CATALOG.md) — **new L2 register**: eighteen change-controlled categories `GR-001`–`GR-018` with enforcement layer, control types, stages, evaluator family, four-value phase status (`Core` / `Later phase — committed` / `Vision — uncommitted` / `Out-of-boundary`), illustrative item tables, an out-of-boundary and exclusion map with named external owners, and a vision-status policy-pack sketch.
+- [`50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](50-architecture/EXTENSIBILITY-ARCHITECTURE.md) — **new L3 document**: the four extension seams (new stage / new engine / new action / new connector) with per-seam process, inherited constraints, conformance rules, and governance gates; the category attachment model; and the catalog graduation pipeline (§10).
+- [`50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) — **Proposed** ADR recording the design and alternatives.
+- [`50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) **NFR-MAINT-003** — bounded evaluator and category sprawl.
+- [`50-architecture/TECHNICAL-RISKS.md`](50-architecture/TECHNICAL-RISKS.md) **§4.9** — category-taxonomy drift and evaluator sprawl (risk #9).
+- [`50-architecture/TRADE-OFFS.md`](50-architecture/TRADE-OFFS.md) **§10** — guardrail-coverage breadth vs. contract surface and evaluation latency (decision #7); subsequent sections renumbered.
+- [`70-governance/RISK-REGISTER.md`](70-governance/RISK-REGISTER.md) **RSK-010** — guardrail catalog misread as commitment / taxonomy drift.
+- [`70-governance/CLAIMS-REGISTER.md`](70-governance/CLAIMS-REGISTER.md) §7 — new **Not approved** row: "covers all eighteen guardrail categories / complete AI-risk coverage", with approved substitute wording.
+- [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) — new terms: guardrail category, guardrail item, control type, enforcement layer, extension seam, graduation, policy pack, Vision — uncommitted.
+
+### Changed
+- [`TRACEABILITY-MATRIX.md`](00-source-of-truth/TRACEABILITY-MATRIX.md) — AGR-021 row, ADR-0002 backlog row, coverage-check row for the new Not-approved claim; register-range text updated to AGR-001–AGR-021 (also in [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) and [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md)).
+- [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) — new "Guardrail-category cross-reference" section (GR→CAP mapping; "the catalog classifies, CAPABILITIES commits").
+- [`20-product/PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) — new "Guardrail-category coverage by phase" view; Vision/Out-of-boundary categories appear in no phase row.
+- [`50-architecture/CONTAINER-ARCHITECTURE.md`](50-architecture/CONTAINER-ARCHITECTURE.md) §5, [`REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) §13–§14 (new `Guardrail category` column on FR-078–FR-094), [`SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) §10–§11 (GR-009/GR-010 boundary reconciliation), [`DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) §5 (catalog owns the category×mode statement), [`OPERABILITY.md`](50-architecture/OPERABILITY.md) §3/§6.1 (category as planned metric dimension, gated on OQ-019), [`ARCHITECTURE-REPORT.md`](50-architecture/ARCHITECTURE-REPORT.md) §3.3/§7.2, and [`TECHNICAL-RISKS.md`](50-architecture/TECHNICAL-RISKS.md) §4.5/§4.8 — cross-references to the catalog and extension model added.
+- [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §4 — documentation-set map rows for both new documents; [`70-governance/REFERENCES.md`](70-governance/REFERENCES.md) — internal rows for both new documents, §11 retitled to include the NIST AI RMF orientation reference; [`70-governance/RISK-REGISTER.md`](70-governance/RISK-REGISTER.md) RSK-006 — catalog noted as the over-expansion mitigation channel; [`50-architecture/adrs/README.md`](50-architecture/adrs/README.md) — ADR-0002 indexed as Proposed.
+- [`README.md`](README.md) §5 and [`DOCUMENT-MAP.md`](DOCUMENT-MAP.md) — both new documents and ADR-0002 registered in the navigation set.
+
+### Deprecated
+- _Nothing._
+
+### Removed
+- _Nothing._
+
+### Fixed
+- _Nothing._
+
+### Security
+- _Nothing._
 
 ---
 

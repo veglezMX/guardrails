@@ -25,7 +25,7 @@ AI Guardrails is a policy, evaluation, and enforcement layer for applications an
 * **Measure guardrail effectiveness in observe mode before any policy becomes blocking**, so teams adopt enforcement deliberately rather than by default.
 * **Evolve enforcement posture over time** — from a cooperative, opt-in connector toward platform-managed or network/IAM-enforced controls — as trust, compliance, and adoption requirements mature.
 
-This is the same intent recorded in the product statement (seed.md §23) and formalized in [AGR-001 through AGR-022](../00-source-of-truth/AGREEMENTS.md). Nothing below expands on that intent; it maps it to what each audience specifically gains.
+This is the same intent recorded in the product statement (seed.md §23) and formalized in [AGR-001 through AGR-021](../00-source-of-truth/AGREEMENTS.md). Nothing below expands on that intent; it maps it to what each audience specifically gains.
 
 ---
 
@@ -83,7 +83,7 @@ Application teams need a simple onboarding process, minimal application changes,
 
 | Need | How AI Guardrails is designed to address it |
 | --- | --- |
-| Simple onboarding | The onboarding flow — register workload, select policy, generate integration manifest, install connector, run in observe mode, review evaluation results, enable enforcement — is the same regardless of gateway or provider (seed.md §4; [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)). Onboarding ("import") never requires transferring model-provider credentials or exposing the team's gateway administration endpoints to the guardrail provider. |
+| Simple onboarding | The onboarding flow — register workload, select policy, generate integration manifest, install connector, run in observe mode, review evaluation results, enable enforcement — is the same regardless of gateway or provider (seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). Onboarding ("import") never requires transferring model-provider credentials or exposing the team's gateway administration endpoints to the guardrail provider. |
 | Minimal application changes | A connector is installed at the gateway or SDK layer; the policy itself requires no application-code changes to evaluate content. |
 | Predictable latency | Evaluation latency (P50, P95, P99) and timeout behavior are measured per stage and per detector, and every evaluation stage enforces an explicit, documented timeout (seed.md §15; [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits)). Specific latency and timeout figures are workload- and policy-dependent and are recorded as **TBD** until set for a given deployment. |
 | Clear failure behavior | Failure behavior (Evaluation API timeout, detector unavailability, unresolved policy, control-plane unavailability, audit-delivery failure, unsafe response transformation) is an explicit, documented part of every policy — there is no undocumented fallback ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)). |
@@ -141,7 +141,7 @@ This document, and any material derived from it, must use "designed to / support
 This document explicitly does **not** claim:
 
 * That Remote Evaluation (Mode A) keeps tenant content local or private — it does not; content reaches the hosted Evaluation API ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
-* That a guardrail decision constitutes business authorization — content evaluation and authorization are distinct, and the consuming application remains responsible for authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)). Tool and agent authorization are outside the guardrail MVP.
+* That a guardrail decision constitutes business authorization — content evaluation and authorization are distinct, and the consuming application remains responsible for authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)). Tool and agent authorization arrive only with Phase 5 of the delivery plan and are not available today.
 * That a cooperative-mode connector is a hard, bypass-proof security boundary — it can be disabled, removed, or misconfigured by the consuming team, and only platform-managed or network/IAM-enforced postures raise bypass resistance ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 * Any specific latency, availability, adoption, or cost figure. Where the source material does not supply one, this document and its downstream derivatives must record **TBD** rather than an invented value (per source-of-truth policy in [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) and [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)).
 * That guardrail evaluation constitutes a complete AI-security or governance solution — it is one layer, and the platform explicitly separates content evaluation, authorization, data isolation, and application security as distinct concerns (seed.md §20, "False confidence").

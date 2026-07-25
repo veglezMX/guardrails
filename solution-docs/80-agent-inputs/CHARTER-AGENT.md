@@ -50,7 +50,7 @@ You may read from, and must ground every charter statement in, only the followin
 | [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 | The primary authority. Every AGR-NNN entry is the ultimate source of truth for what the charter may say. |
 | [`00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | L1 | Chronological decision log (DEC-NNN). Use to confirm which agreements have been operationalized as decisions and to trace decision-level context; do not treat a decision as authority beyond the agreement it cites. |
 | [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable boundary conditions (CON-NNN). Use for the Constraints section (Section 13) and anywhere a numeric or boundary figure is needed — including confirming that a figure is genuinely TBD rather than inventing one. |
-| [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) | L2 | Full in-scope / future-scope / out-of-scope detail. The charter's Sections 6 and 7 summarize this document; they must not diverge from it. |
+| [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) | L2 | Full in-scope / later-phase / out-of-scope detail. The charter's Sections 6 and 7 summarize this document; they must not diverge from it. |
 | [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) | L2 | Full articulation of the guiding principles. The charter's Section 9 summarizes this document. |
 | [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | L2 | Full, measurable success indicators. The charter's Section 12 summarizes this document; it must not restate specific targets that belong there. |
 | `seed.md` | Raw source material | Background only. Use for phrasing, ordering, and context that AGREEMENTS.md references but does not fully restate (for example, the original Mode A/B/C diagrams). Never treat seed.md as authoritative where AGREEMENTS.md, DECISIONS.md, or CONSTRAINTS.md speak to the same topic — those win. |
@@ -86,25 +86,25 @@ If you cannot find a source for something the requester wants in the charter, sa
 | 2 | **Problem being addressed** | AGR-010; seed.md §1–§2, §22 | The reuse/portability problem the solution exists to solve — not a restatement of the vision. |
 | 3 | **Vision** | AGR-003, AGR-004; seed.md §2 | The durable aspiration list from seed.md §2, plus the LiteLLM/Bedrock positioning agreements. |
 | 4 | **Target users and stakeholders** | seed.md §7 | The four stakeholder groups (platform teams, application teams, security/compliance teams, product operators) and their primary needs, as a table. |
-| 5 | **Intended outcomes** | AGR-008, AGR-011, AGR-018, AGR-020, AGR-021 | Durable outcomes the solution should produce — cross-reference [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) rather than duplicating measurable targets. |
-| 6 | **In-scope capabilities** | AGR-019; seed.md §6.1 | The MVP in-scope list, summarized; full detail lives in [`SCOPE.md`](../10-charter/SCOPE.md). |
-| 7 | **Out-of-scope capabilities** | AGR-019; seed.md §6.3 | The MVP exclusion list, with an explicit statement that changes require a scope-change decision, not silent inclusion. |
-| 8 | **Solution boundaries** | AGR-021 ("import"), AGR-010 (authorization), AGR-009 (Mode A), AGR-018 (cooperative enforcement) | What "import" means and does not mean; what guardrails are not (not authorization); what each deployment mode is not (Mode A is not data-local; cooperative connectors are not a hard security boundary). |
+| 5 | **Intended outcomes** | AGR-008, AGR-011, AGR-018, AGR-019, AGR-020; seed.md §16 | Durable outcomes the solution should produce — cross-reference [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) rather than duplicating measurable targets. |
+| 6 | **In-scope capabilities** | seed.md §6.1–§6.2; DEC-008 | The full-feature-set in-scope list (the Phase 1–2 core plus later-phase capabilities, per DEC-008), summarized; full detail lives in [`SCOPE.md`](../10-charter/SCOPE.md). |
+| 7 | **Out-of-scope capabilities** | seed.md §6.3; DEC-008 | The product-category exclusion list, with an explicit statement that changes require a scope-change decision, not silent inclusion. |
+| 8 | **Solution boundaries** | AGR-019 ("import"), AGR-010 (authorization), AGR-009 (Mode A), AGR-018 (cooperative enforcement) | What "import" means and does not mean; what guardrails are not (not authorization); what each deployment mode is not (Mode A is not data-local; cooperative connectors are not a hard security boundary). |
 | 9 | **Guiding principles** | AGR-005 through AGR-012 (the seven product principles) | One paragraph or bullet per principle (policy portability; one contract across modes; policies separate from connectors; explicit content-exposure model; guardrails are not authorization; observable before enforceable; failure behavior is part of policy). Full articulation lives in [`PRINCIPLES.md`](../10-charter/PRINCIPLES.md). |
 | 10 | **Operating model** | AGR-002, AGR-006, AGR-009, AGR-015; seed.md §3 | The three deployment modes (A/B/C), a comparison table, and a diagram. Deployment-mode implementation detail (AWS services, component diagrams) is out of scope for this section — link to `50-architecture/DEPLOYMENT-ARCHITECTURE.md` instead of restating it. |
 | 11 | **Ownership and responsibilities** | seed.md §21 | The four durable ownership groups (AI Guardrails team; Platform operations; Security and governance; Consuming teams) and what each is responsible for. |
-| 12 | **Success criteria** | AGR-020 | The MVP success-demonstration conditions, stated in full (they are binding and enumerable), plus a pointer to [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) for the broader, evolving indicator set. Do not invent targets beyond what AGR-020 and SUCCESS-CRITERIA.md already state. |
-| 13 | **Constraints** | AGR-013, AGR-014, AGR-016, AGR-017, AGR-019; `CONSTRAINTS.md` (CON-001 through CON-016) | Cloud placement, account topology, initial connector/engine choices, retention defaults, telemetry defaults, domain-model requirement, scope boundary. Any figure not present in `CONSTRAINTS.md` or `AGREEMENTS.md` must be marked TBD. |
+| 12 | **Success criteria** | seed.md §16; DEC-008 | The Phase 1–2 validation-demonstration conditions, stated in full (they are binding and enumerable, now recorded as a delivery milestone per DEC-008), plus a pointer to [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) for the broader, evolving indicator set. Do not invent targets beyond what seed.md §16 and SUCCESS-CRITERIA.md already state. |
+| 13 | **Constraints** | AGR-013, AGR-014, AGR-016, AGR-017; `CONSTRAINTS.md` (CON-001 through CON-016); DEC-008 (scope boundary) | Cloud placement, account topology, initial connector/engine choices, retention defaults, telemetry defaults, domain-model requirement, scope boundary. Any figure not present in `CONSTRAINTS.md` or `AGREEMENTS.md` must be marked TBD. |
 | 14 | **Major risks** | seed.md §20 | The six named risks (connector bypass; false confidence; latency; hosted data exposure; policy fragmentation; product over-expansion) and their mitigation directions, as a table. Point to [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) as the actively tracked authority. |
-| 15 | **Decision rights** | Section 11 ownership boundaries; AGR-019 | Who decides what, derived directly from the ownership table in Section 11 — do not introduce a decision-rights structure that isn't already implied by ownership. Must restate that AGREEMENTS.md wins any conflict. |
-| 16 | **Change-control process** | AGREEMENTS.md preamble; AGR-019, AGR-022 | How this charter relates to AGREEMENTS.md (L1 wins), how substantive changes must flow (agreement first, charter second), and how additive/non-substantive changes may be made directly. |
+| 15 | **Decision rights** | Section 11 ownership boundaries; AGREEMENTS.md preamble | Who decides what, derived directly from the ownership table in Section 11 — do not introduce a decision-rights structure that isn't already implied by ownership. Must restate that AGREEMENTS.md wins any conflict. |
+| 16 | **Change-control process** | AGREEMENTS.md preamble; AGR-020; DEC-008 | How this charter relates to AGREEMENTS.md (L1 wins), how substantive changes must flow (agreement first, charter second), and how additive/non-substantive changes may be made directly. |
 | 17 | **Related documents** | — | A table of every document the charter cross-links to, with a one-line relationship description each. Must include at minimum: AGREEMENTS.md, SCOPE.md, PRINCIPLES.md, SUCCESS-CRITERIA.md, CONSTRAINTS.md, and the architecture/governance documents the charter references inline. |
 
 ```mermaid
 flowchart TD
-    AGR["AGREEMENTS.md (L1)\nAGR-001 .. AGR-022"] --> CH["CHARTER.md (L2)\n17 sections"]
+    AGR["AGREEMENTS.md (L1)\nAGR-001 .. AGR-020"] --> CH["CHARTER.md (L2)\n17 sections"]
     CON["CONSTRAINTS.md (L1)\nCON-001 .. CON-016"] --> CH
-    DEC["DECISIONS.md (L1)\nDEC-001 .. DEC-007"] -.context only.-> CH
+    DEC["DECISIONS.md (L1)\nDEC-001 .. DEC-008"] -.context only.-> CH
     SEED["seed.md\nraw charter material"] -.background only.-> CH
     CH --> S1["1 Purpose"]
     CH --> S6["6 In-scope"]
@@ -201,7 +201,7 @@ Before treating a regenerated charter as complete, confirm all of the following:
 - [ ] Mode A is not described as private-data or data-local ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
 - [ ] Cooperative connectors are not described as a hard security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 - [ ] Guardrail decisions are not described as authorization decisions ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
-- [ ] "Import" is used only in the adopt-a-policy sense, never implying control of another team's gateway ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+- [ ] "Import" is used only in the adopt-a-policy sense, never implying control of another team's gateway ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 - [ ] All cross-links resolve to real files/anchors under `solution-docs/`.
 - [ ] Any missing-coverage or conflicting-source situation from [Section 7](#7-handling-missing-or-conflicting-agreements) has been surfaced, not silently resolved.
 - [ ] The header `Date` reflects the regeneration date; `Status` remains `Draft` unless formal acceptance has been explicitly communicated.

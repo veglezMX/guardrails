@@ -76,7 +76,7 @@ Only the files below may be used as content sources. Anything outside this list 
 | File | Use |
 | --- | --- |
 | [`../../seed.md`](../../seed.md) | Raw solution charter; the ultimate source every fact traces to. |
-| [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | Accepted agreements (AGR-001…AGR-022); the primary truth boundary. |
+| [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | Accepted agreements (AGR-001…AGR-020); the primary truth boundary. |
 | [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | Non-negotiable boundaries (CON-001…CON-016). |
 
 ### Tier 2 — Wording and risk governance (L2)
@@ -128,17 +128,17 @@ The 13-beat story arc in `SLIDE-OUTLINE.md` is the **canonical narrative backbon
 | 4 | The proposed solution | AI Guardrails as a standalone platform separating policy from connectors. | — |
 | 5 | How it works — three deployment modes | The three ways a team can adopt the same policy. | **Mode A is never data-local** — content reaches the hosted Evaluation API ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)). |
 | 6 | How it works — evaluate before/after inference | The evaluation lifecycle: input/output stages, decisions, authorization boundary. | **Guardrails are not authorization** ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)). |
-| 7 | Core capabilities | The concrete MVP capability set. | Frame future-scope items as architecture-permitted, not built. |
-| 8 | Customer journey — onboard, observe, enforce | Onboarding ("import") and the graduated enforcement ladder. | "Import" never means gateway credential transfer or remote control ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)). |
+| 7 | Core capabilities | The concrete Phase 1–2 core capability set. | Frame later-phase capabilities as defined and estimated in the five-phase plan (DEC-008), not built — nothing beyond what Phases 1–2 build exists today. |
+| 8 | Customer journey — onboard, observe, enforce | Onboarding ("import") and the graduated enforcement ladder. | "Import" never means gateway credential transfer or remote control ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). |
 | 9 | Business outcomes | Qualitative value delivered to each stakeholder group. | No dollar-value ROI, adoption percentage, or SLA number anywhere. |
 | 10 | Differentiation | What is structurally different, without overclaiming. | Do not imply full gateway/provider coverage or automatic feature parity. |
 | 11 | Adoption and deployment model | How enforcement posture and AWS footprint mature over time. | Cooperative connector is never a hard security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)). |
-| 12 | Roadmap — five phases | Sequencing discipline from integration proof to advanced agent protection. | Phase 5 is a separate expansion, never an MVP prerequisite ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)); no calendar dates. |
+| 12 | Roadmap — five phases | Sequencing discipline from integration proof to advanced agent protection. | Phase 5 is sequenced last and must never be pulled forward ahead of its phase gate ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); no calendar dates. |
 | 13 | Call to action | A grounded, phase-appropriate ask. | No named contact, pricing, or scheduling detail unless sourced. |
 
 ### Slide-count instantiation for the internal pitch — [`DECK-BRIEF.md`](../40-sales-deck/DECK-BRIEF.md)
 
-`DECK-BRIEF.md` §Required slides expands the same 13 beats into a **15-slide, numbered deck** built for the specific context it defines (a live, ~20–30 minute, internal Phase-1-funding review). The 15-slide list is **not a competing structure** — it is a higher-resolution instantiation of the same 13 beats for that specific presentation context (for example, it splits beat 2 into "The problem" and "Why this is costing us," and adds a dedicated "Who owns what" slide drawn from `seed.md` §21).
+`DECK-BRIEF.md` §Required slides expands the same 13 beats into a **15-slide, numbered deck** built for the specific context it defines (a live, ~20–30 minute, internal funding review). The 15-slide list is **not a competing structure** — it is a higher-resolution instantiation of the same 13 beats for that specific presentation context (for example, it splits beat 2 into "The problem" and "Why this is costing us," and adds a dedicated "Who owns what" slide drawn from `seed.md` §21).
 
 **Reconciliation rule:** when the agent is producing the deck described in `DECK-BRIEF.md` (the internal pitch), it must follow `DECK-BRIEF.md`'s 15-slide numbering, required content, and 15-slide cap **exactly**, including which two slides may be compressed under time pressure (slide 3, slide 13) and which two may never be cut or shortened (slide 10, slide 15). `SLIDE-OUTLINE.md` remains the source of the underlying key points, diagrams, and caveats that fill those 15 slides — it is not a second, independent slide count to also satisfy. If a future request calls for a differently-scoped deck (a different audience or context than the one `DECK-BRIEF.md` defines), a new deck brief must be authored first; this agent must not invent an alternate slide count on its own.
 
@@ -228,7 +228,7 @@ Attached as native presentation-tool notes on every slide (not a separate prose 
 - **Sourcing** — the `seed.md` section, `AGR-xxx`, or `CON-xxx` the slide's content derives from.
 - **Caveats not shown on-slide** — e.g., the Mode A data-exposure caveat, stated in notes even where the visual keeps it implicit for pacing.
 - **Talk track** — one or two sentences bridging from the previous slide and into the next.
-- **Anticipated questions** — a one-line pointer for qualified material (e.g., "MVP does not include a full administration portal") so a presenter other than the deck's author can field it without overclaiming.
+- **Anticipated questions** — a one-line pointer for qualified material (e.g., "the Phase 1–2 core does not include a full administration portal") so a presenter other than the deck's author can field it without overclaiming.
 
 ### 3. Slide-to-source map
 
@@ -254,8 +254,8 @@ The agent must surface an explicit warning — in the claims-validation report a
 - A slide implies Remote Evaluation (Mode A) is private, data-local, or "your data never leaves your environment" ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
 - A slide equates a guardrail decision with business authorization, or implies the platform performs authentication, tenant isolation, or approval workflows ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 - A slide describes a cooperative-mode connector as bypass-proof or a hard security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-- A slide presents the MVP demonstration ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)) as already completed, in progress, or proven, rather than as a target outcome of the requested approval.
-- A slide presents Phase 3, 4, or 5 capabilities (managed gateway, customer-managed runtime, agent/tool authorization) as available today or part of the current ask ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)).
+- A slide presents the Phase 1–2 validation demonstration ([`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) as already completed, in progress, or proven, rather than as a target outcome of the requested approval.
+- A slide presents Phase 3, 4, or 5 capabilities (managed gateway, customer-managed runtime, agent/tool authorization) as available today, or as deliverable ahead of the per-phase validation gates in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery).
 - A diagram is shipped as a flattened image, screenshot, or literal pasted ASCII rather than native editable shapes (VISUAL-DIRECTION §9).
 - Any slide is missing speaker notes.
 - The deck-instantiation is `DECK-BRIEF.md`'s internal pitch and slide 10 ("What this is — and isn't") or slide 15 ("The ask") has been cut, shortened to a footnote, or moved to backup.
@@ -303,7 +303,7 @@ The three worked examples below are the minimum format every slide-to-source map
 | 4 | The proposed solution | [`20-product/PRODUCT-OVERVIEW.md`](../20-product/PRODUCT-OVERVIEW.md), §1, §3; [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) (policy/connector split) |
 | 5 | How it works — three deployment modes | [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), §2–§5; [`20-product/PRODUCT-OVERVIEW.md`](../20-product/PRODUCT-OVERVIEW.md), §4 |
 | 6 | How it works — evaluate before/after inference | [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md), §3 ("The evaluation contract") |
-| 7 | Core capabilities | [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md), "MVP capabilities (in scope)" |
+| 7 | Core capabilities | [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md), "Core capabilities — Phases 1–2" |
 | 8 | Customer journey — onboard, observe, enforce | [`20-product/USE-CASES.md`](../20-product/USE-CASES.md), UC-002; [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md), §5.6 |
 | 9 | Business outcomes | [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md), §5; [`20-product/VALUE-PROPOSITION.md`](../20-product/VALUE-PROPOSITION.md) |
 | 10 | Differentiation | [`20-product/DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md), §1–§6 |

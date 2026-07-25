@@ -20,8 +20,9 @@
 7. [Managed Bedrock Guardrails vs. custom evaluators](#7-managed-bedrock-guardrails-vs-custom-evaluators)
 8. [Synchronous vs. asynchronous audit delivery](#8-synchronous-vs-asynchronous-audit-delivery)
 9. [Cross-cutting pattern: adapters as the mechanism that avoids re-litigating these trade-offs](#9-cross-cutting-pattern-adapters-as-the-mechanism-that-avoids-re-litigating-these-trade-offs)
-10. [Summary table of decisions](#10-summary-table-of-decisions)
-11. [Related documents](#11-related-documents)
+10. [Guardrail-coverage breadth vs. contract surface and evaluation latency](#10-guardrail-coverage-breadth-vs-contract-surface-and-evaluation-latency)
+11. [Summary table of decisions](#11-summary-table-of-decisions)
+12. [Related documents](#12-related-documents)
 
 ---
 
@@ -71,7 +72,7 @@ None of these tensions is resolved once for the whole platform — the three-mod
 | Data exposure | Prompts, responses, and evaluated content reach the hosted service; must never be described as data-local ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)) | Raw content stays inside the customer's account by default; only customer-selected telemetry categories may leave, or none at all ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)) |
 | Suitability | Teams without their own gateway, or teams that want centrally managed model access and consolidated operations (seed §3, Mode B) | Regulated workloads, data residency requirements, high-volume workloads, air-gapped environments, teams that prohibit prompt/response content from leaving their account (seed §3, Mode C) |
 | Control-plane dependency | Full — the hosted control plane and runtime are the same operational boundary | Must execute policies without requiring a synchronous connection to the hosted control plane ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)) |
-| Delivery phase | Phases 1–3 (Integration proof, Internal platform, Guarded Gateway) | Phase 4 (Customer-managed runtime) — seed §18; [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) |
+| Delivery phase | Phases 1–3 (Integration proof, Internal platform, Guarded Gateway) | Phase 4 (Customer-managed runtime) — seed §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) |
 
 > **Decision:** The platform supports **both**, as codified in [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) — it does not pick one deployment topology for all workloads. Mode A/B (hosted) ships first because it requires the smallest footprint to prove the reusable-policy hypothesis; Mode C (customer-managed) ships in Phase 4 once the same runtime software has matured enough to be packaged as a container, Helm chart, and ECS deployment template (seed §18, Phase 4).
 
@@ -147,7 +148,7 @@ None of these tensions is resolved once for the whole platform — the three-mod
 - Connector bypass or misconfiguration is a named key risk (seed §20), whose mitigation is graduated by trust level: cooperative onboarding for trusted teams, configuration validation, managed gateway deployment, restricted model credentials, and IAM/network enforcement only for mandatory environments (seed §20).
 - The platform must not rely exclusively on connector telemetry as evidence of mandatory enforcement ([`CONSTRAINTS.md` CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies)) — a connector reporting healthy does not prove it cannot be removed.
 - Which posture the first external customers actually require is not yet decided ([`OPEN-QUESTIONS.md` OQ-001](../00-source-of-truth/OPEN-QUESTIONS.md#oq-001--enforcement-model-required-for-the-first-external-customers)); the working assumption is that cooperative integration holds through Phase 1–2, and stronger postures are pulled forward only when a specific external-customer or compliance driver identifies the need — mirroring the same trigger-based logic already accepted for AWS account separation ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
-- Building the network/IAM-enforced posture before any customer or compliance driver justifies it would itself be a form of the "product over-expansion" risk (seed §20) and would violate the MVP scope discipline in [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries).
+- Building the network/IAM-enforced posture before any customer or compliance driver justifies it would itself be a form of the "product over-expansion" risk (seed §20) and would violate the phased scope discipline in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery).
 
 ---
 
@@ -243,7 +244,32 @@ The remaining three trade-offs ([§5](#5-cooperative-connector-vs-platform-manag
 
 ---
 
-## 10. Summary table of decisions
+## 10. Guardrail-coverage breadth vs. contract surface and evaluation latency
+
+**Axis:** Consistency & reuse vs. latency; delivery speed vs. long-term control — applied to guardrail *coverage growth* rather than to a single component.
+
+The guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), per [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)) names eighteen categories the platform could eventually serve. That breadth creates a standing temptation with two costs:
+
+| | Option A — Grow via contract surface | Option B — Grow via implementations behind stable seams |
+|---|---|---|
+| How a new guardrail arrives | New request fields, category-specific stages, per-category decision shapes added to the contract | New evaluators behind the adapter (no contract change); reserved stages/actions activated deliberately and rarely |
+| Delivery speed per guardrail | Faster for the first team that wants it | Slightly slower — the evaluator must normalize to the standard finding shape |
+| Long-term cost | Every added field is carried compatibly, indefinitely, in Modes A/B/C ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) — the §4.8 over-expansion risk in [`TECHNICAL-RISKS.md`](TECHNICAL-RISKS.md) compounding | Contract stays small; breadth accumulates as a menu of evaluators policies opt into |
+| Latency profile | Category-specific paths complicate the per-stage timeout budget (CON-016) | Only policy-configured evaluators run per stage ([`CONTAINER-ARCHITECTURE.md`](CONTAINER-ARCHITECTURE.md) §5, latency mitigation) — breadth does not tax workloads that use little |
+| Portability | Per-category fields invite vendor- or framework-specific shapes (violates [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)) | Vendor-neutral by construction |
+
+> **Decision:** Coverage breadth grows through **Option B — implementations behind the four extension seams** defined in [`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md): new evaluators are adapter-internal, new connectors are contract clients, and the contract itself changes only through the rare, versioned activation of reserved stages and actions. The catalog absorbs demand pressure at the *classification* level (vision items parked, graduation governed), so the contract never has to absorb it at the *schema* level.
+
+**Why:**
+
+- The one-contract requirement makes contract surface the platform's most expensive real estate: every field is a permanent, three-mode liability ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [`TECHNICAL-RISKS.md`](TECHNICAL-RISKS.md) §4.8 concentrates the over-expansion risk exactly here).
+- The adapter pattern (§9 above) already resolved three trade-offs by "keep both behind a stable contract"; this trade-off is the same resolution generalized — eighteen categories of breadth behind the same seams, per [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)/[AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors).
+- The latency budget is per-stage and bounded (CON-015/CON-016); breadth via optional evaluators keeps the budget a per-policy choice, while breadth via contract growth would tax every workload structurally.
+- Evaluator sprawl — Option B's own failure mode — is bounded separately by [NFR-MAINT-003](NON-FUNCTIONAL-REQUIREMENTS.md#nfr-maint-003--bounded-evaluator-and-category-sprawl) and tracked as [`TECHNICAL-RISKS.md`](TECHNICAL-RISKS.md) §4.9; choosing Option B does not make growth free, it makes growth *governable*.
+
+---
+
+## 11. Summary table of decisions
 
 | # | Trade-off | Decision | Governing reference |
 |---|---|---|---|
@@ -253,10 +279,11 @@ The remaining three trade-offs ([§5](#5-cooperative-connector-vs-platform-manag
 | 4 | DynamoDB vs. versioned S3 for policy storage | Recommended split: DynamoDB for hot-path resolution, versioned S3 for durable version archive/Mode C sync | Not yet an AGR — recommendation only; see [§6](#6-dynamodb-vs-versioned-s3-for-policy-storage) |
 | 5 | Managed Bedrock Guardrails vs. custom evaluators | Bedrock Guardrails as first managed engine; custom/deterministic evaluators addable behind the same adapter, vendor-independent contract | [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [`CONSTRAINTS.md` CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats) |
 | 6 | Synchronous vs. asynchronous audit delivery | Asynchronous: decision returned first, audit event queued (SQS) then archived (S3); failure is a distinct, documented failure mode | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) |
+| 7 | Guardrail-coverage breadth vs. contract surface and evaluation latency | Breadth grows via implementations behind the four extension seams; contract changes only through rare, versioned activation of reserved stages/actions | [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md) |
 
 ---
 
-## 11. Related documents
+## 12. Related documents
 
 - [`ARCHITECTURE-REPORT.md`](ARCHITECTURE-REPORT.md) — the consolidated technical report; [§21](ARCHITECTURE-REPORT.md#21-trade-offs) points to this document rather than duplicating it.
 - [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — the authoritative agreement register (L1); every settled trade-off above traces to an `AGR-NNN` here.

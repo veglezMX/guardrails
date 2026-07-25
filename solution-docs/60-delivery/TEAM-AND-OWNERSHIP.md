@@ -231,7 +231,7 @@ Derived from seed.md §12 (connector responsibilities) and the guardrails-are-no
 
 * The **LiteLLM connector**, owned by the AI Guardrails team, is explicitly **not** responsible for: defining organization policy, implementing detection models, managing model credentials, persisting audit records, performing user authorization, or managing policy versions.
 * **Guardrail decisions are not authorization decisions** (AGR-010). Even where a guardrail evaluates a tool call as safe, the consuming team remains solely responsible for authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows. This boundary does not shift by deployment mode or enforcement posture.
-* **"Import" does not mean gateway control** (AGR-021). A consuming team importing a policy adopts a versioned policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode. It never grants the AI Guardrails provider administrative access to the consuming team's gateway, nor does it require transferring model-provider credentials or copying the team's LiteLLM database.
+* **"Import" does not mean gateway control** (AGR-019). A consuming team importing a policy adopts a versioned policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode. It never grants the AI Guardrails provider administrative access to the consuming team's gateway, nor does it require transferring model-provider credentials or copying the team's LiteLLM database.
 * **Policies and connectors remain separate ownership artifacts** (AGR-007). A connector must never embed policy logic, thresholds, or detection rules, regardless of which group builds or operates it.
 
 ---
@@ -251,7 +251,7 @@ Unresolved exception or override requests, and any open questions about where th
 
 ## 8. Ownership across delivery phases
 
-Seed.md §18 (Five-phase delivery, AGR-022) implies a changing balance of ownership as the product moves from an integration proof toward a fully hosted and customer-managed platform. This document does not restate the phase deliverables in full — see [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — but the ownership emphasis shifts as follows:
+Seed.md §18 (Five-phase delivery, AGR-020) implies a changing balance of ownership as the product moves from an integration proof toward a fully hosted and customer-managed platform. This document does not restate the phase deliverables in full — see [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — but the ownership emphasis shifts as follows:
 
 | Phase | Ownership emphasis |
 |---|---|
@@ -259,15 +259,15 @@ Seed.md §18 (Five-phase delivery, AGR-022) implies a changing balance of owners
 | Phase 2 — Internal multi-team platform | Platform operations and Security and governance become fully active (tenant/workload registry, IAM authentication, quotas, service-level monitoring, policy promotion/rollback) |
 | Phase 3 — Guarded gateway | Platform operations' scope expands significantly — the provider now operates the managed gateway, model-provider configuration, and per-tenant routing described in Mode B |
 | Phase 4 — Customer-managed runtime | Consuming teams' infrastructure ownership expands to match Mode C; the AI Guardrails team adds packaging responsibilities (runtime container, Helm chart, ECS deployment template, infrastructure module) |
-| Phase 5 — Advanced agent protection | Out of scope for MVP ownership planning; treated as a separate product expansion (AGR-022), not scheduled against any group's current capacity |
+| Phase 5 — Advanced agent protection | Committed and estimated as part of the full feature set (DEC-008) but sequenced last as a separate product expansion (AGR-020); not scheduled against any group's capacity during Phases 1–4 delivery |
 
 ---
 
 ## Related documents
 
-* [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — AGR-002 (three deployment modes), AGR-007 (policy/connector separation), AGR-008 (ownership vs. exposure), AGR-010 (guardrails are not authorization), AGR-011 (observe-before-enforce), AGR-018 (trust and enforcement model), AGR-021 (meaning of "import"), AGR-022 (five-phase delivery).
+* [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — AGR-002 (three deployment modes), AGR-007 (policy/connector separation), AGR-008 (ownership vs. exposure), AGR-010 (guardrails are not authorization), AGR-011 (observe-before-enforce), AGR-018 (trust and enforcement model), AGR-019 (meaning of "import"), AGR-020 (five-phase delivery).
 * [`../20-product/TARGET-USERS.md`](../20-product/TARGET-USERS.md) — the corresponding stakeholder-needs view (seed.md §7); see the terminology note above before cross-referencing group names.
-* [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md) and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — the three deployment modes and MVP scope boundaries this ownership model operates within.
+* [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md) and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — the three deployment modes and scope boundaries (seed.md §6) this ownership model operates within.
 * [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) — the infrastructure Platform operations runs and the packaging the AI Guardrails team ships for Mode C.
 * [`../50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) — the content-exposure model that AGR-008 requires to be tracked separately from operational ownership.
 * [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — full detail behind the five delivery phases referenced in §8 above.

@@ -73,11 +73,11 @@ See [Section 11](#11-ownership-and-responsibilities) for how these stakeholder g
 The solution is intended to produce the following durable outcomes:
 
 * A single guardrail policy can be applied consistently across multiple, independently operated workloads and gateways.
-* Teams can adopt guardrails without transferring model-provider credentials or gateway administration access to the guardrail provider ([Section 8](#8-solution-boundaries); [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+* Teams can adopt guardrails without transferring model-provider credentials or gateway administration access to the guardrail provider ([Section 8](#8-solution-boundaries); [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 * Teams can observe policy behavior — false positives, latency, business impact — before enabling blocking behavior ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
 * Operational ownership (who runs the infrastructure) and content exposure (where tenant data travels) are documented as distinct, independently answerable questions for every deployment mode ([AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 * The organization can evolve from cooperative, trust-based guardrail adoption toward mandatory, bypass-resistant enforcement without redesigning the policy model ([Section 9](#9-guiding-principles); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-* A reusable-policy hypothesis is proven concretely: two independent LiteLLM deployments consuming the same policy, with consistent normalized decisions, before the platform expands scope ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+* A reusable-policy hypothesis is proven concretely: two independent LiteLLM deployments consuming the same policy, with consistent normalized decisions — the Phase 1–2 validation demonstration (seed.md §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) — before later phases proceed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 Detailed, measurable success criteria are maintained separately in [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) rather than duplicated here.
 
@@ -85,7 +85,7 @@ Detailed, measurable success criteria are maintained separately in [`SUCCESS-CRI
 
 ## 6. In-scope capabilities
 
-The initial product scope includes:
+The solution is defined over the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Its core scope, delivered in Phases 1–2, includes:
 
 * Versioned guardrail policies.
 * Workload registration.
@@ -103,13 +103,13 @@ The initial product scope includes:
 * Hosted runtime deployment.
 * A path to customer-managed deployment.
 
-This in-scope list, together with the future-scope items the architecture must permit but not initially build, is maintained at the level of detail needed for delivery planning in [`SCOPE.md`](SCOPE.md).
+This core list, together with the later-phase capabilities committed to Phases 3–5 and included in the full-solution estimation, is maintained at the level of detail needed for delivery planning in [`SCOPE.md`](SCOPE.md).
 
 ---
 
 ## 7. Out-of-scope capabilities
 
-The MVP will not attempt to provide:
+The solution will not attempt to provide:
 
 * A general-purpose LLM gateway replacement.
 * A complete AI governance platform.
@@ -126,7 +126,7 @@ The MVP will not attempt to provide:
 * Full compliance certification.
 * A general MCP security platform.
 
-These exclusions are binding for the MVP per [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries). They may be introduced only after the core integration and policy model have been validated, and only through an explicit scope-change decision — never by silent inclusion. Full scope boundaries are maintained in [`SCOPE.md`](SCOPE.md).
+These exclusions are binding for the solution per seed.md §6.3, reaffirmed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — they are not part of the full feature set. They may be introduced only after the core integration and policy model have been validated, and only through an explicit scope-change decision — never by silent inclusion. Full scope boundaries are maintained in [`SCOPE.md`](SCOPE.md).
 
 ---
 
@@ -134,7 +134,7 @@ These exclusions are binding for the MVP per [AGR-019](../00-source-of-truth/AGR
 
 ### 8.1 What "import" means
 
-"Import" means a consuming team adopting a versioned guardrail policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode. It does **not** mean importing, cloning, registering, or remotely controlling another team's LiteLLM instance ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+"Import" means a consuming team adopting a versioned guardrail policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode. It does **not** mean importing, cloning, registering, or remotely controlling another team's LiteLLM instance ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 
 The import process must not require:
 
@@ -170,7 +170,7 @@ Enable enforcement
 
 ### 8.2 What guardrails are not
 
-Guardrails are not authorization. A guardrail decision that content or a tool call appears safe does not determine whether the current user is permitted to execute that action against a particular resource ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)). The consuming application remains responsible for user authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows. Tool and agent authorization may become a later product capability but is outside the initial guardrail MVP.
+Guardrails are not authorization. A guardrail decision that content or a tool call appears safe does not determine whether the current user is permitted to execute that action against a particular resource ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)). The consuming application remains responsible for user authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows. Tool and agent authorization may become a later product capability (Phase 5 at the earliest) but is outside the Phase 1–2 core scope.
 
 ### 8.3 What each deployment mode is not
 
@@ -240,7 +240,9 @@ Ownership shifts by deployment mode (for example, a Customer-Managed Runtime con
 
 ## 12. Success criteria
 
-The MVP is considered successful only when all of the following hold simultaneously ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)):
+The solution is successful when the full feature set — the Phase 1–2 core capabilities plus the later-phase capabilities committed to Phases 3–5 — is delivered across the five phases, each phase's completion criteria validated before the next phase's scope is committed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
+
+The first gate on that path is the **Phase 1–2 validation demonstration** (seed.md §16) — a delivery-plan milestone, detailed in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), not the definition of overall solution success. It is met only when all of the following hold simultaneously:
 
 * Two separate LiteLLM instances consume the same policy.
 * Neither instance shares model-provider credentials with the guardrail platform.
@@ -252,19 +254,19 @@ The MVP is considered successful only when all of the following hold simultaneou
 * Evaluation failures follow a configured failure policy.
 * The runtime can later be packaged for customer-managed deployment without changing the connector contract.
 
-Beyond the MVP demonstration, the platform tracks success along four durable dimensions — adoption, reliability, effectiveness, and product portability. The full, measurable indicator set for each dimension is maintained in [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) rather than restated here, since specific targets are expected to evolve with each delivery phase (see [Section 16](#16-change-control-process)).
+Beyond the validation demonstration, the platform tracks success along four durable dimensions — adoption, reliability, effectiveness, and product portability. The full, measurable indicator set for each dimension is maintained in [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) rather than restated here, since specific targets are expected to evolve with each delivery phase (see [Section 16](#16-change-control-process)).
 
 ---
 
 ## 13. Constraints
 
-* **Primary cloud:** Amazon Web Services. Cross-cloud deployment is excluded from the MVP ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
-* **Account topology:** the MVP uses a minimal account model — one non-production account and one production account. Additional account separation is introduced only when justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments.
+* **Primary cloud:** Amazon Web Services. Cross-cloud deployment is excluded from the solution (seed.md §6.3; [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
+* **Account topology:** Phases 1–2 use a minimal account model — one non-production account and one production account. Additional account separation is introduced only when justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments.
 * **Initial integration target:** LiteLLM, as the first connector, not the product boundary ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 * **Initial evaluation engine:** Amazon Bedrock Guardrails, behind a vendor-independent contract ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).
 * **Data retention:** the hosted runtime does not persist raw prompts and responses by default; only decision metadata is persisted by default, with tenant-specific retention configuration available ([AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default)).
 * **Customer-managed telemetry:** customer-managed runtimes must let the customer choose what the hosted control plane receives, down to no telemetry at all; raw content must never leave a customer-managed runtime unless explicitly configured ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)).
-* **Scope boundary:** the MVP excludes the capabilities listed in [Section 7](#7-out-of-scope-capabilities); any proposed feature outside that boundary requires an explicit scope-change decision, not silent inclusion ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)).
+* **Scope boundary:** the solution excludes the capabilities listed in [Section 7](#7-out-of-scope-capabilities); any proposed feature outside that boundary requires an explicit scope-change decision, not silent inclusion, and a capability enters a delivery phase only through the phase plan and recorded decisions ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 * **Domain model:** all architecture and implementation must be expressed in terms of the six core entities — tenant, workload, policy, policy binding, evaluation, and decision ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 Figures such as specific availability objectives, latency targets, and account counts beyond the minimal model above are not yet defined in the source material and are marked TBD where referenced elsewhere; they must not be invented ahead of a documented decision.
@@ -280,7 +282,7 @@ Figures such as specific availability objectives, latency targets, and account c
 | **Latency** | Remote input and output evaluation adds synchronous network and processing latency. | Measure per-evaluator latency; apply only relevant evaluators; support local deterministic checks; use Customer-Managed Runtime for latency-sensitive workloads; define stage-specific timeouts. |
 | **Hosted data exposure** | Remote evaluation transmits tenant content to the hosted runtime. | Explicit data-flow documentation; no raw-content retention by default; regional deployments; private connectivity when justified; Customer-Managed Runtime option. |
 | **Policy fragmentation** | Too many workload-specific overrides may weaken organizational consistency. | Limit override categories; require ownership for exceptions; version policy packs; track effective policy per workload. |
-| **Product over-expansion** | The solution may attempt to include gateway management, AI governance, authorization, agent orchestration, and compliance before validating the core integration. | Maintain strict MVP boundaries; treat future capabilities as separately approved phases; measure adoption and policy effectiveness before expanding scope. |
+| **Product over-expansion** | The solution may attempt to include gateway management, AI governance, authorization, agent orchestration, and compliance before validating the core integration. | Maintain strict scope boundaries; deliver later-phase capabilities only through their committed phases, each validated before the next proceeds; measure adoption and policy effectiveness before expanding scope. |
 
 The authoritative, actively tracked risk register — including status and ownership per risk — is maintained in [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md).
 
@@ -294,7 +296,7 @@ This charter does not introduce new decision-rights structures beyond the owners
 * **Organization-level policy requirements, risk classifications, policy approval, and exception criteria** are decided by Security and governance.
 * **Hosted infrastructure, deployment, and production incident response** are decided by Platform operations.
 * **Application behavior, model selection where applicable, and acceptance of enforcement behavior for a given workload** are decided by the consuming team that owns that workload.
-* Scope changes against [Section 7](#7-out-of-scope-capabilities) require an explicit, recorded scope-change decision ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)); they are not made unilaterally by any single stakeholder group.
+* Scope changes against [Section 7](#7-out-of-scope-capabilities) require an explicit, recorded scope-change decision ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) phase gating); they are not made unilaterally by any single stakeholder group.
 * Any conflict between a derived document and [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) is resolved in favor of `AGREEMENTS.md`; the derived document is corrected.
 
 ---
@@ -315,7 +317,7 @@ This charter does not introduce new decision-rights structures beyond the owners
 | Document | Relationship |
 | --- | --- |
 | [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | Authoritative (L1) source of truth this charter is derived from. |
-| [`SCOPE.md`](SCOPE.md) | Full in-scope / future-scope / out-of-scope detail for the MVP. |
+| [`SCOPE.md`](SCOPE.md) | Full core-scope / later-phase / out-of-scope detail for the solution. |
 | [`PRINCIPLES.md`](PRINCIPLES.md) | Full articulation of the guiding principles summarized in [Section 9](#9-guiding-principles). |
 | [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) | Full, measurable success indicators across adoption, reliability, effectiveness, and portability. |
 | [`PRODUCT-OVERVIEW.md`](../20-product/PRODUCT-OVERVIEW.md) | Product-level description built on this charter. |

@@ -235,6 +235,8 @@ This document describes these five elements at the responsibility level only; th
 
 **Adapter pattern.** Per AGR-005 (Policy portability), vendor-specific implementation details for every engine — Bedrock or otherwise — must be placed behind the evaluator-adapter boundary inside the Runtime. Additional third-party or customer-specific evaluators (`seed.md` §6.2, future scope) are addable behind this same adapter pattern without changing policy semantics.
 
+**Guardrail-category mapping.** Each engine serves one or more guardrail categories of the category catalog ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)); the authoritative engine↔category mapping is the `Evaluator family` field of each category entry in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) and is deliberately **not** duplicated here. New engines attach through the evaluator seam defined in [`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md) §4 — adapter-internal, no contract change.
+
 **Latency mitigation.** Per `seed.md` §20 (Latency risk), the Runtime applies only the evaluators a given policy configures for a given stage, rather than invoking all four engines unconditionally — this is a design intent recorded in the source material, not a claim about achieved latency figures, which remain **TBD** pending measurement (`seed.md` §15, Performance).
 
 ---

@@ -69,7 +69,7 @@ The agent's output is advisory. It surfaces verdicts, blocking issues, risk-rank
 2. **L1 is never up for debate.** Every permitted L2/L3 document already states, in its own front matter, that it must not contradict `AGREEMENTS.md` or `CONSTRAINTS.md` and that the L1 register wins on conflict. The agent's job is to check that this already-stated rule actually holds — not to adjudicate whether the rule itself is correct.
 3. **Cite or it didn't happen.** No verdict, finding, blocking issue, or recommendation may be asserted without at least one authoritative ID (`AGR-`, `CON-`, `FR-`, `NFR-`, `ASM-`, `OQ-`, `DEC-`, `ADR-`, `RG-`) and a pointer to the specific permitted-source document and location it came from. See [Rule R1](#6-rules).
 4. **No invented numbers.** Where a permitted source already marks a figure `TBD`, the agent preserves `TBD`. It may flag that a `TBD` is now blocking a specific gate or decision; it may never supply the missing figure itself. See [Rule R5](#6-rules).
-5. **No scope creep, including agent-proposed scope creep.** The agent must not recommend building `Priority = Future` functional or non-functional requirements during the MVP, and must not recommend pulling Phase 5 (or any later phase) forward. See [Rule R4](#6-rules).
+5. **No scope creep, including agent-proposed scope creep.** The agent must not recommend building `Priority = Future` functional or non-functional requirements ahead of their scheduled phase, and must not recommend pulling Phase 5 (or any later phase) forward. See [Rule R4](#6-rules).
 6. **Conservative on ambiguity.** When uncertain whether something is a genuine contradiction, the agent reports it as a finding for human adjudication rather than silently dropping it. See [Rule R7](#6-rules).
 
 ---
@@ -82,7 +82,7 @@ The agent may read **only** the files below. It must not read, cite, or draw con
 
 | Document | What it provides to the review |
 | --- | --- |
-| [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | `AGR-001`–`AGR-022`: the accepted agreements every other permitted document must not contradict. |
+| [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | `AGR-001`–`AGR-020`: the accepted agreements every other permitted document must not contradict. |
 | [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | `CON-001`–`CON-016`: checkable boundary conditions (cloud placement, contract independence, transport/crypto, identity, content handling, resource limits). |
 | [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | `ASM-001`–`ASM-018`: unvalidated beliefs the feasibility verdict and PoC recommendations depend on. |
 | [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | `DEC-001`– : the product/organizational/delivery decision log, each entry traced to an `AGR-`. |
@@ -113,9 +113,9 @@ The agent may read **only** the files below. It must not read, cite, or draw con
 
 | Document | What it provides to the review |
 | --- | --- |
-| [`IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) | Build sequence, MVP boundary, build-vs-buy (Bedrock Guardrails bought, contract/policy model/connectors/control plane built), integration order. |
-| [`MILESTONES.md`](../60-delivery/MILESTONES.md) | `M1`–`M5`, one per delivery phase per `AGR-022`; the phase-gate structure the review's blocking issues and required ADRs must be sequenced against. |
-| [`RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | `RG-MVP-01`–`RG-MVP-09` (MVP demonstration gates, all required together per `AGR-020`), `RG-NFR-01`–`RG-NFR-03`, `RG-SEC-01`–`RG-SEC-04` — the release-gating rule the feasibility verdict and blocking issues must be checked against. |
+| [`IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) | Build sequence, phase boundaries, build-vs-buy (Bedrock Guardrails bought, contract/policy model/connectors/control plane built), integration order. |
+| [`MILESTONES.md`](../60-delivery/MILESTONES.md) | `M1`–`M5`, one per delivery phase per `AGR-020`; the phase-gate structure the review's blocking issues and required ADRs must be sequenced against. |
+| [`RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | `RG-MVP-01`–`RG-MVP-09` (the Phase 1–2 validation demonstration gates, all required together per `DEC-008` and `VALIDATION-PLAN.md`), `RG-NFR-01`–`RG-NFR-03`, `RG-SEC-01`–`RG-SEC-04` — the release-gating rule the feasibility verdict and blocking issues must be checked against. |
 | [`DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) | Delivery-gating dependencies (account provisioning, Bedrock regional availability, staffing, stable contract before connector work) — a required input to blocking-issue and PoC scoping. |
 
 ---
@@ -140,7 +140,7 @@ State the verdict together with: which of the three named conditions in `FEASIBI
 
 ### 5.2 Blocking issues
 
-A **blocking issue** is one that must be resolved before the next phase gate (per `MILESTONES.md`) or before a delivery date, cost estimate, or "MVP complete" declaration is made (per `FEASIBILITY-ASSESSMENT.md §13`'s own recommendation, and per the release-gating rule in `RELEASE-CRITERIA.md §4`). Every contradiction between a permitted derived document and an L1 document ([Rule R3](#6-rules)) is automatically a blocking issue, regardless of how minor it appears.
+A **blocking issue** is one that must be resolved before the next phase gate (per `MILESTONES.md`) or before a delivery date, cost estimate, or "phase complete" declaration is made (per `FEASIBILITY-ASSESSMENT.md §13`'s own recommendation, and per the release-gating rule in `RELEASE-CRITERIA.md §4`). Every contradiction between a permitted derived document and an L1 document ([Rule R3](#6-rules)) is automatically a blocking issue, regardless of how minor it appears.
 
 | Field | Meaning |
 | --- | --- |
@@ -214,7 +214,7 @@ A recommended PoC must never be scoped to validate a `Priority = Future` require
 | **R1** | Every verdict component, blocking issue, finding, contradiction, required ADR, and recommended PoC must cite at least one authoritative ID (`AGR-`, `CON-`, `FR-`, `NFR-`, `ASM-`, `OQ-`, `DEC-`, `ADR-`, `RG-`) plus the specific permitted-source document and location it came from. Unsupported prose output is not a valid finding and must be discarded before the report is finalized. |
 | **R2** | The agent never treats a permitted L2/L3 document as capable of overriding `AGREEMENTS.md`, `CONSTRAINTS.md`, or an `Accepted` ADR. Where a contradiction is found, the agent reports it — it never "resolves" it by silently preferring one side. |
 | **R3** | Any permitted derived document found to contradict `AGREEMENTS.md` or `CONSTRAINTS.md` is always reported as a **blocking issue** at **Critical** severity, regardless of how small the wording difference appears. This operationalizes the "L1 wins" rule every permitted document already states about itself. |
-| **R4** | The agent must not propose scope beyond `seed.md` / `AGREEMENTS.md`'s boundary. Concretely: it must not recommend building a `Priority = Future` `FR-`/`NFR-` item during the MVP; it must not recommend pulling Phase 5, or any later phase, forward; and where an apparent need for expanded scope surfaces, the agent reports it as a candidate for `OPEN-QUESTIONS.md` or notes that a scope-change decision is required from Product lead / Technical lead — it never enacts or assumes that decision itself. |
+| **R4** | The agent must not propose scope beyond `seed.md` / `AGREEMENTS.md`'s boundary. Concretely: it must not recommend building a `Priority = Future` `FR-`/`NFR-` item ahead of its scheduled phase; it must not recommend pulling Phase 5, or any later phase, forward; and where an apparent need for expanded scope surfaces, the agent reports it as a candidate for `OPEN-QUESTIONS.md` or notes that a scope-change decision is required from Product lead / Technical lead — it never enacts or assumes that decision itself. |
 | **R5** | No invented metrics. Where a permitted source already marks a figure `TBD`, the agent's own output preserves `TBD`. The agent may flag that a `TBD` is now blocking a specific gate (see [§5.2](#52-blocking-issues)); it must never supply the missing number itself, and must treat any *un-sourced* numeric SLA, latency, capacity, or dollar figure it encounters in a permitted document as a finding in its own right (see [Warning W7](#8-warning-conditions)). |
 | **R6** | The agent is read-only against every input. It never edits `AGREEMENTS.md`, `CONSTRAINTS.md`, an ADR, a requirement register, or any other permitted-source file. Its sole output is the review report in [§7](#7-output-format). |
 | **R7** | Ties in severity or verdict are broken conservatively, toward flagging rather than silence. An agent uncertain whether something is a genuine contradiction reports it for human adjudication rather than suppressing it. |
@@ -279,7 +279,7 @@ The following conditions are always surfaced under **§7 Warnings** in the outpu
 | **W6** | Bedrock Guardrails' native response format, or LiteLLM's native request/response shape, is found exposed across the public contract boundary. | `CON-003`, `CON-004`, `FR-004`, `FR-044` |
 | **W7** | A numeric SLA, latency, capacity, or dollar figure appears in a permitted document with no traceable source in another permitted document. | Source-of-truth "no invented metrics" policy; see [Rule R5](#6-rules) |
 | **W8** | A three-or-more-account AWS topology, or any account-separation proposal, appears without an explicit justification against the `CON-002` trigger list. | `CON-002`, `AGR-013` |
-| **W9** | Any recommendation to pull a `Priority = Future` `FR-`/`NFR-` item or a Phase 5 deliverable into current delivery scope appears without a documented scope-change decision. | `AGR-019`, `AGR-022` |
+| **W9** | Any recommendation to pull a `Priority = Future` `FR-`/`NFR-` item or a Phase 5 deliverable into current delivery scope appears without a documented scope-change decision. | `AGR-020`, `DEC-008` |
 | **W10** | An architecture document depends on, or describes, a design that a backlog ADR candidate (per `adrs/README.md`) should have covered, with no `Proposed` or `Accepted` ADR of record. | See [§5.5](#55-required-adrs) |
 | **W11** | Two permitted documents assign different values, states, or definitions to the same ID (for example, an `FR-` requirement's `Priority` differing between `REQUIREMENTS.md` and a citation of it elsewhere). | Internal ID-drift; report at `High` severity minimum |
 

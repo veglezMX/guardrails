@@ -167,7 +167,7 @@ Initial actions: `allow`, `block`, `redact`, `log_only`. Future actions: `rewrit
 
 * A **Tenant** owns many **Workloads** (`Workload.Tenant identifier`).
 * A **Workload** has one currently effective **Policy binding**, plus zero or more historical bindings retained for rollback and version comparison.
-* A **Policy** version may be bound, via **Policy binding**, to many **Workloads** — this many-to-many reuse (one policy, many workloads) is the core product hypothesis under validation in the MVP (`seed.md` §16, `AGREEMENTS.md` AGR-020).
+* A **Policy** version may be bound, via **Policy binding**, to many **Workloads** — this many-to-many reuse (one policy, many workloads) is the core product hypothesis under validation in the Phase 1–2 validation demonstration (`seed.md` §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 * A **Workload** triggers many **Evaluations**; each **Evaluation** runs under exactly one resolved **Policy** version (the one currently bound to that workload).
 * Each **Evaluation** produces exactly one **Decision** — the decision is defined in the seed as "the normalized result of an evaluation," a one-to-one relationship.
 
@@ -434,7 +434,7 @@ Per source-of-truth policy, the following figures are not present in `seed.md` a
 | Customer-managed telemetry and raw-content boundary | §13 | AGR-016, CON-013 |
 | Customer-managed runtime independence from control plane | §3 (Mode C) | AGR-015 |
 | Audit metadata fields | §15 | — |
-| Content categories and MVP scope limitation | §13 | AGR-019 |
+| Content categories and phased scope limitation | §13 | — (scope per [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)) |
 
 ---
 

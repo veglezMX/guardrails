@@ -105,7 +105,7 @@ This division is deliberate: LiteLLM is the platform's **first supported connect
 
 The platform is built around a **provider-independent evaluation contract**. Policies, evaluation requests, and decision structures do not depend on any specific model provider, and vendor-specific response formats must sit behind an adapter rather than leaking into the public contract.
 
-**Amazon Bedrock Guardrails is the first managed evaluation engine**, integrated via a dedicated adapter. Bedrock-specific response formats are normalized into the platform's own decision structure before reaching policies, connectors, or audit records. Alongside the Bedrock adapter, the MVP also includes a basic deterministic organization-rules evaluator and basic sensitive-data handling.
+**Amazon Bedrock Guardrails is the first managed evaluation engine**, integrated via a dedicated adapter. Bedrock-specific response formats are normalized into the platform's own decision structure before reaching policies, connectors, or audit records. Alongside the Bedrock adapter, the Phase 1–2 core platform also includes a basic deterministic organization-rules evaluator and basic sensitive-data handling.
 
 Product and technical documentation must never describe Bedrock Guardrails as the platform's permanent or exclusive detection engine — additional evaluation engines (further deterministic rules, PII evaluators, future third-party engines) are expected to be added behind the same adapter pattern over time. Model/provider choice on the **inference** side (which LLM your application actually calls) remains entirely up to your team in Remote Evaluation and Customer-Managed Runtime; in Guarded Gateway the provider manages the model routing as part of the managed offering.
 
@@ -163,7 +163,7 @@ Critically, the customer-managed runtime **executes policies without requiring a
 
 Mode C is intended for regulated workloads, data-residency requirements, high-volume workloads, air-gapped environments, teams that prohibit prompt/response content from leaving their account, and customers that require independent operational ownership. Per the delivery phasing, the customer-managed runtime container, Helm chart, ECS deployment template, and related artifacts land in **Phase 4** of the five-phase delivery plan (see the roadmap and implementation-strategy documents for phase detail).
 
-*Authoritative source: [AGREEMENTS.md — AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime), [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery); seed.md §3 Mode C, §18 Phase 4.*
+*Authoritative source: [AGREEMENTS.md — AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); seed.md §3 Mode C, §18 Phase 4.*
 
 ---
 
@@ -192,7 +192,7 @@ Register workload → Select policy → Generate integration manifest
     → Enable enforcement
 ```
 
-*Authoritative source: [AGREEMENTS.md — AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import); seed.md §4, §5.6.*
+*Authoritative source: [AGREEMENTS.md — AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); seed.md §4, §5.6.*
 
 ---
 
@@ -206,7 +206,7 @@ Register workload → Select policy → Generate integration manifest
 | **Platform-managed enforcement** | The platform team manages the LiteLLM configuration or gateway deployment | Medium — configuration is centrally controlled (e.g., read-only config, GitOps deployment, restricted IAM), but this is not full network/IAM enforcement |
 | **Network and IAM-enforced gateway** | All supported model traffic is forced through a controlled gateway; applications hold no direct provider credentials | Highest — bypass prevention is a design goal, appropriate when teams are semi-trusted or compliance evidence is required |
 
-Cooperative integration is appropriate for trusted teams where guardrails are an engineering standard and bypass prevention isn't a formal requirement — it is the model the initial cooperative MVP targets. **A cooperative connector must not be represented as a hard security boundary**, and sales/executive materials must not claim bypass-proof enforcement for cooperative-mode deployments. The stronger, network/IAM-enforced posture is available but is not required for the first MVP.
+Cooperative integration is appropriate for trusted teams where guardrails are an engineering standard and bypass prevention isn't a formal requirement — it is the model the initial cooperative rollout in Phases 1–2 targets. **A cooperative connector must not be represented as a hard security boundary**, and sales/executive materials must not claim bypass-proof enforcement for cooperative-mode deployments. The stronger, network/IAM-enforced posture is part of the trust model but is not required for the Phase 1–2 core platform.
 
 *Authoritative source: [AGREEMENTS.md — AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [CONSTRAINTS.md — CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); seed.md §8, §20 (Connector bypass risk).*
 
@@ -225,7 +225,7 @@ The consuming application remains fully responsible for:
 * Transaction limits.
 * Approval workflows.
 
-Tool and agent authorization may become a later product capability (see Phase 5, "Advanced agent protection," in the roadmap), but it is explicitly **out of scope for the guardrail MVP**. Documentation and sales materials must never describe a guardrail decision as an authorization decision — doing so would create false confidence and leave applications unaware they still own these responsibilities.
+Tool and agent authorization is a later-phase product capability (see Phase 5, "Advanced agent protection," in the roadmap — committed and estimated as part of the full solution, but **not built during Phases 1–2 and not available today**). End-user authentication and application business authorization remain excluded from the product entirely (seed.md §6.3). Documentation and sales materials must never describe a guardrail decision as an authorization decision — doing so would create false confidence and leave applications unaware they still own these responsibilities.
 
 *Authoritative source: [AGREEMENTS.md — AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization); seed.md §5.5, §6.3, §20 (False confidence risk).*
 
@@ -233,7 +233,7 @@ Tool and agent authorization may become a later product capability (see Phase 5,
 
 ## Related documents
 
-- [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — L1 authoritative agreement register (AGR-001 … AGR-022) that every answer above is derived from.
+- [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — L1 authoritative agreement register (AGR-001 … AGR-020) that every answer above is derived from.
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — L1 authoritative constraint register (CON-001 … CON-016) operationalizing the same agreements as checkable boundaries.
 - `PRODUCT-OVERVIEW.md` — narrative introduction to AI Guardrails and the three deployment modes (companion document in this directory).
 - `CAPABILITIES.md` — detailed capability list per deployment mode.

@@ -59,7 +59,7 @@ You may read and draw factual content from **only** the following files:
 
 | Path | Authority level | What you may draw from it |
 |---|---|---|
-| [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 | The 22 accepted agreements (AGR-001…AGR-022). This is your primary claim source — every material statement in the brief should trace to one or more of these. |
+| [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 | The 20 accepted agreements (AGR-001…AGR-020). This is your primary claim source — every material statement in the brief should trace to one or more of these. |
 | [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable technical/security boundaries (CON-001…CON-016). Use these when the brief needs to state a hard limit (e.g., account model, data handling) rather than a negotiated agreement. |
 | [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | L1 (authoritative that these are unvalidated) | Load-bearing but unconfirmed beliefs (ASM-NNN). Cite these whenever a statement in the brief depends on something not yet proven true — never present an ASM as if it were an AGR. |
 | [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | L1 (authoritative about what remains undecided) | Decisions not yet made (OQ-NNN). Use these to bound what the brief must **not** claim as settled, and to populate the "not asking leadership to commit to" boundary in the Decision Required section. |
@@ -68,7 +68,7 @@ You may read and draw factual content from **only** the following files:
 | [`30-executive/BUSINESS-CASE.md`](../30-executive/BUSINESS-CASE.md) | L3 | Fuller problem/impact framing — summarize from here rather than re-deriving from AGREEMENTS.md alone. |
 | [`30-executive/INVESTMENT-SUMMARY.md`](../30-executive/INVESTMENT-SUMMARY.md) | L3 | Investment/resourcing framing for Section 7 (Investment and organizational impact). |
 | [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) | L3 | The compressed risk table and dependency list for Section 8 (Principal risks). |
-| [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) | L4 | MVP success criteria and success-metric categories for Section 5 (Expected outcomes). |
+| [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) | L4 | Phase 1–2 validation criteria and success-metric categories for Section 5 (Expected outcomes). |
 | [`30-executive/DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md) | L4 | The precise decision framing and its boundaries for Section 10 (Decision required). |
 | [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) (previous version) | L4 | Your own prior output. Diff against it on a refresh; do not discard valid prior content without a reason traceable to a changed L1/L2 source. |
 
@@ -88,15 +88,15 @@ Mirror the section structure of the existing [`EXECUTIVE-BRIEF.md`](../30-execut
 | § | Section | Primary permitted-source inputs |
 |---|---|---|
 | — | Header block + authority disclaimer blockquote | This specification (§6 below) |
-| 1 | Executive summary | CHARTER.md; AGREEMENTS.md (AGR-001, AGR-002, AGR-022) |
+| 1 | Executive summary | CHARTER.md; AGREEMENTS.md (AGR-001, AGR-002, AGR-020) |
 | 2 | Current problem | BUSINESS-CASE.md; CHARTER.md (charter's own seed.md citations, preserved only) |
 | 3 | Business impact | BUSINESS-CASE.md; AGREEMENTS.md |
 | 4 | Proposed solution | CHARTER.md; AGREEMENTS.md (AGR-001, AGR-002, AGR-003, AGR-004, AGR-006, AGR-007, AGR-009, AGR-010, AGR-011, AGR-017) |
-| 5 | Expected outcomes | EXPECTED-OUTCOMES.md; AGREEMENTS.md (AGR-019, AGR-020); ASSUMPTIONS.md for anything still TBD |
-| 6 | Strategic alignment | AGREEMENTS.md (AGR-008, AGR-013, AGR-018, AGR-022); CHARTER.md |
+| 5 | Expected outcomes | EXPECTED-OUTCOMES.md; AGREEMENTS.md (AGR-020); DECISIONS.md (DEC-008); ASSUMPTIONS.md for anything still TBD |
+| 6 | Strategic alignment | AGREEMENTS.md (AGR-008, AGR-013, AGR-018, AGR-020); CHARTER.md |
 | 7 | Investment and organizational impact | INVESTMENT-SUMMARY.md; AGREEMENTS.md (AGR-013); ASSUMPTIONS.md for unresourced items (e.g., budget, headcount, timeline) |
-| 8 | Principal risks | RISKS-AND-DEPENDENCIES.md; AGREEMENTS.md (AGR-009, AGR-010, AGR-018, AGR-019) |
-| 9 | Recommended next step | DECISION-REQUEST.md; AGREEMENTS.md (AGR-022) |
+| 8 | Principal risks | RISKS-AND-DEPENDENCIES.md; AGREEMENTS.md (AGR-009, AGR-010, AGR-018, AGR-020) |
+| 9 | Recommended next step | DECISION-REQUEST.md; AGREEMENTS.md (AGR-020) |
 | 10 | Decision required | DECISION-REQUEST.md; OPEN-QUESTIONS.md (for the explicit "not asking for" boundary) |
 | — | Related documents footer | Standing list; update only if a linked document's path or title has actually changed |
 
@@ -119,8 +119,8 @@ Each numbered section must:
    * Describing a cooperative-mode connector as a hard, bypass-proof security boundary — contradicts [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
    * Implying reduced operational ownership (e.g., "fully managed") means reduced data exposure, or vice versa — contradicts [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns).
    * Presenting Bedrock Guardrails or LiteLLM as a permanent or exclusive product boundary rather than a first connector/engine — contradicts [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) and [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract).
-   * Asserting any feature outside the MVP boundary (per [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)) is available now, or committing Phase 2–5 resourcing as part of the Phase 1 decision (per [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)).
-   * Stating an MVP is "successful" or "complete" against fewer than all conditions in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration).
+   * Asserting that any later-phase capability is available now — nothing beyond what Phases 1–2 build exists today — or presenting the per-phase validation gates in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) as already satisfied. The solution is defined and estimated over the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), but each phase must still be validated before the next proceeds.
+   * Stating the Phase 1–2 validation demonstration is "successful" or "complete" against fewer than all of its conditions (`seed.md` §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 4. **No silent promotion of an assumption to fact.** If a claim depends on an `ASM-NNN` entry in `ASSUMPTIONS.md`, the brief must say so (e.g., "assuming X, which is currently unvalidated — see ASM-NNN") rather than stating it plainly.
 5. **No silent resolution of an open question.** If a claim touches an area covered by an `OQ-NNN` entry in `OPEN-QUESTIONS.md`, the brief must reflect the *current working assumption* language from that register, not a stronger or more settled version of it, and must not present it as decided.
 

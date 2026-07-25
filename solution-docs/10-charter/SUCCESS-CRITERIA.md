@@ -9,10 +9,10 @@
 
 ## Purpose and authority
 
-This document defines what "success" measurably means for the AI Guardrails solution, in two parts:
+This document defines what "success" measurably means for the AI Guardrails solution. Overall solution success is the delivery of the **full feature set** across the five delivery phases, each phase's completion criteria validated before the next phase's scope is committed ([`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Within that frame, this document covers two parts:
 
-1. **MVP demonstration criteria** — the specific, falsifiable conditions that must all be true for the MVP to be declared complete (seed.md §16; [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
-2. **Ongoing success metrics** — the indicators the platform must continue to measure after the MVP, grouped by Adoption, Reliability, Effectiveness, and Product portability (seed.md §19).
+1. **Phase 1–2 validation demonstration criteria** — the specific, falsifiable conditions that must all be true for the Phase 1–2 validation demonstration to be declared complete (seed.md §16; verification detailed in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). The demonstration is a delivery-plan milestone — not an L1 agreement and not the definition of overall solution success.
+2. **Ongoing success metrics** — the indicators the platform must continue to measure after the Phase 1–2 core is delivered, grouped by Adoption, Reliability, Effectiveness, and Product portability (seed.md §19).
 
 This is an **L2** document: it operationalizes the L1-authoritative agreements and constraints in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) into checkable criteria. It does not introduce new commitments — where seed.md and `AGREEMENTS.md` do not supply a number, this document records **TBD** rather than inventing one. Numeric targets must be filled in by the accountable owner (noted per metric) before they are used to gate a release or report externally reportable results.
 
@@ -22,7 +22,7 @@ No claim in sales, executive, or governance materials may assert that a success 
 
 ## Table of contents
 
-- [1. MVP demonstration criteria](#1-mvp-demonstration-criteria)
+- [1. Phase 1–2 validation demonstration criteria](#1-phase-12-validation-demonstration-criteria)
   - [1.1 Demonstration architecture](#11-demonstration-architecture)
   - [1.2 Criteria table](#12-criteria-table)
   - [1.3 Gating rule](#13-gating-rule)
@@ -31,14 +31,14 @@ No claim in sales, executive, or governance materials may assert that a success 
   - [2.2 Reliability](#22-reliability)
   - [2.3 Effectiveness](#23-effectiveness)
   - [2.4 Product portability](#24-product-portability)
-- [3. Relationship between MVP demonstration and ongoing metrics](#3-relationship-between-mvp-demonstration-and-ongoing-metrics)
+- [3. Relationship between the validation demonstration and ongoing metrics](#3-relationship-between-the-validation-demonstration-and-ongoing-metrics)
 - [4. Related documents](#4-related-documents)
 
 ---
 
-## 1. MVP demonstration criteria
+## 1. Phase 1–2 validation demonstration criteria
 
-The MVP exists to prove one hypothesis: **one reusable policy can be applied consistently to multiple independent LiteLLM deployments** (seed.md §16). Every criterion below is a direct restatement of seed.md §16 ("MVP demonstration") and is bound by [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), which requires that **all** of these conditions hold simultaneously — not a subset, and not one deployment exercised twice in place of two genuinely independent ones.
+Phases 1–2 exist to prove one hypothesis: **one reusable policy can be applied consistently to multiple independent LiteLLM deployments** (seed.md §16). Every criterion below is a direct restatement of seed.md §16 and is gated as a delivery milestone in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md): **all** of these conditions must hold simultaneously — not a subset, and not one deployment exercised twice in place of two genuinely independent ones. (Criterion IDs retain their historical `MVP-` prefix so existing cross-references stay valid; they name this Phase 1–2 validation demonstration.)
 
 ### 1.1 Demonstration architecture
 
@@ -79,19 +79,19 @@ Key properties the diagram is required to demonstrate:
 
 | ID | Criterion (seed.md §16) | What "met" looks like | Related agreement / constraint |
 |---|---|---|---|
-| MVP-01 | Two separate LiteLLM instances consume the same policy. | Two independently deployed LiteLLM instances are each bound to identical policy name and version via a policy binding; both are verified to resolve the same policy content. | [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (policy binding) |
-| MVP-02 | Neither instance shares model-provider credentials with the guardrail platform. | Audit of the guardrail platform's stored credentials/secrets shows no model-provider API keys or tokens for either workload; each LiteLLM instance retains sole custody of its own credentials. | [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import), [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies) |
+| MVP-01 | Two separate LiteLLM instances consume the same policy. | Two independently deployed LiteLLM instances are each bound to identical policy name and version via a policy binding; both are verified to resolve the same policy content. | seed.md §16, [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (policy binding) |
+| MVP-02 | Neither instance shares model-provider credentials with the guardrail platform. | Audit of the guardrail platform's stored credentials/secrets shows no model-provider API keys or tokens for either workload; each LiteLLM instance retains sole custody of its own credentials. | [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies) |
 | MVP-03 | Both receive consistent normalized decisions. | For equivalent evaluated content, both workloads' evaluations return decisions using the same decision schema (action, allowed status, reason codes, policy name/version, evaluator metadata, correlation identifier) as defined in seed.md §9 (Decision). | [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) |
 | MVP-04 | One workload can run in observe mode. | Workload A's binding is set to `observe`; evaluations execute and produce decisions, but no enforcement action (block/redact) is applied to the request path. | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) |
 | MVP-05 | Another workload can run in enforce mode. | Workload B's binding is set to `enforce` (or a stricter state such as `block`); a violation triggers the corresponding enforcement action (e.g., block) on the request path. | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) |
 | MVP-06 | A policy can be upgraded and rolled back. | A new immutable policy version is published, bound to a workload, and produces different (documented) evaluation behavior; the binding is then reverted to the prior version and prior behavior is restored, with both transitions captured in audit metadata. | seed.md §15 (Policy rollout: "Immutable versions... Immediate rollback") |
 | MVP-07 | Raw content persistence can be disabled. | With the tenant's retention configuration set to disable raw-content persistence, evaluated prompts/responses are not found in any runtime store, cache, or log after evaluation completes; decision metadata is still persisted. | [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime) |
 | MVP-08 | Evaluation failures follow a configured failure policy. | With a detector or the Evaluation API forced into a failure condition (timeout, unavailability), the workload's configured failure behavior (e.g., allow-and-log, block, cached policy) executes exactly as configured, and the failure path is captured in the audit record. | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) |
-| MVP-09 | The runtime can later be packaged for customer-managed deployment without changing the connector contract. | The evaluation runtime is built and validated to run as a deployable artifact (e.g., container) suitable for a customer-managed environment, while the LiteLLM connector's invocation contract (request/response shapes to the Evaluation API) remains unchanged from the hosted-mode contract. This criterion validates packaging feasibility; full customer-managed deployment is delivered in Phase 4, not the MVP. | [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) (Phase 4 scope) |
+| MVP-09 | The runtime can later be packaged for customer-managed deployment without changing the connector contract. | The evaluation runtime is built and validated to run as a deployable artifact (e.g., container) suitable for a customer-managed environment, while the LiteLLM connector's invocation contract (request/response shapes to the Evaluation API) remains unchanged from the hosted-mode contract. This criterion validates packaging feasibility; full customer-managed deployment is delivered in Phase 4, not Phases 1–2. | [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) (Phase 4 scope) |
 
 ### 1.3 Gating rule
 
-Per AGR-020, the MVP is considered successful **only when all nine criteria (MVP-01 through MVP-09) are demonstrated together**, using two genuinely independent LiteLLM deployments. A subset of criteria passing, or the same deployment exercised twice under different labels, does not satisfy the demonstration. The demonstration result is the primary evidence cited in downstream executive and sales materials about product portability, and any such citation must reference this table, not a paraphrase of it.
+The Phase 1–2 validation demonstration is met **only when all nine criteria (MVP-01 through MVP-09) are demonstrated together**, using two genuinely independent LiteLLM deployments (seed.md §16). Passing it validates Phase 1–2 completion before Phase 3 scope is committed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). A subset of criteria passing, or the same deployment exercised twice under different labels, does not satisfy the demonstration. The demonstration result is the primary evidence cited in downstream executive and sales materials about product portability, and any such citation must reference this table, not a paraphrase of it.
 
 Verification method, environment, and sign-off owner for each criterion are **TBD** and must be defined in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) and gated in [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md).
 
@@ -99,7 +99,7 @@ Verification method, environment, and sign-off owner for each criterion are **TB
 
 ## 2. Ongoing success metrics
 
-Once the MVP demonstration (Section 1) has been satisfied, the platform must continue to measure its health and value along four dimensions, taken directly from seed.md §19. Seed.md does not supply numeric targets, baselines, or measurement cadences for any of these; every target below is recorded as **TBD** until an accountable owner sets it, consistent with the source-of-truth policy against inventing figures.
+Once the Phase 1–2 validation demonstration (Section 1) has been satisfied, the platform must continue to measure its health and value along four dimensions, taken directly from seed.md §19. Seed.md does not supply numeric targets, baselines, or measurement cadences for any of these; every target below is recorded as **TBD** until an accountable owner sets it, consistent with the source-of-truth policy against inventing figures.
 
 ### 2.1 Adoption
 
@@ -109,7 +109,7 @@ Once the MVP demonstration (Section 1) has been satisfied, the platform must con
 | Number of active tenants | Count of tenants with at least one workload actively consuming evaluations. | TBD | "Active" threshold (e.g., minimum evaluation volume or recency) is TBD. |
 | Percentage of supported LiteLLM instances using the connector | Share of known/eligible LiteLLM deployments that have the connector installed and in use, out of the addressable population. | TBD | Denominator ("supported LiteLLM instances") must be defined operationally before this is reportable. |
 | Time required to onboard a workload | Elapsed time from workload registration start to first successful evaluation in observe mode, following the onboarding flow in seed.md §4. | TBD | Should be tracked as a distribution (e.g., median and a tail percentile), not a single point estimate, once a target is set. |
-| Percentage of workloads using a shared policy | Share of workloads bound to a policy also used by at least one other workload, versus workloads on a fully bespoke policy. | TBD | Directly evidences the core reusable-policy hypothesis validated by the MVP demonstration (Section 1). |
+| Percentage of workloads using a shared policy | Share of workloads bound to a policy also used by at least one other workload, versus workloads on a fully bespoke policy. | TBD | Directly evidences the core reusable-policy hypothesis validated by the Phase 1–2 validation demonstration (Section 1). |
 
 ### 2.2 Reliability
 
@@ -143,26 +143,27 @@ Once the MVP demonstration (Section 1) has been satisfied, the platform must con
 
 ---
 
-## 3. Relationship between MVP demonstration and ongoing metrics
+## 3. Relationship between the validation demonstration and ongoing metrics
 
-The MVP demonstration criteria (Section 1) and the ongoing success metrics (Section 2) serve different purposes and must not be conflated:
+The Phase 1–2 validation demonstration criteria (Section 1) and the ongoing success metrics (Section 2) serve different purposes and must not be conflated:
 
-* The **MVP demonstration** is a one-time, binary, all-or-nothing gate (per AGR-020) that proves the core reusable-policy hypothesis is *architecturally* true. It answers: *can* one policy be applied consistently across independent gateways, with clean credential and content-persistence boundaries, and survive a version upgrade/rollback and a failure condition?
-* The **ongoing metrics** are continuous, quantitative indicators that track whether the platform *continues* to deliver that value at scale, after the MVP gate has already been passed. They answer: *is it actually being adopted, staying reliable, proving effective, and remaining portable over time?*
+* The **validation demonstration** is a one-time, binary, all-or-nothing gate (per the gating rule in [Section 1.3](#13-gating-rule)) that proves the core reusable-policy hypothesis is *architecturally* true. It answers: *can* one policy be applied consistently across independent gateways, with clean credential and content-persistence boundaries, and survive a version upgrade/rollback and a failure condition?
+* The **ongoing metrics** are continuous, quantitative indicators that track whether the platform *continues* to deliver that value at scale, after the demonstration gate has already been passed. They answer: *is it actually being adopted, staying reliable, proving effective, and remaining portable over time?*
 
-Several ongoing metrics are direct longitudinal extensions of MVP criteria — for example, "percentage of workloads using a shared policy" (§2.1) extends MVP-01, and "percentage of policies promoted from observe to enforce" (§2.3) extends MVP-04/MVP-05. Where such a relationship exists, the metric's baseline measurement should be taken at the moment the MVP demonstration is completed, so that post-MVP trends are measured against a known starting point rather than an assumed one.
+Several ongoing metrics are direct longitudinal extensions of MVP criteria — for example, "percentage of workloads using a shared policy" (§2.1) extends MVP-01, and "percentage of policies promoted from observe to enforce" (§2.3) extends MVP-04/MVP-05. Where such a relationship exists, the metric's baseline measurement should be taken at the moment the validation demonstration is completed, so that post-MVP trends are measured against a known starting point rather than an assumed one.
 
 ---
 
 ## 4. Related documents
 
-- [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements, in particular AGR-020 (MVP success demonstration) and AGR-011 (observe-before-enforce).
+- [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements, in particular AGR-020 (five-phase delivery) and AGR-011 (observe-before-enforce).
+- [`00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — DEC-008 records that the solution is defined and estimated over the full feature set across five phases, and that the demonstration in Section 1 is a delivery milestone rather than the register-level definition of solution success.
 - [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — authoritative constraints referenced throughout Section 1 and Section 2.
 - [`10-charter/CHARTER.md`](CHARTER.md) — the product charter narrative this document derives its scope from.
-- [`10-charter/SCOPE.md`](SCOPE.md) — MVP scope boundaries that bound what the demonstration criteria may assume exists.
+- [`10-charter/SCOPE.md`](SCOPE.md) — the core (Phases 1–2) scope boundaries that bound what the demonstration criteria may assume exists.
 - [`10-charter/PRINCIPLES.md`](PRINCIPLES.md) — product principles (portability, one contract, observe-before-enforce, failure behavior) that Section 1's criteria operationalize.
-- [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) — must gate MVP release on all nine criteria in Section 1.2, not a subset.
+- [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) — must gate Phase 1–2 (core platform) release on all nine criteria in Section 1.2, not a subset.
 - [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — must define concrete verification methods for each criterion in Section 1.2.
 - [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) — should sequence delivery of the two independent LiteLLM deployments needed for the demonstration.
-- [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — may cite the MVP demonstration result as evidence, but must not restate it in a way that contradicts Section 1.3's gating rule.
+- [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — may cite the validation demonstration result as evidence, but must not restate it in a way that contradicts Section 1.3's gating rule.
 - [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — must reject any external claim that a criterion or metric has been met unless recorded here.

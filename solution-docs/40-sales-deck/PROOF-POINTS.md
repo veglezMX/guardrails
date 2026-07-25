@@ -55,7 +55,7 @@ Sales-facing wording is authored downstream of this register, not the other way 
 | [PP-003](#pp-003--vendor-independent-evaluation-contract) | Vendor-independent evaluation contract | Confirmed design |
 | [PP-004](#pp-004--content-need-not-leave-a-customer-managed-runtime) | Content need not leave a customer-managed runtime | Confirmed design |
 | [PP-005](#pp-005--observe-mode-measures-effectiveness-before-blocking-becomes-possible) | Observe mode measures effectiveness before blocking becomes possible | Confirmed design (mechanism) / Architectural hypothesis (outcome) |
-| [PP-006](#pp-006--mvp-demonstration-one-policy-two-independent-gateways-no-shared-credentials) | MVP demonstration: one policy, two independent gateways, no shared credentials | Architectural hypothesis |
+| [PP-006](#pp-006--phase-12-validation-demonstration-one-policy-two-independent-gateways-no-shared-credentials) | Phase 1–2 validation demonstration: one policy, two independent gateways, no shared credentials | Architectural hypothesis |
 | [PP-007](#pp-007--no-undocumented-fallback-failure-behavior-is-explicit) | No undocumented fallback: failure behavior is explicit | Confirmed design |
 | [PP-008](#pp-008--guardrails-are-not-authorization) | Guardrails are not authorization | Confirmed design |
 
@@ -67,7 +67,7 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 **Evidence status:** Confirmed design. This is a directly accepted agreement, not an inferred benefit.
 
-**Supporting sources:** [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) (meaning of "import"); [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm) (standalone platform, not embedded in a single team's LiteLLM); seed.md §4 (Definition of the import capability, onboarding flow diagram); seed.md §3, Mode A (consuming team retains LiteLLM availability, model routing, retry/fallback, gateway upgrades, inference capacity, model-provider costs); [`../50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md) (records the standalone-platform architecture decision this claim depends on).
+**Supporting sources:** [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) (meaning of "import"); [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm) (standalone platform, not embedded in a single team's LiteLLM); seed.md §4 (Definition of the import capability, onboarding flow diagram); seed.md §3, Mode A (consuming team retains LiteLLM availability, model routing, retry/fallback, gateway upgrades, inference capacity, model-provider costs); [`../50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md) (records the standalone-platform architecture decision this claim depends on).
 
 **Restrictions:** Do not describe "import" as taking administrative control of, cloning, or remotely operating another team's gateway — the onboarding flow (register workload → select policy → generate integration manifest → install connector → observe → review → enforce) is the only sanctioned reference implementation of the term. Do not imply zero engineering effort: a connector must still be installed and, in cooperative mode, maintained by the consuming team. Do not cite an onboarding-duration figure — "time required to onboard a workload" is listed in seed.md §19 as an adoption metric to be measured, not a number available today.
 
@@ -81,7 +81,7 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 **Supporting sources:** [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (three deployment modes); [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) (one logical evaluation contract); seed.md §3 (Core architectural decision — Modes A, B, C); seed.md §5.2 (One contract across deployment modes); [CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes).
 
-**Restrictions:** Do not claim feature parity across modes is automatic or effortless — per AGR-002, feature-parity gaps between modes must be explicitly tracked and justified, not assumed away. Do not claim this portability is already generally available across all three modes today: per [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery), Customer-Managed Runtime is a Phase 4 deliverable, sequenced after Phase 1 (integration proof), Phase 2 (internal multi-team platform), and Phase 3 (guarded gateway). State this claim as an architectural commitment across the delivery arc, not a same-day capability.
+**Restrictions:** Do not claim feature parity across modes is automatic or effortless — per AGR-002, feature-parity gaps between modes must be explicitly tracked and justified, not assumed away. Do not claim this portability is already generally available across all three modes today: per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), Customer-Managed Runtime is a Phase 4 deliverable, sequenced after Phase 1 (integration proof), Phase 2 (internal multi-team platform), and Phase 3 (guarded gateway). State this claim as an architectural commitment across the delivery arc, not a same-day capability.
 
 ---
 
@@ -105,7 +105,7 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 **Supporting sources:** [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection) (executes without a synchronous control-plane connection); [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime) (customer-controlled telemetry); seed.md §13 (Customer-managed telemetry: "Raw content must never leave a customer-managed runtime unless explicitly configured"); seed.md §3, Mode C; [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured).
 
-**Restrictions:** This claim applies **only** to Mode C (Customer-Managed Runtime). It must never be generalized to Mode A (Remote Evaluation), which explicitly transmits prompts, responses, and any additional evaluated content to the hosted Evaluation API — per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), Mode A must never be described as a private-data or data-local model. Do not present Customer-Managed Runtime as generally available today — per AGR-022 it is a Phase 4 deliverable. Do not cite a specific latency or throughput figure for the local runtime — none is established in the source material.
+**Restrictions:** This claim applies **only** to Mode C (Customer-Managed Runtime). It must never be generalized to Mode A (Remote Evaluation), which explicitly transmits prompts, responses, and any additional evaluated content to the hosted Evaluation API — per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), Mode A must never be described as a private-data or data-local model. Do not present Customer-Managed Runtime as generally available today — per AGR-020 it is a Phase 4 deliverable. Do not cite a specific latency or throughput figure for the local runtime — none is established in the source material.
 
 ---
 
@@ -121,15 +121,15 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 ---
 
-## PP-006 — MVP demonstration: one policy, two independent gateways, no shared credentials
+## PP-006 — Phase 1–2 validation demonstration: one policy, two independent gateways, no shared credentials
 
-**Claim:** The MVP is designed to demonstrate that two separate LiteLLM instances can consume the same guardrail policy and receive consistent, normalized decisions, while neither instance shares model-provider credentials with the guardrail platform; that one workload can run in observe mode while another runs in enforce mode; that a policy can be upgraded and rolled back; that raw content persistence can be disabled; and that the runtime can later be packaged for customer-managed deployment without changing the connector contract.
+**Claim:** The Phase 1–2 validation demonstration is designed to show that two separate LiteLLM instances can consume the same guardrail policy and receive consistent, normalized decisions, while neither instance shares model-provider credentials with the guardrail platform; that one workload can run in observe mode while another runs in enforce mode; that a policy can be upgraded and rolled back; that raw content persistence can be disabled; and that the runtime can later be packaged for customer-managed deployment without changing the connector contract.
 
-**Evidence status:** Architectural hypothesis. [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) records this as the condition the MVP delivery must satisfy to be considered successful — it is a planned validation milestone, not a result already obtained.
+**Evidence status:** Architectural hypothesis. seed.md §16 and [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) record this as the Phase 1–2 validation milestone in the delivery plan — a planned milestone, not a result already obtained. Per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), it is a delivery-plan milestone, not an L1 agreement and not the register-level definition of overall solution success.
 
-**Supporting sources:** [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) (MVP success demonstration); seed.md §16 (MVP demonstration); seed.md §18, Phase 1 (Integration proof: "Prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways").
+**Supporting sources:** seed.md §16 (the two-instance demonstration); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) (Phase 1–2 validation milestone); seed.md §18, Phase 1 (Integration proof: "Prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways").
 
-**Restrictions:** Do not present this demonstration as already completed, or cite it as production evidence, until it has actually been executed and its results recorded against a real, independent pair of LiteLLM deployments — per AGR-020's own implication, delivery planning must produce two genuinely independent deployments, not one deployment tested twice. Until execution, describe this only prospectively ("the MVP is designed to demonstrate," "the MVP's success criterion is"), never retrospectively ("AI Guardrails has demonstrated" or "proven").
+**Restrictions:** Do not present this demonstration as already completed, or cite it as production evidence, until it has actually been executed and its results recorded against a real, independent pair of LiteLLM deployments — per the demonstration's own definition (seed.md §16), delivery planning must produce two genuinely independent deployments, not one deployment tested twice. Until execution, describe this only prospectively ("the Phase 1–2 validation demonstration is designed to show," "the Phase 1–2 validation criterion is"), never retrospectively ("AI Guardrails has demonstrated" or "proven"). Do not present it as the definition of overall solution success — full-solution success is all five phases delivered and validated.
 
 ---
 
@@ -149,11 +149,11 @@ Sales-facing wording is authored downstream of this register, not the other way 
 
 **Claim:** A guardrail decision that content or a tool call "appears safe" is architecturally and contractually distinct from a determination that the current user is authorized to execute that action against a given resource. The consuming application retains full responsibility for authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows.
 
-**Evidence status:** Confirmed design. This is a directly accepted agreement, and tool/agent authorization is explicitly named as out of scope for the guardrail MVP.
+**Evidence status:** Confirmed design. This is a directly accepted agreement, and business authorization is explicitly named in the seed.md §6.3 exclusions.
 
 **Supporting sources:** [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) (guardrails are not authorization); seed.md §5.5 (Guardrails are not authorization); seed.md §6.3 (Out of scope for the MVP — "Application business authorization," "End-user authentication"); [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies).
 
-**Restrictions:** Never describe a guardrail "allow" decision as an authorization decision, an access-control decision, or a compliance sign-off in sales or customer-facing language. Do not imply the platform performs tenant isolation, resource-ownership checks, transaction-limit enforcement, or approval workflows — these remain the consuming application's responsibility, both today and in the near-term roadmap (tool and agent authorization is future scope, per seed.md §6.2, not an MVP capability).
+**Restrictions:** Never describe a guardrail "allow" decision as an authorization decision, an access-control decision, or a compliance sign-off in sales or customer-facing language. Do not imply the platform performs tenant isolation, resource-ownership checks, transaction-limit enforcement, or approval workflows — these remain the consuming application's responsibility, both today and across the delivery arc (tool and agent authorization integration lands in Phase 5, per seed.md §6.2, and is not available today; business authorization remains excluded per seed.md §6.3).
 
 ---
 
@@ -164,7 +164,7 @@ Consistent with the restriction on fabricated evidence, this document does **not
 * Any specific latency, availability, or throughput figure (P50/P95/P99 evaluation latency, timeout rate, evaluation throughput) — seed.md §15 defines these as things the platform *must measure*, not numbers already measured.
 * Any adoption figure (number of onboarded workloads, number of active tenants, time to onboard) — seed.md §19 lists these as adoption metrics to be tracked going forward.
 * Any customer name, case study, or deployment outcome — none appears in `seed.md` or `AGREEMENTS.md`.
-* Any claim that a cooperative-mode connector is bypass-proof — per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), a cooperative connector must never be represented as a hard security boundary; only platform-managed or network/IAM-enforced postures raise bypass resistance, and neither is an MVP requirement.
+* Any claim that a cooperative-mode connector is bypass-proof — per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), a cooperative connector must never be represented as a hard security boundary; only platform-managed or network/IAM-enforced postures raise bypass resistance, and neither is required for the initial cooperative delivery (Phases 1–2).
 
 Where sales or executive materials need one of the figures above, the correct action is to mark it **TBD**, not to draft language around an assumed number.
 
@@ -180,4 +180,4 @@ Where sales or executive materials need one of the figures above, the correct ac
 * [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — the authoritative register of approved external-facing wording; where this document and the claims register diverge, the claims register governs exact phrasing.
 * [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — risks (false confidence, connector bypass, hosted data exposure) that qualify several claims above.
 * [`../50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md) — the architecture decision record backing the standalone-platform claim in PP-001 and PP-003.
-* [`../30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — executive framing of the MVP demonstration referenced in PP-006.
+* [`../30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — executive framing of the Phase 1–2 validation demonstration referenced in PP-006.

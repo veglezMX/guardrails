@@ -16,7 +16,7 @@
 - [1. Purpose of this document](#1-purpose-of-this-document)
 - [2. Definitions: output, outcome, metric, business effect](#2-definitions-output-outcome-metric-business-effect)
 - [3. Logic model](#3-logic-model)
-- [4. The MVP demonstration as the first proof point](#4-the-mvp-demonstration-as-the-first-proof-point)
+- [4. The Phase 1–2 validation demonstration as the first proof point](#4-the-phase-12-validation-demonstration-as-the-first-proof-point)
 - [5. Expected outcomes by cluster](#5-expected-outcomes-by-cluster)
 - [6. On numeric targets](#6-on-numeric-targets)
 - [7. What this document does not claim](#7-what-this-document-does-not-claim)
@@ -35,7 +35,7 @@ It does so by separating four categories that are easy to conflate in executive 
 * **Metric** — an observable, trackable indicator that the outcome is (or is not) occurring.
 * **Business effect** — the organizational value that follows if the metric moves in the intended direction.
 
-Every row in Section 5 is grounded in the success metrics enumerated in seed.md §19 and in the MVP demonstration defined in seed.md §16 and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration). No metric, target, or business effect below is invented beyond what seed.md and `AGREEMENTS.md` support; where a causal or quantitative claim is not present in the source material, it is stated qualitatively or marked **TBD** rather than estimated.
+Every row in Section 5 is grounded in the success metrics enumerated in seed.md §19 and in the Phase 1–2 validation demonstration defined in seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md). No metric, target, or business effect below is invented beyond what seed.md and `AGREEMENTS.md` support; where a causal or quantitative claim is not present in the source material, it is stated qualitatively or marked **TBD** rather than estimated.
 
 ---
 
@@ -65,11 +65,11 @@ This chain runs left to right in each row of Section 5: a delivered output enabl
 
 ---
 
-## 4. The MVP demonstration as the first proof point
+## 4. The Phase 1–2 validation demonstration as the first proof point
 
-Before any ongoing metric in seed.md §19 is meaningful, the platform must first clear the one-time, binary MVP demonstration gate defined in seed.md §16 and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration): **one reusable policy applied consistently to two independent LiteLLM deployments**, with no shared model-provider credentials, consistent normalized decisions, one workload in observe mode and one in enforce mode, a policy upgrade-and-rollback cycle, disableable raw-content persistence, a configured failure policy exercised under failure, and a demonstrated path to customer-managed packaging.
+Before any ongoing metric in seed.md §19 is meaningful, the platform must first clear the one-time, binary Phase 1–2 validation demonstration defined in seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md): **one reusable policy applied consistently to two independent LiteLLM deployments**, with no shared model-provider credentials, consistent normalized decisions, one workload in observe mode and one in enforce mode, a policy upgrade-and-rollback cycle, disableable raw-content persistence, a configured failure policy exercised under failure, and a demonstrated path to customer-managed packaging. This demonstration is a delivery-plan milestone, not the definition of overall solution success ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 
-The nine specific criteria (MVP-01 through MVP-09), their pass conditions, and the gating rule that all nine must hold simultaneously are defined in full in [`10-charter/SUCCESS-CRITERIA.md` §1](../10-charter/SUCCESS-CRITERIA.md#1-mvp-demonstration-criteria) and are not repeated here. This document treats that demonstration as **Cluster A** below — the foundational output/outcome pair that every other cluster's ongoing metrics build on.
+The nine specific criteria (MVP-01 through MVP-09), their pass conditions, and the gating rule that all nine must hold simultaneously are defined in full in [`10-charter/SUCCESS-CRITERIA.md` §1](../10-charter/SUCCESS-CRITERIA.md#1-phase-12-validation-demonstration-criteria) and are not repeated here. This document treats that demonstration as **Cluster A** below — the foundational output/outcome pair that every other cluster's ongoing metrics build on.
 
 ---
 
@@ -77,14 +77,14 @@ The nine specific criteria (MVP-01 through MVP-09), their pass conditions, and t
 
 Each cluster groups a related set of outputs, the outcome they jointly enable, the metric(s) from seed.md §19 that make that outcome observable, and the resulting business effect. Metric targets are **TBD** throughout — see [Section 6](#6-on-numeric-targets).
 
-### Cluster A — Reusable policy across independent gateways (the MVP hypothesis)
+### Cluster A — Reusable policy across independent gateways (the reusable-policy hypothesis)
 
 | ID | Type | Statement | Basis |
 |---|---|---|---|
 | EO-A1 | Output | Guardrail policy format, versioned policy storage, workload registry, and policy-to-workload binding, deployed and bound identically to two organizationally independent LiteLLM instances. | seed.md §16 MVP components 1–4; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) |
 | EO-A2 | Output | Central Evaluation API, Bedrock Guardrails adapter, basic deterministic evaluator, and LiteLLM pre-call/post-call connectors, deployed against both instances. | seed.md §16 MVP components 5, 6, 7, 8, 9 |
-| EO-A3 | Outcome | Two independent teams apply the **same** versioned policy to their own LiteLLM gateways, without transferring model-provider credentials to the guardrail platform, and receive consistent normalized decisions — i.e., **consistent controls across teams and gateways** without standardizing on one gateway or provider. | seed.md §16; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) |
-| EO-A4 | Metric | MVP demonstration criteria MVP-01 through MVP-09 (binary, all-or-nothing per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)). Target: pass/fail; verification method and owner **TBD** — see [`10-charter/SUCCESS-CRITERIA.md` §1.2](../10-charter/SUCCESS-CRITERIA.md#12-criteria-table). | seed.md §16 |
+| EO-A3 | Outcome | Two independent teams apply the **same** versioned policy to their own LiteLLM gateways, without transferring model-provider credentials to the guardrail platform, and receive consistent normalized decisions — i.e., **consistent controls across teams and gateways** without standardizing on one gateway or provider. | seed.md §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) |
+| EO-A4 | Metric | Validation demonstration criteria MVP-01 through MVP-09 (binary, all-or-nothing per [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). Target: pass/fail; verification method and owner **TBD** — see [`10-charter/SUCCESS-CRITERIA.md` §1.2](../10-charter/SUCCESS-CRITERIA.md#12-criteria-table). | seed.md §16 |
 | EO-A5 | Metric | Percentage of workloads using a shared policy. Target: **TBD**. | seed.md §19 Adoption |
 | EO-A6 | Business effect | Central governance of AI safeguards does not require forcing every team onto one model provider, application framework, or LiteLLM deployment (seed.md §2) — **lower engineering duplication** and lower risk of ungoverned, ad hoc safeguard implementations across teams. | seed.md §2, §3 (Business impact) |
 
@@ -92,8 +92,8 @@ Each cluster groups a related set of outputs, the outcome they jointly enable, t
 
 | ID | Type | Statement | Basis |
 |---|---|---|---|
-| EO-B1 | Output | Onboarding flow implemented end to end: register workload → select policy → generate integration manifest → install connector → run in observe mode → review evaluation results → enable enforcement. | seed.md §4; [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) |
-| EO-B2 | Outcome | Application teams onboard to central guardrails through a simple process with minimal application changes, without transferring their LiteLLM database, model-provider credentials, or gateway administration access to the guardrail platform. | seed.md §4, §7 (Application teams needs); [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) |
+| EO-B1 | Output | Onboarding flow implemented end to end: register workload → select policy → generate integration manifest → install connector → run in observe mode → review evaluation results → enable enforcement. | seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) |
+| EO-B2 | Outcome | Application teams onboard to central guardrails through a simple process with minimal application changes, without transferring their LiteLLM database, model-provider credentials, or gateway administration access to the guardrail platform. | seed.md §4, §7 (Application teams needs); [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) |
 | EO-B3 | Metric | Number of onboarded workloads. Target: **TBD**. | seed.md §19 Adoption |
 | EO-B4 | Metric | Number of active tenants. Target: **TBD**. | seed.md §19 Adoption |
 | EO-B5 | Metric | Time required to onboard a workload. Target: **TBD**. | seed.md §19 Adoption |
@@ -147,7 +147,7 @@ Each cluster groups a related set of outputs, the outcome they jointly enable, t
 
 Every metric target in Section 5 is marked **TBD**, consistent with [`10-charter/SUCCESS-CRITERIA.md` §2](../10-charter/SUCCESS-CRITERIA.md#2-ongoing-success-metrics), which records the same metrics with the same TBD status and assigns target-setting to an accountable owner per metric. This document does not set, estimate, or imply any numeric target, baseline, cadence, or dollar figure beyond what seed.md and `AGREEMENTS.md` state. Any numeric target eventually adopted must be recorded first in `SUCCESS-CRITERIA.md` (or a successor `RELEASE-CRITERIA.md`), not introduced here as a new commitment.
 
-Per [`00-source-of-truth/AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), the MVP demonstration result (Cluster A) becomes the primary evidence cited in executive and sales materials about product portability — but only the demonstration result itself, referenced against the nine-criteria table in `SUCCESS-CRITERIA.md`, not a paraphrase or a subset.
+Per seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), the Phase 1–2 validation demonstration result (Cluster A) becomes the primary early evidence cited in executive and sales materials about product portability — but only the demonstration result itself, referenced against the nine-criteria table in `SUCCESS-CRITERIA.md`, not a paraphrase or a subset. The demonstration is a delivery-plan milestone, not the register-level definition of overall solution success ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 
 ---
 
@@ -159,8 +159,8 @@ Consistent with the authoritative agreements this document derives from:
 * **Remote Evaluation (Mode A) is not described as reducing data exposure.** "Reduced operational ownership" (Cluster B/E business effects) is never conflated with "reduced content exposure" — per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) and [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), operational ownership and data exposure are always separate questions; only Mode C (Cluster F) changes the data-exposure answer.
 * **No outcome in this document implies business authorization.** Guardrail decisions (Cluster D) evaluate content safety; they do not determine whether a user is authorized to take an action — per [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
 * **No outcome implies bypass-proof enforcement in cooperative mode.** Cluster A and C outcomes hold for cooperative integration; a cooperative connector remains removable or misconfigurable and must never be represented as a hard security boundary — per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
-* **Clusters beyond the MVP boundary (retrieval evaluation, tool-call validation, MCP authorization, and similar Phase 5 capabilities) are out of scope for this document.** Phase 5 is a separate, later product expansion, not an MVP prerequisite — per [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) — and its outcomes are not estimated here.
-* **This document does not gate release.** The binary MVP gate is defined in [`10-charter/SUCCESS-CRITERIA.md` §1.3](../10-charter/SUCCESS-CRITERIA.md#13-gating-rule); this document may be cited as context but must not be read as an alternative or looser gate.
+* **Phase 5 capabilities (retrieval evaluation, tool-call validation, MCP integration) do not yet have outcome rows here.** They are part of the full solution scope defined and estimated under [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), delivered last per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); their outcome and metric rows will be added to Section 5 when Phase 5 planning begins. Product-category exclusions in seed.md §6.3 — including a general MCP security platform and business authorization — remain out of scope entirely (see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md)).
+* **This document does not gate release.** The binary demonstration gate is defined in [`10-charter/SUCCESS-CRITERIA.md` §1.3](../10-charter/SUCCESS-CRITERIA.md#13-gating-rule); this document may be cited as context but must not be read as an alternative or looser gate.
 
 ---
 
@@ -171,9 +171,10 @@ Consistent with the authoritative agreements this document derives from:
 * [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) — unvalidated beliefs, including the two independent teams needed for the Cluster A demonstration.
 * [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) — unresolved decisions that could change which outcomes are achievable and when.
 * [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) — full product charter narrative underlying every cluster in Section 5.
-* [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) — the authoritative MVP demonstration criteria (MVP-01–09) and the full ongoing-metrics tables this document's Metric rows summarize by cluster.
+* [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) — the authoritative validation demonstration criteria (MVP-01–09) and the full ongoing-metrics tables this document's Metric rows summarize by cluster.
+* [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — the Phase 1–2 validation demonstration (Section 4) as a delivery-plan milestone.
 * [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — the product principles (portability, one contract, observe-before-enforce, failure behavior) each cluster's outcome operationalizes.
 * [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — the phase sequencing that determines when each cluster's outputs become deliverable.
-* [`30-executive/EXECUTIVE-BRIEF.md`](EXECUTIVE-BRIEF.md) — the executive ask this document's outcomes support; Section 5 (Expected outcomes) of that brief summarizes the MVP-level view expanded here.
+* [`30-executive/EXECUTIVE-BRIEF.md`](EXECUTIVE-BRIEF.md) — the executive ask this document's outcomes support; Section 5 (Expected outcomes) of that brief summarizes the demonstration-and-outcomes view expanded here.
 * [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — the risks (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, over-expansion) that could prevent a cluster's outcome or business effect from materializing.
 * [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — must reject any external claim that a business effect or metric in Section 5 has already been achieved unless recorded as met in that register or in `SUCCESS-CRITERIA.md`.

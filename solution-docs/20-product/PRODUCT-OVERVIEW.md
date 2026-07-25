@@ -103,7 +103,7 @@ For full ownership breakdowns (who owns availability, credentials, routing, retr
 
 ## 5. Capabilities snapshot
 
-The initial product scope is deliberately bounded so the platform can prove one core hypothesis first: that a single reusable policy can be applied consistently across independent gateways. The table below reflects what is **in scope today**.
+The solution is defined — and its delivery estimated — over its full feature set ([`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), with delivery sequenced so that Phases 1–2 first prove one core hypothesis: that a single reusable policy can be applied consistently across independent gateways. The table below reflects the **Phase 1–2 core capabilities**.
 
 | Area | Capability |
 |---|---|
@@ -126,15 +126,15 @@ The initial product scope is deliberately bounded so the platform can prove one 
 
 *(seed.md §6.1 — In scope)*
 
-### Designed to extend, not yet required
+### Committed later-phase capabilities
 
-The architecture is designed to permit — but the MVP does not require — capabilities such as retrieval-content evaluation, indirect prompt-injection detection, streaming output evaluation, tool-call validation, MCP authorization, memory-write validation, groundedness evaluation, multilingual policy packs, human approval workflows, and dedicated hosted or air-gapped runtimes. These are candidate future-scope items, not commitments. See `20-product/PRODUCT-ROADMAP.md` for phasing.
+The full solution also includes capabilities such as retrieval-content evaluation, indirect prompt-injection detection, streaming output evaluation, tool-call validation, MCP authorization, memory-write validation, groundedness evaluation, multilingual policy packs, human approval workflows, and dedicated hosted or air-gapped runtimes. These are committed to later delivery phases (mostly Phase 5) and included in the full-solution estimation ([`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) — but they are not built during Phases 1–2 and are **not available today**. See `20-product/PRODUCT-ROADMAP.md` for phasing.
 
 *(seed.md §6.2 — Future scope)*
 
-### Explicitly out of scope for the MVP
+### Explicitly out of scope
 
-AI Guardrails is not, and does not attempt in its MVP to be: a general-purpose LLM gateway replacement, a complete AI governance platform, a model training or fine-tuning system, a proprietary prompt-injection or moderation model, a complete DLP platform, an end-user authentication system, an application business-authorization system, a fully autonomous agent-governance system, organization-wide AWS enforcement, a cross-cloud deployment, a multi-region active-active service, a fully certified compliance product, or a general MCP security platform.
+AI Guardrails is not, and does not attempt to be: a general-purpose LLM gateway replacement, a complete AI governance platform, a model training or fine-tuning system, a proprietary prompt-injection or moderation model, a complete DLP platform, an end-user authentication system, an application business-authorization system, a fully autonomous agent-governance system, organization-wide AWS enforcement, a cross-cloud deployment, a multi-region active-active service, a fully certified compliance product, or a general MCP security platform.
 
 *(seed.md §6.3 — Out of scope for the MVP)*
 
@@ -172,7 +172,7 @@ A full glossary lives in `70-governance/GLOSSARY.md`.
 
 ## 8. From onboarding to enforcement
 
-Adopting AI Guardrails for a workload — referred to in product materials as **importing** a policy — never means handing the guardrail provider control of a team's gateway. "Import" means adopting a versioned policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode. It never requires copying a team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, or granting administrative access to the team's gateway. ([`AGREEMENTS.md` AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import))
+Adopting AI Guardrails for a workload — referred to in product materials as **importing** a policy — never means handing the guardrail provider control of a team's gateway. "Import" means adopting a versioned policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode. It never requires copying a team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, or granting administrative access to the team's gateway. ([`AGREEMENTS.md` AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import))
 
 ```text
 Register workload
@@ -213,7 +213,7 @@ Enterprise readers should carry these boundaries forward into any sales or execu
 * **Not an authorization system.** A guardrail decision that content or a tool call appears safe is not a decision that the current user is permitted to take that action against a given resource. Authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows remain the consuming application's responsibility. ([`AGREEMENTS.md` AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization))
 * **Not a guaranteed bypass-proof boundary in every mode.** A cooperatively installed connector can be disabled, removed, or misconfigured, and must never be represented as a hard security boundary. Bypass resistance increases as a workload moves from cooperative integration, to platform-managed enforcement, to a network/IAM-enforced gateway. ([`AGREEMENTS.md` AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model))
 * **Not a private-data model in Remote Evaluation.** Mode A transmits tenant content to the hosted Evaluation API; it reduces operational ownership of the inference path, not data exposure. ([`AGREEMENTS.md` AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model))
-* **Not a complete AI governance platform, DLP platform, or compliance certification.** See §5 above for the full out-of-scope list for the MVP.
+* **Not a complete AI governance platform, DLP platform, or compliance certification.** See §5 above for the full out-of-scope list — these exclusions apply to the full feature set, not just its first phases.
 
 For the canonical list of claims that are and are not safe to make externally, see `70-governance/CLAIMS-REGISTER.md`.
 
@@ -221,7 +221,7 @@ For the canonical list of claims that are and are not safe to make externally, s
 
 ## 10. Where this fits in delivery
 
-AI Guardrails is delivered in five phases, moving from a narrow integration proof toward the full three-mode platform. This overview describes the target product; current delivery status and phase gating live in `20-product/PRODUCT-ROADMAP.md` and `60-delivery/MILESTONES.md`.
+AI Guardrails is delivered in five phases, moving from a narrow integration proof toward the full three-mode platform. The full feature set is committed and estimated across these phases ([`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), with each phase validated before the next proceeds. This overview describes the target product; current delivery status and phase gating live in `20-product/PRODUCT-ROADMAP.md` and `60-delivery/MILESTONES.md`.
 
 | Phase | Objective |
 |---|---|
@@ -229,9 +229,9 @@ AI Guardrails is delivered in five phases, moving from a narrow integration proo
 | 2 — Internal multi-team platform | Allow multiple internal teams to onboard and operate distinct workloads |
 | 3 — Guarded gateway | Offer a fully hosted model and guardrail path for teams without their own gateway |
 | 4 — Customer-managed runtime | Support workloads that require local evaluation and content isolation |
-| 5 — Advanced agent protection | Extend guardrail coverage beyond prompt and response evaluation (a separate product expansion, not an MVP prerequisite) |
+| 5 — Advanced agent protection | Extend guardrail coverage beyond prompt and response evaluation (committed final phase — sequenced last, not available today) |
 
-*(seed.md §18; [`AGREEMENTS.md` AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery))*
+*(seed.md §18; [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery))*
 
 ---
 

@@ -28,10 +28,9 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - [AGR-016 — Customer-controlled telemetry for the customer-managed runtime](#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)
 - [AGR-017 — Core domain model](#agr-017--core-domain-model)
 - [AGR-018 — Trust and enforcement model](#agr-018--trust-and-enforcement-model)
-- [AGR-019 — MVP scope boundaries](#agr-019--mvp-scope-boundaries)
-- [AGR-020 — MVP success demonstration](#agr-020--mvp-success-demonstration)
-- [AGR-021 — Meaning of "import"](#agr-021--meaning-of-import)
-- [AGR-022 — Five-phase delivery](#agr-022--five-phase-delivery)
+- [AGR-019 — Meaning of "import"](#agr-019--meaning-of-import)
+- [AGR-020 — Five-phase delivery](#agr-020--five-phase-delivery)
+- [AGR-021 — Guardrail-category taxonomy and extension model](#agr-021--guardrail-category-taxonomy-and-extension-model)
 
 ---
 
@@ -366,45 +365,8 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 
 ---
 
-## AGR-019 — MVP scope boundaries
 
-**Status:** Accepted
-**Date:** 2026-07-24
-**Owners:** Product lead, technical lead
-**Agreement:** The MVP scope is bounded to versioned guardrail policies, workload registration, policy-to-workload bindings, input/output evaluation, LiteLLM integration, a generic HTTP Evaluation API, the Bedrock Guardrails adapter, deterministic rules, basic sensitive-data handling, normalized decisions, observe/enforce modes, latency metrics, and decision auditing; it explicitly excludes a general-purpose LLM gateway replacement, a complete AI governance platform, model training, proprietary detection models, a complete DLP platform, end-user authentication, business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, multi-region active-active availability, full compliance certification, and a general MCP security platform.
-**Rationale:** A tightly bounded MVP validates the core policy-reuse hypothesis (AGR-020) before committing to the much larger investment implied by adjacent capabilities.
-**Implications:**
-- Any proposed feature outside this boundary requires an explicit scope-change decision, not silent inclusion.
-- Future-scope items (retrieval evaluation, tool-call validation, MCP authorization, and similar) may be designed for extensibility but must not be built during the MVP.
-- Delivery milestones must be evaluated against this boundary before being marked complete.
-**Affected documents:**
-- `10-charter/SCOPE.md`
-- `20-product/PRODUCT-ROADMAP.md`
-- `60-delivery/IMPLEMENTATION-STRATEGY.md`
-- `60-delivery/RELEASE-CRITERIA.md`
-
----
-
-## AGR-020 — MVP success demonstration
-
-**Status:** Accepted
-**Date:** 2026-07-24
-**Owners:** Product lead, technical lead
-**Agreement:** The MVP is considered successful only when two separate LiteLLM instances consume the same policy without sharing model-provider credentials with the guardrail platform, both receive consistent normalized decisions, one workload runs in observe mode while another runs in enforce mode, a policy can be upgraded and rolled back, raw content persistence can be disabled, evaluation failures follow a configured failure policy, and the runtime can later be packaged for customer-managed deployment without changing the connector contract.
-**Rationale:** A concrete, falsifiable demonstration prevents the MVP from being declared "done" on the basis of individual components working in isolation rather than the core reusable-policy hypothesis being proven end to end.
-**Implications:**
-- Delivery planning must produce two genuinely independent LiteLLM deployments to exercise this demonstration, not one deployment tested twice.
-- Release criteria must gate MVP completion on all listed conditions, not a subset.
-- The demonstration result becomes the primary evidence cited in executive and sales materials about product portability.
-**Affected documents:**
-- `60-delivery/RELEASE-CRITERIA.md`
-- `60-delivery/VALIDATION-PLAN.md`
-- `30-executive/EXPECTED-OUTCOMES.md`
-- `70-governance/CLAIMS-REGISTER.md`
-
----
-
-## AGR-021 — Meaning of "import"
+## AGR-019 — Meaning of "import"
 
 **Status:** Accepted
 **Date:** 2026-07-24
@@ -423,7 +385,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 
 ---
 
-## AGR-022 — Five-phase delivery
+## AGR-020 — Five-phase delivery
 
 **Status:** Accepted
 **Date:** 2026-07-24
@@ -439,3 +401,25 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - `60-delivery/MILESTONES.md`
 - `20-product/PRODUCT-ROADMAP.md`
 - `30-executive/EXPECTED-OUTCOMES.md`
+
+---
+
+## AGR-021 — Guardrail-category taxonomy and extension model
+
+**Status:** Accepted
+**Date:** 2026-07-24
+**Owners:** Product lead, technical lead, security and governance lead
+**Agreement:** The product adopts an eighteen-category guardrail taxonomy (GR-001 through GR-018, cataloged in `20-product/GUARDRAIL-CATALOG.md`) as its sanctioned classification of guardrail controls and its directional growth vision, together with a defined extension model (documented in `50-architecture/EXTENSIBILITY-ARCHITECTURE.md`) consisting of four extension seams — new evaluation stages, new evaluation engines, new decision actions, and new connectors. Catalog entries are classification, not commitment: an entry is not scheduled, resourced, or estimated unless it is separately committed through the existing scope registers, and every extension must extend — never fork — the core domain model (AGR-017) and the one logical evaluation contract (AGR-006).
+**Rationale:** Without a named taxonomy, guardrail growth would occur ad hoc — new checks, stages, and evaluators added without a shared classification, eroding policy portability and inviting silent scope expansion. A change-controlled category taxonomy paired with explicit extension seams lets the product grow incrementally while keeping the contract stable and the scope registers authoritative.
+**Implications:**
+- Category identifiers (GR-001 through GR-018) are change-controlled: adding, removing, renaming, or reclassifying a category is a register-level change, not an editorial one.
+- Item-level guardrails listed inside a category are illustrative and may be edited without register change, provided they do not contradict this register or `CONSTRAINTS.md`.
+- Catalog entries whose subject matter falls under a standing exclusion (seed.md §6.3) or under AGR-010 must be classified out-of-boundary with a named external owner and must never be presented as future deliverables.
+- This taxonomy does not alter the defined-and-estimated full feature set recorded by DEC-008; graduation of a vision-classified entry into committed scope requires the scope-change process (`10-charter/SCOPE.md` §8) and a recorded decision.
+**Affected documents:**
+- `20-product/GUARDRAIL-CATALOG.md`
+- `50-architecture/EXTENSIBILITY-ARCHITECTURE.md`
+- `50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`
+- `00-source-of-truth/TRACEABILITY-MATRIX.md`
+- `70-governance/GLOSSARY.md`
+- `70-governance/CLAIMS-REGISTER.md`

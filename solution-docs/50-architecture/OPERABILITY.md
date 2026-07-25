@@ -150,6 +150,8 @@ The platform must measure the following, per [`seed.md` §15](../../seed.md#15-o
 
 All metrics must be attributable by **tenant**, **workload**, **policy version**, and **evaluation stage** — the same dimensions carried in the audit record ([Section 5](#5-auditing-metadata)) — so that a performance anomaly can always be traced back to a specific policy, workload, or tenant without cross-referencing a separate system.
 
+**Guardrail category as a planned metric dimension.** With the category catalog adopted ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model); [`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)), per-category decision counts and block/redact rates are a natural future extension of the decision-distribution metric — but they are **not committed**: category attribution of a decision depends on the reason-code taxonomy, which is TBD and tracked as [OQ-019](../00-source-of-truth/OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension). Until OQ-019 resolves, no per-category metric is defined and no figure is invented for one.
+
 ---
 
 ## 4. Policy rollout
@@ -214,7 +216,7 @@ Per [`seed.md` §11](../../seed.md#11-aws-implementation-direction), audit event
 
 ### 6.1 Metrics
 
-The performance metrics in [Section 3](#3-performance-metrics) are the primary quantitative observability signal, intended for the operational-metrics AWS service named in [`seed.md` §11](../../seed.md#11-aws-implementation-direction) (Amazon CloudWatch). All metrics must be attributable by tenant, workload, policy version, and evaluation stage.
+The performance metrics in [Section 3](#3-performance-metrics) are the primary quantitative observability signal, intended for the operational-metrics AWS service named in [`seed.md` §11](../../seed.md#11-aws-implementation-direction) (Amazon CloudWatch). All metrics must be attributable by tenant, workload, policy version, and evaluation stage. Guardrail category ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)) is a planned fifth attribution dimension, gated on the reason-code taxonomy ([OQ-019](../00-source-of-truth/OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension)) — see the note in Section 3.
 
 ### 6.2 Logs and correlation
 

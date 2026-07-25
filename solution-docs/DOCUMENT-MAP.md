@@ -31,9 +31,9 @@ As of this writing, the documentation set spans **10 top-level folders and 69 Ma
 | Reader | Start here | Focus | Supporting documents |
 | --- | --- | --- | --- |
 | **Executive sponsor** | [`30-executive/EXECUTIVE-BRIEF.md`](30-executive/EXECUTIVE-BRIEF.md) | Business case, expected outcomes, risks | [`BUSINESS-CASE.md`](30-executive/BUSINESS-CASE.md) · [`EXPECTED-OUTCOMES.md`](30-executive/EXPECTED-OUTCOMES.md) · [`RISKS-AND-DEPENDENCIES.md`](30-executive/RISKS-AND-DEPENDENCIES.md) · [`INVESTMENT-SUMMARY.md`](30-executive/INVESTMENT-SUMMARY.md) · [`DECISION-REQUEST.md`](30-executive/DECISION-REQUEST.md) |
-| **Product or sales** | [`20-product/PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md) | Value proposition, personas, use cases | [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) · [`TARGET-USERS.md`](20-product/TARGET-USERS.md) · [`USE-CASES.md`](20-product/USE-CASES.md) · [`CAPABILITIES.md`](20-product/CAPABILITIES.md) · [`DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md) · [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) · [`PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) · [`FAQ.md`](20-product/FAQ.md) |
+| **Product or sales** | [`20-product/PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md) | Value proposition, personas, use cases | [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) · [`TARGET-USERS.md`](20-product/TARGET-USERS.md) · [`USE-CASES.md`](20-product/USE-CASES.md) · [`CAPABILITIES.md`](20-product/CAPABILITIES.md) · [`GUARDRAIL-CATALOG.md`](20-product/GUARDRAIL-CATALOG.md) · [`DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md) · [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) · [`PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) · [`FAQ.md`](20-product/FAQ.md) |
 | **Presentation agent** | [`40-sales-deck/DECK-BRIEF.md`](40-sales-deck/DECK-BRIEF.md) | Slide outline, narrative, proof points | [`SLIDE-OUTLINE.md`](40-sales-deck/SLIDE-OUTLINE.md) · [`SALES-NARRATIVE.md`](40-sales-deck/SALES-NARRATIVE.md) · [`PROOF-POINTS.md`](40-sales-deck/PROOF-POINTS.md) · [`AUDIENCE-AND-PERSONAS.md`](40-sales-deck/AUDIENCE-AND-PERSONAS.md) · [`BENEFITS-AND-OUTCOMES.md`](40-sales-deck/BENEFITS-AND-OUTCOMES.md) · [`CUSTOMER-PAIN-POINTS.md`](40-sales-deck/CUSTOMER-PAIN-POINTS.md) · [`OBJECTION-HANDLING.md`](40-sales-deck/OBJECTION-HANDLING.md) · [`CALL-TO-ACTION.md`](40-sales-deck/CALL-TO-ACTION.md) · [`VISUAL-DIRECTION.md`](40-sales-deck/VISUAL-DIRECTION.md) |
-| **Technical lead** | [`50-architecture/ARCHITECTURE-REPORT.md`](50-architecture/ARCHITECTURE-REPORT.md) | NFRs, security, deployment, feasibility | [`NON-FUNCTIONAL-REQUIREMENTS.md`](50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) · [`REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) · [`SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) · [`DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) · [`FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) · [`SYSTEM-CONTEXT.md`](50-architecture/SYSTEM-CONTEXT.md) · [`CONTAINER-ARCHITECTURE.md`](50-architecture/CONTAINER-ARCHITECTURE.md) · [`COMPONENT-ARCHITECTURE.md`](50-architecture/COMPONENT-ARCHITECTURE.md) · [`DATA-ARCHITECTURE.md`](50-architecture/DATA-ARCHITECTURE.md) · [`INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) · [`OPERABILITY.md`](50-architecture/OPERABILITY.md) · [`TECHNICAL-RISKS.md`](50-architecture/TECHNICAL-RISKS.md) · [`TRADE-OFFS.md`](50-architecture/TRADE-OFFS.md) · [`adrs/README.md`](50-architecture/adrs/README.md) |
+| **Technical lead** | [`50-architecture/ARCHITECTURE-REPORT.md`](50-architecture/ARCHITECTURE-REPORT.md) | NFRs, security, deployment, feasibility | [`NON-FUNCTIONAL-REQUIREMENTS.md`](50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) · [`REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) · [`SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) · [`DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) · [`FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) · [`SYSTEM-CONTEXT.md`](50-architecture/SYSTEM-CONTEXT.md) · [`CONTAINER-ARCHITECTURE.md`](50-architecture/CONTAINER-ARCHITECTURE.md) · [`COMPONENT-ARCHITECTURE.md`](50-architecture/COMPONENT-ARCHITECTURE.md) · [`DATA-ARCHITECTURE.md`](50-architecture/DATA-ARCHITECTURE.md) · [`INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) · [`EXTENSIBILITY-ARCHITECTURE.md`](50-architecture/EXTENSIBILITY-ARCHITECTURE.md) · [`OPERABILITY.md`](50-architecture/OPERABILITY.md) · [`TECHNICAL-RISKS.md`](50-architecture/TECHNICAL-RISKS.md) · [`TRADE-OFFS.md`](50-architecture/TRADE-OFFS.md) · [`adrs/README.md`](50-architecture/adrs/README.md) |
 | **Delivery lead** | [`60-delivery/IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | Milestones, dependencies, validation | [`MILESTONES.md`](60-delivery/MILESTONES.md) · [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) · [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) · [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) · [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) |
 | **Contributor or agent** | [`10-charter/CHARTER.md`](10-charter/CHARTER.md) | Agreements, principles, output contracts | [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) · [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) · [`SCOPE.md`](10-charter/SCOPE.md) · [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) · [`80-agent-inputs/OUTPUT-CONTRACTS.md`](80-agent-inputs/OUTPUT-CONTRACTS.md) · [`80-agent-inputs/README.md`](80-agent-inputs/README.md) · [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) |
 
@@ -76,14 +76,14 @@ Supporting documents, in the order they are typically needed:
 
 **Start here:** [`20-product/PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md)
 
-Answers: what AI Guardrails is, why it exists, the three operating models, who it serves, and where the MVP boundary sits — without requiring architecture depth.
+Answers: what AI Guardrails is, why it exists, the three operating models, who it serves, and where the phased scope boundary sits — without requiring architecture depth.
 
 Supporting documents:
 
 - [`20-product/VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) — the value case per audience.
 - [`20-product/TARGET-USERS.md`](20-product/TARGET-USERS.md) — platform teams, application teams, security/compliance, product operators.
 - [`20-product/USE-CASES.md`](20-product/USE-CASES.md) — concrete scenarios, including the meaning of "import."
-- [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) — the MVP capability catalog (L2 — definitional).
+- [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) — the capability catalog (L2 — definitional).
 - [`20-product/DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md) — what distinguishes the product from alternatives.
 - [`20-product/PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) — the problem being solved, stated plainly.
 - [`20-product/PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) — how capability grows across the five delivery phases.
@@ -120,7 +120,7 @@ Supporting documents:
 - [`50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) and [`REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) — the requirement baselines (L2 — definitional).
 - [`50-architecture/SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) — security requirements and controls.
 - [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) — the three deployment modes realized as infrastructure.
-- [`50-architecture/FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) — build feasibility against the MVP boundary.
+- [`50-architecture/FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) — build feasibility against the phased delivery boundary.
 - [`50-architecture/SYSTEM-CONTEXT.md`](50-architecture/SYSTEM-CONTEXT.md), [`CONTAINER-ARCHITECTURE.md`](50-architecture/CONTAINER-ARCHITECTURE.md), [`COMPONENT-ARCHITECTURE.md`](50-architecture/COMPONENT-ARCHITECTURE.md) — the C4 view set, in zoom order.
 - [`50-architecture/DATA-ARCHITECTURE.md`](50-architecture/DATA-ARCHITECTURE.md) — the domain model and data-handling design.
 - [`50-architecture/INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) — the LiteLLM connector and Bedrock Guardrails adapter.
@@ -132,14 +132,14 @@ Supporting documents:
 
 **Start here:** [`60-delivery/IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md)
 
-Covers the relationship to the roadmap and scope, the five delivery phases and build sequence, the MVP boundary, build-vs-buy decisions, and integration order.
+Covers the relationship to the roadmap and scope, the five delivery phases and build sequence, the phase boundaries, build-vs-buy decisions, and integration order.
 
 Supporting documents:
 
 - [`60-delivery/MILESTONES.md`](60-delivery/MILESTONES.md) — milestone-level breakdown of the delivery phases.
 - [`60-delivery/DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) — cross-phase and cross-team dependencies.
-- [`60-delivery/VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) — how the MVP demonstration is proven out.
-- [`60-delivery/RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) — the MVP exit gates (L2 — definitional).
+- [`60-delivery/VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) — how the Phase 1–2 validation demonstration is proven out.
+- [`60-delivery/RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) — the Phase 1–2 exit gates (L2 — definitional).
 - [`60-delivery/TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) — who owns what across delivery.
 
 ### Contributor or agent
@@ -152,8 +152,8 @@ Supporting documents:
 
 - [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) — the authoritative agreements the charter is derived from; never contradict this.
 - [`10-charter/PRINCIPLES.md`](10-charter/PRINCIPLES.md) — the product principles (policy portability, one contract across modes, observe-before-enforce, and so on).
-- [`10-charter/SCOPE.md`](10-charter/SCOPE.md) — in-scope, future-scope, and out-of-scope boundaries.
-- [`10-charter/SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) — what counts as success for the MVP and beyond.
+- [`10-charter/SCOPE.md`](10-charter/SCOPE.md) — in-scope, later-phase, and out-of-scope boundaries.
+- [`10-charter/SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) — what counts as success across the delivery phases.
 - [`80-agent-inputs/OUTPUT-CONTRACTS.md`](80-agent-inputs/OUTPUT-CONTRACTS.md) — the binding output contract for every generation agent (sales deck, architecture review, executive brief, charter maintenance).
 - [`80-agent-inputs/README.md`](80-agent-inputs/README.md) — why the agent-inputs directory exists and the "reference, don't duplicate" rule.
 - [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) — canonical vocabulary used consistently across the set.
@@ -201,7 +201,7 @@ solution-docs/
 
 | Document | Purpose |
 | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 22 accepted agreements that no other document may contradict. |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 20 accepted agreements that no other document may contradict. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | Standing assumptions underlying the solution. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | Hard constraints on the solution. |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log. |
@@ -214,14 +214,15 @@ solution-docs/
 | --- | --- |
 | [`CHARTER.md`](10-charter/CHARTER.md) | Purpose, vision, stakeholders, scope, principles, operating model, success criteria. |
 | [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) | The product's guiding principles. |
-| [`SCOPE.md`](10-charter/SCOPE.md) | In-scope, future-scope, and out-of-scope boundaries. |
+| [`SCOPE.md`](10-charter/SCOPE.md) | In-scope, later-phase, and out-of-scope boundaries. |
 | [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) | What counts as success. |
 
 ### `20-product/` — L2 (`CAPABILITIES.md`) / L4 (remainder)
 
 | Document | Purpose |
 | --- | --- |
-| [`CAPABILITIES.md`](20-product/CAPABILITIES.md) | The MVP capability catalog. |
+| [`CAPABILITIES.md`](20-product/CAPABILITIES.md) | The capability catalog, by delivery status. |
+| [`GUARDRAIL-CATALOG.md`](20-product/GUARDRAIL-CATALOG.md) | The guardrail-category taxonomy (`GR-001`–`GR-018`) — vision taxonomy, classification not commitment (AGR-021). |
 | [`DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md) | What distinguishes the product. |
 | [`FAQ.md`](20-product/FAQ.md) | Frequently asked questions. |
 | [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) | The problem being solved. |
@@ -266,7 +267,8 @@ solution-docs/
 | [`CONTAINER-ARCHITECTURE.md`](50-architecture/CONTAINER-ARCHITECTURE.md) | Container-level view. |
 | [`DATA-ARCHITECTURE.md`](50-architecture/DATA-ARCHITECTURE.md) | Domain model and data handling. |
 | [`DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) | The three deployment modes as infrastructure. |
-| [`FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) | Build feasibility against the MVP boundary. |
+| [`FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) | Build feasibility against the phased delivery boundary. |
+| [`EXTENSIBILITY-ARCHITECTURE.md`](50-architecture/EXTENSIBILITY-ARCHITECTURE.md) | The growth model — extension seams and catalog graduation process. |
 | [`INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) | LiteLLM connector and Bedrock Guardrails adapter. |
 | [`NON-FUNCTIONAL-REQUIREMENTS.md`](50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | Non-functional requirement baseline. |
 | [`OPERABILITY.md`](50-architecture/OPERABILITY.md) | Availability, failure behavior, rollout mechanics. |
@@ -277,17 +279,18 @@ solution-docs/
 | [`TRADE-OFFS.md`](50-architecture/TRADE-OFFS.md) | Design trade-off analysis. |
 | [`adrs/README.md`](50-architecture/adrs/README.md) | Architecture Decision Record index. |
 | [`adrs/ADR-0001-example-decision.md`](50-architecture/adrs/ADR-0001-example-decision.md) | Decision to build as a standalone platform. |
+| [`adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) | Guardrail-category catalog and extension model (Proposed). |
 
 ### `60-delivery/` — L2 (`RELEASE-CRITERIA.md`) / L3 (remainder)
 
 | Document | Purpose |
 | --- | --- |
 | [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) | Cross-phase and cross-team dependencies. |
-| [`IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | Delivery phases, build sequence, MVP boundary, build-vs-buy, integration order. |
+| [`IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | Delivery phases, build sequence, phase boundaries, build-vs-buy, integration order. |
 | [`MILESTONES.md`](60-delivery/MILESTONES.md) | Milestone-level breakdown of delivery. |
-| [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | MVP exit gates. |
+| [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | Phase 1–2 exit gates. |
 | [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) | Ownership across delivery. |
-| [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | How the MVP demonstration is proven out. |
+| [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | How the Phase 1–2 validation demonstration is proven out. |
 
 ### `70-governance/` — L2 (`CLAIMS-REGISTER.md`, `DOCUMENT-GOVERNANCE.md`, `GLOSSARY.md`, `REFERENCES.md`, `RISK-REGISTER.md`)
 

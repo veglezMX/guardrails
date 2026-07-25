@@ -117,7 +117,7 @@ Build the Guardrails Control Plane and Runtime as an independently deployable pr
 - Keeps policy definitions portable and vendor-independent, consistent with product principle 5.1 and 5.3 (AGR-005, AGR-007).
 - Allows the same evaluation contract to be honored by Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime alike (AGR-006).
 - Leaves LiteLLM's own roadmap and operations untouched and independently owned, while still letting LiteLLM serve double duty as the Guarded Gateway substrate when useful (seed.md §22).
-- Directly supports the MVP demonstration requirement of proving policy reuse across two independent LiteLLM deployments (seed.md §16; AGR-020).
+- Directly supports the Phase 1–2 validation demonstration requirement of proving policy reuse across two independent LiteLLM deployments (seed.md §16; [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md)).
 
 ### Comparison summary
 
@@ -128,7 +128,7 @@ Build the Guardrails Control Plane and Runtime as an independently deployable pr
 | Policy portability preserved (§5.1) | At risk | At risk | Preserved by design |
 | Enables Customer-Managed Runtime (Mode C) | No | No | Yes |
 | Risk of becoming a gateway replacement (out of MVP scope, §6.3) | Low (but scope-limited) | High | Low |
-| Supports MVP two-instance policy-reuse demonstration (§16) | No | No | Yes |
+| Supports the Phase 1–2 two-instance policy-reuse demonstration (§16) | No | No | Yes |
 | Independent versioning and release cadence | No | Partial | Yes |
 
 ## Consequences
@@ -158,11 +158,11 @@ The following key risks from the charter (seed.md §20) are directly relevant to
 - **Latency** — a standalone runtime reached over the network adds synchronous evaluation latency compared to logic executing in-process inside LiteLLM. This must be measured per evaluator and mitigated with stage-specific timeouts, local deterministic checks, and, where necessary, the Customer-Managed Runtime option (seed.md §20, "Latency").
 - **Hosted data exposure** — for Remote Evaluation and Guarded Gateway modes, prompts and responses reach a runtime outside the consuming team's direct operational boundary; this must be explicitly documented per AGR-008 and AGR-009 rather than implied away by "standalone" architecture (seed.md §20, "Hosted data exposure").
 - **Policy fragmentation** — as more workloads bind to the platform, workload-specific overrides could erode the consistency that motivated building a standalone platform in the first place; overrides must be limited and tracked (seed.md §20, "Policy fragmentation").
-- **Product over-expansion** — a standalone platform creates surface area (control plane, runtime, multiple connectors, multiple deployment modes) that could tempt scope growth into gateway management, full AI governance, or authorization before the core integration is validated. Strict MVP boundaries (AGR-019) are the explicit mitigation (seed.md §20, "Product over-expansion").
+- **Product over-expansion** — a standalone platform creates surface area (control plane, runtime, multiple connectors, multiple deployment modes) that could tempt scope growth into gateway management, full AI governance, or authorization before the core integration is validated. Strict phased scope boundaries (`10-charter/SCOPE.md`; AGR-020) are the explicit mitigation (seed.md §20, "Product over-expansion").
 
 ## Validation Required
 
-This decision is not considered validated until the MVP demonstration defined in the charter and in [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) has been executed and passed. Specifically, the MVP must show that (seed.md §16, MVP demonstration):
+This decision is not considered validated until the Phase 1–2 validation demonstration defined in the charter and in [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md) has been executed and passed. Specifically, the demonstration must show that (seed.md §16, MVP demonstration):
 
 1. **Two separate LiteLLM instances** consume the **same policy**.
 2. **Neither instance shares model-provider credentials** with the guardrail platform.
@@ -173,13 +173,13 @@ This decision is not considered validated until the MVP demonstration defined in
 7. **Evaluation failures follow a configured failure policy** rather than an undocumented fallback (see AGR-012).
 8. The runtime **can later be packaged for customer-managed deployment without changing the connector contract**.
 
-Delivery planning must produce **two genuinely independent LiteLLM deployments** to exercise this demonstration — not the same deployment tested twice (AGR-020 implications). Until all eight conditions are met, this ADR's premise — that a standalone platform is both necessary and sufficient to enable policy reuse across independent gateways — remains unproven in practice, even though it is architecturally accepted.
+Delivery planning must produce **two genuinely independent LiteLLM deployments** to exercise this demonstration — not the same deployment tested twice (seed.md §16; `60-delivery/VALIDATION-PLAN.md`). Until all eight conditions are met, this ADR's premise — that a standalone platform is both necessary and sufficient to enable policy reuse across independent gateways — remains unproven in practice, even though it is architecturally accepted.
 
-This demonstration corresponds to **Phase 1 — Integration proof** of the five-phase delivery plan (seed.md §18; AGR-022), whose stated objective is to *"prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways."*
+This demonstration corresponds to **Phase 1 — Integration proof** of the five-phase delivery plan (seed.md §18; AGR-020), whose stated objective is to *"prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways."*
 
 ## Related Agreements
 
-This ADR is grounded in, and must remain consistent with, the following authoritative agreements from [AGREEMENTS.md](../../00-source-of-truth/AGREEMENTS.md):
+This ADR is grounded in, and must remain consistent with, the following authoritative agreements from [AGREEMENTS.md](../../00-source-of-truth/AGREEMENTS.md) and governing documents:
 
 | Agreement | Relevance to this ADR |
 |---|---|
@@ -190,9 +190,9 @@ This ADR is grounded in, and must remain consistent with, the following authorit
 | [AGR-006](../../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) | The single logical evaluation contract that must hold across all deployment modes enabled by this decision. |
 | [AGR-007](../../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors) | The mandatory separation between policy and connector that this architecture is built to enforce. |
 | [AGR-012](../../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) | Governs the "evaluation failures follow a configured failure policy" condition of the validation demonstration. |
-| [AGR-019](../../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries) | The MVP scope boundary that constrains this architecture against over-expansion. |
-| [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) | The concrete, falsifiable success demonstration that validates this decision. |
-| [AGR-022](../../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) | Places this ADR's validation inside Phase 1 — Integration proof of the five-phase delivery plan. |
+| [`../../10-charter/SCOPE.md`](../../10-charter/SCOPE.md) (see [DEC-008](../../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) | The phased scope boundary that constrains this architecture against over-expansion (formerly AGR-019 "MVP scope boundaries", removed by DEC-008). |
+| [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md) (seed.md §16) | The concrete, falsifiable Phase 1–2 validation demonstration that validates this decision (formerly AGR-020 "MVP success demonstration", removed by DEC-008). |
+| [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) | Places this ADR's validation inside Phase 1 — Integration proof of the five-phase delivery plan. |
 
 ## Related Documents
 

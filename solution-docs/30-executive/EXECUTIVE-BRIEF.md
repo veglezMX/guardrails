@@ -17,9 +17,9 @@ Teams across the organization are building applications and agentic workflows on
 
 **AI Guardrails** is proposed as a standalone, AWS-based policy and enforcement platform that separates *what must be evaluated* (organizational policy) from *how a specific application or gateway invokes it* (a connector). Teams can adopt the same guardrail policy whether they operate their own LiteLLM gateway, consume a fully managed inference-and-guardrail service, or run the guardrail runtime inside their own AWS account under their own data-isolation requirements.
 
-The product will be delivered as a bounded MVP focused on proving one thing: that **a single reusable policy can be applied consistently to multiple independent LiteLLM deployments**, with normalized decisions, an observe-before-enforce rollout path, and no undocumented failure behavior. Broader capabilities — full governance tooling, agent/tool authorization, multi-cloud support, compliance certification — are explicitly deferred until this core hypothesis is validated.
+The solution is defined — and its delivery estimated — over the **full feature set**, organized across five sequenced delivery phases (per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). Its first proof point remains narrow and falsifiable: that **a single reusable policy can be applied consistently to multiple independent LiteLLM deployments**, with normalized decisions, an observe-before-enforce rollout path, and no undocumented failure behavior — demonstrated during Phases 1–2 and validated before later phases proceed. Product-category exclusions — general-purpose gateway replacement, complete AI governance platform, business authorization, cross-cloud deployment, compliance certification, among others — remain out of scope per seed.md §6.3.
 
-This brief asks leadership to approve building AI Guardrails as a standalone platform and to commit the resourcing needed to execute **Phase 1 (Integration Proof)**, the first of five sequenced delivery phases.
+This brief asks leadership to approve building AI Guardrails as a standalone platform over the **full solution scope — all five delivery phases** — on the basis of an estimation built over the full feature set, with execution sequenced so that each phase is validated before the next proceeds.
 
 ---
 
@@ -83,7 +83,7 @@ For the fuller technical and product picture, see [`10-charter/CHARTER.md`](../1
 
 ## 5. Expected outcomes
 
-The MVP is scoped to prove a single, falsifiable hypothesis rather than to deliver a complete governance platform (per [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)). The MVP will be considered successful when:
+The first proof point is the **Phase 1–2 validation demonstration** — a delivery-plan milestone defined in seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), not the definition of overall solution success ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). It proves a single, falsifiable hypothesis before later phases proceed, and passes when:
 
 * Two organizationally independent LiteLLM instances consume the **same** versioned policy.
 * Neither instance shares model-provider credentials with the guardrail platform.
@@ -94,7 +94,7 @@ The MVP is scoped to prove a single, falsifiable hypothesis rather than to deliv
 * Evaluation failures follow an explicitly configured failure policy (no undocumented fallback behavior).
 * The runtime can later be packaged for customer-managed deployment without changing the connector contract.
 
-Beyond the MVP, the product's success will be tracked against four categories of metrics defined in the charter (seed.md §19): **adoption** (onboarded workloads, active tenants, time to onboard), **reliability** (evaluation availability, timeout rate, latency), **effectiveness** (confirmed detections, false-positive review rate, observe-to-enforce promotion rate), and **product portability** (deployment-mode-independent policy coverage, number of supported connectors). Specific numeric targets for these metrics are not yet defined in the source material and are recorded as **TBD** in [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md).
+Beyond that demonstration, the solution's outcomes span the full five-phase scope: an internal multi-team platform with tenant administration and promotion/rollback (Phase 2), a fully managed Guarded Gateway for teams without their own gateway (Phase 3), a Customer-Managed Runtime for regulated and data-residency-sensitive workloads (Phase 4), and advanced agent protection — retrieval evaluation, tool-call validation, MCP integration (Phase 5). Across all phases, success is tracked against four categories of metrics defined in the charter (seed.md §19): **adoption** (onboarded workloads, active tenants, time to onboard), **reliability** (evaluation availability, timeout rate, latency), **effectiveness** (confirmed detections, false-positive review rate, observe-to-enforce promotion rate), and **product portability** (deployment-mode-independent policy coverage, number of supported connectors). Specific numeric targets for these metrics are not yet defined in the source material and are recorded as **TBD** in [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md). See [`EXPECTED-OUTCOMES.md`](EXPECTED-OUTCOMES.md) for the full outcome view.
 
 No dollar-value ROI, adoption percentage, or SLA figure is asserted in this brief; none currently exists in the authoritative source material.
 
@@ -104,8 +104,8 @@ No dollar-value ROI, adoption percentage, or SLA figure is asserted in this brie
 
 * **Reusability over duplication.** A single policy applied across heterogeneous gateways and providers directly addresses the engineering-duplication and governance-consistency gaps in Section 3.
 * **Graduated trust, not a false security guarantee.** The product explicitly distinguishes cooperative integration, platform-managed enforcement, and network/IAM-enforced gateway postures, and will never represent a cooperative connector as a hard security boundary (per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-* **Deliberate, sequenced scope.** Delivery proceeds through five phases — Integration Proof, Internal Multi-Team Platform, Guarded Gateway, Customer-Managed Runtime, and Advanced Agent Protection — each validated before the next is committed (per [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)). This directly guards against the "product over-expansion" risk identified in seed.md §20.
-* **Minimal infrastructure footprint at MVP.** The MVP uses a single primary cloud (AWS) and a minimal two-account model (one non-production, one production), with additional account separation introduced only when a specific, named trigger is met (per [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
+* **Deliberate, sequenced scope.** Delivery proceeds through five phases — Integration Proof, Internal Multi-Team Platform, Guarded Gateway, Customer-Managed Runtime, and Advanced Agent Protection — each validated before the next proceeds (per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). This directly guards against the "product over-expansion" risk identified in seed.md §20.
+* **Minimal initial infrastructure footprint.** Phases 1–2 run on a single primary cloud (AWS) and a minimal two-account model (one non-production, one production), with additional account separation introduced only when a specific, named trigger is met (per [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
 * **Explicit, separated concerns.** Operational ownership (who runs the infrastructure) and data exposure (where content is processed) are always documented as two distinct questions, never conflated (per [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 
 See [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) and [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) for the phase-level delivery view.
@@ -114,10 +114,10 @@ See [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) and [`20-product
 
 ## 7. Investment and organizational impact
 
-**Investment.** Specific budget figures, headcount, and timeline durations for Phase 1 are not present in the source material and must be provided by the delivery and product leads before a funding decision is finalized; they are tracked as open items in [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) (ASM-006, ASM-007, ASM-014). What can be stated qualitatively:
+**Investment.** The estimation now spans the **full five-phase scope** (per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — a valid delivery estimation requires the full feature set to be defined and estimated). Specific budget figures, headcount, and timeline durations are not present in the source material and must be provided by the delivery and product leads before a funding decision is finalized; they are tracked as open items in [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) (ASM-006, ASM-007, ASM-014). What can be stated qualitatively:
 
-* The MVP is scoped to run on a **minimal AWS footprint** — one non-production and one production account, using managed AWS services (ECS Fargate or EKS, API Gateway/ALB, DynamoDB, Amazon Bedrock Guardrails, IAM, KMS, SQS, CloudWatch, ECR) rather than novel infrastructure (seed.md §11).
-* Delivery is **phased**, so investment beyond Phase 1 (Integration Proof) and Phase 2 (Internal Multi-Team Platform) is committed only after each phase validates the reusable-policy hypothesis — Phases 3 (Guarded Gateway) and 4 (Customer-Managed Runtime) represent materially larger operational and security scope and should be resourced as separate decisions once Phases 1–2 succeed.
+* The initial delivery phases run on a **minimal AWS footprint** — one non-production and one production account, using managed AWS services (ECS Fargate or EKS, API Gateway/ALB, DynamoDB, Amazon Bedrock Guardrails, IAM, KMS, SQS, CloudWatch, ECR) rather than novel infrastructure (seed.md §11).
+* Delivery is **estimated over the full five-phase scope but executed in sequence** (per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)): each phase is validated before the next proceeds, and funding releases may follow those gates. Phases 3 (Guarded Gateway) and 4 (Customer-Managed Runtime) represent materially larger operational and security scope, which the per-phase validation gates exist to control.
 
 **Organizational impact.**
 
@@ -130,7 +130,7 @@ See [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) and [`20-product
 
 Full ownership boundaries are documented in seed.md §21 and reflected across the architecture set; see [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) and [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md).
 
-The MVP demonstration (Section 5) requires **at least two organizationally independent teams**, each operating a separate LiteLLM instance, willing to participate — this is a named, currently unvalidated assumption ([ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md) ASM-002, ASM-003) that must be confirmed as part of committing to Phase 1.
+The Phase 1–2 validation demonstration (Section 5) requires **at least two organizationally independent teams**, each operating a separate LiteLLM instance, willing to participate — this is a named, currently unvalidated assumption ([ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md) ASM-002, ASM-003) that must be confirmed as part of starting Phase 1.
 
 ---
 
@@ -143,7 +143,7 @@ The MVP demonstration (Section 5) requires **at least two organizationally indep
 | **Latency** | Remote input/output evaluation adds synchronous network and processing latency to every request. | Per-evaluator latency measurement; only relevant evaluators applied; customer-managed runtime available for latency-sensitive workloads; stage-specific timeouts defined as policy (seed.md §20). |
 | **Hosted data exposure** | Remote Evaluation and Guarded Gateway modes transmit tenant content to the hosted runtime; this must never be described as data-local. | Explicit data-flow documentation per deployment; no raw-content retention by default; Customer-Managed Runtime available where content must stay in-account (seed.md §20; [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default)). |
 | **Policy fragmentation** | Excessive workload-specific policy overrides could weaken organizational consistency. | Override categories limited; ownership required for each exception; policy versions tracked (seed.md §20). |
-| **Product over-expansion** | The platform could attempt to absorb gateway management, full AI governance, agent authorization, and compliance certification before the core hypothesis is validated. | Strict MVP boundary maintained; future capabilities treated as separately approved phases; adoption and effectiveness measured before scope expands (seed.md §20; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries), [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)). |
+| **Product over-expansion** | The platform could attempt to absorb gateway management, full AI governance, agent authorization, and compliance certification before the core hypothesis is validated. | Five-phase sequencing with per-phase validation maintained; the seed.md §6.3 product-category exclusions remain excluded; adoption and effectiveness measured before each phase's scope proceeds (seed.md §20, §6.3; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [`10-charter/SCOPE.md`](../10-charter/SCOPE.md)). |
 
 A fuller risk register, including status and owners, is maintained at [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md). Unresolved decisions that could materially change scope or cost — enforcement posture for external customers, regional/residency strategy, three-account trigger point, and others — are tracked in [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md).
 
@@ -151,14 +151,14 @@ A fuller risk register, including status and owners, is maintained at [`70-gover
 
 ## 9. Recommended next step
 
-Approve AI Guardrails as a standalone platform initiative and authorize the delivery team to begin **Phase 1 — Integration Proof**, whose objective is to prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways (seed.md §18; [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)). Phase 1 deliverables are: the evaluation contract, the policy format, the Bedrock Guardrails adapter, the LiteLLM connector, observe mode, basic auditing, and an internal deployment.
+Approve AI Guardrails as a standalone platform initiative over the **full solution scope — all five delivery phases** (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) — on the basis of an estimation built over the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Execution begins with **Phase 1 — Integration Proof**, whose objective is to prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways. Phase 1 deliverables are: the evaluation contract, the policy format, the Bedrock Guardrails adapter, the LiteLLM connector, observe mode, basic auditing, and an internal deployment.
 
 In parallel, resolve the two assumptions that most directly gate Phase 1 success:
 
-1. Confirm named commitments from **at least two organizationally independent teams**, each operating a separate LiteLLM instance, willing to participate in the MVP demonstration (ASM-002, ASM-003 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md)).
+1. Confirm named commitments from **at least two organizationally independent teams**, each operating a separate LiteLLM instance, willing to participate in the Phase 1–2 validation demonstration (ASM-002, ASM-003 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md)).
 2. Confirm funding sufficient to cover the two-account MVP — runtime infrastructure, Bedrock Guardrails usage, and the delivery team — through Phase 1 and Phase 2 (ASM-014 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md)).
 
-Phase 2 (Internal Multi-Team Platform) and beyond should be treated as separate, later funding and scope decisions, gated on Phase 1's outcome.
+Execution beyond Phase 1 proceeds in sequence — each phase validated before the next (per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) — and funding releases may follow those gates; the scope being approved and estimated, however, is the full five-phase solution, not Phase 1 alone.
 
 ---
 
@@ -166,14 +166,13 @@ Phase 2 (Internal Multi-Team Platform) and beyond should be treated as separate,
 
 Leadership is asked to decide:
 
-> **Approve building AI Guardrails as a standalone policy and enforcement platform (not embedded in the existing internal LiteLLM instance), and authorize resourcing for Phase 1 — Integration Proof, on the basis that Phases 2 through 5 remain separately gated decisions made only after each preceding phase is validated.**
+> **Approve building AI Guardrails as a standalone policy and enforcement platform (not embedded in the existing internal LiteLLM instance) over the full solution scope — all five delivery phases — on the basis of an estimation built over the full feature set, with execution sequenced so that each phase is validated before the next proceeds.**
 
 This decision does **not** ask leadership to commit to:
 
 * A specific budget figure, headcount, or delivery date (TBD — to be supplied by delivery and product leads before final sign-off).
-* Any deployment mode beyond what Phase 1 exercises (Remote Evaluation via the LiteLLM connector).
-* Guarded Gateway (Phase 3), Customer-Managed Runtime (Phase 4), or Advanced Agent Protection (Phase 5) resourcing — each requires its own future decision.
 * Any compliance certification, multi-region availability commitment, or commercial/metering model — all of which remain open questions (see [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md)).
+* Any capability in the seed.md §6.3 product-category exclusions — general-purpose gateway replacement, complete AI governance platform, complete DLP platform, business authorization, cross-cloud deployment, among others — see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md).
 
 ---
 
@@ -187,4 +186,5 @@ This decision does **not** ask leadership to commit to:
 * [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) — full product charter narrative.
 * [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) — product capability detail.
 * [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) — phase-level delivery milestones.
+* [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — the Phase 1–2 validation demonstration referenced in Section 5.
 * [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — full risk register.

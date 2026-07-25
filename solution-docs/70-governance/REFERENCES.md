@@ -23,7 +23,7 @@
 - [8. External references: AWS cloud platform and services](#8-external-references-aws-cloud-platform-and-services)
 - [9. External references: Amazon Bedrock Guardrails](#9-external-references-amazon-bedrock-guardrails)
 - [10. External references: LiteLLM and the OpenAI-compatible API concept](#10-external-references-litellm-and-the-openai-compatible-api-concept)
-- [11. External references: OWASP LLM risk categories (conceptual reference)](#11-external-references-owasp-llm-risk-categories-conceptual-reference)
+- [11. External references: OWASP LLM risk categories and NIST AI RMF (conceptual references)](#11-external-references-owasp-llm-risk-categories-and-nist-ai-rmf-conceptual-references)
 - [12. Reference maintenance](#12-reference-maintenance)
 - [Related documents](#related-documents)
 
@@ -67,7 +67,7 @@ The root source material and the authoritative agreements/constraints/decisions 
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`seed.md`](../../seed.md) | Source material | The raw solution charter — the full source-of-truth narrative (purpose, vision, deployment modes, domain model, AWS direction, security and operational requirements, delivery phases, risks) that every derived document in this set traces back to. | Linked |
-| [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 22 accepted agreements (AGR-001–AGR-022) that no derived document may contradict. The single most-cited document in this set. | Linked |
+| [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 20 accepted agreements (AGR-001–AGR-020) that no derived document may contradict. The single most-cited document in this set. | Linked |
 | [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable technical and security boundaries (CON-001–CON-016) — cloud placement, contract independence, transport/cryptographic security, identity, content handling, resource limits. | Linked |
 | [`00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | L1 | The product/organizational/delivery decision log, distinct from architecture-level ADRs. | Linked |
 | [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | L1 | The register of unvalidated beliefs (demand/adoption, technical/infrastructure feasibility, security/governance, and other categories) underlying scope and delivery-dependency status. | Linked |
@@ -84,7 +84,7 @@ The durable, boundary-setting layer derived directly from `seed.md` and `AGREEME
 | --- | --- | --- | --- |
 | [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) | L2 | The solution charter: purpose, problem addressed, vision, the three-mode architectural decision, and pointers to every other layer. | Linked |
 | [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) | L2 | The product principles — policy portability, one contract across modes, policies separate from connectors, explicit content-exposure model, guardrails-are-not-authorization, observe-before-enforce, failure behavior as policy. | Linked |
-| [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) | L2 | In-scope, future-scope, and out-of-scope-for-the-MVP boundaries. | Linked |
+| [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) | L2 | In-scope, later-phase, and out-of-scope boundaries for the full feature set (DEC-008). | Linked |
 | [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | L2 | Success criteria for the platform, grounded in adoption, reliability, effectiveness, and portability metrics named in `seed.md` §19. | Linked |
 
 ---
@@ -97,14 +97,15 @@ Audience-specific derived views. These must not contradict the charter, principl
 
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
-| [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) | L2 | The capability catalog describing what the platform does, mapped to the MVP in-scope list. | Linked |
+| [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) | L2 | The capability catalog describing what the platform does, mapped to the in-scope capability list. | Linked |
+| [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) | L2 | The guardrail-category taxonomy (`GR-001`–`GR-018`, per AGR-021/DEC-009) — classification and directional vision, never scope commitment; each entry carries enforcement layer, control types, and phase status. | Linked |
 | [`20-product/PRODUCT-OVERVIEW.md`](../20-product/PRODUCT-OVERVIEW.md) | L4 | Narrative overview of the product for a product-facing audience. | Linked |
-| [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) | L4 | The five-phase delivery roadmap ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)) presented for a product audience. | Linked |
+| [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) | L4 | The five-phase delivery roadmap ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) presented for a product audience. | Linked |
 | [`20-product/PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) | L4 | The reuse/portability problem the product addresses. | Linked |
 | [`20-product/VALUE-PROPOSITION.md`](../20-product/VALUE-PROPOSITION.md) | L4 | The value proposition derived from the product vision. | Linked |
 | [`20-product/DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md) | L4 | What distinguishes AI Guardrails from adjacent approaches. | Linked |
 | [`20-product/TARGET-USERS.md`](../20-product/TARGET-USERS.md) | L4 | Platform teams, application teams, security/compliance teams, and product operators, per `seed.md` §7. | Linked |
-| [`20-product/USE-CASES.md`](../20-product/USE-CASES.md) | L4 | Representative use cases, including the canonical "import" onboarding flow ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)). | Linked |
+| [`20-product/USE-CASES.md`](../20-product/USE-CASES.md) | L4 | Representative use cases, including the canonical "import" onboarding flow ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). | Linked |
 | [`20-product/FAQ.md`](../20-product/FAQ.md) | L4 | Frequently asked questions, including clarifications of "import" and deployment-mode data exposure. | Linked |
 
 ### 5.2 Executive (`30-executive/`)
@@ -114,7 +115,7 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) | L4 | Condensed executive framing of the solution. | Linked |
 | [`30-executive/BUSINESS-CASE.md`](../30-executive/BUSINESS-CASE.md) | L3 | The business rationale for investment. | Linked |
 | [`30-executive/INVESTMENT-SUMMARY.md`](../30-executive/INVESTMENT-SUMMARY.md) | L3 | Investment framing (qualitative; no figures beyond what `seed.md` states). | Linked |
-| [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) | L4 | Expected outcomes tied to the [MVP success demonstration](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration). | Linked |
+| [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) | L4 | Expected outcomes tied to the [Phase 1–2 validation demonstration](../60-delivery/VALIDATION-PLAN.md). | Linked |
 | [`30-executive/DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md) | L4 | The decision(s) being asked of executive stakeholders. | Linked |
 | [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) | L3 | Executive-facing summary of principal risks and dependencies, expanded at delivery level in [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md). | Linked |
 
@@ -128,7 +129,7 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`40-sales-deck/AUDIENCE-AND-PERSONAS.md`](../40-sales-deck/AUDIENCE-AND-PERSONAS.md) | L4 | Target sales audiences and personas. | Linked |
 | [`40-sales-deck/CUSTOMER-PAIN-POINTS.md`](../40-sales-deck/CUSTOMER-PAIN-POINTS.md) | L4 | Pain points the product addresses. | Linked |
 | [`40-sales-deck/BENEFITS-AND-OUTCOMES.md`](../40-sales-deck/BENEFITS-AND-OUTCOMES.md) | L4 | Benefits and outcomes messaging. | Linked |
-| [`40-sales-deck/PROOF-POINTS.md`](../40-sales-deck/PROOF-POINTS.md) | L4 | Proof points, constrained to what the MVP demonstration and charter actually support. | Linked |
+| [`40-sales-deck/PROOF-POINTS.md`](../40-sales-deck/PROOF-POINTS.md) | L4 | Proof points, constrained to what the Phase 1–2 validation demonstration and charter actually support. | Linked |
 | [`40-sales-deck/OBJECTION-HANDLING.md`](../40-sales-deck/OBJECTION-HANDLING.md) | L4 | Objection handling, including the [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) boundaries on what can be claimed. | Linked |
 | [`40-sales-deck/CALL-TO-ACTION.md`](../40-sales-deck/CALL-TO-ACTION.md) | L4 | The call to action closing the deck. | Linked |
 | [`40-sales-deck/VISUAL-DIRECTION.md`](../40-sales-deck/VISUAL-DIRECTION.md) | L4 | Visual and design direction for the deck. | Linked |
@@ -152,6 +153,7 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 | [`50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | L2 | Availability, performance, and security NFRs, including dependency/container-scanning requirements. | Linked |
 | [`50-architecture/REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md) | L2 | Functional requirements. | Linked |
 | [`50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md) | L3 | Operational requirements — failure behavior, policy rollout, auditing. | Linked |
+| [`50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) | L3 | The growth model — four extension seams (stage, engine, action, connector), category attachment, and the catalog graduation process (AGR-021). | Linked |
 | [`50-architecture/FEASIBILITY-ASSESSMENT.md`](../50-architecture/FEASIBILITY-ASSESSMENT.md) | L3 | Technical feasibility assessment. | Linked |
 | [`50-architecture/TECHNICAL-RISKS.md`](../50-architecture/TECHNICAL-RISKS.md) | L3 | Technical risks distinct from the product/business risks in [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md). | Linked |
 | [`50-architecture/TRADE-OFFS.md`](../50-architecture/TRADE-OFFS.md) | L3 | Architectural trade-offs considered across the three deployment modes. | Linked |
@@ -166,11 +168,11 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
-| [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five phases ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)) will be executed. | Linked |
+| [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five phases ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) will be executed. | Linked |
 | [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) | L3 | Delivery milestones organized by phase. | Linked |
 | [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) | L3 | The delivery dependency register (AWS account provisioning, Bedrock Guardrails regional access, consuming-team LiteLLM cooperation, security review sign-off, KMS/Secrets Manager setup, CI scanning) — the most detailed cross-reference to the external AWS and Bedrock dependencies cataloged in Sections 8–9 below. | Linked |
-| [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | L2 | MVP exit gates, tied to [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration). | Linked |
-| [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) | L3 | How the MVP success demonstration is validated. | Linked |
+| [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | L2 | Phase 1–2 exit gates, tied to the validation demonstration (seed.md §16; DEC-008). | Linked |
+| [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) | L3 | How the Phase 1–2 validation demonstration is executed and validated. | Linked |
 | [`60-delivery/TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) | L3 | Ownership boundaries across the AI Guardrails team, platform operations, security/governance, and consuming teams (`seed.md` §21). | Linked |
 
 ### 7.2 Governance (`70-governance/`, this document's own folder)
@@ -180,7 +182,7 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 | [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | L2 | What the product may and may not claim — the register this document defers to for anything resembling a marketing or capability claim about an external service. | Linked |
 | [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) | L2 | The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per `seed.md` §20). | Linked |
 | `70-governance/REFERENCES.md` | L2 | This document. | Linked (self) |
-| [`70-governance/GLOSSARY.md`](GLOSSARY.md) | L2 | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Linked |
+| [`70-governance/GLOSSARY.md`](GLOSSARY.md) | L2 | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Linked |
 
 ---
 
@@ -201,7 +203,7 @@ Amazon Web Services is the platform's primary and initial cloud (`seed.md` heade
 | AWS Secrets Manager | Storage for runtime credentials and other secrets. | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md), [`DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) | TBD — add canonical URL |
 | AWS KMS | Encryption at rest and in transit ([CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest)). | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md), [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) | TBD — add canonical URL |
 
-The MVP uses a minimal two-account model (one non-production, one production); additional account separation is introduced only when justified by the triggers named in [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model). No AWS pricing, SLA percentage, or capacity figure is stated here beyond what `seed.md` itself states (none, for these services) — see [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) for the current provisioning status of the underlying accounts.
+The initial delivery uses a minimal two-account model (one non-production, one production); additional account separation is introduced only when justified by the triggers named in [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model). No AWS pricing, SLA percentage, or capacity figure is stated here beyond what `seed.md` itself states (none, for these services) — see [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) for the current provisioning status of the underlying accounts.
 
 ---
 
@@ -228,15 +230,16 @@ Cited from: [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/I
 
 ---
 
-## 11. External references: OWASP LLM risk categories (conceptual reference)
+## 11. External references: OWASP LLM risk categories and NIST AI RMF (conceptual references)
 
 | Reference | Authority | Role / Description | Canonical documentation |
 | --- | --- | --- | --- |
 | OWASP risk categories for LLM applications | n/a (external, community-maintained taxonomy) | A conceptual external reference framework for describing categories of LLM-specific risk (for example, prompt injection, which `seed.md` names directly under both in-scope deterministic detection and future-scope "indirect prompt-injection detection," §6.1–§6.2). Used only as an orientation point for discussing detection coverage and gaps — **not** as a claim that AI Guardrails fully covers, certifies against, or has been benchmarked against any specific published category list. | TBD — add canonical URL |
+| NIST AI Risk Management Framework (AI RMF) | n/a (external, U.S. government-published framework) | A conceptual external reference framework whose lifecycle functions (Govern, Map, Measure, Manage) are used **for orientation only** in the guardrail-category catalog's "External mapping" fields. Its use carries the same discipline as the OWASP row: orientation, never a conformance, certification, or coverage claim — "full compliance certification" remains a standing exclusion (`seed.md` §6.3). | TBD — add canonical URL |
 
-This reference exists specifically to support the **false-confidence risk mitigation** named in `seed.md` §20: "Document unsupported risk categories," "Maintain risk-specific evaluation datasets," and "Avoid marketing guardrails as a complete security boundary." Any statement in this document set that maps a specific AI Guardrails detection capability to a specific OWASP-named category must be verified against [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) before publication, and any resulting coverage gap must be tracked in [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md).
+These references exist specifically to support the **false-confidence risk mitigation** named in `seed.md` §20: "Document unsupported risk categories," "Maintain risk-specific evaluation datasets," and "Avoid marketing guardrails as a complete security boundary." Both are the source of the **"External mapping (orientation only)"** column in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) — every such cell inherits the orientation-only caveat stated here. Any statement in this document set that maps a specific AI Guardrails detection capability to a specific OWASP- or NIST-named category must be verified against [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) before publication, and any resulting coverage gap must be tracked in [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md).
 
-Cited from: [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) ("false confidence" risk), [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md), [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) §10 ("Threat model").
+Cited from: [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) ("false confidence" risk), [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md), [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) §10 ("Threat model"), [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) ("External mapping" fields).
 
 ---
 
@@ -256,8 +259,9 @@ flowchart LR
     LITELLM["LiteLLM +<br/>OpenAI-compatible API<br/>(§10)"] --> INTEG
     LITELLM --> DEPLOY
 
-    OWASP["OWASP LLM risk<br/>categories (§11)"] --> RISK["70-governance/RISK-REGISTER.md"]
+    OWASP["OWASP LLM risk categories<br/>+ NIST AI RMF (§11)"] --> RISK["70-governance/RISK-REGISTER.md"]
     OWASP --> CLAIMS["70-governance/CLAIMS-REGISTER.md"]
+    OWASP --> CATALOG["20-product/GUARDRAIL-CATALOG.md<br/>(orientation-only mapping fields)"]
 ```
 
 And the authority flow that governs how internal references in Sections 3–7 relate to one another:

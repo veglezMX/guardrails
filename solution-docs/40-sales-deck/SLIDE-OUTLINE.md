@@ -27,7 +27,7 @@ The arc below covers the twelve narrative beats requested for this deck. "How it
 | 4 | [The proposed solution](#slide-4--the-proposed-solution) | Introduce AI Guardrails as a standalone platform separating policy from connectors. |
 | 5 | [How it works — three deployment modes](#slide-5--how-it-works--three-deployment-modes) | Show the three ways a team can adopt the same policy. |
 | 6 | [How it works — evaluate before and after inference](#slide-6--how-it-works--evaluate-before-and-after-inference) | Explain the evaluation lifecycle: input/output stages, decisions, and the authorization boundary. |
-| 7 | [Core capabilities](#slide-7--core-capabilities) | Summarize the concrete MVP capability set. |
+| 7 | [Core capabilities](#slide-7--core-capabilities) | Summarize the concrete Phase 1–2 core capability set. |
 | 8 | [Customer journey — onboard, observe, enforce](#slide-8--customer-journey--onboard-observe-enforce) | Walk through onboarding ("import") and the graduated enforcement ladder. |
 | 9 | [Business outcomes](#slide-9--business-outcomes) | State the qualitative value delivered to each stakeholder group. |
 | 10 | [Differentiation](#slide-10--differentiation) | State what is structurally different about this platform, without overclaiming. |
@@ -180,7 +180,7 @@ flowchart LR
       │
       └── Output evaluation ────► Hosted Guardrails Runtime
   ```
-* Supported initial evaluation stages: `input`, `output`. Future stages (`retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response`) are architecture-permitted, **not** committed for the MVP (seed.md §9).
+* Supported initial evaluation stages: `input`, `output`. Later stages (`retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response`) are architecture-permitted and land in later phases — **not** part of the Phase 1–2 core (seed.md §9).
 * Every evaluation returns a normalized **decision**: an action (`allow`, `block`, `redact`, or `log_only` initially), an allowed status, reason codes, policy name and version, evaluator metadata, transformed content where applicable, a correlation identifier, an audit identifier, and evaluation latency (seed.md §9).
 * Failure behavior is explicit and part of the policy itself — what happens on Evaluation API timeout, detector unavailability, unresolved policy, control-plane unavailability, audit-delivery failure, or an unsafe response transformation. **There is no undocumented fallback behavior** ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)).
 * **Say this exact caveat on this slide:** a guardrail decision that content or a tool call "appears safe" does not determine whether the current user is permitted to execute that action against a particular resource. Authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows remain the consuming application's responsibility ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
@@ -189,7 +189,7 @@ flowchart LR
 
 ## Slide 7 — Core capabilities
 
-**One-line purpose:** Summarize the concrete MVP capability set.
+**One-line purpose:** Summarize the concrete Phase 1–2 core capability set.
 
 **Key points** (seed.md §6.1, §9, §16):
 
@@ -200,7 +200,7 @@ flowchart LR
 * Normalized evaluation decisions with structured reason codes, not an opaque pass/fail.
 * Observe and enforce modes, evaluation latency metrics (P50/P95/P99, timeout rate — figures TBD until measured), and decision-metadata auditing.
 * Hosted runtime deployment today, with an explicit architectural path to customer-managed deployment ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)).
-* **Frame as capability, not completeness:** future-scope items — retrieval-content evaluation, tool-call validation, MCP authorization, streaming evaluation, and others — are permitted by the architecture but explicitly **not** built in the MVP (seed.md §6.2).
+* **Frame as capability, not completeness:** later-phase items — retrieval-content evaluation, tool-call validation, MCP authorization, streaming evaluation, and others — are part of the estimated full feature set (seed.md §6.2; [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) but land in later phases and are **not** available today.
 
 ---
 
@@ -232,7 +232,7 @@ Review evaluation results
 Enable enforcement
 ```
 
-* This flow is the canonical meaning of **"import"** ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)): a team adopts a versioned policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode.
+* This flow is the canonical meaning of **"import"** ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)): a team adopts a versioned policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode.
 * **Say this exact caveat on this slide:** "import" never means cloning, registering, or remotely controlling another team's LiteLLM instance. Onboarding never requires copying a team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, or granting the provider administrative access to the team's gateway.
 * Every policy binding defaults to **Observe**, not Block, and follows the graduated ladder:
   ```text
@@ -287,10 +287,10 @@ Enable enforcement
 * Three enforcement postures, adopted progressively as trust and compliance needs grow (seed.md §8; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)):
   1. **Cooperative integration** — the team installs and maintains its own connector; appropriate for trusted teams focused on adoption and evaluation. **Must never be represented as a hard security boundary** — the connector can be disabled, removed, or misconfigured.
   2. **Platform-managed enforcement** — the platform team manages the gateway configuration or deployment (GitOps, restricted IAM roles, connector-health telemetry).
-  3. **Network and IAM-enforced gateway** — all supported model traffic passes through a controlled gateway; applications hold no direct provider credentials. Strongest posture; not required for the first cooperative MVP.
+  3. **Network and IAM-enforced gateway** — all supported model traffic passes through a controlled gateway; applications hold no direct provider credentials. Strongest posture; not required for the initial cooperative delivery (Phases 1–2).
 * Mode selection is driven by each workload's own data-residency and operational-ownership needs — repeat the Mode A caveat from slide 5 if this slide stands alone in a shorter deck.
 * Customer-Managed Runtime lets the customer choose exactly what telemetry (if any) reaches the hosted control plane, down to a fully supported **"no telemetry"** configuration; raw content never leaves a customer-managed runtime unless explicitly configured ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)).
-* AWS is the primary cloud; the MVP uses a **minimal account model** — one non-production and one production account — with additional separation introduced only when justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
+* AWS is the primary cloud; delivery starts with a **minimal account model** — one non-production and one production account — with additional separation introduced only when justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
 
 ---
 
@@ -298,12 +298,14 @@ Enable enforcement
 
 **One-line purpose:** Show the sequencing discipline from integration proof to advanced agent protection.
 
-**Key points** (seed.md §18; [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)):
+**Key points** (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)):
+
+All five phases are **committed-in-scope and estimated** as one solution; execution is sequenced, with each phase validated before the next proceeds. Phase 1 is where delivery starts — not the only thing being approved.
 
 | Phase | Objective (one line) |
 | --- | --- |
 | **1 — Integration proof** | Prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways. |
-| **2 — Internal multi-team platform** | Allow multiple internal teams to onboard and operate distinct workloads; completes the MVP demonstration (policy promotion and rollback). |
+| **2 — Internal multi-team platform** | Allow multiple internal teams to onboard and operate distinct workloads; completes the Phase 1–2 validation demonstration (policy promotion and rollback). |
 | **3 — Guarded gateway** | Offer a fully hosted model and guardrail path for teams without their own gateway (Mode B). |
 | **4 — Customer-managed runtime** | Support workloads that require local evaluation and content isolation (Mode C). |
 | **5 — Advanced agent protection** | Extend guardrail coverage beyond prompt and response evaluation — retrieval, tool calls, tool results, memory writes, human approvals, MCP integration. |
@@ -313,18 +315,18 @@ flowchart LR
     P1["Phase 1<br/>Integration proof"] --> P2["Phase 2<br/>Internal multi-team<br/>platform"]
     P2 --> P3["Phase 3<br/>Guarded gateway"]
     P3 --> P4["Phase 4<br/>Customer-managed<br/>runtime"]
-    P2 -.->|"separate expansion —<br/>not an MVP prerequisite"| P5["Phase 5<br/>Advanced agent<br/>protection"]
+    P2 -.->|"final expansion phase —<br/>gated on prior validation"| P5["Phase 5<br/>Advanced agent<br/>protection"]
     P4 -.-> P5
 
-    classDef mvp fill:#e8f4ff,stroke:#4a90d9,color:#1b1b1b;
-    classDef beyond fill:#fff6e0,stroke:#c9971d,color:#1b1b1b;
+    classDef core fill:#e8f4ff,stroke:#4a90d9,color:#1b1b1b;
+    classDef later fill:#fff6e0,stroke:#c9971d,color:#1b1b1b;
     classDef expansion fill:#f3e8ff,stroke:#8a4fd9,color:#1b1b1b,stroke-dasharray: 4 3;
-    class P1,P2 mvp;
-    class P3,P4 beyond;
+    class P1,P2 core;
+    class P3,P4 later;
     class P5 expansion;
 ```
 
-* **Say this exact caveat on this slide:** Phase 5 must be presented as a separate product expansion, not an MVP prerequisite. It must not be scheduled or resourced as part of MVP delivery.
+* **Say this exact caveat on this slide:** Phase 5 is a separate product expansion sequenced last — in the estimated scope, but gated on the prior phases' validation, and its capabilities must never be presented as available or delivered today.
 * **No calendar dates, quarters, durations, or headcounts for any phase** — the ordering of phases is fixed by agreement; *when* each phase starts or ends is not yet decided and must not be inferred or implied on this slide.
 
 ---
@@ -335,13 +337,13 @@ flowchart LR
 
 **Key points:**
 
-* The ask: approve AI Guardrails as a standalone platform initiative and sponsor **Phase 1 — Integration Proof**, whose deliverables are the evaluation contract, the policy format, the Bedrock Guardrails adapter, the LiteLLM connector, observe mode, basic auditing, and an internal deployment (seed.md §18).
-* Reiterate the falsifiable hypothesis this phase (plus Phase 2) is designed to prove: **one reusable policy applied consistently across independently operated LiteLLM deployments**, with normalized decisions, an observe-before-enforce rollout path, and no undocumented failure behavior ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+* The ask: approve **the AI Guardrails solution — full feature set, delivered in five phases** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Delivery starts with **Phase 1 — Integration Proof**, whose deliverables are the evaluation contract, the policy format, the Bedrock Guardrails adapter, the LiteLLM connector, observe mode, basic auditing, and an internal deployment (seed.md §18); each subsequent phase proceeds only after the prior phase validates.
+* Reiterate the falsifiable hypothesis the Phase 1–2 validation demonstration is designed to prove: **one reusable policy applied consistently across independently operated LiteLLM deployments**, with normalized decisions, an observe-before-enforce rollout path, and no undocumented failure behavior (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). Phrase it as a target milestone, never as achieved.
 * Audience-specific next step:
   * **Platform teams** — nominate a pilot workload and confirm connector installation ownership.
   * **Application teams** — identify a workload willing to start in Observe mode.
   * **Security and compliance teams** — review the policy-ownership, audit-metadata, and retention model before workloads onboard.
-* This is not a request to commit to a specific budget figure, headcount, delivery date, deployment mode beyond Mode A, or any later phase's resourcing — each remains a separately gated decision (mirrors [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10).
+* This is not a request to commit to a specific budget figure or headcount (**TBD** until the full-feature-set estimation is supplied), to calendar dates, or to anything in the seed.md §6.3 exclusions — execution remains sequenced, each phase validated before the next proceeds (mirrors [`../30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10).
 * Named contact, pricing, and scheduling details: **TBD** — none are present in the source material and none are invented here.
 
 ---
@@ -353,9 +355,9 @@ Consolidated from the caveats embedded above, for quick pre-delivery review by a
 * Mode A (Remote Evaluation) must never be called private-data or data-local — tenant content reaches the hosted Evaluation API ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
 * A guardrail decision must never be equated with business authorization — authentication, authorization, tenant isolation, and approval workflows remain the consuming application's responsibility ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 * A cooperative-mode connector must never be presented as a hard, bypass-proof security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-* Phase 5 (Advanced agent protection) must never be presented as scheduled, resourced, or an MVP prerequisite ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)).
+* Phase 3, 4, or 5 capabilities must never be presented as available or delivered today — they are committed-in-scope but sequenced behind per-phase validation gates ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 * No customer name, dollar figure, adoption percentage, SLA number, or delivery date may appear anywhere in the deck unless it later becomes present in the source-of-truth set — until then, every such slot is **TBD**.
-* This platform must never be described as a complete AI governance or security platform, a general-purpose LLM gateway replacement, or a general MCP security platform — all are explicitly out of scope for the MVP (seed.md §6.3).
+* This platform must never be described as a complete AI governance or security platform, a general-purpose LLM gateway replacement, or a general MCP security platform — all are explicitly excluded from the feature set (seed.md §6.3).
 
 ---
 

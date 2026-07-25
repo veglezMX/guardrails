@@ -37,7 +37,7 @@ In practice, this means a single guardrail policy — what to detect, what to do
 
 ## 2. Where the ground truth lives
 
-[`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) is the **authoritative (L1)** register for this entire solution. It records twenty-two accepted agreements (`AGR-001`…`AGR-022`) — the standalone-platform decision, the three deployment modes, policy portability, the one-contract rule, the guardrails-are-not-authorization boundary, the observe-before-enforce progression, the five-phase delivery plan, and more. Alongside it, [`00-source-of-truth/CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) restates the checkable, non-negotiable boundaries (cloud placement, security, data handling, resource limits) at L1 rigor, and [`00-source-of-truth/DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`00-source-of-truth/ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) round out the L1 tier.
+[`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) is the **authoritative (L1)** register for this entire solution. It records twenty accepted agreements (`AGR-001`…`AGR-020`) — the standalone-platform decision, the three deployment modes, policy portability, the one-contract rule, the guardrails-are-not-authorization boundary, the observe-before-enforce progression, the five-phase delivery plan, and more. Alongside it, [`00-source-of-truth/CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) restates the checkable, non-negotiable boundaries (cloud placement, security, data handling, resource limits) at L1 rigor, and [`00-source-of-truth/DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`00-source-of-truth/ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) round out the L1 tier.
 
 Every other document in `solution-docs/` — the charter, product materials, executive brief, sales deck, architecture set, and delivery plan — is a **derived view** produced for a specific audience or purpose. Derived documents must never contradict `AGREEMENTS.md` or `CONSTRAINTS.md`. When a conflict is discovered, the L1 register wins and the derived document is corrected — never the reverse. This rule, and the full change-control process behind it, is defined in [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md).
 
@@ -100,7 +100,7 @@ Each table lists the documents in one directory with the authority level declare
 
 | Document | Level | Description |
 | --- | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 | The 22 accepted agreements (`AGR-001`…`AGR-022`) that govern this entire solution. |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 | The 20 accepted agreements (`AGR-001`…`AGR-020`) that govern this entire solution. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable boundaries — cloud placement, security, data handling, resource limits (`CON-NNN`). |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | L1 | Chronological log of product, organizational, and delivery decisions (`DEC-NNN`), distinct from architecture-level ADRs. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | L1 | Register of load-bearing but not-yet-validated beliefs the charter and delivery sequencing depend on (`ASM-NNN`). |
@@ -112,14 +112,15 @@ Each table lists the documents in one directory with the authority level declare
 | --- | --- | --- |
 | [`CHARTER.md`](10-charter/CHARTER.md) | L2 | The solution charter: purpose, vision, three-mode architectural decision, scope, and ownership boundaries. |
 | [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) | L2 | The product principles (seed.md §5) — policy portability, one contract, policy/connector separation, observe-before-enforce, and more. |
-| [`SCOPE.md`](10-charter/SCOPE.md) | L2 | Expands the charter's in-scope/out-of-scope sections into full MVP scope-boundary detail. |
-| [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) | L2 | The measurable criteria the MVP and adoption/reliability/effectiveness/portability goals are judged against. |
+| [`SCOPE.md`](10-charter/SCOPE.md) | L2 | Expands the charter's in-scope/out-of-scope sections into full scope-boundary detail across the five delivery phases. |
+| [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) | L2 | The measurable criteria the Phase 1–2 validation demonstration and adoption/reliability/effectiveness/portability goals are judged against. |
 
 ### [`20-product/`](20-product/) — mostly L4, `CAPABILITIES.md` is L2
 
 | Document | Level | Description |
 | --- | --- | --- |
 | [`CAPABILITIES.md`](20-product/CAPABILITIES.md) | L2 | The traceable capability catalog (`CAP-NNN`) — what the product does or will do, by delivery status. |
+| [`GUARDRAIL-CATALOG.md`](20-product/GUARDRAIL-CATALOG.md) | L2 | The guardrail-category taxonomy (`GR-001`–`GR-018`) — vision taxonomy with per-entry phase status and enforcement layer; classification, not commitment (AGR-021, DEC-009). |
 | [`PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md) | L4 | The start-here explanation of what AI Guardrails is, for product, sales, and solution-engineering audiences. |
 | [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) | L4 | States, without solutioning, the problem that justifies building AI Guardrails. |
 | [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) | L4 | Value proposition per stakeholder group — platform teams, application teams, security/compliance, product operators. |
@@ -168,13 +169,15 @@ Each table lists the documents in one directory with the authority level declare
 | [`DATA-ARCHITECTURE.md`](50-architecture/DATA-ARCHITECTURE.md) | L3 | Data model, retention behavior, and the content-exposure statement per deployment mode. |
 | [`DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) | L3 | How the three deployment modes (Remote Evaluation, Guarded Gateway, Customer-Managed Runtime) are realized on AWS. |
 | [`INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) | L3 | The evaluation contract and how LiteLLM and other connectors invoke it. |
+| [`EXTENSIBILITY-ARCHITECTURE.md`](50-architecture/EXTENSIBILITY-ARCHITECTURE.md) | L3 | The growth model — four extension seams (stage, engine, action, connector) and the catalog graduation process behind incremental guardrail additions. |
 | [`SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) | L3 | Authentication, encryption, least-privilege, and the trust/enforcement postures. |
 | [`OPERABILITY.md`](50-architecture/OPERABILITY.md) | L3 | Availability objectives, failure behavior, degraded modes, and policy rollout mechanics. |
-| [`FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) | L3 | Technical feasibility of the proposed architecture against the MVP scope. |
+| [`FEASIBILITY-ASSESSMENT.md`](50-architecture/FEASIBILITY-ASSESSMENT.md) | L3 | Technical feasibility of the proposed architecture against the phased delivery scope. |
 | [`TECHNICAL-RISKS.md`](50-architecture/TECHNICAL-RISKS.md) | L3 | Architecture-level technical risks and mitigations. |
 | [`TRADE-OFFS.md`](50-architecture/TRADE-OFFS.md) | L3 | Named architectural trade-offs (hosted vs. customer-managed, DynamoDB vs. versioned S3, and others). |
 | [`adrs/README.md`](50-architecture/adrs/README.md) | L1 | Index and process guide for Architecture Decision Records; an individual ADR is L1 only once `Accepted`. |
 | [`adrs/ADR-0001-example-decision.md`](50-architecture/adrs/ADR-0001-example-decision.md) | L1 | Records the decision to build AI Guardrails as a standalone platform, not embedded in the internal LiteLLM. |
+| [`adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) | Proposed (L1 once Accepted) | Records the design behind the guardrail-category catalog and the four-seam extension model (AGR-021, DEC-009). |
 
 ### [`60-delivery/`](60-delivery/) — L2/L3
 
@@ -182,10 +185,11 @@ Each table lists the documents in one directory with the authority level declare
 | --- | --- | --- |
 | [`IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five delivery phases are sequenced and staffed at a working level. |
 | [`MILESTONES.md`](60-delivery/MILESTONES.md) | L3 | Delivery milestones within and across phases. |
-| [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | L2 | The MVP exit gates — the conditions that must all hold for the MVP to be declared done. |
-| [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | L3 | How the MVP success demonstration (two independent LiteLLM instances, one policy) will be validated. |
+| [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | L2 | The Phase 1–2 exit gates — the conditions that must all hold before the Phase 1–2 core is declared done. |
+| [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | L3 | How the Phase 1–2 validation demonstration (two independent LiteLLM instances, one policy) will be validated. |
 | [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) | L3 | The dependency register gating each phase or milestone. |
 | [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) | L3 | Who is responsible for what across the AI Guardrails team, platform operations, security and governance, and consuming teams — see [§6](#6-who-owns-what) below. |
+| [`FEATURE-BACKLOG.md`](60-delivery/FEATURE-BACKLOG.md) | L3 | Twelve evolution ladders compiling how the solution grows beyond the MVP surface — a backlog classified by commitment status, cross-referenced to the registers; not itself scope. |
 
 ### [`70-governance/`](70-governance/) — L2
 

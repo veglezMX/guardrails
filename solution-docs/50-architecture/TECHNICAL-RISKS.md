@@ -25,6 +25,7 @@
   - [4.6 Audit delivery failure](#46-audit-delivery-failure)
   - [4.7 Degraded-mode correctness](#47-degraded-mode-correctness)
   - [4.8 Product over-expansion](#48-product-over-expansion)
+  - [4.9 Category-taxonomy drift and evaluator sprawl](#49-category-taxonomy-drift-and-evaluator-sprawl)
 - [5. Risk concentration by architecture component](#5-risk-concentration-by-architecture-component)
 - [6. Risk exposure by deployment mode](#6-risk-exposure-by-deployment-mode)
 - [7. Traceability](#7-traceability)
@@ -72,7 +73,8 @@ Likelihood and impact are rated **per deployment mode where they differ** (Secti
 | 5 | [Policy fragmentation from workload-specific overrides](#45-policy-fragmentation-from-workload-specific-overrides) | Medium–High (grows with adoption) | Medium | Bounded override categories, named ownership per exception, immutable versioned policy packs, tracked effective-policy-per-workload | No structural inheritance model exists yet ([OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design) open); containment is process discipline |
 | 6 | [Audit delivery failure](#46-audit-delivery-failure) | Low–Medium per event | High (evidentiary) | Explicit per-workload failure behavior, SQS buffering decoupled from S3 archival, correlation-ID reconciliation, tracked delivery success rate | A workload configured to proceed on audit-delivery failure creates a real gap between "policy applied" and "evidence it was applied" |
 | 7 | [Degraded-mode correctness](#47-degraded-mode-correctness) | Low–Medium (proportional to outage duration) | Medium–High | Mandatory degraded-mode declaration before Observe exit, immutable policy versions recorded per decision, asynchronous non-blocking sync, reconnection recovery testing | Staleness-threshold-to-failure-action mapping is workload-specific and not universally defined (**TBD**) |
-| 8 | [Product over-expansion](#48-product-over-expansion) | Medium–High | Medium–High (compounds via one-contract requirement) | MVP-boundary gating for every proposed component, reserved-but-unbuilt schema placeholders, five-phase gating, adoption/effectiveness metrics before scope expansion | Reserved placeholders can be mistaken for delivered capability if not clearly labeled |
+| 8 | [Product over-expansion](#48-product-over-expansion) | Medium–High | Medium–High (compounds via one-contract requirement) | MVP-boundary gating for every proposed component, reserved-but-unbuilt schema placeholders, five-phase gating, adoption/effectiveness metrics before scope expansion, vision items parked in the guardrail-category catalog rather than the roadmap | Reserved placeholders can be mistaken for delivered capability if not clearly labeled |
+| 9 | [Category-taxonomy drift and evaluator sprawl](#49-category-taxonomy-drift-and-evaluator-sprawl) | Medium (grows with catalog use) | Medium | Path A change control on categories, four-value status vocabulary, NFR-MAINT-003, adapter-only engine onboarding, catalog↔CAPABILITIES consistency review | Status drift between catalog and CAPABILITIES is a review-discipline control, not an automatic one |
 
 ---
 
@@ -168,7 +170,7 @@ Likelihood and impact are rated **per deployment mode where they differ** (Secti
 
 **Where it concentrates.** The Guardrails Control Plane's policy-binding model, specifically the override-category surface of each binding ([`CONTAINER-ARCHITECTURE.md`](CONTAINER-ARCHITECTURE.md) §3, §10).
 
-**Likelihood / impact.** Medium-to-high likelihood, growing proportionally with onboarded-workload count rather than being a rare-event risk ([`../30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §3); medium impact — it does not cause an outage or breach, but silently erodes the reusable-policy hypothesis ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)) and security/governance's ability to reason about "effective policy" per workload.
+**Likelihood / impact.** Medium-to-high likelihood, growing proportionally with onboarded-workload count rather than being a rare-event risk ([`../30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §3); medium impact — it does not cause an outage or breach, but silently erodes the reusable-policy hypothesis (`seed.md` §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) and security/governance's ability to reason about "effective policy" per workload.
 
 **Technical mitigation.**
 * Limit override categories at the schema level — a binding may only override a bounded, explicitly defined set of fields, not arbitrary policy content (`seed.md` §20).
@@ -176,7 +178,7 @@ Likelihood and impact are rated **per deployment mode where they differ** (Secti
 * Version policy packs immutably, so overrides are always tracked against a specific policy version ([NFR-MAINT-002](NON-FUNCTIONAL-REQUIREMENTS.md#nfr-maint-002--immutable-policy-versions)).
 * Track and expose "effective policy per workload" (binding plus resolved overrides) as a first-class, queryable artifact rather than an implicit runtime computation.
 
-**Residual risk.** Until policy inheritance and signing are designed ([OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design), open, targeted for the Phase 2 → Phase 3 transition), override containment relies on process discipline (category limits, named ownership) rather than a structural inheritance model — ungoverned override growth remains possible in the interim.
+**Residual risk.** Until policy inheritance and signing are designed ([OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design), open, targeted for the Phase 2 → Phase 3 transition), override containment relies on process discipline (category limits, named ownership) rather than a structural inheritance model — ungoverned override growth remains possible in the interim. The guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)) adds a related pressure: as more categories gain delivered evaluators, per-workload configurability widens, so the bounded-override discipline above must be re-checked at every category graduation ([`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md) §10). Policy packs, if pursued, must remain versioned templates rather than informal inheritance (see §4.9 and `EXTENSIBILITY-ARCHITECTURE.md` §11), or this risk returns through the side door.
 
 ---
 
@@ -219,19 +221,39 @@ Likelihood and impact are rated **per deployment mode where they differ** (Secti
 
 ### 4.8 Product over-expansion
 
-**Description.** Architectural temptation to absorb gateway management, full AI governance, agent orchestration, and compliance certification into the core runtime and contract before the MVP hypothesis ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)) is validated (`seed.md` §20, §6.3, §17).
+**Description.** Architectural temptation to absorb gateway management, full AI governance, agent orchestration, and compliance certification into the core runtime and contract before the core reusable-policy hypothesis (`seed.md` §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) is validated (`seed.md` §20, §6.3, §17).
 
 **Where it concentrates.** The evaluation contract and policy schema — the two artifacts that must remain compatible across all three deployment modes under [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)/[CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes) — because any field added to either must then be maintained compatibly, indefinitely, in Modes A, B, and C alike.
 
 **Likelihood / impact.** Medium-to-high likelihood — explicitly named as a risk in the charter itself, and stakeholder pressure (security/compliance, sales, individual workload owners) naturally pulls toward "just add this one more thing" ([`../30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §6). Medium-to-high impact from a technical-architecture standpoint specifically: each premature expansion (for example, building tool-call validation before Phase 5, or a proprietary detection model before it is justified) adds surface area to the contract that the one-logical-contract requirement then obligates the platform to carry across every mode indefinitely.
 
 **Technical mitigation.**
-* Every proposed architectural component or contract field is evaluated against the documented MVP boundary before acceptance ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)).
+* Every proposed architectural component or contract field is evaluated against the documented scope and phase boundaries before acceptance ([`../10-charter/SCOPE.md`](../10-charter/SCOPE.md); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 * Future-scope items are designed for extensibility without being implemented — reserved evaluation stages (`retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response`) and reserved decision actions (`rewrite`, `discard`, `abstain`, `require_approval`) already exist as unimplemented placeholders in the domain model (`seed.md` §9), which is the concrete technical mechanism that satisfies "extensible but not built."
-* Each of the five delivery phases gates the next ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)); Phase 5 (advanced agent protection) is explicitly barred from being scheduled as an MVP prerequisite.
+* Each of the five delivery phases gates the next ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); Phase 5 (advanced agent protection) is explicitly barred from being scheduled as an MVP prerequisite.
 * Adoption and policy-effectiveness metrics (`seed.md` §19) are measured before any scope expansion is greenlit, providing an evidentiary gate rather than a subjective one.
 
 **Residual risk.** Placeholder extensibility (reserved enum values, future evaluation stages) itself carries a smaller residual risk of being mistaken for delivered capability if not clearly labeled as reserved/unimplemented in schema documentation and API responses — this overlaps with the "false confidence" risk named in `seed.md` §20 (tracked in [`../30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md)) but manifests here as a schema-labeling and documentation discipline issue rather than a security-boundary issue.
+
+**Relationship to the guardrail-category catalog.** The catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), per [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)/DEC-009) is the sanctioned **pressure-release** for this risk, extending the reserved-placeholder mechanism from schema level to product level: expansion ideas are parked as `Vision — uncommitted` catalog entries instead of entering the roadmap, and can only reach the contract through the graduation pipeline ([`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md) §10) — which forces the recorded scope-change decision this risk's mitigation depends on. The same labeling discipline applies: a catalog entry misread as commitment is this residual risk in a new costume (tracked separately as §4.9 and RSK-010 in [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)).
+
+---
+
+### 4.9 Category-taxonomy drift and evaluator sprawl
+
+**Description.** With the guardrail-category catalog adopted ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)), two related failure modes appear: **taxonomy drift** — catalog statuses quietly diverging from `CAPABILITIES.md`/`REQUIREMENTS.md` (an item marked Vision reading like a commitment, an out-of-boundary item drifting toward "future work" phrasing contrary to seed.md §6.3/AGR-010), and **evaluator sprawl** — per-category evaluators multiplying without adapter discipline, each adding latency surface, operational load, and configuration complexity that the one-contract requirement then carries across all three modes indefinitely.
+
+**Where it concentrates.** The catalog↔CAPABILITIES status boundary (documentation set), and the evaluator-adapter layer (runtime), where every new engine lands.
+
+**Likelihood / impact.** Medium likelihood, growing with catalog usage — every graduation, new evaluator, and externally sourced control inventory mapped onto the catalog is a drift opportunity. Medium impact: drift misleads scope and claims discipline (compounding §4.8 and the claims-register exposure); sprawl degrades the latency budget (§4.2) and maintainability without breaking the contract outright.
+
+**Technical mitigation.**
+* Category-level changes are Path A register changes (amend AGR-021), never editorial ([`../70-governance/DOCUMENT-GOVERNANCE.md`](../70-governance/DOCUMENT-GOVERNANCE.md) §6); item-level edits may not alter statuses.
+* The four-value status vocabulary (`Core` / `Later phase — committed` / `Vision — uncommitted` / `Out-of-boundary`) makes drift detectable by inspection; the claims-register row rejecting "covers all guardrail categories" polices the external form.
+* [NFR-MAINT-003](NON-FUNCTIONAL-REQUIREMENTS.md#nfr-maint-003--bounded-evaluator-and-category-sprawl) bounds evaluator growth: every engine behind the standard adapter, mapped to a catalog category, selectable only via policy configuration; only policy-configured evaluators run per stage.
+* Graduation exercises re-check the §4.5 override discipline and update `CAPABILITIES.md`, the traceability matrix, and the catalog in the same change set ([`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md) §10).
+
+**Residual risk.** Catalog↔CAPABILITIES consistency is a review-discipline control — no mechanism prevents a Path B edit from softening a status's wording without technically changing it. RSK-010 ([`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)) tracks this at the governance level; periodic claims-register review is the standing detection mechanism.
 
 ---
 
@@ -295,6 +317,7 @@ flowchart TB
 | Audit producer / SQS / S3 | R6 Audit delivery failure |
 | Local policy cache (Mode C) | R7 Degraded-mode correctness |
 | Evaluation contract / policy schema (cross-cutting) | R8 Product over-expansion |
+| Guardrail-category catalog ↔ capability registers; evaluator-adapter layer | R9 Category-taxonomy drift and evaluator sprawl |
 
 ---
 
@@ -323,10 +346,11 @@ Per [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-mode
 | Latency | §15, §20 | AGR-011 | CON-016 | NFR-PERF-001–007 | OQ-004 |
 | Hosted data exposure | §5.4, §13, §20 | AGR-008, AGR-009, AGR-014 | CON-007, CON-008, CON-009, CON-014 | NFR-PRIV-001–003 | OQ-002, OQ-003 |
 | Bedrock dependency / vendor coupling leakage | §5.1, §10, §11, §16, §22 | AGR-004, AGR-005, AGR-006 | CON-003, CON-004, CON-005 | NFR-MAINT-001 | — |
-| Policy fragmentation | §9, §20 | AGR-020 | — | NFR-MAINT-002 | OQ-012 |
+| Policy fragmentation | §9, §16, §20 | — | — | NFR-MAINT-002 | OQ-012 |
 | Audit delivery failure | §5.7, §11, §15, §19 | AGR-012 | — | NFR-REL-003, NFR-AUDIT-001, NFR-AUDIT-002 | — |
 | Degraded-mode correctness | §3, §5.7, §15 | AGR-012, AGR-015 | CON-016 | NFR-AVAIL-002, NFR-REC-002, NFR-OPS-003, NFR-OPS-004 | OQ-010, OQ-012 |
-| Product over-expansion | §6.2, §6.3, §17, §18, §20 | AGR-019, AGR-022 | CON-005 | — | — |
+| Product over-expansion | §6.2, §6.3, §17, §18, §20 | AGR-020, AGR-021 | CON-005 | — | — |
+| Category-taxonomy drift and evaluator sprawl | §20 (over-expansion, latency) | AGR-004, AGR-021 | CON-004, CON-005 | NFR-MAINT-003 | OQ-013, OQ-018, OQ-019 |
 
 ---
 

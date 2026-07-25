@@ -157,7 +157,7 @@ Review evaluation results
 Enable enforcement
 ```
 
-The integration manifest generated at onboarding carries the workload identity and connector configuration; it is what a consuming team installs, and it is the thing that must never require the team's LiteLLM database, model-provider credentials, gateway administration access, or model-routing configuration to be handed over ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)). Per-tenant workload identity is the anchor that every downstream control in this section, and every audit record produced by the platform, ties back to.
+The integration manifest generated at onboarding carries the workload identity and connector configuration; it is what a consuming team installs, and it is the thing that must never require the team's LiteLLM database, model-provider credentials, gateway administration access, or model-routing configuration to be handed over ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). Per-tenant workload identity is the anchor that every downstream control in this section, and every audit record produced by the platform, ties back to.
 
 ### 5.2 Request path: identity and correlation
 
@@ -271,6 +271,8 @@ Each of the four may still exist in the architecture as a convenience or diagnos
 
 Two further risks named in seed.md §20 — false confidence and hosted data exposure — are architecturally addressed by [§11](#11-guardrails-are-not-authorization) and by [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) respectively, and are tracked in full at [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md).
 
+For orientation, the threats above map onto the guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)) as follows — THR-001 relates to the enforcement posture assumptions behind every evaluator-layer category (GR-001, GR-002, GR-003, GR-007, GR-018); THR-002 and THR-003 are platform security properties adjacent to, but deliberately outside, category GR-010 (identity and authorization, out-of-boundary per AGR-010); THR-004 relates to the policy-lifecycle category GR-015. The catalog's per-category external mappings hold the fuller risk orientation; this threat catalog stays scoped to the platform's own attack surface.
+
 ### 10.2 Where each threat can manifest across deployment modes
 
 ```mermaid
@@ -311,7 +313,9 @@ A guardrail decision may find that a tool call's content appears safe (no inject
 | Transaction limits | Consuming application |
 | Approval workflows | Consuming application |
 
-This boundary is architectural, not incidental: identity and authorization controls in this document (SEC-002/003/005/006) authenticate and authorize **calls into the guardrail platform itself** — they are not, and are not designed to be, a substitute for the consuming application's own authorization layer. Tool and agent authorization — validating that a specific tool call is permitted for a specific user against a specific resource — is explicitly excluded from the guardrail MVP (seed.md §5.5) and appears only as permitted future scope (MCP authorization, tool-call validation — seed.md §6.2; [`CAPABILITIES.md` CAP-022](../20-product/CAPABILITIES.md), targeted no earlier than Phase 5, [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)). No document, sales artifact, or product surface may describe a guardrail decision as an authorization decision.
+This boundary is architectural, not incidental: identity and authorization controls in this document (SEC-002/003/005/006) authenticate and authorize **calls into the guardrail platform itself** — they are not, and are not designed to be, a substitute for the consuming application's own authorization layer. Tool and agent authorization — validating that a specific tool call is permitted for a specific user against a specific resource — is explicitly excluded from Phases 1–2 (seed.md §5.5) and appears only as later-phase scope (MCP authorization, tool-call validation — seed.md §6.2; [`CAPABILITIES.md` CAP-022](../20-product/CAPABILITIES.md), targeted no earlier than Phase 5, [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). No document, sales artifact, or product surface may describe a guardrail decision as an authorization decision.
+
+The guardrail-category catalog encodes this same boundary as classification: category [GR-010 (Identity, Authorization and Tenant Isolation)](../20-product/GUARDRAIL-CATALOG.md#gr-010--identity-authorization-and-tenant-isolation) is `Out-of-boundary → consuming application / identity provider` — listed to give coverage conversations an honest answer, never as a roadmap — and category [GR-009 (Agent, Tool and Action Safety)](../20-product/GUARDRAIL-CATALOG.md#gr-009--agent-tool-and-action-safety) evaluates the **content and arguments** of proposed tool calls (Phase 5, CAP-021/CAP-022) while never granting permission to execute them. Any catalog wording that drifts toward "future guardrail authorization" contradicts AGR-010 and must be corrected in the catalog, not accommodated here.
 
 ---
 
@@ -327,10 +331,10 @@ The following are named in `seed.md` as non-goals or future scope and are record
 | MCP tool authorization / a general MCP security platform | Explicitly out of scope for the MVP; narrower future capability tracked separately | seed.md §6.3, §17; [`CAPABILITIES.md` CAP-022](../20-product/CAPABILITIES.md) |
 | Organization-wide Bedrock/AWS enforcement | Explicitly out of scope for the MVP | seed.md §6.3, §17 |
 | Air-gapped installation | Permitted future scope, not built | seed.md §6.2, §17 |
-| Full compliance certification | Explicitly out of scope for the MVP | seed.md §6.3; [`NON-FUNCTIONAL-REQUIREMENTS.md` NFR-COMPL-002](NON-FUNCTIONAL-REQUIREMENTS.md#nfr-compl-002--full-compliance-certification-explicitly-out-of-mvp-scope) |
+| Full compliance certification | Explicitly out of scope for the MVP | seed.md §6.3; [`NON-FUNCTIONAL-REQUIREMENTS.md` NFR-COMPL-002](NON-FUNCTIONAL-REQUIREMENTS.md#nfr-compl-002--full-compliance-certification-explicitly-out-of-scope) |
 | Customer-specific evaluator plugins (untrusted third-party code inside the runtime) | Not supported in the MVP or any currently committed phase; no plugin trust/sandboxing model exists yet | seed.md §6.2, §16; [`OPEN-QUESTIONS.md` OQ-013](../00-source-of-truth/OPEN-QUESTIONS.md#oq-013--customer-specific-evaluator-plugin-governance) |
 
-None of these absences contradict the security controls in [§4](#4-security-control-catalog)–[§8](#8-software-supply-chain-security); they are scope boundaries, not gaps in what was promised for the MVP. Any proposal to build one of these ahead of its planned phase requires the explicit scope-change decision required by [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries).
+None of these absences contradict the security controls in [§4](#4-security-control-catalog)–[§8](#8-software-supply-chain-security); they are scope boundaries, not gaps in what was promised for the MVP. Any proposal to build one of these ahead of its planned phase requires an explicit, documented scope-change decision ([`../10-charter/SCOPE.md`](../10-charter/SCOPE.md); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) against the phase gating in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery).
 
 ---
 

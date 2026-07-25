@@ -9,7 +9,7 @@
 
 ## Purpose and how this register is used
 
-This register is authoritative about **which decisions remain open** — it is not authoritative about their answers. Where [AGREEMENTS.md](AGREEMENTS.md) records what has been decided (AGR-001 through AGR-022), this document records what has **not** been decided but could materially change scope, feasibility, cost, or architecture if resolved differently than the current working assumption.
+This register is authoritative about **which decisions remain open** — it is not authoritative about their answers. Where [AGREEMENTS.md](AGREEMENTS.md) records what has been decided (AGR-001 through AGR-021), this document records what has **not** been decided but could materially change scope, feasibility, cost, or architecture if resolved differently than the current working assumption.
 
 Rules for using this register:
 
@@ -60,6 +60,10 @@ stateDiagram-v2
 - [H. Compliance and availability posture](#h-compliance-and-availability-posture)
   - [OQ-015 — Full compliance certification target and scope](#oq-015--full-compliance-certification-target-and-scope)
   - [OQ-016 — Multi-region active-active availability need](#oq-016--multi-region-active-active-availability-need)
+- [I. Guardrail-catalog growth and contract vocabulary](#i-guardrail-catalog-growth-and-contract-vocabulary)
+  - [OQ-017 — Token and cost metadata in the evaluation contract](#oq-017--token-and-cost-metadata-in-the-evaluation-contract)
+  - [OQ-018 — Evaluation-stage vocabulary expansion beyond the reserved seven](#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven)
+  - [OQ-019 — Reason-code taxonomy and guardrail category as an audit/metric dimension](#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension)
 
 ---
 
@@ -83,12 +87,15 @@ stateDiagram-v2
 | [OQ-014](#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce) | What are the objective go/no-go criteria to promote a workload from observe to enforce? | Security and governance lead, workload owners | TBD — needed before Phase 2 onboarding scales past pilot workloads | Promotion stays subjective, risking premature enforcement or indefinite observe-mode stagnation |
 | [OQ-015](#oq-015--full-compliance-certification-target-and-scope) | Which compliance certifications (if any) are targeted, and for which phase? | Security and governance lead, Product lead | TBD — no committed phase | Security/compliance stakeholders (seed §7) have no certification roadmap to plan against |
 | [OQ-016](#oq-016--multi-region-active-active-availability-need) | Is multi-region active-active availability ever required, independent of data residency? | Architecture lead, Platform operations lead | TBD — no committed phase | Availability objective (seed §15) cannot be finalized without knowing the target topology |
+| [OQ-017](#oq-017--token-and-cost-metadata-in-the-evaluation-contract) | Do resource/cost guardrails (catalog GR-012) require extending the evaluation contract with token/cost metadata? | Technical lead, Architecture lead | TBD — before any GR-012 catalog entry is graduated | GR-012 vision entries cannot graduate; cost controls stay gateway-native with no platform-level classification |
+| [OQ-018](#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) | Should the evaluation-stage vocabulary expand beyond the seven reserved stages (e.g. `retrieval_query`, `agent_plan`, `memory_read`, `tool_selection`)? | Technical lead, Architecture lead | TBD — at Phase 5 scoping | Catalog items that need unreserved stages cannot be classified beyond Vision; risk of parallel stage vocabularies emerging |
+| [OQ-019](#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) | What is the canonical reason-code taxonomy, and does guardrail category become a first-class audit/metric dimension? | Technical lead, Security and governance lead | TBD — before Phase 2 onboarding scales | Per-category reporting and catalog-to-decision traceability remain unimplementable; reason codes stay evaluator-local |
 
 ---
 
 ## Phase-gate view
 
-The five delivery phases in [AGREEMENTS.md § AGR-022](AGREEMENTS.md#agr-022--five-phase-delivery) are the natural checkpoints for revisiting most of these questions. This view is advisory — it does not commit any OQ to a hard deadline — but it shows which decisions should not be allowed to drift past a given phase boundary without an explicit choice.
+The five delivery phases in [AGREEMENTS.md § AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery) are the natural checkpoints for revisiting most of these questions. This view is advisory — it does not commit any OQ to a hard deadline — but it shows which decisions should not be allowed to drift past a given phase boundary without an explicit choice.
 
 ```mermaid
 flowchart LR
@@ -129,7 +136,7 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 **Question:** Which of the three enforcement postures defined in seed §8 — cooperative integration, platform-managed enforcement, or network/IAM-enforced gateway — will the first external (non-internal) customers actually require, and at what point in the five-phase delivery plan does that requirement need to be satisfied?
 **Owner:** Security and governance lead, Product lead
 **Target decision date:** TBD — must be resolved before any external-customer commitment is made, and no later than Phase 3 (Guarded Gateway) scope commitment.
-**Impact if unresolved:** Seed §8 and [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model) are explicit that a cooperative connector must never be represented as a hard security boundary. Without this decision, the platform risks either (a) presenting a bypassable cooperative posture to a customer who actually needs bypass-proof enforcement, contradicting AGR-018 and creating compliance exposure, or (b) over-building network/IAM-enforced controls before any customer or compliance driver justifies the cost, contradicting the MVP-boundary discipline in [AGR-019](AGREEMENTS.md#agr-019--mvp-scope-boundaries). This directly affects the connector-bypass risk in seed §20.
+**Impact if unresolved:** Seed §8 and [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model) are explicit that a cooperative connector must never be represented as a hard security boundary. Without this decision, the platform risks either (a) presenting a bypassable cooperative posture to a customer who actually needs bypass-proof enforcement, contradicting AGR-018 and creating compliance exposure, or (b) over-building network/IAM-enforced controls before any customer or compliance driver justifies the cost, contradicting the phase-gated delivery discipline in [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery). This directly affects the connector-bypass risk in seed §20.
 **Current working assumption:** Cooperative integration remains the posture for Phase 1–2 internal teams. Platform-managed enforcement and the network/IAM-enforced gateway posture (seed §8, explicitly out of MVP scope per §17) are deferred until an external customer, compliance requirement, or specific bypass-prevention mandate is identified — mirroring the same trigger-based logic already accepted for AWS account separation in [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model).
 **Related:** seed §8, §6.3, §20 (connector bypass); [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model); [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md); [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md).
 
@@ -192,7 +199,7 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 **Status:** Open
 **Question:** What is the intended scope and delivery timing of tool-call validation, tool-result evaluation, and MCP authorization (seed §6.2, Phase 5 in §18), and how will the platform avoid being perceived as a "general MCP security platform," which seed §6.3 explicitly excludes?
 **Owner:** Technical lead, Product lead
-**Target decision date:** TBD — Phase 5, pending an explicit scope-approval decision; must not be scheduled as an MVP prerequisite per [AGR-022](AGREEMENTS.md#agr-022--five-phase-delivery).
+**Target decision date:** TBD — Phase 5, pending an explicit scope-approval decision; must not be scheduled inside Phases 1–2 per [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery).
 **Impact if unresolved:** Seed §5.5 and [AGR-010](AGREEMENTS.md#agr-010--guardrails-are-not-authorization) are explicit that a guardrail decision that a tool call "appears safe" is not the same as authorization to execute it. Without a defined scope and timeline for tool-call validation, agentic-workload teams may conflate future guardrail capability with authorization the platform will never provide, recreating the false-confidence risk in seed §20 in its most consequential form (autonomous tool execution).
 **Current working assumption:** Tool-call validation, tool-result evaluation, and MCP authorization remain future-scope-only (seed §6.2) and are not part of the MVP (seed §6.3, §17). No commitment exists yet on which subset ships first in Phase 5. Business authorization for tool calls remains, and will remain, the consuming application's responsibility regardless of what guardrail-side tool-call evaluation is eventually built.
 **Related:** seed §5.5, §6.2, §6.3, §18 (Phase 5), §20; [AGR-010](AGREEMENTS.md#agr-010--guardrails-are-not-authorization); [`10-charter/SCOPE.md`](../10-charter/SCOPE.md).
@@ -243,7 +250,7 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 **Question:** Seed §6.2 lists "dedicated hosted runtimes" and "air-gapped installation" as architecturally permitted future scope, while seed §17 explicitly excludes both from the MVP — on what timeline, if any, are they offered as supported deployment artifacts?
 **Owner:** Technical lead, Platform operations lead
 **Target decision date:** TBD — no committed phase; likely evaluated alongside Phase 4 (Customer-Managed Runtime) maturity.
-**Impact if unresolved:** Regulated or air-gapped prospects (a named driver for Mode C in seed §3) cannot be given a credible delivery timeline, and Phase 4 scope (seed §18) risks silently expanding to include these items without an explicit scope-change decision, which [AGR-019](AGREEMENTS.md#agr-019--mvp-scope-boundaries) requires.
+**Impact if unresolved:** Regulated or air-gapped prospects (a named driver for Mode C in seed §3) cannot be given a credible delivery timeline, and Phase 4 scope (seed §18) risks silently expanding to include these items without an explicit scope-change decision, which the scope-change governance in [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) and [DEC-008](DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) requires.
 **Current working assumption:** Dedicated tenant runtimes and air-gapped installation are not scheduled. Phase 4 delivers a shared customer-managed runtime container, Helm chart, ECS template, and infrastructure module (seed §18) capable of asynchronous policy sync per [AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), but not a fully air-gapped install path, until this question is resolved.
 **Related:** seed §3, §6.2, §17, §18; [AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection); [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md).
 
@@ -326,6 +333,44 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 **Impact if unresolved:** Seed §15 requires the runtime to "define an availability objective," but that objective cannot be finalized while the target topology (single-Region, multi-Region active-passive, or multi-Region active-active) remains undecided. Conflating this with the residency question in OQ-003 risks either under-building for a genuine high-availability requirement or over-building multi-Region infrastructure to solve a residency problem that a single well-chosen Region already satisfies.
 **Current working assumption:** A single-Region deployment with a defined (but not yet numerically specified) availability objective is sufficient for the MVP and near-term phases; multi-Region active-active is not planned and would require its own justification independent of any residency driver.
 **Related:** seed §6.3, §15; [OQ-003](#oq-003--regional-deployment-strategy-and-data-residency); [`50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md).
+
+---
+
+## I. Guardrail-catalog growth and contract vocabulary
+
+### OQ-017 — Token and cost metadata in the evaluation contract
+
+**Status:** Open
+**Question:** The guardrail-category catalog classifies resource, cost, and availability protection as category [GR-012](../20-product/GUARDRAIL-CATALOG.md#gr-012--resource-cost-and-availability-protection) with status Vision — uncommitted. Realizing platform-level cost/resource guardrails would require the evaluation contract to carry per-evaluation token counts, cost estimates, or quota context that it does not carry today. Is that contract extension warranted, or do cost and rate controls remain gateway-native (LiteLLM budgets, Phase 3 Guarded Gateway cost/rate controls per seed §18) with the platform limited to classification and observability?
+**Owner:** Technical lead, Architecture lead
+**Target decision date:** TBD — must be resolved before any GR-012 catalog entry is graduated into committed scope.
+**Impact if unresolved:** GR-012 entries cannot graduate beyond Vision status, and any cost-control expectation attached to the guardrail platform would be false confidence (seed §20): today the platform observes evaluations, not model spend. Extending the contract affects all three deployment modes simultaneously ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) and must be versioned and backward compatible, so an unplanned late addition would be costly.
+**Current working assumption:** Cost and rate controls remain gateway-native. Phase 3's Guarded Gateway deliverables (cost and rate controls, seed §18) satisfy Mode B operationally; Mode A/C teams use their own gateway's controls. The evaluation contract is not extended with token/cost metadata unless this question is resolved in favor of extension.
+**Related:** seed §18, §20; [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model); [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md); [`50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md); [OQ-011](#oq-011--commercial-metering-and-policy-marketplace).
+
+---
+
+### OQ-018 — Evaluation-stage vocabulary expansion beyond the reserved seven
+
+**Status:** Open
+**Question:** The domain model reserves seven evaluation stages — `input`, `output` (initial) and `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` (future) per seed §9. The guardrail-category catalog identifies candidate stages beyond these — for example `retrieval_query`, `agent_plan`, `memory_read`, and `tool_selection` — that some vision-classified guardrails would need. Should the reserved stage vocabulary be expanded, and if so, which candidates, in what order, and at which phase?
+**Owner:** Technical lead, Architecture lead
+**Target decision date:** TBD — evaluate at Phase 5 (Advanced agent protection) scoping, when the reserved agentic stages are themselves designed.
+**Impact if unresolved:** Catalog items requiring unreserved stages stay Vision — uncommitted with no graduation path, and there is a standing risk that a future integration invents a parallel stage vocabulary rather than extending the reserved one, contradicting [AGR-017](AGREEMENTS.md#agr-017--core-domain-model)'s extend-don't-fork rule. Every accepted new stage also inherits the per-stage input-size and timeout constraints (CON-015, CON-016), so each addition carries runtime cost that must be justified.
+**Current working assumption:** Only the seven seed §9 stages are reserved. Candidate stages named in the catalog are proposed, not reserved: they may be referenced by vision-classified catalog items but must not appear in policy schemas, contract definitions, or connector implementations until this question is resolved and the stage table in `50-architecture/INTEGRATION-ARCHITECTURE.md` §3.1 is formally extended.
+**Related:** seed §9; [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model); CON-015/CON-016 in [`CONSTRAINTS.md`](CONSTRAINTS.md); [`50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md); [OQ-005](#oq-005--retrieval-content-evaluation-and-indirect-prompt-injection-detection-timeline), [OQ-006](#oq-006--tool-call-validation-tool-result-evaluation-and-mcp-authorization-scope).
+
+---
+
+### OQ-019 — Reason-code taxonomy and guardrail category as an audit/metric dimension
+
+**Status:** Open
+**Question:** Every decision carries reason codes, but the canonical reason-code taxonomy (enumerated codes, namespace convention, governance) is TBD per `50-architecture/COMPONENT-ARCHITECTURE.md` §10. Should reason codes be namespaced by guardrail category (GR-001 through GR-018), making category a first-class, queryable dimension of decisions, audit records, and platform metrics — and if so, who governs the code registry?
+**Owner:** Technical lead, Security and governance lead
+**Target decision date:** TBD — needed before Phase 2 onboarding scales, since reason codes are part of the evaluation contract ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) and retrofitting a namespace over live codes would be a breaking change.
+**Impact if unresolved:** Per-category decision counts, block rates, and catalog-to-decision traceability remain unimplementable; audit consumers cannot answer "which guardrail category fired" without evaluator-specific knowledge, weakening the vendor-independence that [AGR-004](AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) requires of everything downstream of the adapters.
+**Current working assumption:** Reason codes remain evaluator-adapter-defined and stable but un-namespaced. The guardrail category of a decision is derivable only indirectly (via which evaluator and policy configuration produced it), and no per-category metric is committed until the taxonomy is resolved. The catalog's category IDs are the natural namespace candidates when this is designed.
+**Related:** [AGR-004](AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model); [`50-architecture/COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md) §6.2/§10; [`50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md); [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md).
 
 ---
 

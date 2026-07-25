@@ -102,15 +102,15 @@ Requirement: The proportion of evaluations for which an audit record is successf
 
 ## Recovery
 
-seed.md does not provide numeric RTO/RPO figures; recovery requirements here are derived from the policy-rollback, control-plane-independence, and circuit-breaker behaviors specified in seed.md §5.6, §5.7, §15, and the MVP demonstration criteria in §16/AGR-020.
+seed.md does not provide numeric RTO/RPO figures; recovery requirements here are derived from the policy-rollback, control-plane-independence, and circuit-breaker behaviors specified in seed.md §5.6, §5.7, §15, and the Phase 1–2 validation demonstration criteria in §16 (see [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ### NFR-REC-001 — Immediate policy rollback
 
 Requirement: A promoted policy version must be reversible to its prior version through an explicit, auditable rollback action. The time required to complete a rollback is **TBD**, but rollback must not require a new deployment of runtime software — only a policy-version change.
 
-**Measurement:** Time from rollback initiation to the prior version becoming effective for all bound workloads, measured in a controlled test; verified as part of the MVP demonstration ("a policy can be upgraded and rolled back").
+**Measurement:** Time from rollback initiation to the prior version becoming effective for all bound workloads, measured in a controlled test; verified as part of the Phase 1–2 validation demonstration ("a policy can be upgraded and rolled back").
 **Validation stage:** Phase 1/2 (policy promotion and rollback tooling); re-verified at every subsequent policy-rollout release.
-**Source:** seed.md §15 (Policy rollout: "Immediate rollback"); AGR-020.
+**Source:** seed.md §15 (Policy rollout: "Immediate rollback"), §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md).
 
 ### NFR-REC-002 — Customer-managed runtime reconnection recovery
 
@@ -348,6 +348,14 @@ Requirement: 100% of published policy versions are immutable; any change to a po
 **Validation stage:** Phase 1/2, as policy storage and rollout controls are delivered.
 **Source:** seed.md §15 (Policy rollout: "Immutable versions").
 
+### NFR-MAINT-003 — Bounded evaluator and category sprawl
+
+Requirement: Guardrail-coverage growth must remain governable: 100% of evaluation engines sit behind the standard evaluator-adapter contract (no engine invoked outside it); 100% of registered engines are mapped to at least one guardrail category of [`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md); engines are selectable only through policy `evaluator configuration` (a policy cannot invoke an unlisted engine); and only policy-configured evaluators execute for a given stage, so the size of the available evaluator set does not affect the latency of workloads that configure few. Category additions, removals, and status reclassifications follow register-level change control (AGR-021) — never editorial edits. Numeric ceilings (maximum engines per stage, per-policy evaluator budget) are **TBD** — no figure exists in the source material.
+
+**Measurement:** Architecture-conformance review at every engine addition (adapter present, category mapped, catalog updated in the same change set); per-stage evaluator-invocation audit confirming only policy-configured evaluators ran; documentation-consistency check between the catalog's evaluator-family fields and the registered engine list.
+**Validation stage:** Reviewed at every evaluator/engine addition from Phase 1 onward; re-verified at each catalog graduation ([`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md) §10).
+**Source:** [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model); [`TECHNICAL-RISKS.md`](TECHNICAL-RISKS.md) §4.9; [`CONTAINER-ARCHITECTURE.md`](CONTAINER-ARCHITECTURE.md) §5 (latency mitigation).
+
 ---
 
 ## Portability
@@ -460,13 +468,13 @@ Requirement: 100% of tenants must be able to configure their own content-retenti
 **Validation stage:** Phase 1/2, alongside default no-retention behavior (NFR-PRIV-001).
 **Source:** seed.md §9 (Tenant: "Retention configuration"), §13 (Default behavior: "Support tenant-specific retention configuration"); AGR-014.
 
-### NFR-COMPL-002 — Full compliance certification explicitly out of MVP scope
+### NFR-COMPL-002 — Full compliance certification explicitly out of scope
 
-Requirement: Full compliance certification (e.g., formal attestations or certifications) is explicitly not a deliverable of the MVP. This is a scope boundary, not a target to be silently pursued; any future certification effort requires an explicit scope-change decision.
+Requirement: Full compliance certification (e.g., formal attestations or certifications) is explicitly not a deliverable of the solution (a product-category exclusion, seed.md §6.3). This is a scope boundary, not a target to be silently pursued; any future certification effort requires an explicit scope-change decision.
 
 **Measurement:** Not applicable as a measured target; tracked as a scope-boundary item in `../10-charter/SCOPE.md` and release criteria.
-**Validation stage:** Confirmed at each MVP release-readiness review that no undocumented certification claim has been introduced into product or sales materials.
-**Source:** seed.md §6.3 (Out of scope for the MVP: "Full compliance certification"); AGR-019.
+**Validation stage:** Confirmed at each release-readiness review that no undocumented certification claim has been introduced into product or sales materials.
+**Source:** seed.md §6.3 (Out of scope for the MVP: "Full compliance certification"); [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md).
 
 ### NFR-COMPL-003 — Regional processing boundary documented and enforced
 
@@ -487,7 +495,7 @@ Requirement: For every tenant, the AWS accounts and Regions that process that te
 | NFR-REL-001 | Evaluation timeout rate ceiling | TBD | seed §15, §19; CON-016 |
 | NFR-REL-002 | Policy-resolution failure rate ceiling | TBD | seed §19; AGR-006/015 |
 | NFR-REL-003 | Audit delivery success rate | TBD | seed §15, §19; AGR-012 |
-| NFR-REC-001 | Policy rollback time | TBD | seed §15; AGR-020 |
+| NFR-REC-001 | Policy rollback time | TBD | seed §15, §16; 60-delivery/VALIDATION-PLAN.md |
 | NFR-REC-002 | Control-plane reconnection recovery | No downtime / no audit loss | seed §3; AGR-015 |
 | NFR-REC-003 | Circuit-breaker auto-reset | TBD interval | seed §15; AGR-012 |
 | NFR-PERF-001 | P50 evaluation latency | TBD | seed §15 |
@@ -513,6 +521,7 @@ Requirement: For every tenant, the AWS accounts and Regions that process that te
 | NFR-AUDIT-002 | Defined behavior on audit-delivery failure | 100% of workloads | seed §5.7, §15; AGR-012 |
 | NFR-MAINT-001 | Vendor/framework isolation behind adapters | 100% | seed §5.1, §12; AGR-003/004/005 |
 | NFR-MAINT-002 | Immutable policy versions | 100% | seed §15 |
+| NFR-MAINT-003 | Bounded evaluator and category sprawl | 100% adapter/category conformance; ceilings TBD | AGR-004/006/021; TECHNICAL-RISKS §4.9 |
 | NFR-PORT-001 | Deployment-mode-independent policy definitions | TBD %, goal ~100% | seed §19; AGR-006 |
 | NFR-PORT-002 | Shared runtime code across modes | TBD % | seed §19; AGR-015 |
 | NFR-PORT-003 | Time to deploy customer-managed runtime | TBD | seed §19 |
@@ -524,7 +533,7 @@ Requirement: For every tenant, the AWS accounts and Regions that process that te
 | NFR-COST-001 | Cost model before Guarded Gateway GA | TBD figures | seed §18, §3 |
 | NFR-COST-002 | Usage quotas / rate controls bound cost | Enforced per tenant | seed §18, §14, §7 |
 | NFR-COMPL-001 | Tenant-specific retention configuration | 100% of tenants | seed §9, §13; AGR-014 |
-| NFR-COMPL-002 | Full compliance certification | Out of MVP scope | seed §6.3; AGR-019 |
+| NFR-COMPL-002 | Full compliance certification | Out of scope | seed §6.3; 10-charter/SCOPE.md |
 | NFR-COMPL-003 | Regional processing boundary documented/enforced | 100% of tenants | seed §9, §5.4; AGR-008/CON-007 |
 
 ---
@@ -554,9 +563,10 @@ flowchart TD
 
 ## Related documents
 
-- [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — L1 agreements this document operationalizes (notably AGR-006, AGR-012, AGR-014, AGR-015, AGR-016, AGR-020).
+- [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — L1 agreements this document operationalizes (notably AGR-006, AGR-012, AGR-014, AGR-015, AGR-016).
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — L1 boundary conditions (CON-001 through CON-016) that the Security, Privacy, and Compliance sections above restate as measurable targets.
-- [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — MVP scope boundaries referenced by NFR-COMPL-002 and the Cost section.
+- [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — scope boundaries referenced by NFR-COMPL-002 and the Cost section.
+- [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — the Phase 1–2 validation demonstration referenced by the Recovery section.
 - [`../10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — product principles (portability, one contract, observe-before-enforce, explicit failure behavior) that motivate the Portability, Reliability, and Operability sections.
 - [`SECURITY-ARCHITECTURE.md`](SECURITY-ARCHITECTURE.md) — implements the Security-section NFRs in concrete controls.
 - [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) — implements the Privacy- and Compliance-section NFRs.

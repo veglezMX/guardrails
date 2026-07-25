@@ -12,7 +12,7 @@
 This document defines **how** the AI Guardrails solution is built, in what order, and by whom — as distinct from **what** it is (the charter and scope) and **why phases are sequenced the way they are at a product level** (the roadmap). Specifically, it covers:
 
 * The build sequence and dependency order underlying the five delivery phases.
-* The precise MVP boundary — what "done" means for the MVP, per seed.md §16 and §17.
+* The precise Phase 1–2 core boundary — what "done" means for Phases 1–2 and their validation demonstration, per seed.md §16 and §17 ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 * The build-vs-buy strategy: Amazon Bedrock Guardrails as the bought first evaluation engine, versus the evaluation contract, policy model, connectors, and control plane, which are built.
 * The integration order: the LiteLLM connector is delivered and validated first, with the generic HTTP Evaluation API/SDK delivered and validated second against the same contract.
 * Platform dependencies that gate delivery — AWS services, account model, Bedrock Guardrails availability, and staffing/ownership dependencies.
@@ -29,7 +29,7 @@ This document does not restate the phase-by-phase objectives and deliverables al
 
 - [1. Relationship to the roadmap and scope](#1-relationship-to-the-roadmap-and-scope)
 - [2. Delivery phases and build sequence](#2-delivery-phases-and-build-sequence)
-- [3. The MVP boundary](#3-the-mvp-boundary)
+- [3. The Phase 1–2 core boundary](#3-the-phase-12-core-boundary)
 - [4. Build-vs-buy strategy](#4-build-vs-buy-strategy)
 - [5. Integration order: LiteLLM connector first, then generic HTTP API/SDK](#5-integration-order-litellm-connector-first-then-generic-http-apisdk)
 - [6. Platform dependencies](#6-platform-dependencies)
@@ -47,17 +47,17 @@ Three documents together answer three different questions about delivery, and th
 
 | Document | Question it answers |
 | --- | --- |
-| [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) | What is in scope, future scope, out of scope, or a non-goal for the MVP? |
+| [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) | What is in scope, out of scope, or a non-goal for the solution? |
 | [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) | What is each phase's objective, and what are its headline deliverables, from a product-facing view? |
 | **This document** | In what order and by what build strategy are those deliverables actually constructed, what must exist before what, and how does the platform onboard and roll out policies once built? |
 
-None of the three may contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); where a conflict is found, the L1 registers win and the derived document is corrected. Consistent with [`PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md), every timing reference below is **sequencing, not scheduling** — dependency order is fixed by the agreements cited, but calendar dates, durations, and headcounts are not decided anywhere in the source-of-truth set and must not be inferred from this document.
+None of the three may contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); where a conflict is found, the L1 registers win and the derived document is corrected. Consistent with [`PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md), every timing reference below is **sequencing, not scheduling** — dependency order is fixed by the agreements cited, but calendar dates, durations, and headcounts are not decided anywhere in the source-of-truth set and must not be inferred from this document. Per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), the solution is defined and estimated over the full five-phase feature set; effort and duration figures remain **TBD** until supplied.
 
 ---
 
 ## 2. Delivery phases and build sequence
 
-Delivery proceeds through the five phases agreed in [AGR-022 — Five-phase delivery](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) ([DEC-006](../00-source-of-truth/DECISIONS.md#dec-006--sequence-delivery-into-five-phases)). This section adds the **build-dependency view** underneath those phase objectives: what must exist before what, independent of which phase's headline it is filed under.
+Delivery proceeds through the five phases agreed in [AGR-020 — Five-phase delivery](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) ([DEC-006](../00-source-of-truth/DECISIONS.md#dec-006--sequence-delivery-into-five-phases)). This section adds the **build-dependency view** underneath those phase objectives: what must exist before what, independent of which phase's headline it is filed under.
 
 ### 2.1 Phase-level dependency graph
 
@@ -66,11 +66,11 @@ flowchart LR
     P1["Phase 1\nIntegration proof"] --> P2["Phase 2\nInternal multi-team platform"]
     P2 --> P3["Phase 3\nGuarded gateway"]
     P3 --> P4["Phase 4\nCustomer-managed runtime"]
-    P2 -.->|"separate expansion —\nnot an MVP prerequisite"| P5["Phase 5\nAdvanced agent protection"]
+    P2 -.->|"separate expansion —\nnot a Phase 1–2 prerequisite"| P5["Phase 5\nAdvanced agent protection"]
     P4 -.-> P5
 ```
 
-Each phase's deliverables must be completed and validated before the next phase's scope is committed ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery) implications) — this is a hard sequencing rule, not a preference. Phase 3 (Guarded Gateway) and Phase 4 (Customer-Managed Runtime) both build on the runtime and contract validated in Phases 1–2; neither substitutes for the other, and Phase 4 in particular reuses the same runtime source rather than re-implementing it (§2.3 below).
+Each phase's deliverables must be completed and validated before the next phase's scope is committed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) implications) — this is a hard sequencing rule, not a preference. Phase 3 (Guarded Gateway) and Phase 4 (Customer-Managed Runtime) both build on the runtime and contract validated in Phases 1–2; neither substitutes for the other, and Phase 4 in particular reuses the same runtime source rather than re-implementing it (§2.3 below).
 
 ### 2.2 Build-order dependency graph inside Phase 1
 
@@ -91,7 +91,7 @@ flowchart TB
     AUD --> DEP["Internal deployment\n(Mode A, minimal account model)\nAGR-013"]
 ```
 
-Reading order matters here: the domain model and the evaluation contract must exist before any connector can be meaningfully built (a connector is only a client of that contract — [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)); the Bedrock Guardrails adapter and the deterministic evaluator must exist behind the same adapter pattern before the LiteLLM connector can invoke either through the Evaluation API; and Observe mode and basic auditing must exist before "internal deployment" can be considered complete, since an internally deployed Phase 1 with no non-blocking mode and no decision logging would not satisfy [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) or [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration).
+Reading order matters here: the domain model and the evaluation contract must exist before any connector can be meaningfully built (a connector is only a client of that contract — [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)); the Bedrock Guardrails adapter and the deterministic evaluator must exist behind the same adapter pattern before the LiteLLM connector can invoke either through the Evaluation API; and Observe mode and basic auditing must exist before "internal deployment" can be considered complete, since an internally deployed Phase 1 with no non-blocking mode and no decision logging would not satisfy [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) or the Phase 1–2 validation demonstration ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 
 ### 2.3 Cross-phase reuse: one runtime source, multiple packagings
 
@@ -103,13 +103,13 @@ flowchart LR
     Src --> Packaged["Customer-managed packaging\n(container, Helm chart,\nECS template, IaC module\n— Phase 4)"]
 ```
 
-This is what makes the MVP success demonstration's final condition satisfiable: *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)). Phase 4 is a packaging and deployment-automation exercise on the runtime already validated in Phases 1–3, not a rebuild — see [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) §9 for the full Phase 4 artifact list.
+This is what makes the Phase 1–2 validation demonstration's final condition satisfiable: *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Phase 4 is a packaging and deployment-automation exercise on the runtime already validated in Phases 1–3, not a rebuild — see [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) §9 for the full Phase 4 artifact list.
 
-### 2.4 MVP component-to-phase mapping
+### 2.4 Core component-to-phase mapping (seed.md §16)
 
-Seed.md §16 lists twelve MVP components without assigning each one to a phase; [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) already notes that the MVP spans Phase 1 and the early part of Phase 2. This table makes that mapping explicit, as the build-sequencing detail [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §3 defers to this document:
+Seed.md §16 lists twelve core components without assigning each one to a phase; [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) already notes that these components span Phase 1 and the early part of Phase 2. This table makes that mapping explicit, as the build-sequencing detail [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §3 defers to this document:
 
-| # | MVP component (seed.md §16) | Delivered in | Basis |
+| # | Core component (seed.md §16) | Delivered in | Basis |
 | --- | --- | --- | --- |
 | 1 | Guardrail policy format | Phase 1 | Explicit Phase 1 deliverable ("Policy format," seed.md §18) |
 | 2 | Policy storage | Phase 1 | Underlies the policy format; part of "internal deployment" (seed.md §11 service mapping) |
@@ -117,7 +117,7 @@ Seed.md §16 lists twelve MVP components without assigning each one to a phase; 
 | 4 | Policy-to-workload binding | Phase 2 | Explicit Phase 2 deliverable ("Policy bindings," seed.md §18) |
 | 5 | Evaluation API | Phase 1 | Explicit Phase 1 deliverable ("Evaluation contract," seed.md §18), realized as the generic HTTP API (§5 below) |
 | 6 | Amazon Bedrock Guardrails adapter | Phase 1 | Explicit Phase 1 deliverable (seed.md §18) |
-| 7 | Basic deterministic evaluator | Phase 1 | Not separately named in seed.md §18, but built behind the same evaluator-adapter pattern as item 6 to satisfy the MVP component list (seed.md §16) |
+| 7 | Basic deterministic evaluator | Phase 1 | Not separately named in seed.md §18, but built behind the same evaluator-adapter pattern as item 6 to satisfy the component list (seed.md §16) |
 | 8 | LiteLLM pre-call connector | Phase 1 | Explicit Phase 1 deliverable ("LiteLLM connector," seed.md §18) |
 | 9 | LiteLLM post-call connector | Phase 1 | Same |
 | 10 | Observe and enforce modes | Observe: Phase 1; Enforce: Phase 2 | Observe mode is an explicit Phase 1 deliverable; enforce requires the promotion/rollback machinery that is an explicit Phase 2 deliverable ("Policy promotion and rollback," seed.md §18) |
@@ -128,15 +128,15 @@ This mapping is this document's own interpretive sequencing of seed.md §16 agai
 
 ---
 
-## 3. The MVP boundary
+## 3. The Phase 1–2 core boundary
 
-### 3.1 What the MVP exists to prove
+### 3.1 What Phases 1–2 exist to prove
 
-Per seed.md §16, the MVP exists to prove one thing: **that one reusable policy can be applied consistently to multiple independent LiteLLM deployments.** Every component in §2.4 above is built in service of that single hypothesis, not as an independent feature list. Everything else — the generic HTTP API, workload registries, IAM authentication — exists to make that core proof credible and repeatable, not to expand the product prematurely ([DEC-005](../00-source-of-truth/DECISIONS.md#dec-005--bound-the-mvp-to-reusable-policy-import-inputoutput-evaluation-litellm-integration-observeenforce-and-normalized-audit-decisions)).
+Per seed.md §16, the Phase 1–2 core exists to prove one thing: **that one reusable policy can be applied consistently to multiple independent LiteLLM deployments.** Every component in §2.4 above is built in service of that single hypothesis, not as an independent feature list. Everything else — the generic HTTP API, workload registries, IAM authentication — exists to make that core proof credible and repeatable, not to pull later-phase capabilities forward: the full feature set is defined and estimated up front, but delivered in phase sequence ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 
-### 3.2 The MVP demonstration is the actual finish line
+### 3.2 The Phase 1–2 validation demonstration is the phase gate
 
-Per seed.md §16 and [AGR-020 — MVP success demonstration](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), the MVP is not "done" when the twelve components in §2.4 exist individually — it is done only when **all** of the following hold simultaneously:
+Per seed.md §16 and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), Phases 1–2 are not validated when the twelve components in §2.4 exist individually — they are validated only when **all** of the following hold simultaneously:
 
 | # | Condition |
 | --- | --- |
@@ -150,19 +150,19 @@ Per seed.md §16 and [AGR-020 — MVP success demonstration](../00-source-of-tru
 | 8 | Evaluation failures follow a configured failure policy. |
 | 9 | The runtime can later be packaged for customer-managed deployment without changing the connector contract. |
 
-Delivery planning must produce **two genuinely independent LiteLLM deployments** to exercise condition 1 — not one deployment tested twice ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) implications). Condition 5 and condition 6 both depend on Phase 2's policy promotion/rollback capability (§2.4, item 10), which is why the MVP is not considered fully demonstrated at the end of Phase 1 alone.
+Delivery planning must produce **two genuinely independent LiteLLM deployments** to exercise condition 1 — not one deployment tested twice ([`seed.md` §16](../../seed.md#16-mvp-definition) implications). Condition 5 and condition 6 both depend on Phase 2's policy promotion/rollback capability (§2.4, item 10), which is why the demonstration does not pass at the end of Phase 1 alone.
 
-### 3.3 What the MVP explicitly will not attempt
+### 3.3 What the solution explicitly will not attempt
 
-Per seed.md §6.3 ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)), the MVP will not attempt to provide a general-purpose LLM gateway replacement, a complete AI governance platform, model training or fine-tuning, a proprietary prompt-injection or moderation model, a complete DLP platform, end-user authentication, business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, multi-region active-active availability, full compliance certification, or a general MCP security platform. The full rationale for each exclusion is maintained in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §5 and is not repeated here.
+Per seed.md §6.3 and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §5, the solution will not attempt to provide a general-purpose LLM gateway replacement, a complete AI governance platform, model training or fine-tuning, a proprietary prompt-injection or moderation model, a complete DLP platform, end-user authentication, business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, multi-region active-active availability, full compliance certification, or a general MCP security platform. These product-category exclusions were never part of the feature set and are not made in-scope by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); the full rationale for each exclusion is maintained in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §5 and is not repeated here.
 
-### 3.4 What the MVP does not require even where related work is in scope
+### 3.4 What Phases 1–2 do not require even where related work is in scope
 
-Per seed.md §17, the following are **not required** to call the MVP complete, even though related, broader capabilities appear in scope elsewhere: a full administration portal, a policy-signing infrastructure, PrivateLink, three-account AWS separation, a billing platform, dedicated tenant runtime deployments, MCP tool authorization, organization-wide Bedrock enforcement, complex policy inheritance, streaming guardrail enforcement, air-gapped deployment, multi-cloud support, and a general-purpose AI governance inventory. A minimal management API and version-controlled configuration are explicitly acceptable substitutes during the MVP (seed.md §17). The full non-goal register, with tracked open questions, is maintained in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §6.
+Per seed.md §17, the following are **not required** to declare Phases 1–2 validated, even though related, broader capabilities appear in scope elsewhere: a full administration portal, a policy-signing infrastructure, PrivateLink, three-account AWS separation, a billing platform, dedicated tenant runtime deployments, MCP tool authorization, organization-wide Bedrock enforcement, complex policy inheritance, streaming guardrail enforcement, air-gapped deployment, multi-cloud support, and a general-purpose AI governance inventory. A minimal management API and version-controlled configuration are explicitly acceptable substitutes during Phases 1–2 (seed.md §17). The full non-goal register, with tracked open questions, is maintained in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §6.
 
 ### 3.5 Scope-change discipline during implementation
 
-Any proposed feature outside the boundaries in §3.3–§3.4 requires an explicit, recorded scope-change decision, never silent inclusion during implementation ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)). Delivery milestones — however they are eventually tracked in [`MILESTONES.md`](MILESTONES.md) and gated in [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) — must be evaluated against this boundary before being marked complete, per the scope-change governance rule in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §8.
+Any proposed feature outside the boundaries in §3.3–§3.4 requires an explicit, recorded scope-change decision, never silent inclusion during implementation (seed.md §6.3; [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Delivery milestones — however they are eventually tracked in [`MILESTONES.md`](MILESTONES.md) and gated in [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) — must be evaluated against this boundary before being marked complete, per the scope-change governance rule in [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §8.
 
 ---
 
@@ -170,7 +170,7 @@ Any proposed feature outside the boundaries in §3.3–§3.4 requires an explici
 
 ### 4.1 The core call: buy the engine, build the contract around it
 
-Per seed.md §22 and [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), the implementation strategy makes one build-vs-buy decision at the center of the MVP: **buy** Amazon Bedrock Guardrails as the first managed evaluation engine, and **build** everything that keeps the platform's own contract independent of it — the evaluation contract, the policy model, the connectors, and the control plane.
+Per seed.md §22 and [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), the implementation strategy makes one build-vs-buy decision at the center of Phase 1: **buy** Amazon Bedrock Guardrails as the first managed evaluation engine, and **build** everything that keeps the platform's own contract independent of it — the evaluation contract, the policy model, the connectors, and the control plane.
 
 ```mermaid
 flowchart TB
@@ -198,7 +198,7 @@ flowchart TB
 
 | Capability | Build or buy | Rationale | Reference |
 | --- | --- | --- | --- |
-| Detection/evaluation engine | **Buy** — Amazon Bedrock Guardrails | Accelerates delivery of a working managed evaluator without building a proprietary detection model, which is explicitly out of MVP scope | AGR-004; seed.md §6.3 |
+| Detection/evaluation engine | **Buy** — Amazon Bedrock Guardrails | Accelerates delivery of a working managed evaluator without building a proprietary detection model, which is an explicit product-category exclusion | AGR-004; seed.md §6.3 |
 | Bedrock Guardrails adapter | **Build** (thin layer around the bought engine) | Normalizes Bedrock-native request/response formats into the platform's own decision structure before any result reaches a policy or connector; no Bedrock-specific field may leak past this boundary | AGR-004, CON-004 |
 | Evaluation contract (request/decision structures, reason codes, stages, latency) | **Build** | Must remain vendor-independent and identical across Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime; no external product defines a contract that spans all three modes and the platform's own domain model | AGR-005, AGR-006, CON-003, CON-005 |
 | Policy model / schema (versioning, thresholds, failure behavior, compatibility metadata) | **Build** | Policy portability and the separation of policies from connectors both require a native, framework-independent format | AGR-005, AGR-007, CON-006 |
@@ -217,42 +217,42 @@ The build-vs-buy line is not arbitrary: it sits precisely where "vendor-specific
 
 ## 5. Integration order: LiteLLM connector first, then generic HTTP API/SDK
 
-### 5.1 Both are MVP scope; the build and validation order is not simultaneous
+### 5.1 Both are Phase 1 scope; the build and validation order is not simultaneous
 
-The generic HTTP Evaluation API is explicit MVP scope alongside the LiteLLM integration ([`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §3, item 7) — this is not in dispute. What this document adds is the **implementation order**: the LiteLLM connector is delivered and validated first; the generic HTTP API/SDK is delivered and validated second, as a distinct client of the same, already-stabilized contract.
+The generic HTTP Evaluation API is explicit Phase 1 scope alongside the LiteLLM integration ([`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §3, item 7) — this is not in dispute. What this document adds is the **implementation order**: the LiteLLM connector is delivered and validated first; the generic HTTP API/SDK is delivered and validated second, as a distinct client of the same, already-stabilized contract.
 
 ```mermaid
 flowchart LR
     EC["Evaluation contract\n(built first, underlies both)"] --> API["Generic HTTP\nEvaluation API surface"]
     API --> LC["LiteLLM pre-call /\npost-call connector\n— validated FIRST"]
     API --> SDK["Generic SDK /\ndirect HTTP client\n— validated SECOND"]
-    LC -. "proves reuse across\ntwo independent LiteLLM\ninstances (AGR-020)" .-> Demo["MVP success\ndemonstration"]
+    LC -. "proves reuse across\ntwo independent LiteLLM\ninstances (seed.md §16)" .-> Demo["Phase 1–2 validation\ndemonstration"]
     SDK -. "proves the contract is\nnot LiteLLM-specific" .-> Demo
 ```
 
 ### 5.2 Why LiteLLM first
 
-* The MVP success demonstration is defined in terms of LiteLLM specifically: *"two separate LiteLLM instances consume the same policy... both receive consistent normalized decisions"* ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)). Until the LiteLLM connector exists and is exercised against two independent instances, the MVP's primary hypothesis is unproven, regardless of how many other clients exist.
+* The Phase 1–2 validation demonstration is defined in terms of LiteLLM specifically: *"two separate LiteLLM instances consume the same policy... both receive consistent normalized decisions"* ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Until the LiteLLM connector exists and is exercised against two independent instances, the core policy-reuse hypothesis is unproven, regardless of how many other clients exist.
 * LiteLLM is the initial integration target named in the solution charter (`seed.md` front matter) and is where the platform's first internal deployment (Phase 1) is expected to run ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 * Building the LiteLLM connector first forces the evaluation contract to prove itself against a real, opinionated gateway's request/response shape before it is generalized — surfacing contract gaps earlier, against a bounded integration, rather than later against an unbounded "any HTTP client" surface.
 
 ### 5.3 Why the generic HTTP API/SDK comes second, not last
 
-The generic HTTP Evaluation API is not deferred to a later phase — it remains explicit Phase 1/MVP scope. It is sequenced second within Phase 1 because its purpose is specifically to **prove that the contract validated against LiteLLM is not, in fact, LiteLLM-specific** ([`../50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) §5; [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)). That claim can only be tested once there is a stabilized contract to test it against. Architecturally, the generic HTTP API is not a separate build — it is the same Evaluation API surface the LiteLLM connector already calls; the LiteLLM connector is, in fact, "built on top of it" (`../50-architecture/INTEGRATION-ARCHITECTURE.md` §5). Sequencing the generic-client validation second is therefore a proof-order decision, not a scope deferral.
+The generic HTTP Evaluation API is not deferred to a later phase — it remains explicit Phase 1 scope. It is sequenced second within Phase 1 because its purpose is specifically to **prove that the contract validated against LiteLLM is not, in fact, LiteLLM-specific** ([`../50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) §5; [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)). That claim can only be tested once there is a stabilized contract to test it against. Architecturally, the generic HTTP API is not a separate build — it is the same Evaluation API surface the LiteLLM connector already calls; the LiteLLM connector is, in fact, "built on top of it" (`../50-architecture/INTEGRATION-ARCHITECTURE.md` §5). Sequencing the generic-client validation second is therefore a proof-order decision, not a scope deferral.
 
 ### 5.4 Extension to future connectors
 
-This same order — contract first, first opinionated client second, generic/framework-agnostic client third — is the intended pattern for any future connector or gateway integration beyond the MVP ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)): a new connector implements the invocation contract only (request mapping, evaluation invocation, action enforcement, correlation propagation, timeout handling, health telemetry), with no change to policy, decision, or reason-code semantics (`../50-architecture/INTEGRATION-ARCHITECTURE.md` §7).
+This same order — contract first, first opinionated client second, generic/framework-agnostic client third — is the intended pattern for any future connector or gateway integration in later phases ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)): a new connector implements the invocation contract only (request mapping, evaluation invocation, action enforcement, correlation propagation, timeout handling, health telemetry), with no change to policy, decision, or reason-code semantics (`../50-architecture/INTEGRATION-ARCHITECTURE.md` §7).
 
 ---
 
 ## 6. Platform dependencies
 
-Delivery of the MVP depends on a set of external and internal prerequisites that are not, themselves, deliverables of the AI Guardrails team. This section makes those dependencies explicit so they are staffed and provisioned ahead of the build sequence in §2, not discovered mid-build.
+Delivery of the Phase 1–2 core depends on a set of external and internal prerequisites that are not, themselves, deliverables of the AI Guardrails team. This section makes those dependencies explicit so they are staffed and provisioned ahead of the build sequence in §2, not discovered mid-build.
 
 ### 6.1 AWS platform dependencies
 
-Per seed.md §11, the MVP uses the minimum AWS architecture required to validate the product:
+Per seed.md §11, Phases 1–2 use the minimum AWS architecture required to validate the product:
 
 | Capability | Initial AWS service | Dependency type |
 | --- | --- | --- |
@@ -281,7 +281,7 @@ Per [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-
 
 ### 6.4 LiteLLM test-instance dependency
 
-The MVP success demonstration requires **two genuinely independent LiteLLM instances** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)) — this is a delivery-planning dependency, not only a validation step. Both instances must be available, separately owned or at minimum separately configured, before condition 1 of the MVP demonstration (§3.2) can be exercised; a single instance tested twice does not satisfy it.
+The Phase 1–2 validation demonstration requires **two genuinely independent LiteLLM instances** ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) — this is a delivery-planning dependency, not only a validation step. Both instances must be available, separately owned or at minimum separately configured, before condition 1 of the demonstration (§3.2) can be exercised; a single instance tested twice does not satisfy it.
 
 ### 6.5 Ownership and staffing dependencies
 
@@ -300,19 +300,19 @@ Per [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md) §11, the build seque
 
 ### 7.1 Cooperative onboarding is the default trust posture for delivery
 
-Per seed.md §8 and [AGR-018 — Trust and enforcement model](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), the implementation strategy adopts **cooperative integration** as the default onboarding posture for the MVP and early phases: the consuming team installs and maintains the connector itself, and the connector can be disabled, removed, or misconfigured. This is appropriate while teams are trusted, guardrails are an engineering standard rather than a mandated control, and the goal is adoption and evaluation rather than bypass-proof enforcement.
+Per seed.md §8 and [AGR-018 — Trust and enforcement model](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), the implementation strategy adopts **cooperative integration** as the default onboarding posture for Phases 1–2: the consuming team installs and maintains the connector itself, and the connector can be disabled, removed, or misconfigured. This is appropriate while teams are trusted, guardrails are an engineering standard rather than a mandated control, and the goal is adoption and evaluation rather than bypass-proof enforcement.
 
 ```mermaid
 flowchart LR
-    A["Cooperative integration\n(MVP default —\nteam installs connector)"] --> B["Platform-managed enforcement\n(platform owns gateway config;\nnot required for MVP)"]
-    B --> C["Network/IAM-enforced gateway\n(no direct provider credentials;\nnot required for the first\ncooperative MVP)"]
+    A["Cooperative integration\n(Phase 1–2 default —\nteam installs connector)"] --> B["Platform-managed enforcement\n(platform owns gateway config;\nnot required for Phases 1–2)"]
+    B --> C["Network/IAM-enforced gateway\n(no direct provider credentials;\nnot required for the first\ncooperative phases)"]
 ```
 
 A cooperative connector must never be represented as a hard security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), CON-012) — this constrains not just how the platform is marketed but how the delivery team measures adoption: connector-health telemetry is a signal, never proof, of mandatory enforcement. Which posture the first external customers actually require, and by which phase that posture must be available, remains an open question ([OQ-001](../00-source-of-truth/OPEN-QUESTIONS.md#oq-001--enforcement-model-required-for-the-first-external-customers)); the current working assumption is that cooperative integration suffices through Phase 1–2, with platform-managed and network/IAM-enforced postures deferred until a specific customer or compliance driver is identified.
 
 ### 7.2 The canonical onboarding flow
 
-Per seed.md §4 and [AGR-021 — Meaning of "import"](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import), every workload's adoption path follows the same seven-step flow, which the delivery plan treats as the reference implementation of onboarding — not an approximation of it:
+Per seed.md §4 and [AGR-019 — Meaning of "import"](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), every workload's adoption path follows the same seven-step flow, which the delivery plan treats as the reference implementation of onboarding — not an approximation of it:
 
 ```text
 Register workload
@@ -336,7 +336,7 @@ Review evaluation results
 Enable enforcement
 ```
 
-This flow must never require copying the team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing the team's model-routing configuration, or granting the guardrail provider administrative access to the team's gateway ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)). Implementing this flow is itself a delivery dependency: "Register workload" and "Select policy" depend on the control plane (§2.4, items 3–4, Phase 2); "Generate integration manifest" and "Install connector" depend on the LiteLLM connector (§2.4, items 8–9, Phase 1); "Run in observe mode" depends on Observe mode (§2.4, item 10, Phase 1); "Enable enforcement" depends on the promotion/rollback machinery (§8 below, Phase 2).
+This flow must never require copying the team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing the team's model-routing configuration, or granting the guardrail provider administrative access to the team's gateway ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). Implementing this flow is itself a delivery dependency: "Register workload" and "Select policy" depend on the control plane (§2.4, items 3–4, Phase 2); "Generate integration manifest" and "Install connector" depend on the LiteLLM connector (§2.4, items 8–9, Phase 1); "Run in observe mode" depends on Observe mode (§2.4, item 10, Phase 1); "Enable enforcement" depends on the promotion/rollback machinery (§8 below, Phase 2).
 
 ### 7.3 Observe before enforce, as a delivery gate
 
@@ -354,7 +354,7 @@ For delivery purposes, this means: no workload binding may default to `Block` at
 
 ### 8.1 The three mechanics that make rollout safe
 
-Per seed.md §15 (Policy rollout) and the MVP success demonstration's condition that *"a policy can be upgraded and rolled back"* ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)), policy rollout rests on three mechanics that must all exist before any workload is promoted to enforce:
+Per seed.md §15 (Policy rollout) and the Phase 1–2 validation demonstration's condition that *"a policy can be upgraded and rolled back"* ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), policy rollout rests on three mechanics that must all exist before any workload is promoted to enforce:
 
 | Mechanic | What it guarantees |
 | --- | --- |
@@ -376,7 +376,7 @@ flowchart TB
     Compare -->|regression| Rollback["Roll Workload B back\nto v1 immediately"]
 ```
 
-This diagram makes explicit that rollout is always **workload-scoped**: promoting or rolling back Workload B's binding never touches Workload A's binding, even though both may reference the same policy family. This is precisely the mechanism the MVP demonstration exercises — one workload in observe mode, another in enforce mode, on policies that can be upgraded and rolled back independently ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+This diagram makes explicit that rollout is always **workload-scoped**: promoting or rolling back Workload B's binding never touches Workload A's binding, even though both may reference the same policy family. This is precisely the mechanism the Phase 1–2 validation demonstration exercises — one workload in observe mode, another in enforce mode, on policies that can be upgraded and rolled back independently ([`seed.md` §16](../../seed.md#16-mvp-definition)).
 
 ### 8.3 Compatibility validation and evaluation-result comparison
 
@@ -401,21 +401,21 @@ The charter's risk register (seed.md §20; [`../70-governance/RISK-REGISTER.md`]
 | **Connector bypass** — a consumer may remove or misconfigure the LiteLLM connector | Cooperative onboarding is the deliberate default posture for Phase 1–2 (§7.1); platform-managed and network/IAM-enforced postures are sequenced later, only once a driver is identified ([OQ-001](../00-source-of-truth/OPEN-QUESTIONS.md#oq-001--enforcement-model-required-for-the-first-external-customers)) — building enforcement infrastructure before it is needed would itself be a form of over-expansion (see below). |
 | **False confidence** — teams may treat successful evaluation as complete AI security | Building the LiteLLM connector and the generic API in sequence, against a stabilized contract (§5), rather than rushing multiple integrations in parallel, reduces the chance that an under-tested integration is presented as validated. |
 | **Latency** — remote evaluation adds synchronous network and processing latency | The Bedrock adapter and deterministic evaluator are both built behind the same adapter pattern in Phase 1 (§2.2) specifically so latency-sensitive workloads can later be routed to local deterministic checks or to Customer-Managed Runtime (Phase 4) without a contract change. |
-| **Hosted data exposure** — remote evaluation transmits tenant content to the hosted runtime | No-raw-retention-by-default (§2.4 dependencies on AGR-014/CON-014) is built into Phase 1's audit pipeline from the start, not added later, so the MVP demonstration's "raw content persistence can be disabled" condition (§3.2, item 7) is satisfiable at first release rather than retrofitted. |
+| **Hosted data exposure** — remote evaluation transmits tenant content to the hosted runtime | No-raw-retention-by-default (§2.4 dependencies on AGR-014/CON-014) is built into Phase 1's audit pipeline from the start, not added later, so the validation demonstration's "raw content persistence can be disabled" condition (§3.2, item 7) is satisfiable at first release rather than retrofitted. |
 | **Policy fragmentation** — too many workload-specific overrides may weaken consistency | Workload-scoped rollout (§8) is deliberately bounded to promoting or rolling back one workload's binding at a time; it is not a mechanism for accumulating unbounded per-workload policy variants, and override governance remains tracked separately ([OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design)). |
-| **Product over-expansion** — the solution may try to include gateway management, full governance, authorization, and compliance before validating the core integration | The build sequence in §2 deliberately defers every Phase 3–5 capability until Phases 1–2 are validated ([DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement)); the generic HTTP API is sequenced second, not built in parallel with the LiteLLM connector, precisely to avoid diluting focus on the core MVP hypothesis (§3.1) before it is proven. |
+| **Product over-expansion** — the solution may try to include gateway management, full governance, authorization, and compliance before validating the core integration | The build sequence in §2 deliberately defers every Phase 3–5 capability until Phases 1–2 are validated ([DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement)); the generic HTTP API is sequenced second, not built in parallel with the LiteLLM connector, precisely to avoid diluting focus on the core Phase 1–2 hypothesis (§3.1) before it is proven. |
 
 ---
 
 ## 10. Summary
 
-* Delivery proceeds through five agreed phases ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)); within Phase 1, the domain model and evaluation contract must exist before any connector, and the Bedrock Guardrails adapter and deterministic evaluator must exist before the LiteLLM connector can invoke either.
-* The MVP's actual finish line is the nine-condition success demonstration in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) (§3.2), not the mere existence of the twelve MVP components in seed.md §16 — two conditions (enforce mode, policy upgrade/rollback) depend on Phase 2, not Phase 1 alone.
+* Delivery proceeds through five agreed phases ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); within Phase 1, the domain model and evaluation contract must exist before any connector, and the Bedrock Guardrails adapter and deterministic evaluator must exist before the LiteLLM connector can invoke either.
+* Phases 1–2's validation gate is the nine-condition demonstration in §3.2 ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), not the mere existence of the twelve core components in seed.md §16 — two conditions (enforce mode, policy upgrade/rollback) depend on Phase 2, not Phase 1 alone.
 * The build-vs-buy line sits precisely at the vendor boundary: **buy** Amazon Bedrock Guardrails as the first evaluation engine; **build** the evaluation contract, the policy model, the connectors, and the control plane, so that no vendor-specific shape leaks into the platform's own contract ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)).
-* The LiteLLM connector is built and validated first, because the MVP success demonstration is defined in terms of it; the generic HTTP API/SDK is built and validated second, against the same stabilized contract, specifically to prove the contract is not LiteLLM-specific ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
+* The LiteLLM connector is built and validated first, because the Phase 1–2 validation demonstration is defined in terms of it; the generic HTTP API/SDK is built and validated second, against the same stabilized contract, specifically to prove the contract is not LiteLLM-specific ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 * Delivery depends on AWS platform services, Bedrock Guardrails availability, the minimal two-account model, two genuinely independent LiteLLM test instances, and the four ownership groups defined in the charter being engaged at the point their contribution is needed.
 * Adoption follows the cooperative-onboarding, observe-before-enforce model as a delivery gate, not only a product principle: no workload binding defaults to Block, and promotion is an explicit, auditable action ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-* Policy rollout is workload-scoped, built on immutable versions, and supports immediate rollback by design — these three mechanics, not aspiration, are what make the MVP demonstration's "a policy can be upgraded and rolled back" condition deliverable.
+* Policy rollout is workload-scoped, built on immutable versions, and supports immediate rollback by design — these three mechanics, not aspiration, are what make the validation demonstration's "a policy can be upgraded and rolled back" condition deliverable.
 
 ---
 
@@ -423,14 +423,14 @@ The charter's risk register (seed.md §20; [`../70-governance/RISK-REGISTER.md`]
 
 | Document | Relationship |
 | --- | --- |
-| [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | Authoritative (L1) agreements this strategy implements, especially AGR-003, AGR-004, AGR-005, AGR-006, AGR-007, AGR-011, AGR-012, AGR-013, AGR-014, AGR-015, AGR-017, AGR-018, AGR-019, AGR-020, AGR-021, AGR-022. |
+| [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | Authoritative (L1) agreements this strategy implements, especially AGR-003, AGR-004, AGR-005, AGR-006, AGR-007, AGR-011, AGR-012, AGR-013, AGR-014, AGR-015, AGR-017, AGR-018, AGR-019, AGR-020. |
 | [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | Non-negotiable boundaries (CON-001–CON-016) this strategy's build sequence and platform dependencies must respect. |
-| [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | Chronological decision log; see DEC-005 (MVP bound), DEC-006 (five-phase sequencing), DEC-007 (deferral of advanced capabilities). |
+| [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | Chronological decision log; see DEC-006 (five-phase sequencing), DEC-007 (deferral of advanced capabilities), DEC-008 (full-feature-set definition and estimation, superseding DEC-005). |
 | [`../00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | Tracks unresolved timing/design questions this strategy references, especially OQ-001 (enforcement model), OQ-009 (three-account trigger), OQ-012 (policy signing/inheritance), OQ-014 (observe→enforce criteria). |
 | [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md) | Durable charter this strategy operationalizes into a build plan, especially §8 (import), §10 (operating model), §11 (ownership). |
-| [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) | Full in-scope / future-scope / out-of-scope / non-goal detail; explicitly defers the MVP build sequence to this document. |
+| [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) | Full in-scope / out-of-scope / non-goal detail; explicitly defers the build sequence to this document. |
 | [`../10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) | Guiding principles (policy portability, one contract, policies vs. connectors, observe-before-enforce) this strategy applies operationally. |
-| [`../10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | Measurable success indicators, including the MVP demonstration this strategy is built to satisfy. |
+| [`../10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | Measurable success indicators, including the Phase 1–2 validation demonstration this strategy is built to satisfy. |
 | [`../20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) | Phase-by-phase objectives and headline deliverables, from a product-facing view this document assumes as input. |
 | [`../20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) | Capability-level detail per deployment mode, built on the same in-scope list this strategy sequences. |
 | [`../20-product/USE-CASES.md`](../20-product/USE-CASES.md) | Worked onboarding/import scenarios referenced by the adoption model in §7. |
@@ -439,7 +439,7 @@ The charter's risk register (seed.md §20; [`../70-governance/RISK-REGISTER.md`]
 | [`../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | Measurable targets underlying the evaluation-result comparison described in §8.3. |
 | [`../50-architecture/ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md) | Consolidated architecture view this strategy's build sequence must remain consistent with. |
 | [`MILESTONES.md`](MILESTONES.md) | Delivery-facing milestone tracking for the five phases sequenced here. |
-| [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) | Gate criteria that must evaluate delivery against the MVP boundary in §3. |
-| [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Detailed test plan for the MVP success demonstration in §3.2. |
+| [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) | Gate criteria that must evaluate delivery against the Phase 1–2 core boundary in §3. |
+| [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) | Detailed test plan for the Phase 1–2 validation demonstration in §3.2. |
 | [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) | Actively tracked risk register; §9 above restates only its sequencing-relevant subset. |
 | [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) | Must reject any external claim that this strategy's build order implies a delivered capability ahead of its actual phase. |

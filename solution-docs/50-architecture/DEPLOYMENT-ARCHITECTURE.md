@@ -15,7 +15,7 @@ This is an **L3 (derived)** document. It must not contradict [`AGREEMENTS.md`](.
 
 Related documents:
 
-- [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements, especially AGR-002 (three modes), AGR-009 (Mode A is not data-local), AGR-013 (AWS, minimal account model), AGR-015 (customer-managed runtime without synchronous control-plane dependency), AGR-016 (customer-controlled telemetry), AGR-022 (five-phase delivery).
+- [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements, especially AGR-002 (three modes), AGR-009 (Mode A is not data-local), AGR-013 (AWS, minimal account model), AGR-015 (customer-managed runtime without synchronous control-plane dependency), AGR-016 (customer-controlled telemetry), AGR-020 (five-phase delivery).
 - [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — CON-001/CON-002 (cloud and account model), CON-005 (one contract), CON-007 (content-exposure documentation), CON-013/CON-014 (content handling), CON-008/CON-009/CON-010/CON-011 (transport, encryption, identity).
 - [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — the product principles this architecture implements (policy portability, one contract, policies vs. connectors, explicit content exposure, observe-before-enforce, failure behavior as policy).
 - [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) — MVP and future-scope boundaries referenced throughout.
@@ -227,6 +227,8 @@ flowchart LR
 | Best suited for | Teams that already operate a gateway and want to offload guardrail operations | Teams without a gateway who want a fully managed, OpenAI-compatible endpoint | Regulated, data-residency-sensitive, high-volume, or air-gapped workloads |
 | Provider security/compliance scope | Evaluation API only | Largest — full inference path | Smallest — control plane + distributed software only |
 
+**Guardrail-category availability per mode.** Guardrail-category coverage varies by mode only through which evaluator families and gateway controls each mode can reach — the contract itself is mode-identical (AGR-006). The authoritative per-category statement is the `Deployment-mode support` field of each category entry in [`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md); it is deliberately **not** duplicated as a matrix here, so a single source of truth governs it. Two mode-specific notes worth carrying: Mode B is the only mode where the provider can natively enforce gateway-layer controls (catalog GR-008/GR-012 territory), and Mode C runs custom evaluators and the Bedrock adapter locally (see §4.2), which is what keeps evaluator-layer categories mode-portable.
+
 ---
 
 ## 6. Enforcement posture is orthogonal to deployment mode
@@ -350,7 +352,7 @@ Three-account (or greater) AWS separation is explicitly an **MVP non-goal** (see
 
 ## 9. Phase 4 packaging — Customer-Managed Runtime deliverables
 
-Phase 4 of the five-phase delivery plan (AGR-022; see [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md)) exists to *"support workloads that require local evaluation and content isolation"* — i.e., to make Mode C consumable by a customer rather than only architecturally possible. Its deliverables are:
+Phase 4 of the five-phase delivery plan (AGR-020; see [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md)) exists to *"support workloads that require local evaluation and content isolation"* — i.e., to make Mode C consumable by a customer rather than only architecturally possible. Its deliverables are:
 
 | Artifact | Purpose |
 |---|---|
@@ -361,7 +363,7 @@ Phase 4 of the five-phase delivery plan (AGR-022; see [`20-product/PRODUCT-ROADM
 | Local policy cache | The runtime component (see §4.2, §4.4) that lets evaluation continue without a synchronous control-plane connection (AGR-015). |
 | Policy synchronization | The asynchronous mechanism that keeps the local policy cache current with the hosted control plane's published policy versions, without ever blocking the evaluation path. |
 | Customer-controlled telemetry | The configurable telemetry mechanism (AGR-016, CON-013) letting the customer choose what — if anything — the hosted control plane receives back from their runtime. |
-| Upgrade compatibility checks | Tooling/process ensuring a customer can upgrade the runtime container and policy schema version without breaking the connector contract that Modes A/B already rely on (AGR-006, AGR-020). |
+| Upgrade compatibility checks | Tooling/process ensuring a customer can upgrade the runtime container and policy schema version without breaking the connector contract that Modes A/B already rely on (AGR-006; seed.md §16, [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). |
 
 ### 9.1 Packaging and delivery flow
 
@@ -385,7 +387,7 @@ flowchart LR
 
 ### 9.2 Relationship to the shared contract
 
-Consistent with AGR-006/AGR-020, Phase 4 packaging must not introduce a divergent connector contract. The MVP demonstration criteria explicitly require that *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* (seed.md §16, §20). Phase 4 is therefore a **packaging and deployment-automation exercise** on top of the runtime already validated in Phases 1–3, not a redesign of the evaluation contract, policy schema, or decision structure.
+Consistent with AGR-006 and the Phase 1–2 validation demonstration (seed.md §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)), Phase 4 packaging must not introduce a divergent connector contract. The validation demonstration criteria explicitly require that *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* (seed.md §16, §20). Phase 4 is therefore a **packaging and deployment-automation exercise** on top of the runtime already validated in Phases 1–3, not a redesign of the evaluation contract, policy schema, or decision structure.
 
 ---
 

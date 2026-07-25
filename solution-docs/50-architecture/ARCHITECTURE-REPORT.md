@@ -51,7 +51,7 @@ The platform's central technical commitment is a **single logical evaluation con
 | B — Guarded Gateway | AI Guardrails provider | AI Guardrails provider (hosted) | Provider-managed Guarded Gateway |
 | C — Customer-Managed Runtime | Consuming team | Consuming team, inside their own AWS account | Inside the customer's AWS account |
 
-LiteLLM is the first supported connector, not the product boundary ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)); Amazon Bedrock Guardrails is the first managed evaluation engine, behind a vendor-independent contract ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)). The MVP targets AWS as the primary cloud, a minimal two-account model, and a bounded feature set validated by a concrete demonstration involving two independent LiteLLM deployments sharing one policy (seed §16; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+LiteLLM is the first supported connector, not the product boundary ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)); Amazon Bedrock Guardrails is the first managed evaluation engine, behind a vendor-independent contract ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)). The platform targets AWS as the primary cloud and a minimal two-account model, with scope defined over the full feature set and delivered across five phases (seed §6, §18; [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); Phases 1–2 (core platform) are validated by a concrete demonstration involving two independent LiteLLM deployments sharing one policy (seed §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 This report consolidates the architecture implied by `seed.md` §§1–23 and constrained by `AGREEMENTS.md` and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) into the 25 sections a technical stakeholder needs to assess feasibility, risk, and delivery approach. Detailed requirements, feasibility, trade-off, and risk analysis are held in their own documents and referenced from here rather than duplicated.
 
@@ -77,15 +77,17 @@ These objectives are non-negotiable design inputs; any component design that can
 
 ### 3.1 In scope (MVP)
 
-Per seed §6.1 and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries): versioned guardrail policies, workload registration, policy-to-workload bindings, input evaluation, output evaluation, LiteLLM integration, a generic HTTP Evaluation API, an Amazon Bedrock Guardrails integration, deterministic organization rules, basic sensitive-data handling, normalized evaluation decisions, observe/enforce modes, evaluation latency metrics, decision-metadata auditing, hosted runtime deployment, and a path to customer-managed deployment.
+Per seed §6.1 and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md): versioned guardrail policies, workload registration, policy-to-workload bindings, input evaluation, output evaluation, LiteLLM integration, a generic HTTP Evaluation API, an Amazon Bedrock Guardrails integration, deterministic organization rules, basic sensitive-data handling, normalized evaluation decisions, observe/enforce modes, evaluation latency metrics, decision-metadata auditing, hosted runtime deployment, and a path to customer-managed deployment.
 
 ### 3.2 Explicitly out of scope for the MVP
 
-Per seed §6.3 and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries): a general-purpose LLM gateway replacement, a complete AI governance platform, model training or fine-tuning, a proprietary prompt-injection or moderation model, a complete DLP platform, end-user authentication, application business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, multi-region active-active availability, full compliance certification, and a general MCP security platform.
+Per seed §6.3 and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md): a general-purpose LLM gateway replacement, a complete AI governance platform, model training or fine-tuning, a proprietary prompt-injection or moderation model, a complete DLP platform, end-user authentication, application business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, multi-region active-active availability, full compliance certification, and a general MCP security platform.
 
 ### 3.3 Permitted future scope (architecturally accommodated, not built now)
 
 Per seed §6.2: retrieval-content evaluation, indirect prompt-injection detection, streaming output evaluation, tool-call validation, MCP authorization, memory-write validation, groundedness evaluation, automated reasoning, multilingual policy packs, human approval workflows, dedicated hosted runtimes, air-gapped installation, policy signing, policy inheritance, customer-specific evaluator plugins, commercial metering, and policy marketplace capabilities.
+
+This future scope — together with uncommitted, vision-level growth beyond it — is now classified through the guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), `GR-001`–`GR-018`, per [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)), which distinguishes delivered, committed, vision-only, and out-of-boundary items per entry. The catalog classifies; it commits nothing beyond what this section and [`../20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) already record.
 
 ### 3.4 System context
 
@@ -204,6 +206,7 @@ The following diagram is reused verbatim from seed §10 and is authoritative for
 - The **Guardrails Runtime** exposes one Evaluation API, resolves the effective policy for a request, executes evaluators through adapters, produces a normalized decision, and emits audit records — identically regardless of which of the three modes it is deployed in.
 - **Connectors** (LiteLLM connector, generic SDK, Guarded Gateway) are the only components that vary by gateway; they invoke the same Evaluation API contract and must not embed policy logic ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 - **Evaluation engines** sit behind adapters so that Bedrock Guardrails, deterministic rules, PII evaluators, and schema validators are interchangeable and additive without changing the public contract ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).
+- **Growth is seam-shaped.** All guardrail-coverage growth flows through four formalized extension seams — new evaluation stage, new evaluation engine, new decision action, new connector — defined in [`EXTENSIBILITY-ARCHITECTURE.md`](EXTENSIBILITY-ARCHITECTURE.md), each extending (never forking) the domain model per [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and versioned across all three modes per [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes).
 
 ### 7.3 Deployment-mode topology (from seed §3)
 
@@ -389,7 +392,7 @@ Review evaluation results
 Enable enforcement
 ```
 
-"Import" means adopting a versioned policy, workload identity, integration manifest, connector configuration, and enforcement mode — **not** cloning, registering, or remotely controlling another team's LiteLLM instance ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)). The process must never require copying another team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing model-routing configuration, or granting the guardrail provider administrative access to the team's gateway (seed §4).
+"Import" means adopting a versioned policy, workload identity, integration manifest, connector configuration, and enforcement mode — **not** cloning, registering, or remotely controlling another team's LiteLLM instance ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). The process must never require copying another team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing model-routing configuration, or granting the guardrail provider administrative access to the team's gateway (seed §4).
 
 ### 10.4 Extensibility
 
@@ -558,7 +561,7 @@ Multi-tenancy in the MVP is therefore primarily a **logical isolation model** (i
 
 There is no existing system to migrate off of ([§6](#6-current-state-context)); "delivery" here means phased rollout of new capability, and "migration" applies only to workloads moving between the platform's own deployment modes over time (e.g., a workload starting on Mode A and later adopting Mode C).
 
-### 19.1 Five-phase delivery (seed §18; [AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery))
+### 19.1 Five-phase delivery (seed §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery))
 
 ```mermaid
 flowchart LR
@@ -576,11 +579,11 @@ flowchart LR
 | 4 — Customer-managed runtime | Support workloads needing local evaluation and content isolation | Runtime container, Helm chart, ECS deployment template, infrastructure module, local policy cache, policy synchronization, customer-controlled telemetry, upgrade compatibility checks |
 | 5 — Advanced agent protection | Extend coverage beyond prompt/response evaluation | Retrieval evaluation, tool-call validation, tool-result evaluation, memory-write controls, human approvals, agent delegation restrictions, MCP integration, advanced authorization integration |
 
-Phase 5 is treated as a separate product expansion, not an MVP prerequisite ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)).
+Phase 5 is treated as a separate product expansion, not an MVP prerequisite ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
-### 19.2 MVP success demonstration ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration))
+### 19.2 Phase 1–2 validation demonstration (seed §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md))
 
-The MVP is complete only when: two separate LiteLLM instances consume the same policy; neither shares model-provider credentials with the platform; both receive consistent normalized decisions; one workload runs in observe mode while another runs in enforce mode; a policy can be upgraded and rolled back; raw-content persistence can be disabled; evaluation failures follow a configured failure policy; and the runtime can later be packaged for customer-managed deployment without changing the connector contract (seed §16).
+Phases 1–2 (core platform) are validated only when: two separate LiteLLM instances consume the same policy; neither shares model-provider credentials with the platform; both receive consistent normalized decisions; one workload runs in observe mode while another runs in enforce mode; a policy can be upgraded and rolled back; raw-content persistence can be disabled; evaluation failures follow a configured failure policy; and the runtime can later be packaged for customer-managed deployment without changing the connector contract (seed §16).
 
 Full delivery sequencing, milestones, and staffing are maintained in the `60-delivery/` document set; this section is the architecture-relevant summary.
 
@@ -641,7 +644,7 @@ All sixteen tracked open questions (OQ-001 through OQ-016) may have some archite
 
 ## 24. Proofs of concept required
 
-Derived from the MVP demonstration criteria (seed §16; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)) and the architecture's riskiest assumptions, the following proofs of concept are required before the architecture in this report can be considered validated:
+Derived from the Phase 1–2 validation demonstration criteria (seed §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) and the architecture's riskiest assumptions, the following proofs of concept are required before the architecture in this report can be considered validated:
 
 1. **Dual-connector policy reuse.** Stand up two genuinely independent LiteLLM instances, each with its own connector installation, and demonstrate both consuming the same policy version and producing consistent normalized decisions — without either sharing model-provider credentials with the guardrail platform (seed §16).
 2. **Bedrock Guardrails adapter normalization.** Prove that Bedrock Guardrails' native response format can be fully normalized into the platform's own decision structure (action, reason codes, evaluator metadata) without leaking vendor-specific shapes into the policy or connector layers ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).
@@ -652,7 +655,7 @@ Derived from the MVP demonstration criteria (seed §16; [AGR-020](../00-source-o
 7. **Customer-managed packaging without contract change.** Package the runtime for a customer-managed deployment (container/Helm/ECS artifact) and confirm the LiteLLM connector requires no contract change to point at the customer-managed runtime instead of the hosted one (seed §16; [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 8. **Control-plane-independent evaluation (Mode C).** Disconnect the customer-managed runtime from the hosted control plane and confirm policy evaluation continues correctly against the local policy cache ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)).
 
-These map directly to the release criteria that gate MVP completion and should be treated as go/no-go gates for Phase 1–2 delivery, not optional validation exercises.
+These map directly to the release criteria that gate Phase 1–2 completion and should be treated as go/no-go gates for Phase 1–2 delivery, not optional validation exercises.
 
 ---
 
@@ -662,10 +665,10 @@ Based on the seed material and the accepted agreements, the recommended technica
 
 1. **Proceed with the three-mode architecture as scoped**, building Mode A (Remote Evaluation) first, since it requires only the Control Plane, Guardrails Runtime, Evaluation API, and LiteLLM connector — the minimum footprint needed to run the Phase 1 integration proof and the dual-connector PoC in [§24](#24-proofs-of-concept-required).
 2. **Enforce the policy/connector and vendor-adapter separations from day one**, even though only one connector (LiteLLM) and one primary evaluation engine (Bedrock Guardrails) exist at MVP launch — retrofitting this separation later is materially more expensive than building it in from the start, and it is what makes AGR-003/004/005/006/007 achievable rather than aspirational.
-3. **Treat the failure-behavior schema as a first-class policy artifact**, not an operational afterthought, given how many MVP demonstration criteria and success metrics depend on it (observe/enforce correctness, rollback safety, audit completeness).
+3. **Treat the failure-behavior schema as a first-class policy artifact**, not an operational afterthought, given how many Phase 1–2 validation demonstration criteria and success metrics depend on it (observe/enforce correctness, rollback safety, audit completeness).
 4. **Hold the minimal two-account AWS model** through Phase 1–2, and gate any account-topology change on an explicit review against the seed §11 trigger list rather than incremental drift — this keeps delivery focused on the reusable-policy hypothesis rather than premature infrastructure investment.
 5. **Sequence Customer-Managed Runtime (Mode C) packaging concerns into the architecture early, even though Mode C ships in Phase 4** — the requirement that the connector contract not change between hosted and customer-managed deployment ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) is far cheaper to satisfy by design than to retrofit after Mode A/B implementation choices have leaked mode-specific assumptions into the contract.
 6. **Resolve OQ-009 (account-separation trigger), OQ-014 (observe→enforce promotion criteria), and OQ-016 (availability objective/topology) before Phase 2 exits pilot scale** — these three open questions most directly block operational readiness of the platform's own rollout mechanics, independent of any specific customer commitment.
-7. **Defer all Phase 5 (advanced agent protection) capability** — retrieval evaluation, tool-call validation, MCP authorization, and related items — until the core reusable-policy hypothesis is demonstrated per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration); building any of it earlier would violate the MVP scope boundary in [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries) without a validated need.
+7. **Defer all Phase 5 (advanced agent protection) capability** — retrieval evaluation, tool-call validation, MCP authorization, and related items — until the core reusable-policy hypothesis is demonstrated in the Phase 1–2 validation demonstration (seed §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)); this capability is Phase 5 scope per [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), not built during the earlier phases.
 
 This architecture is assessed as ready to move into detailed component design and Phase 1 implementation, subject to closing the proofs of concept in [§24](#24-proofs-of-concept-required) and the open questions flagged in [§23](#23-open-technical-questions).

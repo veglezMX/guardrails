@@ -9,7 +9,7 @@
 
 ## Purpose and scope
 
-This document translates the AI Guardrails operating model — the three deployment modes, the trust and enforcement model, and the MVP demonstration criteria — into concrete, actor-driven use cases. It is a **communicative (L4)** document: it illustrates the accepted agreements in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and constraints in [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) for product, sales, and delivery audiences. It does not create new obligations, and it must never be read as contradicting either register.
+This document translates the AI Guardrails operating model — the three deployment modes, the trust and enforcement model, and the Phase 1–2 validation demonstration criteria — into concrete, actor-driven use cases. It is a **communicative (L4)** document: it illustrates the accepted agreements in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and constraints in [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) for product, sales, and delivery audiences. It does not create new obligations, and it must never be read as contradicting either register.
 
 Every use case below is derived from seed.md:
 
@@ -17,7 +17,7 @@ Every use case below is derived from seed.md:
 * **§8 — Trust and enforcement model** (cooperative integration, platform-managed enforcement, network/IAM-enforced gateway).
 * **§16 — MVP definition and demonstration.**
 
-Where a use case describes a capability that is part of the falsifiable MVP success demonstration ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)), that is stated explicitly. Where a use case describes the target operating model reached in a later delivery phase ([AGR-022](../00-source-of-truth/AGREEMENTS.md#agr-022--five-phase-delivery)), that is stated explicitly too. No use case should be read as already delivered; this document describes intended behavior, not a shipped feature list.
+Where a use case describes a capability that is part of the falsifiable Phase 1–2 validation demonstration — a delivery-plan milestone recorded in seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — that is stated explicitly. Where a use case describes the target operating model reached in a later delivery phase ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), that is stated explicitly too. No use case should be read as already delivered; this document describes intended behavior, not a shipped feature list.
 
 No metrics, dollar figures, customer names, or SLA numbers are invented here. Where a number would normally appear, this document writes **TBD** or describes the requirement qualitatively, consistent with [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md).
 
@@ -55,15 +55,15 @@ Each flow step below uses these seed §9 domain terms precisely: **tenant** (an 
 
 ## Use case index
 
-| ID | Title | Primary mode / model | MVP scope status |
+| ID | Title | Primary mode / model | Delivery-phase status |
 | --- | --- | --- | --- |
-| [UC-001](#uc-001--two-independent-litellm-instances-share-one-central-policy) | Two independent LiteLLM instances share one central policy | Mode A — Remote Evaluation | **In MVP scope** — this is the core MVP demonstration (seed §16). |
-| [UC-002](#uc-002--onboard-a-workload-in-observe-mode-then-promote-to-enforce) | Onboard a workload in observe mode, then promote to enforce | Cooperative integration (seed §8); mode-independent | **In MVP scope.** |
-| [UC-003](#uc-003--a-regulated-workload-uses-the-customer-managed-runtime-so-content-never-leaves-the-account) | A regulated workload uses the Customer-Managed Runtime so content never leaves the account | Mode C — Customer-Managed Runtime | **Target state — Phase 4.** The MVP proves only that the runtime can later be packaged this way without changing the connector contract (seed §16, §18 Phase 4). |
+| [UC-001](#uc-001--two-independent-litellm-instances-share-one-central-policy) | Two independent LiteLLM instances share one central policy | Mode A — Remote Evaluation | **Phases 1–2 (core platform)** — this is the core Phase 1–2 validation demonstration (seed §16). |
+| [UC-002](#uc-002--onboard-a-workload-in-observe-mode-then-promote-to-enforce) | Onboard a workload in observe mode, then promote to enforce | Cooperative integration (seed §8); mode-independent | **Phases 1–2 (core platform).** |
+| [UC-003](#uc-003--a-regulated-workload-uses-the-customer-managed-runtime-so-content-never-leaves-the-account) | A regulated workload uses the Customer-Managed Runtime so content never leaves the account | Mode C — Customer-Managed Runtime | **Target state — Phase 4.** Phases 1–2 prove only that the runtime can later be packaged this way without changing the connector contract (seed §16, §18 Phase 4). |
 | [UC-004](#uc-004--a-team-without-a-gateway-uses-the-guarded-gateway) | A team without a gateway uses the Guarded Gateway | Mode B — Guarded Gateway | **Target state — Phase 3** (seed §18 Phase 3). |
-| [UC-005](#uc-005--central-policy-upgrade-and-immediate-rollback) | Central policy upgrade and immediate rollback | Mode-independent (policy rollout, seed §15) | **In MVP scope** — required by the MVP demonstration (seed §16). |
-| [UC-006](#uc-006--disable-raw-content-persistence-for-a-sensitive-workload) | Disable raw-content persistence for a sensitive workload | Mode-independent (data handling, seed §13) | **In MVP scope** — required by the MVP demonstration (seed §16). |
-| [UC-007](#uc-007--configured-failure-behavior-on-evaluation-timeout) | Configured failure behavior on evaluation timeout | Mode-independent (failure behavior, seed §5.7) | **In MVP scope** — required by the MVP demonstration (seed §16). |
+| [UC-005](#uc-005--central-policy-upgrade-and-immediate-rollback) | Central policy upgrade and immediate rollback | Mode-independent (policy rollout, seed §15) | **Phases 1–2 (core platform)** — required by the Phase 1–2 validation demonstration (seed §16). |
+| [UC-006](#uc-006--disable-raw-content-persistence-for-a-sensitive-workload) | Disable raw-content persistence for a sensitive workload | Mode-independent (data handling, seed §13) | **Phases 1–2 (core platform)** — required by the Phase 1–2 validation demonstration (seed §16). |
+| [UC-007](#uc-007--configured-failure-behavior-on-evaluation-timeout) | Configured failure behavior on evaluation timeout | Mode-independent (failure behavior, seed §5.7) | **Phases 1–2 (core platform)** — required by the Phase 1–2 validation demonstration (seed §16). |
 
 ---
 
@@ -71,14 +71,14 @@ Each flow step below uses these seed §9 domain terms precisely: **tenant** (an 
 
 **Actor(s):** AI Guardrails team (policy owner); two unrelated Consuming teams — Team Alpha and Team Beta — each operating its own LiteLLM instance; Product operators (workload registration).
 
-**Context:** This is the product's central hypothesis: one reusable guardrail policy, defined once, can be applied consistently to multiple independent LiteLLM deployments without requiring those teams to share infrastructure, credentials, or a gateway (seed §16, §22; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)). Team Alpha and Team Beta are organizationally independent: different teams, different LiteLLM instances, different model-provider credentials.
+**Context:** This is the product's central hypothesis: one reusable guardrail policy, defined once, can be applied consistently to multiple independent LiteLLM deployments without requiring those teams to share infrastructure, credentials, or a gateway (seed §16, §22; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). Team Alpha and Team Beta are organizationally independent: different teams, different LiteLLM instances, different model-provider credentials.
 
 **Flow:**
 
 1. The AI Guardrails team defines and versions a single guardrail policy (for example: detect and act on prompt injection and sensitive-data exposure) in policy storage.
 2. Team Alpha registers its workload, selects the policy, and receives an integration manifest; it installs the LiteLLM pre-call and post-call connector against its own LiteLLM instance.
 3. Team Beta independently registers a second, unrelated workload, selects the **same policy version**, and installs the connector against its own, separate LiteLLM instance.
-4. Neither team transfers model-provider credentials, LiteLLM configuration, or gateway administration access to the AI Guardrails team — the import binds a policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode only (seed §4; [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+4. Neither team transfers model-provider credentials, LiteLLM configuration, or gateway administration access to the AI Guardrails team — the import binds a policy, a workload identity, an integration manifest, a connector configuration, and an enforcement mode only (seed §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 5. Each LiteLLM instance's connector independently invokes input evaluation before inference and output evaluation after inference against the same Evaluation API.
 6. The Evaluation API resolves the same policy version for both workloads, executes the same evaluators, and returns normalized decisions using the same decision structure, reason codes, and policy-version semantics to both instances (seed §5.2; [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
@@ -103,9 +103,9 @@ sequenceDiagram
     Note over A,B: Same policy version, same contract,<br/>consistent decisions for both
 ```
 
-**Outcome:** Two organizationally independent LiteLLM deployments consume the identical policy version and receive consistent, normalized decisions, while neither shares model-provider credentials with the guardrail platform. This is the specific, falsifiable condition that proves policy reuse and connector independence ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+**Outcome:** Two organizationally independent LiteLLM deployments consume the identical policy version and receive consistent, normalized decisions, while neither shares model-provider credentials with the guardrail platform. This is the specific, falsifiable condition that proves policy reuse and connector independence — the Phase 1–2 validation demonstration, a delivery-plan milestone recorded in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) (seed §16), not the definition of overall solution success.
 
-**Traceability:** seed §16 (MVP demonstration), §22 (decision summary); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import).
+**Traceability:** seed §16 (validation demonstration), §22 (decision summary); [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import).
 
 ---
 
@@ -113,7 +113,7 @@ sequenceDiagram
 
 **Actor(s):** Consuming team (workload owner); AI Guardrails team (policy owner); Security and governance (review of observe-mode findings for promotion sign-off, where required).
 
-**Context:** Every policy must support a non-blocking evaluation mode, and a team must be able to measure false positives, latency, and business impact before enabling blocking behavior (seed §5.6; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). This use case is the canonical onboarding flow referenced by the definition of "import" (seed §4; [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+**Context:** Every policy must support a non-blocking evaluation mode, and a team must be able to measure false positives, latency, and business impact before enabling blocking behavior (seed §5.6; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). This use case is the canonical onboarding flow referenced by the definition of "import" (seed §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 
 **Flow:**
 
@@ -144,7 +144,7 @@ stateDiagram-v2
 
 > **Note on two distinct axes:** "Enforce mode" here refers to the *policy's blocking behavior* on a given binding. It is a separate concern from the workload's *enforcement posture* — cooperative integration, platform-managed enforcement, or network/IAM-enforced gateway (seed §8; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)), which governs whether the connector itself can be bypassed, disabled, or misconfigured. A workload can run in Enforce mode under a cooperative posture; that combination measures policy effectiveness but does not, by itself, guarantee the connector cannot be removed. A cooperative connector must never be represented as a hard security boundary.
 
-**Traceability:** seed §4 (import/onboarding flow), §5.6 (observable before enforceable), §8 (trust and enforcement model); [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
+**Traceability:** seed §4 (import/onboarding flow), §5.6 (observable before enforceable), §8 (trust and enforcement model); [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
 
 ---
 
@@ -183,7 +183,7 @@ Customer AWS account
 
 **Outcome:** Prompts, responses, and any additional evaluated content never leave the customer's AWS account unless the customer explicitly configures that transmission (seed §13; [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured)). The regulated workload gets the same policy model, evaluation contract, and decision structure as Modes A and B (seed §5.2), satisfying data-residency and content-isolation requirements without forking the product's logical contract.
 
-**Traceability:** seed §3 (Mode C), §13 (customer-managed telemetry), §15 (availability without synchronous control-plane dependency); [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime), [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured). Delivered in Phase 4 (seed §18); the MVP's contribution is proving the runtime can later be packaged this way without changing the connector contract (seed §16).
+**Traceability:** seed §3 (Mode C), §13 (customer-managed telemetry), §15 (availability without synchronous control-plane dependency); [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime), [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured). Delivered in Phase 4 (seed §18); the Phase 1–2 core's contribution is proving the runtime can later be packaged this way without changing the connector contract (seed §16).
 
 ---
 
@@ -216,7 +216,7 @@ Provider-managed Guarded Gateway
 
 **Outcome:** The team obtains guardrail-protected inference without operating any gateway infrastructure of its own. This is the mode with the strongest centralized control, and also the largest operational, security, and compliance scope taken on by the provider (seed §3, Mode B) — the provider is now part of the complete inference path, which must be represented accurately rather than understated.
 
-**Traceability:** seed §3 (Mode B), §5.5 (guardrails are not authorization); [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization). Delivered in Phase 3 (seed §18); not part of the MVP demonstration, which exercises Mode A only (seed §16).
+**Traceability:** seed §3 (Mode B), §5.5 (guardrails are not authorization); [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization). Delivered in Phase 3 (seed §18); not part of the Phase 1–2 validation demonstration, which exercises Mode A only (seed §16).
 
 ---
 
@@ -224,7 +224,7 @@ Provider-managed Guarded Gateway
 
 **Actor(s):** AI Guardrails team / policy owner (creates and promotes policy versions); Product operators (rollout controls); Consuming team (workload bound to the policy).
 
-**Context:** Policies must support immutable versions, controlled promotion, workload-scoped rollout, immediate rollback, compatibility validation, and evaluation-result comparison between versions (seed §15, Policy rollout). The MVP demonstration explicitly requires that "a policy can be upgraded and rolled back" (seed §16; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+**Context:** Policies must support immutable versions, controlled promotion, workload-scoped rollout, immediate rollback, compatibility validation, and evaluation-result comparison between versions (seed §15, Policy rollout). The Phase 1–2 validation demonstration explicitly requires that "a policy can be upgraded and rolled back" (seed §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 **Flow:**
 
@@ -248,7 +248,7 @@ flowchart LR
 
 **Outcome:** A policy owner can move bound workloads to a new immutable version and, on detecting a regression, revert affected bindings to the prior version immediately, without requiring the consuming team to change connector code or redeploy their application. Rollback is recorded as an auditable binding-level action, and the number of policy rollbacks caused by incorrect behavior is tracked as a product-portability and effectiveness metric (seed §19).
 
-**Traceability:** seed §9 (Policy binding — rollback version), §15 (policy rollout), §16 (MVP demonstration), §19 (effectiveness metrics); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration).
+**Traceability:** seed §9 (Policy binding — rollback version), §15 (policy rollout), §16 (validation demonstration), §19 (effectiveness metrics); [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md).
 
 ---
 
@@ -256,7 +256,7 @@ flowchart LR
 
 **Actor(s):** Consuming team operating a sensitive workload; Security and governance (retention requirements and audit sign-off); AI Guardrails team (runtime default behavior and retention configuration).
 
-**Context:** The hosted runtime's default behavior is to process content only for evaluation and to avoid persisting raw prompts and responses; it persists decision metadata, hashes user and conversation identifiers where possible, and strips secrets from telemetry (seed §13; [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default)). Any retention of raw content requires explicit, tenant-level configuration — never a platform default. This use case exercises the inverse: a workload that explicitly confirms and relies on non-retention. The MVP demonstration requires that "raw content persistence can be disabled" (seed §16).
+**Context:** The hosted runtime's default behavior is to process content only for evaluation and to avoid persisting raw prompts and responses; it persists decision metadata, hashes user and conversation identifiers where possible, and strips secrets from telemetry (seed §13; [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default)). Any retention of raw content requires explicit, tenant-level configuration — never a platform default. This use case exercises the inverse: a workload that explicitly confirms and relies on non-retention. The Phase 1–2 validation demonstration requires that "raw content persistence can be disabled" (seed §16).
 
 **Flow:**
 
@@ -268,7 +268,7 @@ flowchart LR
 
 **Outcome:** The sensitive workload's prompts and responses are never written to any platform-managed store; only normalized decision metadata and a hashed correlation trail persist. Security and governance can point to the audit record's "raw content retained: false" field as evidence that the retention control is active for every evaluation on this workload, satisfying the audit and evidence requirements in seed §7 and §15 without inventing a specific retention SLA (retention period specifics remain **TBD** per tenant configuration).
 
-**Traceability:** seed §13 (default behavior, content categories), §15 (auditing — "whether raw content was retained"), §16 (MVP demonstration); [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime).
+**Traceability:** seed §13 (default behavior, content categories), §15 (auditing — "whether raw content was retained"), §16 (validation demonstration); [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime).
 
 ---
 
@@ -276,7 +276,7 @@ flowchart LR
 
 **Actor(s):** Consuming team / workload owner (defines acceptable failure behavior for their risk classification); AI Guardrails team (implements the failure-behavior contract in the runtime and connector); Security and governance (approves failure behavior for higher-risk workloads).
 
-**Context:** Runtime failure behavior must be explicit, and a workload must define what happens when the Evaluation API times out — among other failure modes (seed §5.7; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)). There must be no undocumented fallback behavior. The MVP demonstration requires that "evaluation failures follow a configured failure policy" (seed §16).
+**Context:** Runtime failure behavior must be explicit, and a workload must define what happens when the Evaluation API times out — among other failure modes (seed §5.7; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)). There must be no undocumented fallback behavior. The Phase 1–2 validation demonstration requires that "evaluation failures follow a configured failure policy" (seed §16).
 
 **Flow:**
 
@@ -306,14 +306,14 @@ flowchart TD
 
 **Outcome:** A timeout never produces undefined behavior. It produces exactly the outcome the workload owner and policy owner agreed to in advance, and that outcome — plus the fact that a timeout occurred — is captured in the audit trail. This directly supports the product principle that "failure behavior is part of policy" (seed §5.7) and gives application teams "clear failure behavior" as a stated need (seed §7).
 
-**Traceability:** seed §5.7 (failure behavior is part of policy), §14 (timeout limits), §15 (auditing, availability), §16 (MVP demonstration), §19 (timeout-rate metric); [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits).
+**Traceability:** seed §5.7 (failure behavior is part of policy), §14 (timeout limits), §15 (auditing, availability), §16 (validation demonstration), §19 (timeout-rate metric); [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits).
 
 ---
 
 ## Cross-cutting observations
 
-* **UC-001, UC-005, UC-006, and UC-007 together constitute the MVP demonstration** (seed §16; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)). A delivery milestone that claims MVP completion should be checked against all four, not a subset, per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration).
-* **UC-003 and UC-004 describe target-state modes (Phase 4 and Phase 3 respectively)**, not MVP deliverables. They are included here because they are essential to explaining the product's full operating model to product, sales, and delivery audiences — but they must not be presented as already validated by the MVP demonstration (seed §17, §19; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)).
+* **UC-001, UC-005, UC-006, and UC-007 together constitute the Phase 1–2 validation demonstration** (seed §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). This demonstration is a delivery-plan milestone — not an L1 agreement, and not the definition of overall solution success ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). A delivery milestone that claims its completion should be checked against all four use cases, not a subset.
+* **UC-003 and UC-004 describe target-state modes (Phase 4 and Phase 3 respectively)**, not Phase 1–2 deliverables. They are part of the committed-and-estimated full solution ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) and essential to explaining the product's full operating model to product, sales, and delivery audiences — but they must not be presented as available today or as already validated by the Phase 1–2 demonstration (seed §17, §19).
 * **UC-002's enforcement-mode progression is orthogonal to enforcement posture** (seed §8). A workload can be in Enforce mode under a cooperative connector, under a platform-managed gateway, or under a network/IAM-enforced gateway; each combination carries different bypass-resistance guarantees, and only the last is a hard security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 * **None of these use cases substitute for business authorization.** Even where a decision is `allow`, the consuming application remains solely responsible for authentication, authorization, tenant isolation, resource ownership, and approval workflows (seed §5.5; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 
@@ -323,11 +323,11 @@ flowchart TD
 
 | Use case | seed.md section(s) | Agreement(s) | Constraint(s) |
 | --- | --- | --- | --- |
-| UC-001 | §16, §22 | [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import) | [CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes) |
-| UC-002 | §4, §5.6, §8 | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) | — |
+| UC-001 | §16, §22 | [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); demonstration per [`VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) | [CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes) |
+| UC-002 | §4, §5.6, §8 | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) | — |
 | UC-003 | §3 (Mode C), §13, §15 | [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime) | [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured) |
 | UC-004 | §3 (Mode B), §5.5 | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) | — |
-| UC-005 | §9, §15, §16, §19 | [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration) | — |
+| UC-005 | §9, §15, §16, §19 | demonstration per [`VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) | — |
 | UC-006 | §13, §15, §16 | [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default) | [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime) |
 | UC-007 | §5.7, §14, §15, §16, §19 | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) | [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits) |
 
@@ -338,15 +338,15 @@ flowchart TD
 * [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements this document illustrates.
 * [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — authoritative boundary conditions referenced throughout.
 * [`../00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) — unvalidated beliefs underlying several use cases (notably ASM-002, ASM-003 for UC-001; ASM-004, ASM-013 for UC-003; ASM-011, ASM-012 for UC-007).
-* [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — decision log entries DEC-004 and DEC-005 correspond to the mode and MVP-boundary framing used here.
+* [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — decision log entries DEC-004 and DEC-008 correspond to the mode and scope framing used here.
 * `PRODUCT-OVERVIEW.md` — product-level narrative these use cases support.
 * `CAPABILITIES.md` — the capability list each use case exercises.
 * `PRODUCT-ROADMAP.md` — phase sequencing referenced for UC-003 and UC-004.
-* `FAQ.md` — audience-facing questions, including the meaning of "import" (see [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+* `FAQ.md` — audience-facing questions, including the meaning of "import" (see [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 * [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) — the three-mode deployment topology behind UC-001, UC-003, and UC-004.
 * [`../50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) — the LiteLLM connector contract behind UC-001 and UC-002.
 * [`../50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) — the enforcement-posture model behind UC-002.
 * [`../50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) — the retention and telemetry design behind UC-003 and UC-006.
-* [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — how the MVP-scoped use cases (UC-001, UC-005, UC-006, UC-007) will be validated.
+* [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) — how the Phase 1–2 use cases (UC-001, UC-005, UC-006, UC-007) will be validated.
 * [`../70-governance/GLOSSARY.md`](../70-governance/GLOSSARY.md) — canonical definitions for tenant, workload, policy, binding, evaluation, and decision.
 * [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — connector-bypass, false-confidence, and latency risks that these use cases are designed to surface and mitigate.

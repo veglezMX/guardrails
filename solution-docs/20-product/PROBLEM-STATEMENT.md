@@ -79,7 +79,7 @@ The absence of a reusable policy layer is not merely an engineering inefficiency
 * **Rework and duplicated cost.** Every team that builds its own detection logic pays a cost the organization has already paid elsewhere, without gaining any of the consistency that a shared policy would provide.
 * **A widening gap as adoption grows.** As more teams adopt LLMs and agentic workflows, the number of independently governed (or ungoverned) surfaces grows linearly with adoption, while the organization's ability to reason about aggregate risk does not improve at all.
 
-The seed material does not supply a quantified cost for this fragmentation (no dollar figures, incident counts, or adoption timelines are given), and this document does not invent one. The qualitative case — no reusable policy, no consistent evidence, no shared cost base — is what the MVP is designed to address (see [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--mvp-success-demonstration)).
+The seed material does not supply a quantified cost for this fragmentation (no dollar figures, incident counts, or adoption timelines are given), and this document does not invent one. The qualitative case — no reusable policy, no consistent evidence, no shared cost base — is what the solution is designed to address, with Phases 1–2 proving the core reusable-policy hypothesis first (seed.md §6, §16; see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 
@@ -168,7 +168,7 @@ Seed §20 identifies risks that are directly connected to the current-state pain
 | **Policy fragmentation** | If workload-specific overrides are not limited, the "one policy applied consistently" goal that this problem statement identifies as the missing capability (§2.3) could quietly re-fragment into per-workload variants — solving the adoption problem only to recreate the consistency problem. |
 | **Product over-expansion** | Attempting to solve authorization, agent orchestration, and full compliance certification at the same time as the core reusable-policy problem risks never validating the actual problem stated here before scope grows unmanageably. |
 
-These risks are not new problems; they are the specific ways the problem described in this document can persist or resurface if a proposed solution is not deliberately designed against them — which is why [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries) bounds the MVP tightly around the reusable-policy hypothesis rather than these adjacent capabilities.
+These risks are not new problems; they are the specific ways the problem described in this document can persist or resurface if a proposed solution is not deliberately designed against them — which is why, even though the solution is defined and estimated over its full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), delivery is sequenced to validate the reusable-policy hypothesis in Phases 1–2 before any later phase proceeds ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [`10-charter/SCOPE.md`](../10-charter/SCOPE.md)).
 
 ---
 
@@ -179,7 +179,7 @@ This document does not specify the solution — that is the charter's and capabi
 * A policy must be definable **once** and applied to multiple workloads regardless of gateway, provider, or framework (§2; [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 * Every deployment must independently and explicitly answer both "who operates this" and "where does my content go" (§4; [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 * Teams must be able to observe a policy's real-world behavior before it can block anyone (§5; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
-* The response must not overreach into authorization, full governance, or agent orchestration before the core reusable-policy problem is validated (§7; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--mvp-scope-boundaries)).
+* The response must not overreach into authorization, full governance, or agent orchestration before the core reusable-policy problem is validated (§7; seed.md §6.3; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 How these requirements are met is described in the forthcoming `10-charter/CHARTER.md`, `20-product/CAPABILITIES.md`, and `50-architecture/` documents.
 
@@ -187,7 +187,7 @@ How these requirements are met is described in the forthcoming `10-charter/CHART
 
 ## Related documents
 
-- [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements this problem statement must not contradict, particularly AGR-005, AGR-007 through AGR-011, and AGR-019.
+- [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements this problem statement must not contradict, particularly AGR-005, AGR-007 through AGR-011, and AGR-020 (five-phase delivery).
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — non-negotiable boundaries derived from this same source material, particularly CON-003 through CON-007 (contract independence and content exposure).
 - [`../00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) — unvalidated beliefs underlying this framing, particularly ASM-002, ASM-003, ASM-005, ASM-011, ASM-016, ASM-017, and ASM-018.
 - `10-charter/CHARTER.md` — the solution's response to the problem framed here (not yet written).

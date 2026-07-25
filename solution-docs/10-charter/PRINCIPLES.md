@@ -128,12 +128,12 @@ Related: [`AGREEMENTS.md` AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--
 
 **Statement:** Content evaluation must remain separate from business authorization. A guardrail may determine that a tool call appears safe. It does not determine whether the current user is permitted to execute that tool against a particular resource. The consuming application remains responsible for user authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows.
 
-**Why it matters:** Conflating "this content passed a safety check" with "this user is allowed to do this" creates a false sense of security. A team that treats a guardrail `allow` decision as an authorization decision may deploy an agent capable of executing actions no guardrail was ever designed to gate — the platform's own charter is explicit that tool and agent authorization is a distinct, later capability, not part of the initial MVP (seed.md §5.5, §6.3).
+**Why it matters:** Conflating "this content passed a safety check" with "this user is allowed to do this" creates a false sense of security. A team that treats a guardrail `allow` decision as an authorization decision may deploy an agent capable of executing actions no guardrail was ever designed to gate — the platform's own charter is explicit that tool and agent authorization is a distinct, later capability (Phase 5 at the earliest), not part of the Phase 1–2 core (seed.md §5.5, §6.3).
 
 **What it forbids:**
 * Describing a guardrail decision as an authorization decision, in documentation, sales material, or product UI.
 * Treating a passing evaluation as sufficient grounds to skip the consuming application's own authentication, authorization, tenant-isolation, resource-ownership, transaction-limit, or approval-workflow checks.
-* Building or marketing tool/agent authorization as part of the guardrail MVP — it may become a later product capability, but only as a separately scoped effort.
+* Building or marketing tool/agent authorization as part of the Phase 1–2 core platform — it may become a later product capability, but only as a separately scoped effort.
 * Allowing a customer to configure guardrails as a substitute for application-level access control.
 
 Related: [`AGREEMENTS.md` AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
@@ -198,7 +198,7 @@ Related: [`AGREEMENTS.md` AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--
 - [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — L1 checkable boundary conditions that operationalize several of these principles.
 - [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) — unvalidated beliefs the principles above depend on (for example, trust-level assumptions underlying 5.5 and 5.6).
 - `10-charter/CHARTER.md` — the product charter narrative these principles support (L2).
-- `10-charter/SCOPE.md` — the MVP scope boundary these principles bound (L2).
+- `10-charter/SCOPE.md` — the scope boundaries (core, later-phase, out-of-scope) these principles bound (L2).
 - `50-architecture/COMPONENT-ARCHITECTURE.md` — where policy/connector separation (5.3) and failure-behavior handling (5.7) are implemented.
 - `50-architecture/INTEGRATION-ARCHITECTURE.md` — where policy portability (5.1) and the one-contract rule (5.2) are implemented across connectors.
 - `50-architecture/SECURITY-ARCHITECTURE.md` and `50-architecture/DATA-ARCHITECTURE.md` — where the content-exposure model (5.4) is implemented per deployment mode.

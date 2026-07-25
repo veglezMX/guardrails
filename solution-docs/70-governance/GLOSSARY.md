@@ -19,7 +19,7 @@ Figures, dates, and thresholds are not restated here beyond what `seed.md` speci
 
 ## Quick index
 
-[Action](#action-allow--block--redact--log_only) · [AI Guardrails](#ai-guardrails) · [Audit metadata](#audit-metadata) · [Bedrock Guardrails](#bedrock-guardrails) · [Connector](#connector) · [Control plane](#control-plane) · [Correlation identifier](#correlation-identifier) · [Customer-Managed Runtime](#customer-managed-runtime) · [Data plane](#data-plane) · [Decision](#decision) · [Deterministic evaluator](#deterministic-evaluator) · [Enforce mode](#enforce-mode) · [Evaluation](#evaluation) · [Evaluation contract](#evaluation-contract) · [Evaluator adapter](#evaluator-adapter) · [Failure behavior](#failure-behavior) · [Guarded Gateway](#guarded-gateway) · [Guardrail policy](#guardrail-policy) · [Import](#import) · [LiteLLM](#litellm) · [Observe mode](#observe-mode) · [PII evaluator](#pii-evaluator) · [Policy binding](#policy-binding) · [Redaction](#redaction) · [Reason code](#reason-code) · [Remote Evaluation](#remote-evaluation) · [Tenant](#tenant) · [Workload](#workload)
+[Action](#action-allow--block--redact--log_only) · [AI Guardrails](#ai-guardrails) · [Audit metadata](#audit-metadata) · [Bedrock Guardrails](#bedrock-guardrails) · [Connector](#connector) · [Control plane](#control-plane) · [Control type](#control-type) · [Correlation identifier](#correlation-identifier) · [Customer-Managed Runtime](#customer-managed-runtime) · [Data plane](#data-plane) · [Decision](#decision) · [Deterministic evaluator](#deterministic-evaluator) · [Enforce mode](#enforce-mode) · [Enforcement layer](#enforcement-layer) · [Evaluation](#evaluation) · [Evaluation contract](#evaluation-contract) · [Evaluator adapter](#evaluator-adapter) · [Extension seam](#extension-seam) · [Failure behavior](#failure-behavior) · [Graduation](#graduation) · [Guarded Gateway](#guarded-gateway) · [Guardrail category](#guardrail-category) · [Guardrail item](#guardrail-item) · [Guardrail policy](#guardrail-policy) · [Import](#import) · [LiteLLM](#litellm) · [Observe mode](#observe-mode) · [PII evaluator](#pii-evaluator) · [Policy binding](#policy-binding) · [Policy pack](#policy-pack) · [Redaction](#redaction) · [Reason code](#reason-code) · [Remote Evaluation](#remote-evaluation) · [Tenant](#tenant) · [Vision — uncommitted](#vision--uncommitted) · [Workload](#workload)
 
 ---
 
@@ -56,10 +56,10 @@ The outcome a [Decision](#decision) assigns to evaluated content. `seed.md` §9 
 | `block` | Content or request is prevented from proceeding. | Initial (in scope) |
 | `redact` | Content is transformed to remove or mask a detected violation. | Initial (in scope) |
 | `log_only` | The decision is recorded without affecting the request. | Initial (in scope) |
-| `rewrite` | Reserved — not defined for the MVP. | Future scope |
-| `discard` | Reserved — not defined for the MVP. | Future scope |
-| `abstain` | Reserved — not defined for the MVP. | Future scope |
-| `require_approval` | Reserved — not defined for the MVP. | Future scope |
+| `rewrite` | Reserved — not defined in the Phase 1–2 core delivery. | Later phase |
+| `discard` | Reserved — not defined in the Phase 1–2 core delivery. | Later phase |
+| `abstain` | Reserved — not defined in the Phase 1–2 core delivery. | Later phase |
+| `require_approval` | Reserved — not defined in the Phase 1–2 core delivery. | Later phase |
 
 See also: [Redaction](#redaction), [Decision](#decision), [Enforce mode](#enforce-mode).
 
@@ -105,6 +105,14 @@ See also: [Data plane](#data-plane), [Policy binding](#policy-binding), [Custome
 
 ---
 
+### Control type
+
+Descriptive metadata classifying a guardrail's intent in the [guardrail-category catalog](#guardrail-category): **preventive**, **detective**, **corrective**, **directive**, **deterrent**, **recovery**, or **governance** ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md); [`../50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §8). Control types are classification only — they are not fields of the evaluation contract and impose no runtime behavior. One normative caution: a **directive** control (for example, a system-prompt instruction) is not an enforced control and must never be represented as a security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
+
+See also: [Guardrail category](#guardrail-category), [Enforcement layer](#enforcement-layer).
+
+---
+
 ### Correlation identifier
 
 An identifier propagated across an evaluation request and its resulting [decision](#decision) so that a single logical operation — for example, input evaluation, model invocation, and output evaluation — can be traced end to end. It is a required field of both the Decision structure and [audit metadata](#audit-metadata) (`seed.md` §9, §15).
@@ -139,7 +147,7 @@ See also: [Action](#action-allow--block--redact--log_only), [Reason code](#reaso
 
 ### Deterministic evaluator
 
-An evaluation engine that applies fixed, organization-defined rules — rather than a probabilistic or model-based detector — to evaluated content. A basic deterministic evaluator is named explicitly as one of the MVP components, alongside the [Bedrock Guardrails](#bedrock-guardrails) adapter and [PII evaluators](#pii-evaluator) (`seed.md` §6.1, §16).
+An evaluation engine that applies fixed, organization-defined rules — rather than a probabilistic or model-based detector — to evaluated content. A basic deterministic evaluator is named explicitly as one of the Phase 1–2 core components, alongside the [Bedrock Guardrails](#bedrock-guardrails) adapter and [PII evaluators](#pii-evaluator) (`seed.md` §6.1, §16).
 
 See also: [Bedrock Guardrails](#bedrock-guardrails), [PII evaluator](#pii-evaluator), [Evaluator adapter](#evaluator-adapter).
 
@@ -157,6 +165,14 @@ See also: [Observe mode](#observe-mode), [Policy binding](#policy-binding), [Fai
 
 ---
 
+### Enforcement layer
+
+The classification, per [guardrail category](#guardrail-category), of **where** a control is realized ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)): `evaluator` (content evaluation at a stage, behind the [evaluator adapter](#evaluator-adapter) pattern), `connector-gateway` (enforced by the gateway/connector layer — rate limits, routing, model selection), `control-plane` (registries, policy store, rollout, audit pipeline), or `out-of-boundary` (not realized by this product; owned by a named external party per seed.md §6.3 or [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
+
+See also: [Guardrail category](#guardrail-category), [Control type](#control-type).
+
+---
+
 ### Evaluation
 
 A request to inspect content at a particular stage of an interaction (`seed.md` §9).
@@ -165,13 +181,13 @@ A request to inspect content at a particular stage of an interaction (`seed.md` 
 | --- | --- |
 | `input` | Initial (in scope) |
 | `output` | Initial (in scope) |
-| `retrieval` | Future scope |
-| `tool_call` | Future scope |
-| `tool_result` | Future scope |
-| `memory_write` | Future scope |
-| `final_response` | Future scope |
+| `retrieval` | Later phase |
+| `tool_call` | Later phase |
+| `tool_result` | Later phase |
+| `memory_write` | Later phase |
+| `final_response` | Later phase |
 
-The MVP initially limits evaluated content to user/model input and model output; retrieved documents, tool arguments, tool responses, and structured-output payloads are supported categories for later evaluation depending on workload configuration (`seed.md` §13).
+Phases 1–2 limit evaluated content to user/model input and model output; retrieved documents, tool arguments, tool responses, and structured-output payloads are later-phase evaluation categories, part of the defined full feature set (DEC-008) but delivered only in their phase, depending on workload configuration (`seed.md` §13).
 
 See also: [Evaluation contract](#evaluation-contract), [Decision](#decision).
 
@@ -193,6 +209,14 @@ See also: [Bedrock Guardrails](#bedrock-guardrails), [Deterministic evaluator](#
 
 ---
 
+### Extension seam
+
+One of the four defined channels through which all guardrail-coverage growth flows ([`../50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md); [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)): a new **evaluation stage**, a new **evaluation engine** (adapter-internal, no contract change), a new **decision action**, or a new **connector** (a client of the invocation contract). Each seam has a defined process, inherited constraints, and a governance gate; every extension extends — never forks — the core domain model ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
+
+See also: [Evaluator adapter](#evaluator-adapter), [Evaluation contract](#evaluation-contract), [Graduation](#graduation).
+
+---
+
 ### Failure behavior
 
 The explicit, per-workload definition of what happens when an evaluation cannot complete normally — for example, an Evaluation API timeout, detector unavailability, an unresolved policy, control-plane unavailability, audit-delivery failure, or an unsafe response transformation (`seed.md` §5.7). Failure behavior is a mandatory part of the policy itself, and there must be no undocumented fallback behavior ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)).
@@ -201,11 +225,35 @@ See also: [Guardrail policy](#guardrail-policy), [Control plane](#control-plane)
 
 ---
 
+### Graduation
+
+The governed pipeline by which a [Vision — uncommitted](#vision--uncommitted) catalog entry becomes committed scope: gating open question raised/resolved → decision recorded as a new AGR/DEC (the explicit scope-change decision required by [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) §8) → CAP/FR entry created → phased delivery per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) ([`../50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10). Out-of-boundary entries have no graduation path — re-scoping one requires amending the underlying exclusion itself.
+
+See also: [Guardrail category](#guardrail-category), [Vision — uncommitted](#vision--uncommitted), [Extension seam](#extension-seam).
+
+---
+
 ### Guarded Gateway
 
 Deployment **Mode B**: the AI Guardrails provider operates both the LLM gateway and the guardrail runtime, offering input guardrails, model routing, model invocation, output guardrails, and audit/usage reporting as a single managed path (`seed.md` §3, Mode B). It is intended for teams that do not operate their own LiteLLM instance, want a managed model-access endpoint, and accept that the provider participates in the complete inference path.
 
 See also: [Remote Evaluation](#remote-evaluation), [Customer-Managed Runtime](#customer-managed-runtime), [LiteLLM](#litellm).
+
+---
+
+### Guardrail category
+
+One of the eighteen change-controlled entries (`GR-001`–`GR-018`) of the guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)), sanctioned by [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model). A category classifies guardrail controls by subject (for example, Prompt and Instruction Security, Sensitive Data and Privacy) and carries an [enforcement layer](#enforcement-layer), [control types](#control-type), stages, evaluator family, and a phase status. A category is a **classification dimension over the existing domain model, not a seventh domain entity** ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)); the catalog classifies — it never commits scope.
+
+See also: [Guardrail item](#guardrail-item), [Graduation](#graduation), [Enforcement layer](#enforcement-layer).
+
+---
+
+### Guardrail item
+
+An individual guardrail listed inside a [guardrail category's](#guardrail-category) item table. Items are **illustrative and not change-controlled** — they may be added, reworded, split, or merged as ordinary derived-document edits, provided no edit alters a status, contradicts an L1 register, or phrases an out-of-boundary item as future work. An item receives a stable sub-identifier only if and when it [graduates](#graduation) into committed scope.
+
+See also: [Guardrail category](#guardrail-category), [Vision — uncommitted](#vision--uncommitted).
 
 ---
 
@@ -219,7 +267,7 @@ See also: [Connector](#connector), [Policy binding](#policy-binding), [Failure b
 
 ### Import
 
-The act of a consuming team adopting a versioned [guardrail policy](#guardrail-policy), a workload identity, an integration manifest, a [connector](#connector) configuration, and an [enforce mode](#enforce-mode) or [observe mode](#observe-mode) setting (`seed.md` §4). Import never means importing, cloning, registering, or remotely controlling another team's LiteLLM instance, and the process must never require copying another team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing model-routing configuration, or granting the guardrail provider administrative access to the team's gateway ([AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--meaning-of-import)).
+The act of a consuming team adopting a versioned [guardrail policy](#guardrail-policy), a workload identity, an integration manifest, a [connector](#connector) configuration, and an [enforce mode](#enforce-mode) or [observe mode](#observe-mode) setting (`seed.md` §4). Import never means importing, cloning, registering, or remotely controlling another team's LiteLLM instance, and the process must never require copying another team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing model-routing configuration, or granting the guardrail provider administrative access to the team's gateway ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 
 The canonical onboarding flow that defines "import" in practice:
 
@@ -251,7 +299,7 @@ See also: [Enforce mode](#enforce-mode), [Policy binding](#policy-binding), [Imp
 
 ### PII evaluator
 
-An evaluation engine focused on detecting personally identifiable information in evaluated content, supporting the MVP's "basic sensitive-data handling" scope item (`seed.md` §6.1). PII evaluators sit behind the same [evaluator-adapter](#evaluator-adapter) pattern as [Bedrock Guardrails](#bedrock-guardrails) and [deterministic evaluators](#deterministic-evaluator) (`seed.md` §10, Logical architecture).
+An evaluation engine focused on detecting personally identifiable information in evaluated content, supporting the "basic sensitive-data handling" scope item in the Phase 1–2 core (`seed.md` §6.1). PII evaluators sit behind the same [evaluator-adapter](#evaluator-adapter) pattern as [Bedrock Guardrails](#bedrock-guardrails) and [deterministic evaluators](#deterministic-evaluator) (`seed.md` §10, Logical architecture).
 
 See also: [Deterministic evaluator](#deterministic-evaluator), [Evaluator adapter](#evaluator-adapter), [Redaction](#redaction).
 
@@ -262,6 +310,14 @@ See also: [Deterministic evaluator](#deterministic-evaluator), [Evaluator adapte
 The association between a [workload](#workload) and a specific [guardrail policy](#guardrail-policy) version. A binding may also define observe or enforce mode, allowed workload-specific overrides, effective date, rollback version, and runtime compatibility requirements (`seed.md` §9). Policy binding is one of the six core domain entities that all architecture and implementation must be expressed in terms of ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 See also: [Workload](#workload), [Guardrail policy](#guardrail-policy), [Enforce mode](#enforce-mode), [Observe mode](#observe-mode).
+
+---
+
+### Policy pack
+
+**Vision — uncommitted.** A named, versioned policy template that pre-selects evaluators, thresholds, actions, and failure behavior for a workload archetype (for example, an enterprise baseline or a RAG-secure profile). If pursued, instantiating a pack yields an ordinary versioned [guardrail policy](#guardrail-policy) — a copy at a version, **not** policy inheritance (structured inheritance/composition is the separate later-phase capability CAP-029). Sketched in [`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) (Policy packs) and [`../50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §11.
+
+See also: [Guardrail policy](#guardrail-policy), [Guardrail category](#guardrail-category).
 
 ---
 
@@ -294,6 +350,14 @@ See also: [Guarded Gateway](#guarded-gateway), [Customer-Managed Runtime](#custo
 The entity representing an organization, business unit, or consuming team. A tenant carries a tenant identifier, ownership information, AWS account information, data classification, allowed Regions, retention configuration, deployment mode, and authentication configuration (`seed.md` §9). Tenant is one of the six core domain entities defined in [AGR-017 — Core domain model](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model).
 
 See also: [Workload](#workload), [Policy binding](#policy-binding).
+
+---
+
+### Vision — uncommitted
+
+The catalog phase status marking an entry as **direction only**: outside the defined-and-estimated full feature set fixed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), not scheduled, not resourced, and not estimated ([DEC-009](../00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision)). A vision-classified entry may enter committed scope only through [graduation](#graduation). The other three catalog statuses are `Core (Phases 1–2)`, `Later phase — committed`, and `Out-of-boundary` ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), "How to read this catalog").
+
+See also: [Graduation](#graduation), [Guardrail category](#guardrail-category).
 
 ---
 
