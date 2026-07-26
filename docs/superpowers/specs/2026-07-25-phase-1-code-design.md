@@ -32,7 +32,7 @@ Settled before design work began, and treated as fixed here:
 
 Two facts established during design change the emphasis from what the architecture documents imply:
 
-- **A non-LiteLLM client lands immediately** — a consumer-operated custom gateway. `EXTENSIBILITY-ARCHITECTURE.md` seam 4 ("new connector") is therefore a Phase 1 event, not a later one.
+- **A non-LiteLLM client lands immediately** — a consumer-operated custom gateway, built by the consuming team on the SDK. `EXTENSIBILITY-ARCHITECTURE.md` seam 4 ("new connector") therefore fires while Phase 1 is still young. No custom-gateway code is a Phase 1 deliverable for this team; what Phase 1 owes that team is a documented SDK and a runnable conformance suite (§9.2).
 - **Agent workloads are near-future**, which makes the `retrieval` / `tool_call` stages — unreachable from any gateway — a live concern rather than Phase 5 theory.
 
 Consequently the **SDK receives the documentation and DX budget**, while the LiteLLM connector is still built (VAL-002 requires it) and still ships connector-health telemetry in Phase 1.
@@ -488,9 +488,14 @@ Buffered SQS → S3 so archive latency stays off the request path, and audit-del
 ```
 mock-provider          # stands in for the model; makes credential isolation assertable
 litellm-a  ─┐          # team A configuration, provider credentials A
-litellm-b  ─┼─▶ runtime ─▶ controlplane
-gateway-stub┘          # the custom gateway — added, not substituted
+litellm-b  ─┴─▶ runtime ─▶ controlplane
 ```
+
+The custom gateway is **not implemented in Phase 1**. The harness leaves a
+documented placeholder for it — a third client slot with a worked example of
+what registering one would look like — so that adding it later is a
+configuration exercise rather than a harness redesign. VAL-002 as defined
+(two LiteLLM instances) is what Phase 1 must pass.
 
 One test per bullet of the `seed.md` §16 demonstration:
 
@@ -520,7 +525,9 @@ guardrails-testkit
 ```
 
 ```python
-@pytest.mark.parametrize("client", [raw_http, sdk, litellm_connector, gateway_stub])
+# CLIENTS is a registration list; a custom gateway is added by appending to it,
+# with a commented worked example shipped alongside. Phase 1 implements three.
+@pytest.mark.parametrize("client", CLIENTS)   # raw_http, sdk, litellm_connector
 def test_identical_decisions(client, scenario):
     assert client.evaluate(scenario).normalized() == scenario.expected
 ```
@@ -563,16 +570,17 @@ Seven ADRs, each a Phase 1 deliverable — otherwise the code silently becomes t
 | 6 | Runtime capability manifest and bind-time compatibility check | New — activates the unused binding field in `DATA-ARCHITECTURE.md` §1.5 |
 | 7 | Deployment target — ECS Fargate | Not specified; `INVESTMENT-SUMMARY.md` names "API Gateway or ALB" |
 
-Two notes to file against existing open questions:
+One note to file:
 
-- **OQ-018 (stage vocabulary).** A five-stage product vocabulary is circulating — INPUT / CONVERSATION / CONTEXT / ACTION / OUTPUT. `INPUT`, `CONTEXT` and `ACTION` map to the reserved `input`, `retrieval` and `tool_call`. `CONVERSATION` has no reserved equivalent, and `INTEGRATION-ARCHITECTURE.md` §3.1 already scopes conversation history *inside* `input`, so it is a content-scoping concern rather than a stage. `ACTION` as described ("permissions, rate limits") crosses into authorization, which AGR-010 excludes and RSK-002 actively watches for. With agent workloads near-future, OQ-018 needs resolving during Phase 1–2 rather than at Phase 5.
-- **VAL-002 has a stronger available variant.** As written it is two LiteLLM instances, proving *instance* independence. LiteLLM plus the custom gateway on one policy version would prove *gateway* independence — the actual AGR-003 / PP-006 claim. Proposed as an **addition**, not a substitution; VAL-002 is a defined gate in an L3 document and changing it belongs to its owner.
+- **VAL-002 has a stronger variant available later.** As written it is two LiteLLM instances, proving *instance* independence. LiteLLM plus a custom gateway on one policy version would prove *gateway* independence — the actual AGR-003 / PP-006 claim. Not implemented in Phase 1; the harness carries a documented placeholder client slot (§9.1) so the variant is cheap to add when a custom gateway exists. Any change to VAL-002 itself belongs to its owner — it is a defined gate in an L3 document.
+
+**Stage vocabulary is deliberately untouched.** This design stays inside the seven stages `INTEGRATION-ARCHITECTURE.md` §3.1 already reserves, implementing `input` and `output` only. OQ-018 governs expansion *beyond* the reserved seven and therefore needs no early resolution: `retrieval` and `tool_call`, the two stages agent workloads will need, are already reserved. Conversation history is scoped *inside* `input` by §3.1 and is a content-scoping concern, not a stage.
 
 ## 11. Out of scope for Phase 1
 
 Named explicitly to keep `TECHNICAL-RISKS.md` R8 (product over-expansion) from arriving through the side door:
 
-Admin portal or UI · policy signing · marketplace or metering · quotas · tenant registry CRUD and per-tenant workload identity (Phase 2) · Guarded Gateway (Phase 3) · Helm and ECS customer templates (Phase 4) · evaluation stages beyond `input` and `output` (Phase 5, gated on OQ-018) · the `rewrite`, `discard`, `abstain` and `require_approval` actions · platform-managed and network/IAM-enforced postures (OQ-001, deferred by DEC-010).
+Admin portal or UI · policy signing · marketplace or metering · quotas · tenant registry CRUD and per-tenant workload identity (Phase 2) · Guarded Gateway (Phase 3) · Helm and ECS customer templates (Phase 4) · evaluation stages beyond `input` and `output` — `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` are reserved but future scope · a working custom-gateway client (placeholder only, §9.1) · the `rewrite`, `discard`, `abstain` and `require_approval` actions · platform-managed and network/IAM-enforced postures (OQ-001, deferred by DEC-010).
 
 ## 12. Related documents
 
