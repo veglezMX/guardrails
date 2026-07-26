@@ -3,13 +3,13 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
 ## Purpose
 
-This document expands the seven product principles introduced in `seed.md` §5 into full statements of intent, rationale, and explicit prohibitions. These principles are the design law the AI Guardrails solution must be checked against whenever a new capability, connector, deployment mode, or policy feature is proposed.
+This document expands the seven product principles introduced in [original charter §5](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) into full statements of intent, rationale, and explicit prohibitions. These principles are the design law the AI Guardrails solution must be checked against whenever a new capability, connector, deployment mode, or policy feature is proposed.
 
 This document is **L2**: it is derived directly from the authoritative [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both **L1**) and must never contradict them. Where this document and an L1 register appear to disagree, the L1 register wins and this document must be corrected.
 
@@ -45,7 +45,7 @@ Each principle below states:
 
 **Statement:** Guardrail policies must not depend directly on LiteLLM configuration structures, Bedrock Guardrails response formats, a specific model provider, a specific programming language, or a specific application framework. Vendor-specific implementations must be placed behind adapters.
 
-**Why it matters:** Policy portability is the mechanism that lets one organizational policy be authored once and reused across every workload, gateway, and deployment mode the platform supports. If a policy's meaning changes depending on which gateway or model provider evaluates it, the product's core value proposition — "define guardrail policies once, apply them to multiple workloads" (seed.md §2) — collapses, and every consuming team is back to maintaining its own guardrail logic.
+**Why it matters:** Policy portability is the mechanism that lets one organizational policy be authored once and reused across every workload, gateway, and deployment mode the platform supports. If a policy's meaning changes depending on which gateway or model provider evaluates it, the product's core value proposition — "define guardrail policies once, apply them to multiple workloads" ([`CHARTER.md`](CHARTER.md)) — collapses, and every consuming team is back to maintaining its own guardrail logic.
 
 **What it forbids:**
 * Encoding LiteLLM's request/response shapes, or Bedrock Guardrails' response format, directly into a policy definition.
@@ -72,7 +72,7 @@ Related: [`AGREEMENTS.md` AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--
 
 **Statement:** Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime deployments must use the same logical evaluation contract. The deployment location may change, but policy definitions, request structures, decision structures, reason codes, enforcement actions, audit metadata, and policy-version semantics must remain compatible.
 
-**Why it matters:** A reusable policy is only reusable in practice if the request a connector sends, and the decision it gets back, mean the same thing regardless of where the runtime happens to be deployed. Without a single contract, "one policy, three modes" becomes three parallel implementations that drift apart, and a workload migrating from Mode A to Mode C (a stated product goal — seed.md §3, Mode C) would require re-integration rather than redeployment.
+**Why it matters:** A reusable policy is only reusable in practice if the request a connector sends, and the decision it gets back, mean the same thing regardless of where the runtime happens to be deployed. Without a single contract, "one policy, three modes" becomes three parallel implementations that drift apart, and a workload migrating from Mode A to Mode C (a stated product goal — [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C) would require re-integration rather than redeployment.
 
 **What it forbids:**
 * Mode-specific request or decision schemas, even as an optimization.
@@ -128,7 +128,7 @@ Related: [`AGREEMENTS.md` AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--
 
 **Statement:** Content evaluation must remain separate from business authorization. A guardrail may determine that a tool call appears safe. It does not determine whether the current user is permitted to execute that tool against a particular resource. The consuming application remains responsible for user authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows.
 
-**Why it matters:** Conflating "this content passed a safety check" with "this user is allowed to do this" creates a false sense of security. A team that treats a guardrail `allow` decision as an authorization decision may deploy an agent capable of executing actions no guardrail was ever designed to gate — the platform's own charter is explicit that tool and agent authorization is a distinct, later capability (Phase 5 at the earliest), not part of the Phase 1–2 core (seed.md §5.5, §6.3).
+**Why it matters:** Conflating "this content passed a safety check" with "this user is allowed to do this" creates a false sense of security. A team that treats a guardrail `allow` decision as an authorization decision may deploy an agent capable of executing actions no guardrail was ever designed to gate — the platform's own charter is explicit that tool and agent authorization is a distinct, later capability (Phase 5 at the earliest), not part of the Phase 1–2 core ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [`SCOPE.md`](SCOPE.md)).
 
 **What it forbids:**
 * Describing a guardrail decision as an authorization decision, in documentation, sales material, or product UI.
@@ -177,7 +177,7 @@ Related: [`AGREEMENTS.md` AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--
 * Treating input-size limits and per-stage timeouts as implementation details rather than policy-visible, documented boundaries (see [`CONSTRAINTS.md` CON-015, CON-016](../00-source-of-truth/CONSTRAINTS.md#resource-and-operational-limits)).
 * Omitting from the audit record which failure-behavior path was taken when an evaluation could not complete normally.
 
-Illustrative failure-behavior options (from `seed.md` §5.7 — not an exhaustive or ranked list):
+Illustrative failure-behavior options (from [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) — not an exhaustive or ranked list):
 
 | Failure condition | Example configured behaviors |
 | --- | --- |

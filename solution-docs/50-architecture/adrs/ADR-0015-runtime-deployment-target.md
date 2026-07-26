@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -21,7 +21,7 @@ While this ADR reads `Proposed` it binds no one.
 
 [`CONTAINER-ARCHITECTURE.md` §](../CONTAINER-ARCHITECTURE.md) describes the runtime's and control plane's compute as *"ECS Fargate or EKS"* and their entry point as *"API Gateway or an Application Load Balancer."* [`INVESTMENT-SUMMARY.md` §](../../30-executive/INVESTMENT-SUMMARY.md) carries the same pairs as cost line items.
 
-Every downstream document therefore names two options and picks neither. That is appropriate for a cost estimate and insufficient for delivery: the choice determines the packaging path, and the packaging path is what the Phase 1–2 validation demonstration's final criterion depends on — *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* (`seed.md` §16).
+Every downstream document therefore names two options and picks neither. That is appropriate for a cost estimate and insufficient for delivery: the choice determines the packaging path, and the packaging path is what the Phase 1–2 validation demonstration's final criterion depends on — *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md)).
 
 The question this ADR resolves: **what does the runtime deploy onto, and what does that imply for Mode C?**
 
@@ -69,7 +69,7 @@ This ADR does **not** decide:
 ## Alternatives considered
 
 - **Alternative: serverless functions for the Evaluation API.**
-  **Why not chosen:** A good fit for a synchronous request/response API in isolation, and rejected on the Mode C argument alone: Phase 4 ships this runtime into customer accounts as a container. A function-based hosted path plus a container-based customer path is two packaging paths for one codebase, and their drift is precisely what would falsify the `seed.md` §16 criterion. Cold-start behavior on a latency-sensitive synchronous path is a secondary concern, unquantified until [VAL-001](../../60-delivery/VALIDATION-PLAN.md) produces figures.
+ **Why not chosen:** A good fit for a synchronous request/response API in isolation, and rejected on the Mode C argument alone: Phase 4 ships this runtime into customer accounts as a container. A function-based hosted path plus a container-based customer path is two packaging paths for one codebase, and their drift is precisely what would falsify the [`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md) criterion. Cold-start behavior on a latency-sensitive synchronous path is a secondary concern, unquantified until [VAL-001](../../60-delivery/VALIDATION-PLAN.md) produces figures.
 
 - **Alternative: EKS.**
   **Why not chosen:** Adds cluster operations, upgrade cycles, and security surface for capability the Phase 1–2 workload does not use. Some customers will run the Mode C container on their own Kubernetes — which the container image supports regardless of what the hosted side runs on.

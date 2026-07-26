@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -28,7 +28,7 @@
 
 ## 1. Role
 
-You are acting as the **executive-brief writer** for the AI Guardrails solution documentation set. You produce or refresh a single leadership-facing document — [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) — that a decision-maker who has not read the charter, the architecture set, or the seed material can use to approve or reject the next phase of investment.
+You are acting as the **executive-brief writer** for the AI Guardrails solution documentation set. You produce or refresh a single leadership-facing document — [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) — that a decision-maker who has not read the charter, the architecture set, or the source material can use to approve or reject the next phase of investment.
 
 You are **not**:
 
@@ -74,8 +74,8 @@ You may read and draw factual content from **only** the following files:
 
 ### 3.1 Explicitly out of scope as a source
 
-* **`seed.md` itself must not be opened or mined for new content.** The L1 layer (`AGREEMENTS.md`, `CONSTRAINTS.md`, `ASSUMPTIONS.md`, `OPEN-QUESTIONS.md`) already exists specifically to have extracted and vetted everything from `seed.md` that is fit for downstream use. Re-deriving from raw `seed.md` would bypass that vetting step and is not permitted.
-  * **Exception:** you may **preserve** a `(seed.md §N)` citation that already appears verbatim inside one of the permitted source files above (all of them cite specific `seed.md` sections). You may not introduce a *new* `seed.md` citation that does not already appear in a permitted source.
+* **The original solution charter is no longer a source and no longer exists as a file.** The L1 layer (`AGREEMENTS.md`, `CONSTRAINTS.md`, `ASSUMPTIONS.md`, `OPEN-QUESTIONS.md`) exists specifically to have extracted and vetted everything from that charter that is fit for downstream use; [`PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) records where each of its sections now lives. Deriving content from the provenance record is not permitted — it is a map, not a source.
+  * **Legacy citations:** where a permitted source still carries an `original charter §N` citation, you may **preserve** it verbatim. You may not introduce a new one, and you may not treat it as authority — resolve the underlying claim to the `AGR-NNN`/`CON-NNN` entry that governs it and cite that instead.
 * **`10-charter/PRINCIPLES.md`, `10-charter/SCOPE.md`, `10-charter/SUCCESS-CRITERIA.md`** are not permitted sources for this document, even though they sit in `10-charter/`. Only `CHARTER.md` itself is in scope. If content you need appears to live only in one of these siblings, trace it back to the AGR/CON it operationalizes and cite that instead.
 * **`20-product/*`, `50-architecture/*`, `60-delivery/*`, `70-governance/*`** are not permitted sources for claims. You may still **link** to specific files in these layers (as the current brief already does, e.g., to `60-delivery/MILESTONES.md` and `70-governance/RISK-REGISTER.md`) for reader navigation — but you must not derive new factual content from them.
 
@@ -89,7 +89,7 @@ Mirror the section structure of the existing [`EXECUTIVE-BRIEF.md`](../30-execut
 |---|---|---|
 | — | Header block + authority disclaimer blockquote | This specification (§6 below) |
 | 1 | Executive summary | CHARTER.md; AGREEMENTS.md (AGR-001, AGR-002, AGR-020) |
-| 2 | Current problem | BUSINESS-CASE.md; CHARTER.md (charter's own seed.md citations, preserved only) |
+| 2 | Current problem | BUSINESS-CASE.md; CHARTER.md (charter's own legacy citations, preserved only) |
 | 3 | Business impact | BUSINESS-CASE.md; AGREEMENTS.md |
 | 4 | Proposed solution | CHARTER.md; AGREEMENTS.md (AGR-001, AGR-002, AGR-003, AGR-004, AGR-006, AGR-007, AGR-009, AGR-010, AGR-011, AGR-017) |
 | 5 | Expected outcomes | EXPECTED-OUTCOMES.md; AGREEMENTS.md (AGR-020); DECISIONS.md (DEC-008); ASSUMPTIONS.md for anything still TBD |
@@ -112,7 +112,7 @@ Each numbered section must:
 
 1. **No invented figures.** Do not write a specific dollar amount, date, SLA number, percentage, throughput figure, or customer/deal name unless it is present, verbatim or by direct computation from values present, in a permitted source file. Where a figure is genuinely needed but absent, write **TBD** and, where possible, point to the register that owns resolving it (usually `ASSUMPTIONS.md` or `OPEN-QUESTIONS.md`).
 2. **Obey the claims register.** Before publishing, every externally facing claim (a capability statement, a competitive statement, a statement of what the product "is" or "does") must be checked against [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md).
-   * **`70-governance/CLAIMS-REGISTER.md` exists and is populated.** Treat it as authoritative for claim wording, and ensure the "Derived from" line in the header reads `seed.md + AGREEMENTS.md + CLAIMS-REGISTER.md`.
+   * **`70-governance/CLAIMS-REGISTER.md` exists and is populated.** Treat it as authoritative for claim wording, and ensure the "Derived from" line in the header reads `AGREEMENTS.md + CLAIMS-REGISTER.md`.
 3. **Forbidden claim patterns.** Regardless of `CLAIMS-REGISTER.md` status, the following are never permitted, because they directly contradict a standing agreement:
    * Describing Mode A (Remote Evaluation) as private, data-local, or as keeping tenant content off the hosted service — contradicts [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model).
    * Describing a guardrail decision as a business-authorization decision, or implying the platform authorizes tool execution or resource access — contradicts [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
@@ -120,7 +120,7 @@ Each numbered section must:
    * Implying reduced operational ownership (e.g., "fully managed") means reduced data exposure, or vice versa — contradicts [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns).
    * Presenting Bedrock Guardrails or LiteLLM as a permanent or exclusive product boundary rather than a first connector/engine — contradicts [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) and [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract).
    * Asserting that any later-phase capability is available now — nothing beyond what Phases 1–2 build exists today — or presenting the per-phase validation gates in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) as already satisfied. The solution is defined and estimated over the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), but each phase must still be validated before the next proceeds.
-   * Stating the Phase 1–2 validation demonstration is "successful" or "complete" against fewer than all of its conditions (`seed.md` §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+ * Stating the Phase 1–2 validation demonstration is "successful" or "complete" against fewer than all of its conditions ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 4. **No silent promotion of an assumption to fact.** If a claim depends on an `ASM-NNN` entry in `ASSUMPTIONS.md`, the brief must say so (e.g., "assuming X, which is currently unvalidated — see ASM-NNN") rather than stating it plainly.
 5. **No silent resolution of an open question.** If a claim touches an area covered by an `OQ-NNN` entry in `OPEN-QUESTIONS.md`, the brief must reflect the *current working assumption* language from that register, not a stronger or more settled version of it, and must not present it as decided.
 
@@ -135,7 +135,7 @@ Each numbered section must:
   2. `**Authority level:** L4`
   3. `**Status:** Draft` (or the correct status if the document has been promoted — do not change this field without an explicit instruction to do so)
   4. `**Date:** <refresh date>` — update to the date the refresh is performed
-  5. `**Derived from:** seed.md + AGREEMENTS.md + CLAIMS-REGISTER.md` (per §5.2)
+  5. `**Derived from:** AGREEMENTS.md + CLAIMS-REGISTER.md` (per §5.2)
 * **Opening blockquote**: retain the authority disclaimer blockquote (this brief is derived, not a source of new commitments; every claim traces to `AGREEMENTS.md` or the charter; TBD used instead of invented figures).
 * **Section numbering:** `## 1.` through `## 10.`, followed by an unnumbered `## Related documents` footer — matching [Section 4](#4-required-structure) above.
 * **Links:** use relative Markdown links from `30-executive/` (e.g., `../00-source-of-truth/AGREEMENTS.md#agr-009--...`), matching the path convention already used throughout this corpus. Do not use absolute paths or bare URLs for in-repo references.
@@ -164,7 +164,7 @@ Warnings must be surfaced as a visible block to the reviewer (for example, a lea
 
 * **Every material claim in the brief must carry an inline citation** to the specific register entry it derives from, using the same Markdown link convention as the current brief, e.g.: `(per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model))`.
 * Use **`AGR-NNN`** for anything settled in `AGREEMENTS.md`, **`CON-NNN`** for anything from `CONSTRAINTS.md`, **`ASM-NNN`** for anything from `ASSUMPTIONS.md` (always labeled as unvalidated when cited), and **`OQ-NNN`** for anything from `OPEN-QUESTIONS.md` (always labeled as open/undecided when cited).
-* A preserved `(seed.md §N)` citation is acceptable **only** where it already appears in a permitted source file (see [§3.1](#31-explicitly-out-of-scope-as-a-source)); cite it exactly as it appears there, do not renumber or reinterpret it.
+* A preserved `original charter §N` citation is acceptable **only** where it already appears in a permitted source file (see [§3.1](#31-explicitly-out-of-scope-as-a-source)); cite it exactly as it appears there, do not renumber or reinterpret it, and never present it as the authority for a claim.
 * Do not cite a document that is not itself a permitted source (per [Section 3](#3-permitted-source-files)) as the basis for a claim, even if that document is linked elsewhere in the brief for navigation.
 * Where a whole section summarizes a sibling L3/L4 document (per [Section 4](#4-required-structure)'s input table), the section should close with, or open with, an explicit link to that document (e.g., "A fuller risk register... is maintained at `70-governance/RISK-REGISTER.md`" / "see `30-executive/RISKS-AND-DEPENDENCIES.md`") so a reader can verify the summary against its full source.
 * When refreshing an existing brief, preserve prior citations verbatim wherever the underlying agreement has not changed; only update or add a citation where the source-of-truth layer has actually changed since the prior refresh.

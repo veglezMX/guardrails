@@ -3,7 +3,7 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -36,7 +36,7 @@ This register exists so that any reader of the AI Guardrails solution-docs set �
 * Every internal document that makes up this solution-docs set, organized by directory and authority level, so a claim or requirement can be traced back to its source.
 * Every external product, AWS service, and industry framework that the platform integrates with, adapts to, or is described in relation to, without those descriptions being scattered and re-derived inconsistently across the architecture, product, and sales layers.
 
-It is deliberately **not** the place to introduce new metrics, commitments, SLAs, or vendor claims. Where the seed material or `AGREEMENTS.md` does not state a figure, this register says **TBD** rather than inventing one, consistent with how [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) and [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) already handle unconfirmed figures.
+It is deliberately **not** the place to introduce new metrics, commitments, SLAs, or vendor claims. Where the source material or `AGREEMENTS.md` does not state a figure, this register says **TBD** rather than inventing one, consistent with how [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) and [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) already handle unconfirmed figures.
 
 This register also complements, and must stay consistent with:
 
@@ -53,7 +53,7 @@ Each reference table below carries the following columns, used consistently thro
 | --- | --- |
 | **Document / Reference** | The file (internal) or product/service/framework name (external) being cataloged. |
 | **Authority** | For internal documents, the authority level asserted in that document's own header (`L1` authoritative, `L2`–`L4` derived, decreasing in binding force). For external references, marked `n/a` — external references are descriptive, not authoritative over this solution-docs set. |
-| **Role / Description** | A one-line, qualitative description of what the document or external reference is and why it is relevant to AI Guardrails. No metrics, dates, or figures are stated unless they already appear in `seed.md` or `AGREEMENTS.md`. |
+| **Role / Description** | A one-line, qualitative description of what the document or external reference is and why it is relevant to AI Guardrails. No metrics, dates, or figures are stated unless they already appear in `AGREEMENTS.md` or `CONSTRAINTS.md`. |
 | **Link status** | `Linked` for files that exist in this repository today — which is every document named in this set as of this revision. `Planned — not yet authored` is reserved for genuinely-future artifacts (for example ADRs beyond `ADR-0001`, which are backlog items) and, when used, such documents are shown as plain code paths rather than clickable links so a broken link is never silently introduced. |
 
 External references are additionally marked with a **canonical URL** cell reading `TBD — add canonical URL`, per this document set's policy against inventing external URLs. Whoever adds a verified canonical link should replace that placeholder in place, not append a new row.
@@ -66,7 +66,7 @@ The root source material and the authoritative agreements/constraints/decisions 
 
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
-| [`seed.md`](../../seed.md) | Source material | The raw solution charter — the full source-of-truth narrative (purpose, vision, deployment modes, domain model, AWS direction, security and operational requirements, delivery phases, risks) that every derived document in this set traces back to. | Linked |
+| [`00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) | Provenance record | Map of where the original solution charter's content now lives (purpose, vision, deployment modes, domain model, AWS direction, security and operational requirements, delivery phases, risks) that every derived document in this set traces back to. | Linked |
 | [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 20 accepted agreements (AGR-001–AGR-020) that no derived document may contradict. The single most-cited document in this set. | Linked |
 | [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable technical and security boundaries (CON-001–CON-016) — cloud placement, contract independence, transport/cryptographic security, identity, content handling, resource limits. | Linked |
 | [`00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | L1 | The product/organizational/delivery decision log, distinct from architecture-level ADRs. | Linked |
@@ -78,14 +78,14 @@ The root source material and the authoritative agreements/constraints/decisions 
 
 ## 4. Internal references: charter and principles (L2)
 
-The durable, boundary-setting layer derived directly from `seed.md` and `AGREEMENTS.md`.
+The durable, boundary-setting layer derived directly from `AGREEMENTS.md` and `CONSTRAINTS.md`.
 
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) | L2 | The solution charter: purpose, problem addressed, vision, the three-mode architectural decision, and pointers to every other layer. | Linked |
 | [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) | L2 | The product principles — policy portability, one contract across modes, policies separate from connectors, explicit content-exposure model, guardrails-are-not-authorization, observe-before-enforce, failure behavior as policy. | Linked |
 | [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) | L2 | In-scope, later-phase, and out-of-scope boundaries for the full feature set (DEC-008). | Linked |
-| [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | L2 | Success criteria for the platform, grounded in adoption, reliability, effectiveness, and portability metrics named in `seed.md` §19. | Linked |
+| [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | L2 | Success criteria for the platform, grounded in adoption, reliability, effectiveness, and portability metrics named in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md). | Linked |
 
 ---
 
@@ -104,7 +104,7 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`20-product/PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) | L4 | The reuse/portability problem the product addresses. | Linked |
 | [`20-product/VALUE-PROPOSITION.md`](../20-product/VALUE-PROPOSITION.md) | L4 | The value proposition derived from the product vision. | Linked |
 | [`20-product/DIFFERENTIATORS.md`](../20-product/DIFFERENTIATORS.md) | L4 | What distinguishes AI Guardrails from adjacent approaches. | Linked |
-| [`20-product/TARGET-USERS.md`](../20-product/TARGET-USERS.md) | L4 | Platform teams, application teams, security/compliance teams, and product operators, per `seed.md` §7. | Linked |
+| [`20-product/TARGET-USERS.md`](../20-product/TARGET-USERS.md) | L4 | Platform teams, application teams, security/compliance teams, and product operators, per [`TARGET-USERS.md`](../20-product/TARGET-USERS.md). | Linked |
 | [`20-product/USE-CASES.md`](../20-product/USE-CASES.md) | L4 | Representative use cases, including the canonical "import" onboarding flow ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). | Linked |
 | [`20-product/FAQ.md`](../20-product/FAQ.md) | L4 | Frequently asked questions, including clarifications of "import" and deployment-mode data exposure. | Linked |
 
@@ -114,7 +114,7 @@ Audience-specific derived views. These must not contradict the charter, principl
 | --- | --- | --- | --- |
 | [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) | L4 | Condensed executive framing of the solution. | Linked |
 | [`30-executive/BUSINESS-CASE.md`](../30-executive/BUSINESS-CASE.md) | L3 | The business rationale for investment. | Linked |
-| [`30-executive/INVESTMENT-SUMMARY.md`](../30-executive/INVESTMENT-SUMMARY.md) | L3 | Investment framing (qualitative; no figures beyond what `seed.md` states). | Linked |
+| [`30-executive/INVESTMENT-SUMMARY.md`](../30-executive/INVESTMENT-SUMMARY.md) | L3 | Investment framing (qualitative; no figures beyond what the L1 registers state). | Linked |
 | [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) | L4 | Expected outcomes tied to the [Phase 1–2 validation demonstration](../60-delivery/VALIDATION-PLAN.md). | Linked |
 | [`30-executive/DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md) | L4 | The decision(s) being asked of executive stakeholders. | Linked |
 | [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) | L3 | Executive-facing summary of principal risks and dependencies, expanded at delivery level in [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md). | Linked |
@@ -171,16 +171,16 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 | [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five phases ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) will be executed. | Linked |
 | [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) | L3 | Delivery milestones organized by phase. | Linked |
 | [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) | L3 | The delivery dependency register (AWS account provisioning, Bedrock Guardrails regional access, consuming-team LiteLLM cooperation, security review sign-off, KMS/Secrets Manager setup, CI scanning) — the most detailed cross-reference to the external AWS and Bedrock dependencies cataloged in Sections 8–9 below. | Linked |
-| [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | L2 | Phase 1–2 exit gates, tied to the validation demonstration (seed.md §16; DEC-008). | Linked |
+| [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | L2 | Phase 1–2 exit gates, tied to the validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); DEC-008). | Linked |
 | [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) | L3 | How the Phase 1–2 validation demonstration is executed and validated. | Linked |
-| [`60-delivery/TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) | L3 | Ownership boundaries across the AI Guardrails team, platform operations, security/governance, and consuming teams (`seed.md` §21). | Linked |
+| [`60-delivery/TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) | L3 | Ownership boundaries across the AI Guardrails team, platform operations, security/governance, and consuming teams ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)). | Linked |
 
 ### 7.2 Governance (`70-governance/`, this document's own folder)
 
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | L2 | What the product may and may not claim — the register this document defers to for anything resembling a marketing or capability claim about an external service. | Linked |
-| [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) | L2 | The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per `seed.md` §20). | Linked |
+| [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) | L2 | The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per [`RISK-REGISTER.md`](RISK-REGISTER.md)). | Linked |
 | `70-governance/REFERENCES.md` | L2 | This document. | Linked (self) |
 | [`70-governance/GLOSSARY.md`](GLOSSARY.md) | L2 | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Linked |
 
@@ -188,7 +188,7 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 
 ## 8. External references: AWS cloud platform and services
 
-Amazon Web Services is the platform's primary and initial cloud (`seed.md` header; [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [CON-001](../00-source-of-truth/CONSTRAINTS.md#con-001--aws-as-primary-cloud)). The table below reproduces the capability-to-service mapping from `seed.md` §11 ("AWS implementation direction"), elaborated in [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) §7.
+Amazon Web Services is the platform's primary and initial cloud ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [CON-001](../00-source-of-truth/CONSTRAINTS.md#con-001--aws-as-primary-cloud)). The table below reproduces the capability-to-service mapping from [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) ("AWS implementation direction"), elaborated in [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) §7.
 
 | AWS service | Capability in AI Guardrails | Cited in (internal) | Canonical AWS documentation |
 | --- | --- | --- | --- |
@@ -197,19 +197,19 @@ Amazon Web Services is the platform's primary and initial cloud (`seed.md` heade
 | Amazon DynamoDB | Policy storage (alternative to versioned S3) and the workload registry. | [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) | TBD — add canonical URL |
 | Amazon S3 | Versioned policy storage (alternative to DynamoDB) and the audit archive. | [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) | TBD — add canonical URL |
 | Amazon SQS | Audit event buffering ahead of archival. | [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) | TBD — add canonical URL |
-| Amazon CloudWatch | Operational metrics — evaluation latency percentiles, throughput, timeout rate, decision distribution, policy-cache hit rate (`seed.md` §15). | [`OPERABILITY.md`](../50-architecture/OPERABILITY.md), [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | TBD — add canonical URL |
+| Amazon CloudWatch | Operational metrics — evaluation latency percentiles, throughput, timeout rate, decision distribution, policy-cache hit rate ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)). | [`OPERABILITY.md`](../50-architecture/OPERABILITY.md), [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | TBD — add canonical URL |
 | Amazon ECR | Container registry for the Guardrails Runtime image, including the customer-managed deployment artifact. | [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md), [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) | TBD — add canonical URL |
 | AWS IAM | Runtime credentials, IAM-based authentication for AWS consumers, least-privilege roles ([CON-010](../00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles)). | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) | TBD — add canonical URL |
 | AWS Secrets Manager | Storage for runtime credentials and other secrets. | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md), [`DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) | TBD — add canonical URL |
 | AWS KMS | Encryption at rest and in transit ([CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest)). | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md), [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) | TBD — add canonical URL |
 
-The initial delivery uses a minimal two-account model (one non-production, one production); additional account separation is introduced only when justified by the triggers named in [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model). No AWS pricing, SLA percentage, or capacity figure is stated here beyond what `seed.md` itself states (none, for these services) — see [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) for the current provisioning status of the underlying accounts.
+The initial delivery uses a minimal two-account model (one non-production, one production); additional account separation is introduced only when justified by the triggers named in [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model). No AWS pricing, SLA percentage, or capacity figure is stated here beyond what the L1 registers state (none, for these services) — see [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) for the current provisioning status of the underlying accounts.
 
 ---
 
 ## 9. External references: Amazon Bedrock Guardrails
 
-Amazon Bedrock Guardrails is adopted as the platform's **first managed evaluation engine**, normalized behind a vendor-independent decision contract so that the public evaluation contract never depends on Bedrock's own response format ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)). It sits behind the evaluator-adapter pattern in [`COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md), alongside deterministic organization rules and PII evaluators (`seed.md` §10).
+Amazon Bedrock Guardrails is adopted as the platform's **first managed evaluation engine**, normalized behind a vendor-independent decision contract so that the public evaluation contract never depends on Bedrock's own response format ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)). It sits behind the evaluator-adapter pattern in [`COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md), alongside deterministic organization rules and PII evaluators ([`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md)).
 
 | Reference | Authority | Role / Description | Canonical documentation |
 | --- | --- | --- | --- |
@@ -224,7 +224,7 @@ Cited from: [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/I
 | Reference | Authority | Role / Description | Canonical documentation |
 | --- | --- | --- | --- |
 | LiteLLM | n/a (external open-source gateway project) | The platform's **first supported gateway connector**, and optionally the substrate for the managed Guarded Gateway mode — explicitly **not** the product boundary ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)). The consuming team's LiteLLM instance is the integration point in Mode A (Remote Evaluation); a provider-operated LiteLLM instance may underlie Mode B (Guarded Gateway). | TBD — add canonical URL |
-| OpenAI-compatible API (concept) | n/a (industry convention, not a single vendor) | The widely adopted request/response schema convention that LiteLLM and many model gateways expose, allowing client applications to call different model providers through one consistent interface. Referenced conceptually because `seed.md` §3 (Mode B) describes the Guarded Gateway as offering teams "a managed OpenAI-compatible endpoint." This document set treats it as a general industry convention, not as an endorsement of or dependency on any single vendor's product. | TBD — add canonical URL |
+| OpenAI-compatible API (concept) | n/a (industry convention, not a single vendor) | The widely adopted request/response schema convention that LiteLLM and many model gateways expose, allowing client applications to call different model providers through one consistent interface. Referenced conceptually because [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (Mode B) describes the Guarded Gateway as offering teams "a managed OpenAI-compatible endpoint." This document set treats it as a general industry convention, not as an endorsement of or dependency on any single vendor's product. | TBD — add canonical URL |
 
 Cited from: [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) §4 ("The LiteLLM connector"), [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) (Mode A and Mode B topologies), [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md) §3.4 (consuming-team LiteLLM availability and willingness).
 
@@ -234,10 +234,10 @@ Cited from: [`50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/I
 
 | Reference | Authority | Role / Description | Canonical documentation |
 | --- | --- | --- | --- |
-| OWASP risk categories for LLM applications | n/a (external, community-maintained taxonomy) | A conceptual external reference framework for describing categories of LLM-specific risk (for example, prompt injection, which `seed.md` names directly under both in-scope deterministic detection and future-scope "indirect prompt-injection detection," §6.1–§6.2). Used only as an orientation point for discussing detection coverage and gaps — **not** as a claim that AI Guardrails fully covers, certifies against, or has been benchmarked against any specific published category list. | TBD — add canonical URL |
-| NIST AI Risk Management Framework (AI RMF) | n/a (external, U.S. government-published framework) | A conceptual external reference framework whose lifecycle functions (Govern, Map, Measure, Manage) are used **for orientation only** in the guardrail-category catalog's "External mapping" fields. Its use carries the same discipline as the OWASP row: orientation, never a conformance, certification, or coverage claim — "full compliance certification" remains a standing exclusion (`seed.md` §6.3). | TBD — add canonical URL |
+| OWASP risk categories for LLM applications | n/a (external, community-maintained taxonomy) | A conceptual external reference framework for describing categories of LLM-specific risk (for example, prompt injection, which the L1 registers name directly under both in-scope deterministic detection and future-scope "indirect prompt-injection detection," §6.1–§6.2). Used only as an orientation point for discussing detection coverage and gaps — **not** as a claim that AI Guardrails fully covers, certifies against, or has been benchmarked against any specific published category list. | TBD — add canonical URL |
+| NIST AI Risk Management Framework (AI RMF) | n/a (external, U.S. government-published framework) | A conceptual external reference framework whose lifecycle functions (Govern, Map, Measure, Manage) are used **for orientation only** in the guardrail-category catalog's "External mapping" fields. Its use carries the same discipline as the OWASP row: orientation, never a conformance, certification, or coverage claim — "full compliance certification" remains a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)). | TBD — add canonical URL |
 
-These references exist specifically to support the **false-confidence risk mitigation** named in `seed.md` §20: "Document unsupported risk categories," "Maintain risk-specific evaluation datasets," and "Avoid marketing guardrails as a complete security boundary." Both are the source of the **"External mapping (orientation only)"** column in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) — every such cell inherits the orientation-only caveat stated here. Any statement in this document set that maps a specific AI Guardrails detection capability to a specific OWASP- or NIST-named category must be verified against [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) before publication, and any resulting coverage gap must be tracked in [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md).
+These references exist specifically to support the **false-confidence risk mitigation** named in [`RISK-REGISTER.md`](RISK-REGISTER.md): "Document unsupported risk categories," "Maintain risk-specific evaluation datasets," and "Avoid marketing guardrails as a complete security boundary." Both are the source of the **"External mapping (orientation only)"** column in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) — every such cell inherits the orientation-only caveat stated here. Any statement in this document set that maps a specific AI Guardrails detection capability to a specific OWASP- or NIST-named category must be verified against [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) before publication, and any resulting coverage gap must be tracked in [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md).
 
 Cited from: [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) ("false confidence" risk), [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md), [`50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) §10 ("Threat model"), [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) ("External mapping" fields).
 
@@ -268,7 +268,7 @@ And the authority flow that governs how internal references in Sections 3–7 re
 
 ```mermaid
 flowchart TB
-    SEED["seed.md<br/>(raw solution charter)"] --> L1["00-source-of-truth/<br/>AGREEMENTS.md, CONSTRAINTS.md,<br/>DECISIONS.md, ASSUMPTIONS.md,<br/>OPEN-QUESTIONS.md (L1)"]
+    SEED["original solution charter<br/>(absorbed; see PROVENANCE.md)"] --> L1["00-source-of-truth/<br/>AGREEMENTS.md, CONSTRAINTS.md,<br/>DECISIONS.md, ASSUMPTIONS.md,<br/>OPEN-QUESTIONS.md (L1)"]
     L1 --> L2["L2 derived documents<br/>CHARTER.md, PRINCIPLES.md, SCOPE.md,<br/>REQUIREMENTS.md, RELEASE-CRITERIA.md,<br/>CLAIMS-REGISTER.md, RISK-REGISTER.md,<br/>REFERENCES.md (this document)"]
     L2 --> L3["L3 derived documents<br/>architecture set, delivery set,<br/>executive summaries"]
     L3 --> L4["L4 derived documents<br/>product and sales-deck materials"]
@@ -287,7 +287,7 @@ flowchart TB
 
 ## Related documents
 
-- [`seed.md`](../../seed.md) — the raw solution charter; the ultimate source for every reference cataloged here.
+- [`../00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) — where the original solution charter's content now lives.
 - [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — the authoritative agreements register (L1) this document must never contradict.
 - [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — authoritative, checkable technical and security boundaries (L1).
 - [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) — what the product may and may not claim about the external services and frameworks cataloged here.

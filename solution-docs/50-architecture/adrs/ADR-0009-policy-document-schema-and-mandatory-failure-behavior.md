@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -19,7 +19,7 @@ While this ADR reads `Proposed` it binds no one.
 
 ## Context
 
-"Policy format" is the second named Phase 1 deliverable in `seed.md` §18. [AGR-005](../../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) requires a policy to be portable across every integration path and deployment mode. [AGR-012](../../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) requires failure behavior to be part of the policy with **no undocumented fallback**. [`FEASIBILITY-ASSESSMENT.md` §](../FEASIBILITY-ASSESSMENT.md) names "the policy schema's failure-behavior section" as design work that should start immediately.
+"Policy format" is the second named Phase 1 deliverable in [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). [AGR-005](../../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) requires a policy to be portable across every integration path and deployment mode. [AGR-012](../../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) requires failure behavior to be part of the policy with **no undocumented fallback**. [`FEASIBILITY-ASSESSMENT.md` §](../FEASIBILITY-ASSESSMENT.md) names "the policy schema's failure-behavior section" as design work that should start immediately.
 
 **The schema does not exist.** `solution-docs/` describes what a policy must contain in prose — stages, evaluator configuration, thresholds, failure behavior, audit behavior, compatibility metadata ([CAP-001](../../20-product/CAPABILITIES.md)) — but no document states which fields are required, what a missing field means, or how evaluators are selected without naming a vendor.
 

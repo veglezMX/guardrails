@@ -3,7 +3,7 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -15,10 +15,10 @@ This document is **L2 — derived, governance-authoritative for risk tracking**.
 
 This register covers:
 
-* The **six risks named explicitly in the charter** (seed.md §20): connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, and product over-expansion.
-* **Three additional delivery and security risks** not given their own heading in seed.md §20 but grounded in other charter sections, the accepted agreements, and the constraint register: Bedrock vendor dependency, audit-integrity failure, and staffing/skills gap.
+* The **six risks named explicitly in the charter** ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)): connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, and product over-expansion.
+* **Three additional delivery and security risks** not given their own heading in [original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) but grounded in other charter sections, the accepted agreements, and the constraint register: Bedrock vendor dependency, audit-integrity failure, and staffing/skills gap.
 
-No dollar figures, probabilities, dates, or SLA numbers are stated for any risk below unless the seed material or an accepted agreement already supplies one. Where a number would normally appear, it is marked **TBD**, consistent with source-of-truth policy across this document set.
+No dollar figures, probabilities, dates, or SLA numbers are stated for any risk below unless the source material or an accepted agreement already supplies one. Where a number would normally appear, it is marked **TBD**, consistent with source-of-truth policy across this document set.
 
 ---
 
@@ -40,13 +40,13 @@ No dollar figures, probabilities, dates, or SLA numbers are stated for any risk 
 | **ID** | Stable identifier, `RSK-NNN`, referenced by other documents. New risks discovered during delivery are appended with the next sequential ID — existing IDs are never renumbered or reused. |
 | **Risk** | Short name of the risk. |
 | **Category** | The governance domain the risk sits in (trust/enforcement, data protection, policy governance, vendor dependency, audit/compliance, delivery/resourcing, scope discipline, performance). |
-| **Likelihood** | A qualitative judgment (**High / Medium / Low**) grounded in the source material, not a modeled probability — none exists yet in the seed material (see [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)). |
+| **Likelihood** | A qualitative judgment (**High / Medium / Low**) grounded in the source material, not a modeled probability — none exists yet in the source material (see [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)). |
 | **Impact** | A qualitative judgment (**High / Medium / Low**) of consequence to the program if the risk materializes and is not mitigated — again qualitative, not a dollar or SLA figure. |
-| **Mitigation** | The load-bearing mitigation(s) from seed.md §20, an accepted agreement, or a constraint. Full mitigation lists are in [Section 3](#3-risk-detail). |
-| **Owner** | The accountable role, using role names consistent with [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) §21 (Ownership boundaries) and seed.md §21. |
+| **Mitigation** | The load-bearing mitigation(s) from [original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), an accepted agreement, or a constraint. Full mitigation lists are in [Section 3](#3-risk-detail). |
+| **Owner** | The accountable role, using role names consistent with [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) §21 (Ownership boundaries) and [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md). |
 | **Status** | Current mitigation state: **Open** (mitigation not yet in effect or pending a required activity), **Mitigating** (mitigation partially applied / actively in progress), **Monitoring** (mitigation is a standing posture that must be continuously maintained, not a one-time fix), or **Closed** (risk retired — none are closed as of this draft). |
 
-Likelihood and impact ratings in this register are governance judgments made against the source material as it stands today (seed.md, AGREEMENTS.md, CONSTRAINTS.md, ASSUMPTIONS.md, and the FEASIBILITY-ASSESSMENT.md). They are not derived from incident history, modeled failure rates, or a quantified risk-scoring methodology, because none exists yet for this program. They should be revisited — and may change — once the proofs of concept in [`FEASIBILITY-ASSESSMENT.md` §4](../50-architecture/FEASIBILITY-ASSESSMENT.md#4-required-proofs-of-concept) produce real data.
+Likelihood and impact ratings in this register are governance judgments made against the source material as it stands today (AGREEMENTS.md, CONSTRAINTS.md, ASSUMPTIONS.md, and the FEASIBILITY-ASSESSMENT.md). They are not derived from incident history, modeled failure rates, or a quantified risk-scoring methodology, because none exists yet for this program. They should be revisited — and may change — once the proofs of concept in [`FEASIBILITY-ASSESSMENT.md` §4](../50-architecture/FEASIBILITY-ASSESSMENT.md#4-required-proofs-of-concept) produce real data.
 
 ---
 
@@ -59,10 +59,10 @@ Likelihood and impact ratings in this register are governance judgments made aga
 | **RSK-003** | **Latency** — synchronous input/output evaluation adds network and processing delay to every request. | Performance / technical | High | Medium | Measure per-evaluator latency; apply only relevant evaluators; support local deterministic checks; route latency-sensitive workloads to Customer-Managed Runtime; define stage-specific timeouts. | Technical lead / Architecture lead | Open |
 | **RSK-004** | **Hosted data exposure** — Remote Evaluation and Guarded Gateway modes transmit tenant prompts and responses to the hosted runtime. | Data protection / security | High | High | Explicit data-flow documentation per deployment; no raw-content retention by default; regional deployments; private connectivity when justified; Customer-Managed Runtime for content that must stay in-account. | Security and governance lead / Architecture lead | Monitoring |
 | **RSK-005** | **Policy fragmentation** — excessive workload-specific policy overrides erode organizational consistency. | Policy governance | Medium | Medium | Limit override categories; require named ownership for every exception; version policy packs; track effective policy per workload. | Policy owner / Security and governance lead | Open |
-| **RSK-006** | **Product over-expansion** — the platform absorbs gateway management, full AI governance, authorization, agent orchestration, or compliance certification before the core hypothesis is validated. | Scope discipline | Medium | High | Hold the five-phase sequencing and the seed §6.3 product-category exclusions strictly; treat every later-phase capability as gated on validation of the preceding phase; route any scope change through an explicit decision (DEC-008); measure adoption and policy effectiveness before expanding scope. | Product lead / Delivery lead | Monitoring |
+| **RSK-006** | **Product over-expansion** — the platform absorbs gateway management, full AI governance, authorization, agent orchestration, or compliance certification before the core hypothesis is validated. | Scope discipline | Medium | High | Hold the five-phase sequencing and the [`SCOPE.md`](../10-charter/SCOPE.md) product-category exclusions strictly; treat every later-phase capability as gated on validation of the preceding phase; route any scope change through an explicit decision (DEC-008); measure adoption and policy effectiveness before expanding scope. | Product lead / Delivery lead | Monitoring |
 | **RSK-007** | **Bedrock vendor dependency** — the product's first and only evaluation engine is a single-vendor managed service whose response format, regional availability, and feature parity are outside the platform's control. | Vendor / technical dependency | Medium | High | Normalize Bedrock-specific responses into the platform's own decision structure via an adapter before reaching policies, connectors, or audit records; keep the public contract vendor-independent; design additional evaluation engines to plug into the same adapter pattern; verify regional availability before architecture sign-off; never describe Bedrock Guardrails as the product's permanent or exclusive detection engine. | Technical lead / Architecture lead | Open |
 | **RSK-008** | **Audit-integrity failure** — audit events are lost, delayed, tampered with, or delivered without required fields, undermining the evidentiary basis for enforcement, compliance, and policy-effectiveness claims. | Audit & compliance | Low | High | Explicit, mandatory audit-metadata schema (tenant, workload, policy version, stage, decision, reason codes, evaluator versions, timestamp, correlation ID, raw-content-retention flag); KMS encryption of audit buffers and archives; a named, non-silent failure-behavior path for audit-delivery failure; audit delivery success rate tracked as a reliability metric; never rely on connector telemetry alone as enforcement evidence. | Security and governance lead / Technical lead | Open |
-| **RSK-009** | **Staffing / skills gap** — the delivery team lacks, or has not confirmed it has, the AWS, Bedrock Guardrails, LiteLLM, and policy/contract-design skills the Phase 1–2 core architecture requires. | Delivery / resourcing | Medium | Medium | Run an explicit skills-gap assessment against the seed §11 service list before Phase 1 planning is finalized; confirm funding commitment through Phase 1–2; simplify service choices toward tooling the team already knows if gaps are found; defer Phase-4-specific skills (Helm, ECS packaging) until Phase 4 is resourced. | Technical lead / Platform operations lead | Open |
+| **RSK-009** | **Staffing / skills gap** — the delivery team lacks, or has not confirmed it has, the AWS, Bedrock Guardrails, LiteLLM, and policy/contract-design skills the Phase 1–2 core architecture requires. | Delivery / resourcing | Medium | Medium | Run an explicit skills-gap assessment against the [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) service list before Phase 1 planning is finalized; confirm funding commitment through Phase 1–2; simplify service choices toward tooling the team already knows if gaps are found; defer Phase-4-specific skills (Helm, ECS packaging) until Phase 4 is resourced. | Technical lead / Platform operations lead | Open |
 | **RSK-010** | **Guardrail catalog misread as commitment / taxonomy drift** — the eighteen-category catalog (AGR-021) is read externally or internally as delivered or committed coverage, or its statuses drift from the capability registers. | Scope discipline / claims | Medium | Medium | Four-value status vocabulary on every catalog entry; Path A change control on categories and statuses; the dedicated Not-approved claims row ("covers all guardrail categories"); catalog↔CAPABILITIES consistency review at every graduation; out-of-boundary entries carry a named external owner and are never phrased as future work. | Product lead / Security and governance lead | Monitoring |
 
 ---
@@ -71,15 +71,15 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-001 — Connector bypass
 
-**What can go wrong.** In the cooperative-integration posture, the consuming team installs and maintains its own connector. The connector can be disabled, removed, or misconfigured, and seed.md §8 is explicit that a cooperative connector "must not be represented as a hard security boundary." This posture is appropriate only while teams are trusted, guardrails are treated as an engineering standard rather than a formal control, and bypass prevention is not yet a compliance requirement.
+**What can go wrong.** In the cooperative-integration posture, the consuming team installs and maintains its own connector. The connector can be disabled, removed, or misconfigured, and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) is explicit that a cooperative connector "must not be represented as a hard security boundary." This posture is appropriate only while teams are trusted, guardrails are treated as an engineering standard rather than a formal control, and bypass prevention is not yet a compliance requirement.
 
-**Mitigation, by trust level (seed.md §20; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)):**
+**Mitigation, by trust level ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)):**
 
 * Cooperative onboarding for trusted teams (current default posture, Phases 1–2).
 * Configuration validation.
-* Managed gateway deployment (platform-managed enforcement, seed.md §8).
+* Managed gateway deployment (platform-managed enforcement, [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 * Restricted model credentials.
-* IAM and network enforcement for environments where bypass prevention is a formal requirement (network/IAM-enforced gateway, seed.md §8) — not required for the initial cooperative phases (Phases 1–2).
+* IAM and network enforcement for environments where bypass prevention is a formal requirement (network/IAM-enforced gateway, [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)) — not required for the initial cooperative phases (Phases 1–2).
 
 **Standing discipline.** Each workload's enforcement posture must be recorded and visible, never assumed ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)); sales and executive materials must never claim bypass-proof enforcement for cooperative-mode deployments. This is why status is **Monitoring** rather than a one-time fix: the mitigation is a matched posture per workload, re-evaluated as trust levels change, not a control that is installed once.
 
@@ -87,17 +87,17 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-002 — False confidence
 
-**What can go wrong.** Teams may treat a successful guardrail evaluation as proof of complete AI security, or treat a guardrail's "this looks safe" decision as authorization to execute a tool call. Seed.md §5.5 is explicit that guardrails are not authorization: a guardrail may determine content or a tool call appears safe without determining whether the current user is permitted to execute that action against a given resource. [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) makes this a standing agreement, not just a risk note.
+**What can go wrong.** Teams may treat a successful guardrail evaluation as proof of complete AI security, or treat a guardrail's "this looks safe" decision as authorization to execute a tool call. [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) is explicit that guardrails are not authorization: a guardrail may determine content or a tool call appears safe without determining whether the current user is permitted to execute that action against a given resource. [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) makes this a standing agreement, not just a risk note.
 
-**Mitigation (seed.md §20; AGR-010):**
+**Mitigation ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-010):**
 
 * Clearly separate content evaluation, authorization, data isolation, and application security in every product and sales statement.
 * Document unsupported risk categories rather than implying complete coverage.
 * Maintain risk-specific evaluation datasets to demonstrate what is and is not detected.
 * Never market guardrails as a complete security boundary.
-* The consuming application remains fully responsible for authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows (seed.md §5.5).
+* The consuming application remains fully responsible for authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 
-**Where the gap is widest.** Seed.md §5.5 excludes tool and agent authorization from current guardrail scope entirely (tool-call validation arrives no earlier than Phase 5), so the gap between "evaluated" and "authorized" is largest exactly where agentic, tool-calling workloads are most tempted to assume coverage. This risk sharpens, rather than diminishes, as agentic use cases grow — it is tracked as **Monitoring** because the mitigation is a continuous communication and documentation discipline, not a feature to be built once.
+**Where the gap is widest.** [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) excludes tool and agent authorization from current guardrail scope entirely (tool-call validation arrives no earlier than Phase 5), so the gap between "evaluated" and "authorized" is largest exactly where agentic, tool-calling workloads are most tempted to assume coverage. This risk sharpens, rather than diminishes, as agentic use cases grow — it is tracked as **Monitoring** because the mitigation is a continuous communication and documentation discipline, not a feature to be built once.
 
 ---
 
@@ -105,9 +105,9 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 **What can go wrong.** Remote input and output evaluation (Modes A and B) adds synchronous network and processing latency to every evaluated request, sitting directly on the consuming application's request path.
 
-**Mitigation (seed.md §20; [`OPERABILITY.md`](../50-architecture/OPERABILITY.md)):**
+**Mitigation ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); [`OPERABILITY.md`](../50-architecture/OPERABILITY.md)):**
 
-* Measure per-evaluator latency (P50/P95/P99, per seed.md §15).
+* Measure per-evaluator latency (P50/P95/P99, per [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)).
 * Apply only the evaluators relevant to a given policy and stage.
 * Support local deterministic checks that do not require a network round trip.
 * Route latency-sensitive workloads to Customer-Managed Runtime (Mode C), which avoids the hosted network hop by design.
@@ -121,7 +121,7 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 **What can go wrong.** Remote Evaluation (Mode A) and Guarded Gateway (Mode B) both transmit tenant prompts, responses, and any additional evaluated content to a provider-operated runtime by construction. Per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), Mode A in particular must never be described as a private-data or data-local model — content still reaches the hosted Evaluation API.
 
-**Mitigation (seed.md §20; [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime)):**
+**Mitigation ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime)):**
 
 * Explicit data-flow documentation per deployment mode — where prompts and responses are processed, what is transmitted, what is persisted.
 * No raw-content retention by default in the hosted runtime; decision metadata only, with hashed identifiers where possible.
@@ -135,9 +135,9 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-005 — Policy fragmentation
 
-**What can go wrong.** As more workloads onboard, workload-specific policy overrides can accumulate to the point that "one reusable policy" (the core reusable-policy hypothesis, seed.md §16) becomes fiction in practice — every workload effectively runs its own policy variant.
+**What can go wrong.** As more workloads onboard, workload-specific policy overrides can accumulate to the point that "one reusable policy" (the core reusable-policy hypothesis, [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) becomes fiction in practice — every workload effectively runs its own policy variant.
 
-**Mitigation (seed.md §20):**
+**Mitigation ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)):**
 
 * Limit override categories rather than allowing arbitrary per-workload customization.
 * Require named ownership for every exception granted.
@@ -150,13 +150,13 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-006 — Product over-expansion
 
-**What can go wrong.** The solution may attempt to absorb gateway management, a complete AI governance platform, authorization, fully autonomous agent governance, or full compliance certification before the core reusable-policy hypothesis (seed.md §16) has been validated — all of which are standing product-category exclusions (seed.md §6.3, §17), reaffirmed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases).
+**What can go wrong.** The solution may attempt to absorb gateway management, a complete AI governance platform, authorization, fully autonomous agent governance, or full compliance certification before the core reusable-policy hypothesis ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) has been validated — all of which are standing product-category exclusions ([`SCOPE.md`](../10-charter/SCOPE.md)), reaffirmed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases).
 
-**Mitigation (seed.md §20; seed.md §6.3 exclusions; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) scope-change governance):**
+**Mitigation ([original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); [`SCOPE.md`](../10-charter/SCOPE.md) exclusions; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) scope-change governance):**
 
-* Maintain the five-phase sequencing and the seed.md §6.3 product-category exclusions; any proposed scope change requires an explicit recorded decision (per DEC-008's governance), not silent inclusion.
-* Treat every later-phase capability (seed.md §6.2) as gated on validation of the preceding phase (AGR-020) — Phase 5 (advanced agent protection) in particular must not be pulled forward ahead of its phase.
-* Measure adoption and policy effectiveness (seed.md §19) before expanding scope.
+* Maintain the five-phase sequencing and the [`SCOPE.md`](../10-charter/SCOPE.md) product-category exclusions; any proposed scope change requires an explicit recorded decision (per DEC-008's governance), not silent inclusion.
+* Treat every later-phase capability ([`SCOPE.md`](../10-charter/SCOPE.md)) as gated on validation of the preceding phase (AGR-020) — Phase 5 (advanced agent protection) in particular must not be pulled forward ahead of its phase.
+* Measure adoption and policy effectiveness ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) before expanding scope.
 
 **Standing discipline.** This is a leadership discipline as much as a delivery one: the mitigation depends on stakeholders consistently declining to pull later-phase scope forward under pressure ([ASM-015](../00-source-of-truth/ASSUMPTIONS.md#d-budget-and-delivery-sequencing-assumptions)). Status is **Monitoring** — it is a phase-boundary review responsibility rather than a task that completes once.
 
@@ -166,7 +166,7 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-007 — Bedrock vendor dependency
 
-**What can go wrong.** Amazon Bedrock Guardrails is adopted as the platform's first and, in Phases 1–2, only managed evaluation engine (seed.md §11, §22). This creates two related exposures: (1) a functional dependency — if Bedrock Guardrails is unavailable or feature-limited in the organization's target Region, the adapter cannot be used as designed ([ASM-008](../00-source-of-truth/ASSUMPTIONS.md#b-technical-and-infrastructure-feasibility)); and (2) a contract-coupling risk — if Bedrock's response format leaks into the public evaluation contract, the platform loses the vendor independence [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) and [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats) require.
+**What can go wrong.** Amazon Bedrock Guardrails is adopted as the platform's first and, in Phases 1–2, only managed evaluation engine ([`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)). This creates two related exposures: (1) a functional dependency — if Bedrock Guardrails is unavailable or feature-limited in the organization's target Region, the adapter cannot be used as designed ([ASM-008](../00-source-of-truth/ASSUMPTIONS.md#b-technical-and-infrastructure-feasibility)); and (2) a contract-coupling risk — if Bedrock's response format leaks into the public evaluation contract, the platform loses the vendor independence [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) and [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats) require.
 
 **Mitigation:**
 
@@ -181,27 +181,27 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-008 — Audit-integrity failure
 
-**What can go wrong.** The platform's evidentiary claims — that a policy was applied, that a decision was made for a stated reason, that enforcement actually occurred — all depend on audit records being complete, accurate, and delivered. Audit-event integrity is named directly as a security requirement (seed.md §14), and audit delivery success rate is tracked as a reliability success metric (seed.md §19). If audit events are lost, delayed past a usable window, delivered without required fields, or delivered from an untrustworthy pipeline, the platform cannot substantiate its own decision history to security, compliance, or leadership.
+**What can go wrong.** The platform's evidentiary claims — that a policy was applied, that a decision was made for a stated reason, that enforcement actually occurred — all depend on audit records being complete, accurate, and delivered. Audit-event integrity is named directly as a security requirement ([`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)), and audit delivery success rate is tracked as a reliability success metric ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)). If audit events are lost, delayed past a usable window, delivered without required fields, or delivered from an untrustworthy pipeline, the platform cannot substantiate its own decision history to security, compliance, or leadership.
 
 **Mitigation:**
 
-* A mandatory audit-metadata schema — tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, and whether raw content was retained (seed.md §15; [`OPERABILITY.md` §5](../50-architecture/OPERABILITY.md#5-auditing-metadata)) — applied to every evaluation regardless of outcome.
-* KMS encryption in transit and at rest for audit event buffers (Amazon SQS) and archives (Amazon S3) ([CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest); seed.md §11).
+* A mandatory audit-metadata schema — tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, and whether raw content was retained ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md); [`OPERABILITY.md` §5](../50-architecture/OPERABILITY.md#5-auditing-metadata)) — applied to every evaluation regardless of outcome.
+* KMS encryption in transit and at rest for audit event buffers (Amazon SQS) and archives (Amazon S3) ([CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest); [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md)).
 * An explicit, named failure-behavior path for audit-delivery failure specifically — "allow and log" or "block the request," depending on audit criticality — rather than silent event loss ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [`OPERABILITY.md` §7](../50-architecture/OPERABILITY.md#7-failure-behavior-is-explicit--no-undocumented-fallback)).
-* Audit delivery success rate tracked as a first-class reliability metric, not inferred (seed.md §19).
+* Audit delivery success rate tracked as a first-class reliability metric, not inferred ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)).
 * Never rely on connector telemetry alone as evidence of mandatory enforcement ([CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)) — audit records, not telemetry, are the evidentiary source of truth.
 
-**Why likelihood is rated Low but impact High.** No individual mechanism above is novel — SQS-to-S3 buffered delivery, KMS encryption, and structured audit schemas are all mature, well-understood patterns ([`FEASIBILITY-ASSESSMENT.md` §2](../50-architecture/FEASIBILITY-ASSESSMENT.md#2-confirmed-capabilities)). What is not yet proven is that the runtime *actually enforces* the configured failure-behavior path under real induced failure, rather than merely documenting it — this is precisely what [`FEASIBILITY-ASSESSMENT.md` PoC 5](../50-architecture/FEASIBILITY-ASSESSMENT.md#poc-5--failure-policy-behavior-under-timeout) is designed to confirm. If audit integrity fails, the consequence is high: every downstream claim about policy effectiveness, enforcement posture, and compliance evidence (seed.md §7, security and compliance team needs) becomes unsubstantiated. Status is **Open** pending PoC 5.
+**Why likelihood is rated Low but impact High.** No individual mechanism above is novel — SQS-to-S3 buffered delivery, KMS encryption, and structured audit schemas are all mature, well-understood patterns ([`FEASIBILITY-ASSESSMENT.md` §2](../50-architecture/FEASIBILITY-ASSESSMENT.md#2-confirmed-capabilities)). What is not yet proven is that the runtime *actually enforces* the configured failure-behavior path under real induced failure, rather than merely documenting it — this is precisely what [`FEASIBILITY-ASSESSMENT.md` PoC 5](../50-architecture/FEASIBILITY-ASSESSMENT.md#poc-5--failure-policy-behavior-under-timeout) is designed to confirm. If audit integrity fails, the consequence is high: every downstream claim about policy effectiveness, enforcement posture, and compliance evidence ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md), security and compliance team needs) becomes unsubstantiated. Status is **Open** pending PoC 5.
 
 ---
 
 ### RSK-009 — Staffing / skills gap
 
-**What can go wrong.** The Phase 1–2 core architecture requires a conventional AWS platform-engineering skill set (ECS Fargate or EKS, API Gateway/ALB, DynamoDB, IAM, KMS, SQS, S3, CloudWatch, ECR — seed.md §11) plus working familiarity with Bedrock Guardrails and LiteLLM's hook architecture specifically, and API/contract-design discipline sufficient to hold a vendor-neutral evaluation contract stable across all three deployment modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)). Whether the current delivery team already has this skill set — not what skills are needed — is the open question ([ASM-007](../00-source-of-truth/ASSUMPTIONS.md#b-technical-and-infrastructure-feasibility)).
+**What can go wrong.** The Phase 1–2 core architecture requires a conventional AWS platform-engineering skill set (ECS Fargate or EKS, API Gateway/ALB, DynamoDB, IAM, KMS, SQS, S3, CloudWatch, ECR — [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md)) plus working familiarity with Bedrock Guardrails and LiteLLM's hook architecture specifically, and API/contract-design discipline sufficient to hold a vendor-neutral evaluation contract stable across all three deployment modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)). Whether the current delivery team already has this skill set — not what skills are needed — is the open question ([ASM-007](../00-source-of-truth/ASSUMPTIONS.md#b-technical-and-infrastructure-feasibility)).
 
 **Mitigation:**
 
-* Run an explicit skills-gap assessment against the seed.md §11 service list before Phase 1 planning is finalized ([ASM-007](../00-source-of-truth/ASSUMPTIONS.md#b-technical-and-infrastructure-feasibility); [`FEASIBILITY-ASSESSMENT.md` §9](../50-architecture/FEASIBILITY-ASSESSMENT.md#9-skills-and-staffing-requirements)).
+* Run an explicit skills-gap assessment against the [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) service list before Phase 1 planning is finalized ([ASM-007](../00-source-of-truth/ASSUMPTIONS.md#b-technical-and-infrastructure-feasibility); [`FEASIBILITY-ASSESSMENT.md` §9](../50-architecture/FEASIBILITY-ASSESSMENT.md#9-skills-and-staffing-requirements)).
 * Confirm budget is sufficient to fund the delivery team through Phase 1–2, not just infrastructure spend ([ASM-014](../00-source-of-truth/ASSUMPTIONS.md#d-budget-and-delivery-sequencing-assumptions)).
 * If gaps are found, simplify service choices toward tooling the team already knows, rather than defaulting to external hiring or contracting as the first response.
 * Defer Phase-4-specific skills — container packaging, Helm charts, ECS deployment templates for the Customer-Managed Runtime — until Phase 4 is actually resourced, rather than staffing for them upfront ([`FEASIBILITY-ASSESSMENT.md` §9](../50-architecture/FEASIBILITY-ASSESSMENT.md#9-skills-and-staffing-requirements)).
@@ -212,7 +212,7 @@ Likelihood and impact ratings in this register are governance judgments made aga
 
 ### RSK-010 — Guardrail catalog misread as commitment / taxonomy drift
 
-**What can go wrong.** The guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), `GR-001`–`GR-018`, adopted as directional vision by [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)/[DEC-009](../00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision)) deliberately describes far more than the product delivers. Two failure modes follow: (1) **misreading** — a stakeholder, sales conversation, or derived document treats a `Vision — uncommitted` or `Out-of-boundary` entry as delivered or planned capability, recreating the false-confidence risk (RSK-002) at catalog scale and violating the claims discipline; (2) **drift** — catalog statuses quietly diverge from [`CAPABILITIES.md`](../20-product/CAPABILITIES.md)/[`REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md), or an out-of-boundary entry's wording softens toward "future work," contradicting seed.md §6.3 and [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
+**What can go wrong.** The guardrail-category catalog ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), `GR-001`–`GR-018`, adopted as directional vision by [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)/[DEC-009](../00-source-of-truth/DECISIONS.md#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision)) deliberately describes far more than the product delivers. Two failure modes follow: (1) **misreading** — a stakeholder, sales conversation, or derived document treats a `Vision — uncommitted` or `Out-of-boundary` entry as delivered or planned capability, recreating the false-confidence risk (RSK-002) at catalog scale and violating the claims discipline; (2) **drift** — catalog statuses quietly diverge from [`CAPABILITIES.md`](../20-product/CAPABILITIES.md)/[`REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md), or an out-of-boundary entry's wording softens toward "future work," contradicting [`SCOPE.md`](../10-charter/SCOPE.md) and [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization).
 
 **Mitigation:**
 
@@ -232,7 +232,7 @@ Risk exposure is not uniform across the three deployment modes or the five deliv
 | Risk | Most acute in | Why |
 |---|---|---|
 | RSK-001 Connector bypass | Mode A, cooperative posture, Phases 1–2 | Cooperative integration is the only posture in scope before an external-customer or compliance trigger is identified ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)). |
-| RSK-002 False confidence | All modes; sharpens with agentic/tool-call use cases | Tool and agent authorization is excluded from current scope entirely (seed.md §5.5), widening the "evaluated" vs. "authorized" gap fastest where agentic workloads assume coverage. |
+| RSK-002 False confidence | All modes; sharpens with agentic/tool-call use cases | Tool and agent authorization is excluded from current scope entirely ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)), widening the "evaluated" vs. "authorized" gap fastest where agentic workloads assume coverage. |
 | RSK-003 Latency | Mode A and Mode B (any hosted, synchronous evaluation path) | Mode C avoids the network hop to a hosted service by design; Modes A and B do not. |
 | RSK-004 Hosted data exposure | Mode A and Mode B | Both transmit tenant content to a provider-operated boundary by construction ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)); only Mode C keeps content local by default. |
 | RSK-005 Policy fragmentation | Phase 2 onward, as onboarded-workload count grows | Risk scales with the number of workload-specific bindings and overrides in active use. |
@@ -268,7 +268,7 @@ flowchart LR
 
 ## 5. Review cadence and lifecycle
 
-Every risk in this register is reviewed at each phase gate defined in seed.md §18 and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). A risk's status changes only through this cycle:
+Every risk in this register is reviewed at each phase gate defined in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). A risk's status changes only through this cycle:
 
 ```mermaid
 flowchart LR
@@ -304,4 +304,4 @@ Ownership of moving a risk through this lifecycle sits with the **Owner** named 
 * [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — phase-level roadmap referenced by the RSK-006 mitigation.
 * `60-delivery/VALIDATION-PLAN.md` — should incorporate the PoCs that retire RSK-003, RSK-007, RSK-008 as scheduled activities.
 * `60-delivery/RELEASE-CRITERIA.md` — should gate phase exit on the mitigation status recorded here.
-* [seed.md §20](../../seed.md) — original charter statement of the six named risks and their full mitigation lists.
+* [original charter §20](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) — original charter statement of the six named risks and their full mitigation lists.

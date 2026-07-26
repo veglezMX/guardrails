@@ -3,11 +3,11 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
-> This is the entry point for humans and AI agents working with the AI Guardrails solution documentation. It orients a new reader to what the product is, where the ground truth lives, how the L1–L5 authority model works, how the `solution-docs/` tree is organized, and who owns each area. It introduces no new agreement, requirement, claim, or figure — everything below traces to [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) (L1), [`seed.md`](../seed.md), or a document this README links to. Where a conflict is ever found between this file and an L1–L3 document, the more authoritative document wins and this README must be corrected.
+> This is the entry point for humans and AI agents working with the AI Guardrails solution documentation. It orients a new reader to what the product is, where the ground truth lives, how the L1–L5 authority model works, how the `solution-docs/` tree is organized, and who owns each area. It introduces no new agreement, requirement, claim, or figure — everything below traces to [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) (L1) or a document this README links to. Where a conflict is ever found between this file and an L1–L3 document, the more authoritative document wins and this README must be corrected.
 
 ---
 
@@ -29,7 +29,7 @@
 
 > AI Guardrails is an AWS-based policy and enforcement platform that applies reusable safeguards to LLM applications and gateways. Teams may connect their existing LiteLLM instance to a hosted Evaluation API, consume a fully managed Guarded Gateway, or deploy the same guardrail runtime within their own AWS account. Policies remain portable across all three modes, while operational ownership and content exposure are explicitly defined for each deployment.
 >
-> — [`seed.md`](../seed.md) §23, "Product statement"
+> — the original solution charter, "Product statement"; now owned by [`70-governance/CLAIMS-REGISTER.md`](70-governance/CLAIMS-REGISTER.md)
 
 In practice, this means a single guardrail policy — what to detect, what to do about it, and how to fail safely — can be defined once and applied consistently whether a team operates its own LiteLLM gateway ([Mode A — Remote Evaluation](50-architecture/DEPLOYMENT-ARCHITECTURE.md)), consumes a fully hosted gateway-plus-guardrails service ([Mode B — Guarded Gateway](50-architecture/DEPLOYMENT-ARCHITECTURE.md)), or runs the guardrail runtime entirely inside its own AWS account ([Mode C — Customer-Managed Runtime](50-architecture/DEPLOYMENT-ARCHITECTURE.md)). LiteLLM is the first supported connector and Amazon Bedrock Guardrails is the first evaluation engine, but neither defines the product's boundary — the policy model, evaluation contract, and decision structure are vendor- and framework-independent by design (see [AGR-003](00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) and [AGR-004](00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)). For the full narrative, start with [`20-product/PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md) or the [`10-charter/CHARTER.md`](10-charter/CHARTER.md).
 
@@ -41,7 +41,7 @@ In practice, this means a single guardrail policy — what to detect, what to do
 
 Every other document in `solution-docs/` — the charter, product materials, executive brief, sales deck, architecture set, and delivery plan — is a **derived view** produced for a specific audience or purpose. Derived documents must never contradict `AGREEMENTS.md` or `CONSTRAINTS.md`. When a conflict is discovered, the L1 register wins and the derived document is corrected — never the reverse. This rule, and the full change-control process behind it, is defined in [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md).
 
-[`seed.md`](../seed.md), the raw solution charter, is treated as a **frozen historical input** — the original source material every document here is derived from. It is never edited to reflect later decisions; where `AGREEMENTS.md` narrows or supersedes something `seed.md` stated more loosely, `AGREEMENTS.md` governs going forward.
+This set is **self-contained**: it has no source document outside its own tree. It began life as a single raw solution charter at the repository root, but that file's content has been absorbed in full by the documents here, and the file itself has been removed. [`00-source-of-truth/PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) records which document now owns each section of it, and lists the handful of places where an accepted agreement or decision deliberately supersedes what the original charter said. That record is a map, not a source — never cite it as evidence for a claim.
 
 ---
 
@@ -105,13 +105,14 @@ Each table lists the documents in one directory with the authority level declare
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | L1 | Chronological log of product, organizational, and delivery decisions (`DEC-NNN`), distinct from architecture-level ADRs. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | L1 | Register of load-bearing but not-yet-validated beliefs the charter and delivery sequencing depend on (`ASM-NNN`). |
 | [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) | L1 | Decisions not yet made that could materially change scope, feasibility, cost, or architecture. |
+| [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) | — | Historical record of where the original solution charter's content now lives, and where later decisions supersede it. A map, not a source. |
 
 ### [`10-charter/`](10-charter/) — L2, defining
 
 | Document | Level | Description |
 | --- | --- | --- |
 | [`CHARTER.md`](10-charter/CHARTER.md) | L2 | The solution charter: purpose, vision, three-mode architectural decision, scope, and ownership boundaries. |
-| [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) | L2 | The product principles (seed.md §5) — policy portability, one contract, policy/connector separation, observe-before-enforce, and more. |
+| [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) | L2 | The product principles ([`PRINCIPLES.md`](10-charter/PRINCIPLES.md)) — policy portability, one contract, policy/connector separation, observe-before-enforce, and more. |
 | [`SCOPE.md`](10-charter/SCOPE.md) | L2 | Expands the charter's in-scope/out-of-scope sections into full scope-boundary detail across the five delivery phases. |
 | [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) | L2 | The measurable criteria the Phase 1–2 validation demonstration and adoption/reliability/effectiveness/portability goals are judged against. |
 
@@ -126,7 +127,7 @@ Each table lists the documents in one directory with the authority level declare
 | [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md) | L4 | States, without solutioning, the problem that justifies building AI Guardrails. |
 | [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) | L4 | Value proposition per stakeholder group — platform teams, application teams, security/compliance, product operators. |
 | [`DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md) | L4 | What distinguishes AI Guardrails from an embedded gateway feature or a single-vendor moderation add-on. |
-| [`TARGET-USERS.md`](20-product/TARGET-USERS.md) | L4 | The four stakeholder groups (seed.md §7) and what each needs from the platform. |
+| [`TARGET-USERS.md`](20-product/TARGET-USERS.md) | L4 | The four stakeholder groups ([`TARGET-USERS.md`](20-product/TARGET-USERS.md)) and what each needs from the platform. |
 | [`USE-CASES.md`](20-product/USE-CASES.md) | L4 | Concrete, actor-driven use cases illustrating the three deployment modes and the trust/enforcement model. |
 | [`PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) | L4 | The five-phase delivery roadmap, product-facing. |
 | [`FAQ.md`](20-product/FAQ.md) | L4 | Answers to the questions platform, application, and security-review teams most commonly ask. |
@@ -223,7 +224,7 @@ Each table lists the documents in one directory with the authority level declare
 
 ## 6. Who owns what
 
-Ownership of the **documentation set** is defined in [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §5. Ownership of the **product itself** — the four groups named in seed.md §21 (AI Guardrails team, Platform operations, Security and governance, Consuming teams), their detailed responsibilities, a lightweight RACI, and how ownership shifts by deployment mode and delivery phase — is defined authoritatively in [`60-delivery/TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md). Do not conflate the two: a documentation-area owner (for example, the Product lead owning `20-product/`) is not necessarily the same accountable party as the product-ownership group responsible for the capability that area describes.
+Ownership of the **documentation set** is defined in [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §5. Ownership of the **product itself** — the four groups named in [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) (AI Guardrails team, Platform operations, Security and governance, Consuming teams), their detailed responsibilities, a lightweight RACI, and how ownership shifts by deployment mode and delivery phase — is defined authoritatively in [`60-delivery/TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md). Do not conflate the two: a documentation-area owner (for example, the Product lead owning `20-product/`) is not necessarily the same accountable party as the product-ownership group responsible for the capability that area describes.
 
 | Ownership group | One-line mandate |
 | --- | --- |
@@ -255,7 +256,7 @@ For a fuller, role-oriented reading path through this set, see [`DOCUMENT-MAP.md
 ## 8. Conventions used throughout this set
 
 * **Header block.** Every document opens with a bold title, `Authority level`, `Status` (`Draft` / `Accepted` / `Superseded` / `Archived` — see [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §10), `Date`, and `Derived from`.
-* **No invented figures.** No metric, SLA, dollar figure, customer name, or date appears anywhere in this set unless it is present in [`seed.md`](../seed.md) or an accepted agreement. Where a figure would normally appear and is not available, the document says **TBD** or describes the point qualitatively — never estimates.
+* **No invented figures.** No metric, SLA, dollar figure, customer name, or date appears anywhere in this set unless it is present in an L1 register or an accepted agreement. Where a figure would normally appear and is not available, the document says **TBD** or describes the point qualitatively — never estimates.
 * **Non-contradiction.** A derived document must not contradict an L1 register. If a conflict is found, the L1 register wins and the derived document is corrected — see [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §3 for the full precedence rule, including how same-level conflicts are resolved.
 * **Claims discipline.** Certain statements are rejected at every level regardless of audience — for example, describing Mode A (Remote Evaluation) as private or data-local ([AGR-009](00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)), or describing a cooperative connector as a hard security boundary ([AGR-018](00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)). See [`70-governance/CLAIMS-REGISTER.md`](70-governance/CLAIMS-REGISTER.md) before writing anything customer-facing.
 
@@ -265,7 +266,7 @@ For a fuller, role-oriented reading path through this set, see [`DOCUMENT-MAP.md
 
 | Document | Relationship |
 | --- | --- |
-| [`../seed.md`](../seed.md) | The frozen, full source-of-truth charter every document in this set derives from. |
+| [`00-source-of-truth/PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) | Where the original solution charter's content now lives, section by section, plus the places later decisions supersede it. |
 | [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The authoritative (L1) agreements register — the single most important document in this set to read first. |
 | [`00-source-of-truth/CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | The authoritative (L1) checkable boundary conditions, complementary to `AGREEMENTS.md`. |
 | [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) | The full L1–L5 authority model, precedence rules, ownership per documentation area, and change-control process. |

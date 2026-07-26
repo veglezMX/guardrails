@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -18,6 +18,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [2026-07-26c — Documentation set made self-contained; original charter absorbed](#2026-07-26c--documentation-set-made-self-contained-original-charter-absorbed)
 - [2026-07-26b — Connector lifecycle and the pre-implementation decision backlog](#2026-07-26b--connector-lifecycle-and-the-pre-implementation-decision-backlog)
 - [2026-07-26 — Integration manifest defined](#2026-07-26--integration-manifest-defined)
 - [2026-07-25 — Evaluation contract wire format and enforcement-ladder reconciliation](#2026-07-25--evaluation-contract-wire-format-and-enforcement-ladder-reconciliation)
@@ -37,7 +38,7 @@
 
 ### Changed
 - [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) renumbered: "Meaning of import" is now **AGR-019**, "Five-phase delivery" is now **AGR-020**; register is AGR-001–AGR-020 (20 agreements).
-- Scope reframed across the derived set (charter, product, executive, sales-deck, architecture, delivery, governance, agent-input layers): the core capability set (former "MVP scope") is now **Phases 1–2 core scope**, and the former "future scope" capabilities are **later-phase scope — committed and estimated (Phases 3–5)**. Phase gating per AGR-020 is unchanged; the seed.md §6.3 product-category exclusions remain excluded; the claims discipline (AGR-009, AGR-010, AGR-018, TBD figures) is unchanged.
+- Scope reframed across the derived set (charter, product, executive, sales-deck, architecture, delivery, governance, agent-input layers): the core capability set (former "MVP scope") is now **Phases 1–2 core scope**, and the former "future scope" capabilities are **later-phase scope — committed and estimated (Phases 3–5)**. Phase gating per AGR-020 is unchanged; the [`SCOPE.md`](10-charter/SCOPE.md) product-category exclusions remain excluded; the claims discipline (AGR-009, AGR-010, AGR-018, TBD figures) is unchanged.
 - Executive and sales-deck ask reframed: approval of the full solution (five-phase program) on a full-feature estimation basis, replacing the Phase-1-only ask; budget/headcount figures remain TBD until supplied.
 - The two-independent-LiteLLM-instances demonstration reframed from register-level "MVP success demonstration" to the **Phase 1–2 validation demonstration** owned by [`60-delivery/VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md).
 - [`40-sales-deck/AI-Guardrails-Project-Proposal.pptx`](40-sales-deck/) regenerated to match the reframed proposal.
@@ -47,6 +48,39 @@
 
 ### Removed
 - Former **AGR-019 — MVP scope boundaries** and former **AGR-020 — MVP success demonstration** removed from [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) per DEC-008.
+
+### Fixed
+- _Nothing._
+
+### Security
+- _Nothing._
+
+---
+
+## [2026-07-26c] — Documentation set made self-contained; original charter absorbed
+
+**Change type:** Path A (structural change to the documentation set's provenance model; no product scope, agreement, claim, or figure changed)
+**Trigger:** The set depended on a raw solution charter (`seed.md`) held outside `solution-docs/`. Every document's `Derived from:` header and roughly two thousand inline citations pointed at that external file, so the set could not be read, reviewed, or relocated on its own.
+**Owner:** Product lead, Technical lead (joint)
+
+### Added
+- [`00-source-of-truth/PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) — historical record of where the original solution charter's content now lives: a section-by-section map from each charter section to its owning document, plus the deliberate divergences where an accepted agreement or decision supersedes the original wording. Explicitly outside the L1–L5 hierarchy and explicitly not a source: nothing may be derived from it and it may not be cited as evidence for a claim.
+- Registered in [`README.md`](README.md) §5, [`DOCUMENT-MAP.md`](DOCUMENT-MAP.md), [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §4, and [`70-governance/REFERENCES.md`](70-governance/REFERENCES.md).
+
+### Changed
+- **Every inline charter citation re-pointed at the document that owns the content.** `seed.md §9` became [AGR-017](00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), `seed.md §6.3` became [`SCOPE.md`](10-charter/SCOPE.md), `seed.md §20` became [`70-governance/RISK-REGISTER.md`](70-governance/RISK-REGISTER.md), and so on across all 33 charter sections and subsections. Where the citing document *is* the owning document, the citation became an `original charter §N` link into `PROVENANCE.md`, which states origin rather than authority.
+- **`Derived from:` headers** across 89 documents no longer name the charter file.
+- [`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) **AGR-017** — the domain model's attributes were defined by reference to "the solution charter"; they are now defined by reference to [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) and the `FR-` entries in [`50-architecture/REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md), which already carried them in full. `REQUIREMENTS.md` added to the entry's affected-documents list.
+- [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §1 — "Relationship to `seed.md`" replaced by "Relationship to the original solution charter", describing the provenance record rather than a live external file.
+- [`README.md`](README.md) §2 — the ground-truth section now states that the set is self-contained.
+- **Agent instruction sets (`80-agent-inputs/`)** — the charter is no longer a permitted or readable source. [`CHARTER-AGENT.md`](80-agent-inputs/CHARTER-AGENT.md) loses its raw-charter fallback: a charter section with no backing `AGR-`/`CON-` entry is now escalated rather than written from raw material. [`EXECUTIVE-BRIEF-AGENT.md`](80-agent-inputs/EXECUTIVE-BRIEF-AGENT.md), [`SALES-DECK-AGENT.md`](80-agent-inputs/SALES-DECK-AGENT.md), [`ARCHITECTURE-REVIEW-AGENT.md`](80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md), and [`OUTPUT-CONTRACTS.md`](80-agent-inputs/OUTPUT-CONTRACTS.md) updated to match.
+- **"No invented figures" wording** throughout the set now anchors on the L1 registers rather than on the charter file. The discipline itself is unchanged.
+
+### Deprecated
+- _Nothing._
+
+### Removed
+- **`seed.md`** — the raw solution charter at the repository root. A section-by-section coverage audit confirmed every claim, list, table, diagram, and requirement it carried is present in `solution-docs/`; all nine of its diagrams are reproduced in the architecture set. No product content was lost, and no agreement, constraint, capability, requirement, claim, or figure changed as a result of the removal.
 
 ### Fixed
 - _Nothing._
@@ -75,7 +109,7 @@
 - [`adrs/ADR-0012-client-bootstrap-configuration.md`](50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md) — **Proposed.** A dedicated configuration retrieval path seeded by the integration manifest; a never-configured client **refuses to evaluate** rather than defaulting to allow; losing contact never un-configures a client; the channel carries no policy.
 - [`adrs/ADR-0013-runtime-capability-manifest.md`](50-architecture/adrs/ADR-0013-runtime-capability-manifest.md) — **Proposed.** Runtimes publish capabilities (never implementations), fail to start on unsatisfiable configuration, and unsatisfiable bindings are refused at bind time.
 - [`adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md`](50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) — **Proposed.** Rejected requests and client-synthesized decisions both produce audit records; the client store is bounded, content-free, and visibly lossy; client-origin records are never presented as equivalent to platform observations.
-- [`adrs/ADR-0015-runtime-deployment-target.md`](50-architecture/adrs/ADR-0015-runtime-deployment-target.md) — **Proposed.** Containers on ECS Fargate behind an ALB, chosen because Phase 4 ships this runtime into customer accounts as a container and a second packaging path would falsify the `seed.md` §16 criterion.
+- [`adrs/ADR-0015-runtime-deployment-target.md`](50-architecture/adrs/ADR-0015-runtime-deployment-target.md) — **Proposed.** Containers on ECS Fargate behind an ALB, chosen because Phase 4 ships this runtime into customer accounts as a container and a second packaging path would falsify the [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) criterion.
 
 **Registers**
 - [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) **OQ-022 — Connector version support window and deprecation policy**, under a new section **K. Client lifecycle**. `PROOF-POINTS.md` already commits externally that a connector must be "maintained by the consuming team" — an obligation with no terms, and no answer for a workload that never migrates when ADR-0005 §2's migration window closes.
@@ -220,12 +254,12 @@
 ## [2026-07-24] — Initial documentation set
 
 **Change type:** Path A (baseline authorship — establishes the documentation set itself, not a correction against a prior version)
-**Trigger:** Initial distillation of [`seed.md`](../seed.md) into the accepted [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) register, followed by full derivation of the layered documentation set.
+**Trigger:** Initial distillation of the original solution charter (see [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md)) into the accepted [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) register, followed by full derivation of the layered documentation set.
 **Owner:** Product lead, Technical lead, Security and governance lead (joint)
 
 ### Added
 
-Generated the complete initial `solution-docs/` documentation set from the raw solution charter ([`seed.md`](../seed.md)), distilled first into the authoritative agreements register and then derived outward into every downstream layer. This is the founding entry of the changelog: it establishes the baseline against which all future changes are tracked.
+Generated the complete initial `solution-docs/` documentation set from the original solution charter (see [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md)), distilled first into the authoritative agreements register and then derived outward into every downstream layer. This is the founding entry of the changelog: it establishes the baseline against which all future changes are tracked.
 
 - **Source-of-truth agreements (`00-source-of-truth/`)** — [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) (AGR-001 through AGR-022, the authoritative L1 register), [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md), [`DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md).
 - **Charter (`10-charter/`)** — [`CHARTER.md`](10-charter/CHARTER.md), [`PRINCIPLES.md`](10-charter/PRINCIPLES.md), [`SCOPE.md`](10-charter/SCOPE.md), and [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md).
@@ -279,4 +313,4 @@ Generated the complete initial `solution-docs/` documentation set from the raw s
 | [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) | Defines the L1–L5 authority model, the Path A/Path B change-control process, and the required fields for entries in this changelog (§9). |
 | [`70-governance/CLAIMS-REGISTER.md`](70-governance/CLAIMS-REGISTER.md) | Approved/rejected external-facing claim patterns enforced across every document added in this entry. |
 | [`70-governance/RISK-REGISTER.md`](70-governance/RISK-REGISTER.md) | Actively tracked product risk register introduced in this initial set. |
-| [`10-charter/CHARTER.md`](10-charter/CHARTER.md) | The L2 charter this entire documentation set is derived from, alongside `seed.md`. |
+| [`10-charter/CHARTER.md`](10-charter/CHARTER.md) | The L2 charter this entire documentation set is derived from. |

@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -121,7 +121,7 @@ A workload's binding defaults to Observe, not Block. A team can measure false po
 
 * **Guardrails are not authorization.** A guardrail decision that a tool call or piece of content "appears safe" does not determine whether the current user is permitted to execute that action against a given resource. Authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows remain the responsibility of the consuming application. Tool and agent authorization is a distinct, later-phase product capability (Phase 5 of the delivery plan) — not part of the Phase 1–2 core platform and not available today.
 * **A cooperative connector is not a hard security boundary.** The trust and enforcement model distinguishes cooperative integration (a team installs and maintains its own connector, which can be disabled, removed, or misconfigured) from platform-managed enforcement and from a network/IAM-enforced gateway (where bypass is structurally prevented). A cooperative connector must never be represented as bypass-proof.
-* **Guardrails are not a complete AI security boundary or governance platform.** The solution's feature set explicitly excludes a general-purpose LLM gateway replacement, a complete AI governance platform, a proprietary prompt-injection or moderation model, a complete DLP platform, end-user authentication, application business authorization, fully autonomous agent governance, and a general MCP security platform (seed.md §6.3).
+* **Guardrails are not a complete AI security boundary or governance platform.** The solution's feature set explicitly excludes a general-purpose LLM gateway replacement, a complete AI governance platform, a proprietary prompt-injection or moderation model, a complete DLP platform, end-user authentication, application business authorization, fully autonomous agent governance, and a general MCP security platform ([`SCOPE.md`](../10-charter/SCOPE.md)).
 
 **Why it matters.** The single largest risk named in the solution charter is false confidence — teams interpreting a successful guardrail evaluation as complete AI security. Stating the scope boundary explicitly, in product materials and not only in internal risk logs, is itself part of the product's value: it tells adopting teams exactly which risks the platform addresses and which remain theirs to own.
 
@@ -156,7 +156,7 @@ To avoid overclaiming, this document deliberately does not assert:
 * That AI Guardrails eliminates the need for authorization, authentication, or existing application security controls (see [Differentiator 5](#5-honest-scoping-of-guardrails)).
 * That Remote Evaluation (Mode A) keeps content local — it does not (see [Differentiator 3](#3-operational-ownership-separated-from-data-exposure)).
 * That a cooperative connector prevents bypass — it does not, absent platform-managed or network/IAM-enforced controls.
-* That the platform has a proprietary detection model, a complete DLP platform, or full compliance certification — none of these are part of the solution's feature set (seed.md §6.3).
+* That the platform has a proprietary detection model, a complete DLP platform, or full compliance certification — none of these are part of the solution's feature set ([`SCOPE.md`](../10-charter/SCOPE.md)).
 * Any specific performance figure, adoption number, or SLA — none are established in the source material at this stage; where a figure is needed, it is marked TBD pending measurement.
 
 ---

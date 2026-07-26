@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -76,7 +76,7 @@ The agent's output is advisory. It surfaces verdicts, blocking issues, risk-rank
 
 ## 3. Permitted sources
 
-The agent may read **only** the files below. It must not read, cite, or draw conclusions from any other document in the solution-docs tree (see [§4](#4-explicitly-out-of-scope-sources)), and it must not read or independently re-interpret `seed.md` directly — every permitted-source document already carries its own seed.md citations, and the agent's job is to check consistency **among the permitted sources**, not to re-derive requirements from the seed charter itself. Where a permitted document cites a `seed.md` section, the agent may follow that citation only to confirm the citing document represents it accurately — never to introduce a new requirement or constraint that no permitted document has already stated.
+The agent may read **only** the files below. It must not read, cite, or draw conclusions from any other document in the solution-docs tree (see [§4](#4-explicitly-out-of-scope-sources)), and it must not go looking for the original solution charter, which no longer exists as a file — every permitted-source document already carries its own register citations, and the agent's job is to check consistency **among the permitted sources**, not to re-derive requirements from the original charter itself. Where a permitted document carries a legacy `original charter §N` citation, the agent may follow it only to confirm the citing document represents it accurately — never to introduce a new requirement or constraint that no permitted document has already stated.
 
 ### 3.1 `00-source-of-truth/*` — L1, ground truth
 
@@ -214,7 +214,7 @@ A recommended PoC must never be scoped to validate a `Priority = Future` require
 | **R1** | Every verdict component, blocking issue, finding, contradiction, required ADR, and recommended PoC must cite at least one authoritative ID (`AGR-`, `CON-`, `FR-`, `NFR-`, `ASM-`, `OQ-`, `DEC-`, `ADR-`, `RG-`) plus the specific permitted-source document and location it came from. Unsupported prose output is not a valid finding and must be discarded before the report is finalized. |
 | **R2** | The agent never treats a permitted L2/L3 document as capable of overriding `AGREEMENTS.md`, `CONSTRAINTS.md`, or an `Accepted` ADR. Where a contradiction is found, the agent reports it — it never "resolves" it by silently preferring one side. |
 | **R3** | Any permitted derived document found to contradict `AGREEMENTS.md` or `CONSTRAINTS.md` is always reported as a **blocking issue** at **Critical** severity, regardless of how small the wording difference appears. This operationalizes the "L1 wins" rule every permitted document already states about itself. |
-| **R4** | The agent must not propose scope beyond `seed.md` / `AGREEMENTS.md`'s boundary. Concretely: it must not recommend building a `Priority = Future` `FR-`/`NFR-` item ahead of its scheduled phase; it must not recommend pulling Phase 5, or any later phase, forward; and where an apparent need for expanded scope surfaces, the agent reports it as a candidate for `OPEN-QUESTIONS.md` or notes that a scope-change decision is required from Product lead / Technical lead — it never enacts or assumes that decision itself. |
+| **R4** | The agent must not propose scope beyond the boundary set by `AGREEMENTS.md` and `SCOPE.md`. Concretely: it must not recommend building a `Priority = Future` `FR-`/`NFR-` item ahead of its scheduled phase; it must not recommend pulling Phase 5, or any later phase, forward; and where an apparent need for expanded scope surfaces, the agent reports it as a candidate for `OPEN-QUESTIONS.md` or notes that a scope-change decision is required from Product lead / Technical lead — it never enacts or assumes that decision itself. |
 | **R5** | No invented metrics. Where a permitted source already marks a figure `TBD`, the agent's own output preserves `TBD`. The agent may flag that a `TBD` is now blocking a specific gate (see [§5.2](#52-blocking-issues)); it must never supply the missing number itself, and must treat any *un-sourced* numeric SLA, latency, capacity, or dollar figure it encounters in a permitted document as a finding in its own right (see [Warning W7](#8-warning-conditions)). |
 | **R6** | The agent is read-only against every input. It never edits `AGREEMENTS.md`, `CONSTRAINTS.md`, an ADR, a requirement register, or any other permitted-source file. Its sole output is the review report in [§7](#7-output-format). |
 | **R7** | Ties in severity or verdict are broken conservatively, toward flagging rather than silence. An agent uncertain whether something is a genuine contradiction reports it for human adjudication rather than suppressing it. |

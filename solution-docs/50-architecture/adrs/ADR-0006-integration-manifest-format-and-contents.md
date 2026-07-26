@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -69,7 +69,7 @@ A manifest must carry, at minimum:
 | Per-stage evaluation timeouts | Required to be explicit and never an undocumented default ([CON-016](../../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits)) |
 | Client-side failure behavior | What the client does when the runtime is unreachable. An unset value is a configuration error, never a silent allow ([AGR-012](../../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)) |
 | Required runtime capabilities | The evaluator capabilities the bound policy needs, so an unsatisfiable setup fails at bind time rather than degrading in production |
-| Correlation-identifier propagation requirement | A connector responsibility (seed.md §12) that a manifest must state rather than assume |
+| Correlation-identifier propagation requirement | A connector responsibility ([AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)) that a manifest must state rather than assume |
 | Source binding reference and generation timestamp | Makes staleness detectable |
 
 ### 4. Prohibited contents — the AGR-019 enforcement point
@@ -104,7 +104,7 @@ This mirrors [AGR-006](../../00-source-of-truth/AGREEMENTS.md#agr-006--one-logic
 
 This ADR does **not** decide:
 
-- **Whether a policy catalog user interface is built, or in which phase.** A full administration portal is a named non-goal for Phases 1–2 ([`SCOPE.md` §6](../../10-charter/SCOPE.md#6-delivery-non-goals-phases-12), seed.md §17). This ADR defines the artifact such a surface would generate; the surface itself is out of scope here. Manifest generation is API-first precisely so a later UI is one consumer of it rather than the only way to obtain one.
+- **Whether a policy catalog user interface is built, or in which phase.** A full administration portal is a named non-goal for Phases 1–2 ([`SCOPE.md` §6](../../10-charter/SCOPE.md#6-delivery-non-goals-phases-12), [`SCOPE.md`](../../10-charter/SCOPE.md)). This ADR defines the artifact such a surface would generate; the surface itself is out of scope here. Manifest generation is API-first precisely so a later UI is one consumer of it rather than the only way to obtain one.
 - **Whether "select policy" means one policy or a composed set.** Bindings today associate one workload with exactly one policy version. Multi-policy selection is policy composition, tracked as [OQ-021](../../00-source-of-truth/OPEN-QUESTIONS.md#oq-021--policy-selection-cardinality-in-the-onboarding-flow) and dependent on [OQ-012](../../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design).
 - **The connector installation mechanism.** What a team does *with* a manifest — package manager, container image, configuration reload — is a connector concern, not a manifest concern.
 - **Authentication topology**, which [`SECURITY-ARCHITECTURE.md` §5](../SECURITY-ARCHITECTURE.md) owns.

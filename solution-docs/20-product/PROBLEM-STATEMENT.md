@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -25,7 +25,7 @@ Organizations adopting large language models and agentic workflows do so **team 
 
 ### 2.1 Fragmented, inconsistent, or absent guardrails
 
-Seed §1–§2 frame the starting condition: teams consuming LLMs and agents today do so without a reusable policy, evaluation, and enforcement layer. In practice this produces three failure patterns simultaneously, often within the same organization:
+[`CHARTER.md`](../10-charter/CHARTER.md) frame the starting condition: teams consuming LLMs and agents today do so without a reusable policy, evaluation, and enforcement layer. In practice this produces three failure patterns simultaneously, often within the same organization:
 
 | Pattern | What it looks like | Consequence |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ None of these patterns produce a policy that can be pointed to as **the** organi
 
 ### 2.2 Heterogeneous gateways, providers, and frameworks defeat centralization
 
-Seed §1 and §2 are explicit that teams do not share a gateway, provider, or framework, and the vision is to apply consistent safeguards "without requiring them to use the same model provider, application framework, or LiteLLM deployment." This heterogeneity is not incidental — it is the actual current state an organization must design for:
+[`CHARTER.md`](../10-charter/CHARTER.md) are explicit that teams do not share a gateway, provider, or framework, and the vision is to apply consistent safeguards "without requiring them to use the same model provider, application framework, or LiteLLM deployment." This heterogeneity is not incidental — it is the actual current state an organization must design for:
 
 ```mermaid
 flowchart TB
@@ -62,11 +62,11 @@ flowchart TB
     NoneC -.- Q1
 ```
 
-Because each team's stack differs, any guardrail logic embedded directly in one team's gateway configuration or provider SDK does not transfer to another team's stack. An organization cannot point at a single control and say "this is enforced everywhere" — because nothing is structured to be reusable across the different gateways, providers, and frameworks in play. This is precisely the gap seed §2 identifies: the ability to "define guardrail policies once" and "apply the same policies to multiple workloads" does not exist today.
+Because each team's stack differs, any guardrail logic embedded directly in one team's gateway configuration or provider SDK does not transfer to another team's stack. An organization cannot point at a single control and say "this is enforced everywhere" — because nothing is structured to be reusable across the different gateways, providers, and frameworks in play. This is precisely the gap [`CHARTER.md`](../10-charter/CHARTER.md) identifies: the ability to "define guardrail policies once" and "apply the same policies to multiple workloads" does not exist today.
 
 ### 2.3 No mechanism to apply one policy across workloads
 
-Even where an individual team's ad hoc checks are reasonably good, there is no organizational construct today that lets a policy owner define a check once — "detect prompt injection," "redact sensitive output" — and have it apply consistently to every workload, regardless of which team, gateway, or model provider that workload uses. Security and compliance stakeholders (seed §7) need "evidence that policies are being applied" and "policy-version traceability," and neither is obtainable when policy logic lives scattered inside individual teams' bespoke implementations. This is the central gap the platform vision (seed §2) is written against.
+Even where an individual team's ad hoc checks are reasonably good, there is no organizational construct today that lets a policy owner define a check once — "detect prompt injection," "redact sensitive output" — and have it apply consistently to every workload, regardless of which team, gateway, or model provider that workload uses. Security and compliance stakeholders ([`TARGET-USERS.md`](TARGET-USERS.md)) need "evidence that policies are being applied" and "policy-version traceability," and neither is obtainable when policy logic lives scattered inside individual teams' bespoke implementations. This is the central gap the platform vision ([`CHARTER.md`](../10-charter/CHARTER.md)) is written against.
 
 ---
 
@@ -74,12 +74,12 @@ Even where an individual team's ad hoc checks are reasonably good, there is no o
 
 The absence of a reusable policy layer is not merely an engineering inefficiency — it has organizational consequences that compound over time:
 
-* **No evidence of governance.** Security and compliance teams need policy ownership, decision evidence, and policy-version traceability (seed §7). Fragmented, bespoke guardrails cannot produce this evidence in a comparable form across workloads, because each team's implementation records different things, or nothing at all.
+* **No evidence of governance.** Security and compliance teams need policy ownership, decision evidence, and policy-version traceability ([`TARGET-USERS.md`](TARGET-USERS.md)). Fragmented, bespoke guardrails cannot produce this evidence in a comparable form across workloads, because each team's implementation records different things, or nothing at all.
 * **Inconsistent user and business exposure.** Two workloads with materially similar risk profiles can have wildly different actual protection, purely as an accident of which team built them and how much guardrail effort that team happened to invest.
 * **Rework and duplicated cost.** Every team that builds its own detection logic pays a cost the organization has already paid elsewhere, without gaining any of the consistency that a shared policy would provide.
 * **A widening gap as adoption grows.** As more teams adopt LLMs and agentic workflows, the number of independently governed (or ungoverned) surfaces grows linearly with adoption, while the organization's ability to reason about aggregate risk does not improve at all.
 
-The seed material does not supply a quantified cost for this fragmentation (no dollar figures, incident counts, or adoption timelines are given), and this document does not invent one. The qualitative case — no reusable policy, no consistent evidence, no shared cost base — is what the solution is designed to address, with Phases 1–2 proving the core reusable-policy hypothesis first (seed.md §6, §16; see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+The source material does not supply a quantified cost for this fragmentation (no dollar figures, incident counts, or adoption timelines are given), and this document does not invent one. The qualitative case — no reusable policy, no consistent evidence, no shared cost base — is what the solution is designed to address, with Phases 1–2 proving the core reusable-policy hypothesis first ([`SCOPE.md`](../10-charter/SCOPE.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 
@@ -94,17 +94,17 @@ Even where an organization recognizes the fragmentation problem and wants to cen
 | **Operational ownership** | Who runs this component — who owns its uptime, its credentials, its scaling, its upgrades? | A team may be comfortable handing over *operations* of a gateway while still needing a hard guarantee about where its *content* goes — or vice versa. |
 | **Data exposure** | Where does my content — prompts, responses, retrieved documents, tool arguments — actually travel, and is it retained? | A team that hears "you keep operating your own gateway" may wrongly assume its content also stays local, when in fact prompts and responses may still be transmitted to a hosted evaluation service. |
 
-Seed §5.4 states this as a product principle: "operational ownership and data exposure must be communicated as separate concerns." [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns) and [CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment) make this mandatory: every deployment must independently document where prompts and responses are processed, what content categories are transmitted, whether anything is persisted, what telemetry leaves the runtime, and which AWS accounts and Regions are involved.
+[AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns) states this as a product principle: "operational ownership and data exposure must be communicated as separate concerns." [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns) and [CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment) make this mandatory: every deployment must independently document where prompts and responses are processed, what content categories are transmitted, whether anything is persisted, what telemetry leaves the runtime, and which AWS accounts and Regions are involved.
 
 ### 4.2 The specific trap: "I still run my own gateway, so my data must stay local"
 
-Seed §3 (Mode A) and [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) call out the exact failure mode this problem statement warns about: a team that keeps operating its own LiteLLM gateway (retaining operational ownership) may still be sending every prompt and response to a hosted Evaluation API (full data exposure). If these two dimensions are not documented and communicated independently, a team can adopt a guardrail capability under a false belief about where its content travels — and discover the mismatch only during a security or compliance review, at which point trust in the platform (and the review process) is damaged.
+[AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (Mode A) and [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) call out the exact failure mode this problem statement warns about: a team that keeps operating its own LiteLLM gateway (retaining operational ownership) may still be sending every prompt and response to a hosted Evaluation API (full data exposure). If these two dimensions are not documented and communicated independently, a team can adopt a guardrail capability under a false belief about where its content travels — and discover the mismatch only during a security or compliance review, at which point trust in the platform (and the review process) is damaged.
 
 This is why, until a workload's actual data-exposure and operational-ownership requirements are known, teams with genuine data-residency, regulatory, or air-gapped constraints cannot be safely offered a "bring your own gateway, hosted evaluation" arrangement as if it were data-local — it is not, and representing it as such is explicitly prohibited by AGR-009.
 
 ### 4.3 The result: adoption stalls without explicit answers
 
-Absent explicit, per-deployment content-exposure documentation, application teams and security/compliance teams (seed §7) each have rational reasons to decline participation:
+Absent explicit, per-deployment content-exposure documentation, application teams and security/compliance teams ([`TARGET-USERS.md`](TARGET-USERS.md)) each have rational reasons to decline participation:
 
 * Application teams cannot get "clear failure behavior" or "understandable violation reasons" if the exposure model itself is undocumented.
 * Security and compliance teams cannot grant approval without "content-retention controls" and "evidence that policies are being applied," which depend on knowing exactly what is transmitted and retained.
@@ -126,7 +126,7 @@ Where guardrails exist today in bespoke form (§2.1), they typically ship in one
 
 ### 5.2 What teams actually need first
 
-Application teams (seed §7) explicitly need "a way to test policies before blocking users." Seed §5.6 names the missing capability directly: every policy must support a non-blocking evaluation mode, with a defined progression:
+Application teams ([`TARGET-USERS.md`](TARGET-USERS.md)) explicitly need "a way to test policies before blocking users." [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) names the missing capability directly: every policy must support a non-blocking evaluation mode, with a defined progression:
 
 ```text
 Disabled
@@ -138,13 +138,13 @@ Disabled
 
 [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) makes this mandatory at the policy-schema and runtime level: a team must be able to measure false positives, latency, and business impact *before* enabling blocking behavior, and promotion between states must be an explicit, auditable decision rather than an implicit side effect.
 
-Without this graduated path, the organization cannot ask any team to adopt guardrails in good faith — it would be asking them to accept an unquantified risk of breaking their own production traffic, with no visibility into how often that would actually happen. This document does not assert a specific false-positive rate, latency budget, or timeline for observe-to-enforce promotion — the seed material does not supply these figures, and [`../00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) (ASM-011, ASM-017) records both the latency-tolerance and detection-quality questions as currently unvalidated.
+Without this graduated path, the organization cannot ask any team to adopt guardrails in good faith — it would be asking them to accept an unquantified risk of breaking their own production traffic, with no visibility into how often that would actually happen. This document does not assert a specific false-positive rate, latency budget, or timeline for observe-to-enforce promotion — the source material does not supply these figures, and [`../00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) (ASM-011, ASM-017) records both the latency-tolerance and detection-quality questions as currently unvalidated.
 
 ---
 
 ## 6. Stakeholder view of the problem
 
-The pain described above lands differently on each group of stakeholders named in seed §7. This framing matters because a solution that only addresses one group's pain (for example, a working evaluation engine with no onboarding story) will not actually resolve the adoption problem.
+The pain described above lands differently on each group of stakeholders named in [`TARGET-USERS.md`](TARGET-USERS.md). This framing matters because a solution that only addresses one group's pain (for example, a working evaluation engine with no onboarding story) will not actually resolve the adoption problem.
 
 | Stakeholder | Pain today | What "solved" would require |
 | --- | --- | --- |
@@ -157,7 +157,7 @@ The pain described above lands differently on each group of stakeholders named i
 
 ## 7. Risks that compound the problem if left unaddressed
 
-Seed §20 identifies risks that are directly connected to the current-state pain described above — they describe how the problem could get worse, or how a poorly designed response could fail to actually fix it:
+[`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) identifies risks that are directly connected to the current-state pain described above — they describe how the problem could get worse, or how a poorly designed response could fail to actually fix it:
 
 | Risk | Connection to this problem statement |
 | --- | --- |
@@ -179,7 +179,7 @@ This document does not specify the solution — that is the charter's and capabi
 * A policy must be definable **once** and applied to multiple workloads regardless of gateway, provider, or framework (§2; [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 * Every deployment must independently and explicitly answer both "who operates this" and "where does my content go" (§4; [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 * Teams must be able to observe a policy's real-world behavior before it can block anyone (§5; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
-* The response must not overreach into authorization, full governance, or agent orchestration before the core reusable-policy problem is validated (§7; seed.md §6.3; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
+* The response must not overreach into authorization, full governance, or agent orchestration before the core reusable-policy problem is validated (§7; [`SCOPE.md`](../10-charter/SCOPE.md); [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 How these requirements are met is described in the forthcoming `10-charter/CHARTER.md`, `20-product/CAPABILITIES.md`, and `50-architecture/` documents.
 

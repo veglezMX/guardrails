@@ -3,7 +3,7 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -77,7 +77,7 @@ The solution is intended to produce the following durable outcomes:
 * Teams can observe policy behavior — false positives, latency, business impact — before enabling blocking behavior ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
 * Operational ownership (who runs the infrastructure) and content exposure (where tenant data travels) are documented as distinct, independently answerable questions for every deployment mode ([AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 * The organization can evolve from cooperative, trust-based guardrail adoption toward mandatory, bypass-resistant enforcement without redesigning the policy model ([Section 9](#9-guiding-principles); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-* A reusable-policy hypothesis is proven concretely: two independent LiteLLM deployments consuming the same policy, with consistent normalized decisions — the Phase 1–2 validation demonstration (seed.md §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) — before later phases proceed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
+* A reusable-policy hypothesis is proven concretely: two independent LiteLLM deployments consuming the same policy, with consistent normalized decisions — the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md); [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) — before later phases proceed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 Detailed, measurable success criteria are maintained separately in [`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md) rather than duplicated here.
 
@@ -125,7 +125,7 @@ The solution will not attempt to provide:
 * Full compliance certification.
 * A general MCP security platform.
 
-These exclusions are binding for the solution per seed.md §6.3, reaffirmed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — they are not part of the full feature set. They may be introduced only after the core integration and policy model have been validated, and only through an explicit scope-change decision — never by silent inclusion. Full scope boundaries are maintained in [`SCOPE.md`](SCOPE.md).
+These exclusions are binding for the solution per [`SCOPE.md`](SCOPE.md), reaffirmed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — they are not part of the full feature set. They may be introduced only after the core integration and policy model have been validated, and only through an explicit scope-change decision — never by silent inclusion. Full scope boundaries are maintained in [`SCOPE.md`](SCOPE.md).
 
 Multi-region active-active availability was previously listed here as an exclusion; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Proposed, pending owner ratification) explicitly supersedes that exclusion and commits it as a later-phase capability ([`CAP-036`](../20-product/CAPABILITIES.md)) — not yet delivered, but no longer excluded.
 
@@ -243,7 +243,7 @@ Ownership shifts by deployment mode (for example, a Customer-Managed Runtime con
 
 The solution is successful when the full feature set — the Phase 1–2 core capabilities plus the later-phase capabilities committed to Phases 3–5 — is delivered across the five phases, each phase's completion criteria validated before the next phase's scope is committed ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 
-The first gate on that path is the **Phase 1–2 validation demonstration** (seed.md §16) — a delivery-plan milestone, detailed in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), not the definition of overall solution success. It is met only when all of the following hold simultaneously:
+The first gate on that path is the **Phase 1–2 validation demonstration** ([`SUCCESS-CRITERIA.md`](SUCCESS-CRITERIA.md)) — a delivery-plan milestone, detailed in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md), not the definition of overall solution success. It is met only when all of the following hold simultaneously:
 
 * Two separate LiteLLM instances consume the same policy.
 * Neither instance shares model-provider credentials with the guardrail platform.
@@ -261,7 +261,7 @@ Beyond the validation demonstration, the platform tracks success along four dura
 
 ## 13. Constraints
 
-* **Primary cloud:** Amazon Web Services. Cross-cloud deployment is excluded from the solution (seed.md §6.3; [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
+* **Primary cloud:** Amazon Web Services. Cross-cloud deployment is excluded from the solution ([`SCOPE.md`](SCOPE.md); [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)).
 * **Account topology:** Phases 1–2 use a minimal account model — one non-production account and one production account. Additional account separation is introduced only when justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments.
 * **Initial integration target:** LiteLLM, as the first connector, not the product boundary ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 * **Initial evaluation engine:** Amazon Bedrock Guardrails, behind a vendor-independent contract ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).
@@ -308,7 +308,7 @@ This charter does not introduce new decision-rights structures beyond the owners
 * When a conflict is discovered between this charter and an agreement in `AGREEMENTS.md`, `AGREEMENTS.md` wins, and this charter must be corrected.
 * Changes to this charter that would alter an existing agreement's substance must first be proposed and accepted as a change to `AGREEMENTS.md`, then reflected here — not the reverse.
 * Additive detail that does not contradict an agreement (for example, expanding a rationale, adding a cross-link) may be made directly to this charter.
-* Delivery-phase-specific detail (milestones, release criteria, targets) is expected to evolve across the five delivery phases defined in [Section 18 of `seed.md`](../../seed.md) and tracked in [`IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) and [`MILESTONES.md`](../60-delivery/MILESTONES.md); such evolution does not itself require a charter change unless it alters a durable boundary described here.
+* Delivery-phase-specific detail (milestones, release criteria, targets) is expected to evolve across the five delivery phases defined in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and tracked in [`IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) and [`MILESTONES.md`](../60-delivery/MILESTONES.md); such evolution does not itself require a charter change unless it alters a durable boundary described here.
 * This document's status is **Draft** until formally reviewed and accepted by the owners named in [Section 11](#11-ownership-and-responsibilities); status transitions should be recorded in the document header.
 
 ---

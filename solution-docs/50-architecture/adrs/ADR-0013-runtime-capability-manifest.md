@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 

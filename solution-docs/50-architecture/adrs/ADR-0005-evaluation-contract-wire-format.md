@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-25
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -29,7 +29,7 @@ Three consequences follow, and all three are live:
 - **Three clients are about to invent three contracts.** The LiteLLM connector, the generic SDK, and a consumer-operated custom gateway are all Phase 1–2 concerns ([AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)). Each author will make the same set of undocumented choices, differently.
 - **The compatibility discipline AGR-006 mandates has nothing to operate on.** "Evaluated for backward compatibility before release" presupposes a prior release to compare against.
 
-"Evaluation contract" is the first named Phase 1 deliverable in `seed.md` §18. This ADR is that deliverable's design record.
+"Evaluation contract" is the first named Phase 1 deliverable in [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). This ADR is that deliverable's design record.
 
 The question this ADR resolves: **what concrete wire format does the Evaluation API expose, and by what rules does it change?**
 

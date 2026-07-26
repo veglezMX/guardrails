@@ -3,17 +3,17 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
 ## Purpose
 
-This glossary defines the domain and product terms used consistently across the AI Guardrails solution-docs set. Every term below is derived from `seed.md` and the accepted register in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md); none of it may be used, in this document or any other, in a way that contradicts an entry in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both **L1 — Authoritative**). Where this glossary and an L1 register appear to disagree, the L1 register wins and this document must be corrected.
+This glossary defines the domain and product terms used consistently across the AI Guardrails solution-docs set. Every term below is derived from the accepted register in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md); none of it may be used, in this document or any other, in a way that contradicts an entry in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both **L1 — Authoritative**). Where this glossary and an L1 register appear to disagree, the L1 register wins and this document must be corrected.
 
 This glossary exists so that product, architecture, sales, and executive materials use the same vocabulary for the same concepts — a direct requirement of [AGR-017 — Core domain model](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), which states that documentation across all layers must use the platform's domain-model terms consistently.
 
-Figures, dates, and thresholds are not restated here beyond what `seed.md` specifies. Where a number would normally be expected (a latency figure, an SLA, a size limit) and the seed does not supply one, the corresponding definition says so or points to the constraint that marks it **TBD** (see [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)).
+Figures, dates, and thresholds are not restated here beyond what the L1 registers specify. Where a number would normally be expected (a latency figure, an SLA, a size limit) and the L1 registers do not supply one, the corresponding definition says so or points to the constraint that marks it **TBD** (see [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)).
 
 ---
 
@@ -48,7 +48,7 @@ Tenant
 
 ### Action (allow / block / redact / log_only)
 
-The outcome a [Decision](#decision) assigns to evaluated content. `seed.md` §9 defines four initial actions and reserves four future actions:
+The outcome a [Decision](#decision) assigns to evaluated content. [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) defines four initial actions and reserves four future actions:
 
 | Action | Meaning | Status |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ See also: [`../10-charter/CHARTER.md`](../10-charter/CHARTER.md), [`../20-produc
 
 ### Audit metadata
 
-The normalized record captured for every evaluation, including tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, and whether raw content was retained (`seed.md` §15). Audit metadata is part of the one logical [evaluation contract](#evaluation-contract) that must remain compatible across all three deployment modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
+The normalized record captured for every evaluation, including tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, and whether raw content was retained ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)). Audit metadata is part of the one logical [evaluation contract](#evaluation-contract) that must remain compatible across all three deployment modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
 See also: [Correlation identifier](#correlation-identifier), [Decision](#decision), [Failure behavior](#failure-behavior).
 
@@ -117,7 +117,7 @@ See also: [Guardrail policy](#guardrail-policy), [LiteLLM](#litellm), [Import](#
 
 ### Control plane
 
-The centralized component that owns tenants, workloads, policies, bindings, and rollouts, and distributes policy configuration to the guardrails runtime (`seed.md` §10, Logical architecture). In [Customer-Managed Runtime](#customer-managed-runtime) deployments, the runtime must remain able to execute policies **without** a synchronous connection to the control plane ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)).
+The centralized component that owns tenants, workloads, policies, bindings, and rollouts, and distributes policy configuration to the guardrails runtime ([`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md), Logical architecture). In [Customer-Managed Runtime](#customer-managed-runtime) deployments, the runtime must remain able to execute policies **without** a synchronous connection to the control plane ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)).
 
 See also: [Data plane](#data-plane), [Policy binding](#policy-binding), [Customer-Managed Runtime](#customer-managed-runtime).
 
@@ -133,7 +133,7 @@ See also: [Guardrail category](#guardrail-category), [Enforcement layer](#enforc
 
 ### Correlation identifier
 
-An identifier propagated across an evaluation request and its resulting [decision](#decision) so that a single logical operation — for example, input evaluation, model invocation, and output evaluation — can be traced end to end. It is a required field of both the Decision structure and [audit metadata](#audit-metadata) (`seed.md` §9, §15).
+An identifier propagated across an evaluation request and its resulting [decision](#decision) so that a single logical operation — for example, input evaluation, model invocation, and output evaluation — can be traced end to end. It is a required field of both the Decision structure and [audit metadata](#audit-metadata) ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)).
 
 See also: [Decision](#decision), [Audit metadata](#audit-metadata).
 
@@ -141,7 +141,7 @@ See also: [Decision](#decision), [Audit metadata](#audit-metadata).
 
 ### Customer-Managed Runtime
 
-Deployment **Mode C**: the guardrail runtime is deployed inside the consuming team's own AWS account, including a local policy cache, a [Bedrock Guardrails](#bedrock-guardrails) adapter, custom evaluators, and local audit integration (`seed.md` §3, Mode C). It is intended for regulated workloads, data-residency requirements, high-volume workloads, air-gapped environments, and teams that prohibit prompt or response content from leaving their account. The runtime must be capable of executing policies without requiring a synchronous connection to the hosted [control plane](#control-plane) ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)), and telemetry sent to the hosted control plane is customer-controlled down to a fully supported "no telemetry" configuration ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)).
+Deployment **Mode C**: the guardrail runtime is deployed inside the consuming team's own AWS account, including a local policy cache, a [Bedrock Guardrails](#bedrock-guardrails) adapter, custom evaluators, and local audit integration ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C). It is intended for regulated workloads, data-residency requirements, high-volume workloads, air-gapped environments, and teams that prohibit prompt or response content from leaving their account. The runtime must be capable of executing policies without requiring a synchronous connection to the hosted [control plane](#control-plane) ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)), and telemetry sent to the hosted control plane is customer-controlled down to a fully supported "no telemetry" configuration ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)).
 
 See also: [Remote Evaluation](#remote-evaluation), [Guarded Gateway](#guarded-gateway), [Control plane](#control-plane).
 
@@ -149,7 +149,7 @@ See also: [Remote Evaluation](#remote-evaluation), [Guarded Gateway](#guarded-ga
 
 ### Data plane
 
-The runtime path that actually processes and evaluates tenant content — the Guardrails Runtime, its Evaluation API, policy resolver, decision engine, evaluator adapters, and audit producer (`seed.md` §10) — as distinct from the [control plane](#control-plane), which manages tenants, workloads, policies, bindings, and rollouts rather than evaluated content itself.
+The runtime path that actually processes and evaluates tenant content — the Guardrails Runtime, its Evaluation API, policy resolver, decision engine, evaluator adapters, and audit producer ([`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md)) — as distinct from the [control plane](#control-plane), which manages tenants, workloads, policies, bindings, and rollouts rather than evaluated content itself.
 
 See also: [Control plane](#control-plane), [Evaluation](#evaluation), [Evaluator adapter](#evaluator-adapter).
 
@@ -157,7 +157,7 @@ See also: [Control plane](#control-plane), [Evaluation](#evaluation), [Evaluator
 
 ### Decision
 
-The normalized result of an [evaluation](#evaluation), containing an [action](#action-allow--block--redact--log_only), an allowed status, [reason codes](#reason-code), policy name and version, evaluator metadata, transformed content where applicable, a [correlation identifier](#correlation-identifier), an audit identifier, and evaluation latency (`seed.md` §9). Decision structures are part of the one logical [evaluation contract](#evaluation-contract) that must remain compatible across Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
+The normalized result of an [evaluation](#evaluation), containing an [action](#action-allow--block--redact--log_only), an allowed status, [reason codes](#reason-code), policy name and version, evaluator metadata, transformed content where applicable, a [correlation identifier](#correlation-identifier), an audit identifier, and evaluation latency ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). Decision structures are part of the one logical [evaluation contract](#evaluation-contract) that must remain compatible across Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
 See also: [Action](#action-allow--block--redact--log_only), [Reason code](#reason-code), [Correlation identifier](#correlation-identifier).
 
@@ -165,7 +165,7 @@ See also: [Action](#action-allow--block--redact--log_only), [Reason code](#reaso
 
 ### Deterministic evaluator
 
-An evaluation engine that applies fixed, organization-defined rules — rather than a probabilistic or model-based detector — to evaluated content. A basic deterministic evaluator is named explicitly as one of the Phase 1–2 core components, alongside the [Bedrock Guardrails](#bedrock-guardrails) adapter and [PII evaluators](#pii-evaluator) (`seed.md` §6.1, §16).
+An evaluation engine that applies fixed, organization-defined rules — rather than a probabilistic or model-based detector — to evaluated content. A basic deterministic evaluator is named explicitly as one of the Phase 1–2 core components, alongside the [Bedrock Guardrails](#bedrock-guardrails) adapter and [PII evaluators](#pii-evaluator) ([`SCOPE.md`](../10-charter/SCOPE.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)).
 
 See also: [Bedrock Guardrails](#bedrock-guardrails), [PII evaluator](#pii-evaluator), [Evaluator adapter](#evaluator-adapter).
 
@@ -185,7 +185,7 @@ See also: [Observe mode](#observe-mode), [Policy binding](#policy-binding), [Fai
 
 ### Enforcement layer
 
-The classification, per [guardrail category](#guardrail-category), of **where** a control is realized ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)): `evaluator` (content evaluation at a stage, behind the [evaluator adapter](#evaluator-adapter) pattern), `connector-gateway` (enforced by the gateway/connector layer — rate limits, routing, model selection), `control-plane` (registries, policy store, rollout, audit pipeline), or `out-of-boundary` (not realized by this product; owned by a named external party per seed.md §6.3 or [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
+The classification, per [guardrail category](#guardrail-category), of **where** a control is realized ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)): `evaluator` (content evaluation at a stage, behind the [evaluator adapter](#evaluator-adapter) pattern), `connector-gateway` (enforced by the gateway/connector layer — rate limits, routing, model selection), `control-plane` (registries, policy store, rollout, audit pipeline), or `out-of-boundary` (not realized by this product; owned by a named external party per [`SCOPE.md`](../10-charter/SCOPE.md) or [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 
 See also: [Guardrail category](#guardrail-category), [Control type](#control-type).
 
@@ -193,7 +193,7 @@ See also: [Guardrail category](#guardrail-category), [Control type](#control-typ
 
 ### Evaluation
 
-A request to inspect content at a particular stage of an interaction (`seed.md` §9).
+A request to inspect content at a particular stage of an interaction ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 | Stage | Status |
 | --- | --- |
@@ -205,7 +205,7 @@ A request to inspect content at a particular stage of an interaction (`seed.md` 
 | `memory_write` | Later phase |
 | `final_response` | Later phase |
 
-Phases 1–2 limit evaluated content to user/model input and model output; retrieved documents, tool arguments, tool responses, and structured-output payloads are later-phase evaluation categories, part of the defined full feature set (DEC-008) but delivered only in their phase, depending on workload configuration (`seed.md` §13).
+Phases 1–2 limit evaluated content to user/model input and model output; retrieved documents, tool arguments, tool responses, and structured-output payloads are later-phase evaluation categories, part of the defined full feature set (DEC-008) but delivered only in their phase, depending on workload configuration ([`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md)).
 
 See also: [Evaluation contract](#evaluation-contract), [Decision](#decision).
 
@@ -237,7 +237,7 @@ See also: [Evaluator adapter](#evaluator-adapter), [Evaluation contract](#evalua
 
 ### Failure behavior
 
-The explicit, per-workload definition of what happens when an evaluation cannot complete normally — for example, an Evaluation API timeout, detector unavailability, an unresolved policy, control-plane unavailability, audit-delivery failure, or an unsafe response transformation (`seed.md` §5.7). Failure behavior is a mandatory part of the policy itself, and there must be no undocumented fallback behavior ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)).
+The explicit, per-workload definition of what happens when an evaluation cannot complete normally — for example, an Evaluation API timeout, detector unavailability, an unresolved policy, control-plane unavailability, audit-delivery failure, or an unsafe response transformation ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)). Failure behavior is a mandatory part of the policy itself, and there must be no undocumented fallback behavior ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)).
 
 See also: [Guardrail policy](#guardrail-policy), [Control plane](#control-plane).
 
@@ -261,7 +261,7 @@ See also: [Guardrail category](#guardrail-category), [Vision — uncommitted](#v
 
 ### Guarded Gateway
 
-Deployment **Mode B**: the AI Guardrails provider operates both the LLM gateway and the guardrail runtime, offering input guardrails, model routing, model invocation, output guardrails, and audit/usage reporting as a single managed path (`seed.md` §3, Mode B). It is intended for teams that do not operate their own LiteLLM instance, want a managed model-access endpoint, and accept that the provider participates in the complete inference path.
+Deployment **Mode B**: the AI Guardrails provider operates both the LLM gateway and the guardrail runtime, offering input guardrails, model routing, model invocation, output guardrails, and audit/usage reporting as a single managed path ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode B). It is intended for teams that do not operate their own LiteLLM instance, want a managed model-access endpoint, and accept that the provider participates in the complete inference path.
 
 See also: [Remote Evaluation](#remote-evaluation), [Customer-Managed Runtime](#customer-managed-runtime), [LiteLLM](#litellm).
 
@@ -285,7 +285,7 @@ See also: [Guardrail category](#guardrail-category), [Vision — uncommitted](#v
 
 ### Guardrail policy
 
-The versioned definition of what must be evaluated and how violations are handled: evaluation stages, evaluator configuration, enforcement actions, thresholds, [failure behavior](#failure-behavior), audit behavior, and compatibility metadata (`seed.md` §9). A policy is mandatorily separate from any [connector](#connector) that invokes it — a policy defines *what* to check and how to react; a connector defines *how* a specific gateway invokes and enforces it ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
+The versioned definition of what must be evaluated and how violations are handled: evaluation stages, evaluator configuration, enforcement actions, thresholds, [failure behavior](#failure-behavior), audit behavior, and compatibility metadata ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). A policy is mandatorily separate from any [connector](#connector) that invokes it — a policy defines *what* to check and how to react; a connector defines *how* a specific gateway invokes and enforces it ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 
 See also: [Connector](#connector), [Policy binding](#policy-binding), [Failure behavior](#failure-behavior).
 
@@ -293,7 +293,7 @@ See also: [Connector](#connector), [Policy binding](#policy-binding), [Failure b
 
 ### Import
 
-The act of a consuming team adopting a versioned [guardrail policy](#guardrail-policy), a workload identity, an integration manifest, a [connector](#connector) configuration, and an [enforce mode](#enforce-mode) or [observe mode](#observe-mode) setting (`seed.md` §4). Import never means importing, cloning, registering, or remotely controlling another team's LiteLLM instance, and the process must never require copying another team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing model-routing configuration, or granting the guardrail provider administrative access to the team's gateway ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
+The act of a consuming team adopting a versioned [guardrail policy](#guardrail-policy), a workload identity, an integration manifest, a [connector](#connector) configuration, and an [enforce mode](#enforce-mode) or [observe mode](#observe-mode) setting ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). Import never means importing, cloning, registering, or remotely controlling another team's LiteLLM instance, and the process must never require copying another team's LiteLLM database, transferring model-provider credentials, exposing gateway administration endpoints, replacing model-routing configuration, or granting the guardrail provider administrative access to the team's gateway ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)).
 
 The canonical onboarding flow that defines "import" in practice:
 
@@ -321,7 +321,7 @@ See also: [Import](#import), [Policy binding](#policy-binding), [Connector](#con
 
 ### LiteLLM
 
-The **first supported gateway connector target** for AI Guardrails, and optionally the substrate for the [Guarded Gateway](#guarded-gateway) mode (`seed.md` header, §12). LiteLLM does not define the boundary of the product — the evaluation contract and policy model are defined independently of its internal request/response structures, so additional connectors can be added without changing policy semantics ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
+The **first supported gateway connector target** for AI Guardrails, and optionally the substrate for the [Guarded Gateway](#guarded-gateway) mode ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)). LiteLLM does not define the boundary of the product — the evaluation contract and policy model are defined independently of its internal request/response structures, so additional connectors can be added without changing policy semantics ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 
 See also: [Connector](#connector), [Guarded Gateway](#guarded-gateway), [Remote Evaluation](#remote-evaluation).
 
@@ -345,7 +345,7 @@ See also: [Enforce mode](#enforce-mode), [Policy binding](#policy-binding), [Imp
 
 ### PII evaluator
 
-An evaluation engine focused on detecting personally identifiable information in evaluated content, supporting the "basic sensitive-data handling" scope item in the Phase 1–2 core (`seed.md` §6.1). PII evaluators sit behind the same [evaluator-adapter](#evaluator-adapter) pattern as [Bedrock Guardrails](#bedrock-guardrails) and [deterministic evaluators](#deterministic-evaluator) (`seed.md` §10, Logical architecture).
+An evaluation engine focused on detecting personally identifiable information in evaluated content, supporting the "basic sensitive-data handling" scope item in the Phase 1–2 core ([`SCOPE.md`](../10-charter/SCOPE.md)). PII evaluators sit behind the same [evaluator-adapter](#evaluator-adapter) pattern as [Bedrock Guardrails](#bedrock-guardrails) and [deterministic evaluators](#deterministic-evaluator) ([`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md), Logical architecture).
 
 See also: [Deterministic evaluator](#deterministic-evaluator), [Evaluator adapter](#evaluator-adapter), [Redaction](#redaction).
 
@@ -353,7 +353,7 @@ See also: [Deterministic evaluator](#deterministic-evaluator), [Evaluator adapte
 
 ### Policy binding
 
-The association between a [workload](#workload) and a specific [guardrail policy](#guardrail-policy) version. A binding may also define observe or enforce mode, allowed workload-specific overrides, effective date, rollback version, and runtime compatibility requirements (`seed.md` §9). Policy binding is one of the six core domain entities that all architecture and implementation must be expressed in terms of ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
+The association between a [workload](#workload) and a specific [guardrail policy](#guardrail-policy) version. A binding may also define observe or enforce mode, allowed workload-specific overrides, effective date, rollback version, and runtime compatibility requirements ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). Policy binding is one of the six core domain entities that all architecture and implementation must be expressed in terms of ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 See also: [Workload](#workload), [Guardrail policy](#guardrail-policy), [Enforce mode](#enforce-mode), [Observe mode](#observe-mode).
 
@@ -377,7 +377,7 @@ See also: [Guardrail policy](#guardrail-policy), [Guardrail category](#guardrail
 
 ### Redaction
 
-One of the four initial [Decision](#decision) actions (`redact`), in which evaluated content is transformed — rather than fully allowed or fully blocked — to remove or mask a detected violation before it proceeds. Redaction sits between Warn and Block in the recommended observe-to-enforce progression (`seed.md` §5.6, §9).
+One of the four initial [Decision](#decision) actions (`redact`), in which evaluated content is transformed — rather than fully allowed or fully blocked — to remove or mask a detected violation before it proceeds. Redaction sits between Warn and Block in the recommended observe-to-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 See also: [Action](#action-allow--block--redact--log_only), [Enforce mode](#enforce-mode).
 
@@ -393,7 +393,7 @@ See also: [Decision](#decision), [Audit metadata](#audit-metadata).
 
 ### Remote Evaluation
 
-Deployment **Mode A**: a consuming team operates its own LiteLLM (or equivalent) gateway, and that gateway invokes the hosted AI Guardrails Evaluation API for input evaluation before model invocation and output evaluation after it (`seed.md` §3, Mode A). Mode A must be described only as **"bring your own gateway while consuming a hosted guardrail runtime"** — it must never be described as a private-data or data-local deployment model, because prompts, responses, and any additional evaluated content are transmitted to the hosted Evaluation API ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
+Deployment **Mode A**: a consuming team operates its own LiteLLM (or equivalent) gateway, and that gateway invokes the hosted AI Guardrails Evaluation API for input evaluation before model invocation and output evaluation after it ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode A). Mode A must be described only as **"bring your own gateway while consuming a hosted guardrail runtime"** — it must never be described as a private-data or data-local deployment model, because prompts, responses, and any additional evaluated content are transmitted to the hosted Evaluation API ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
 
 See also: [Guarded Gateway](#guarded-gateway), [Customer-Managed Runtime](#customer-managed-runtime), [LiteLLM](#litellm).
 
@@ -401,7 +401,7 @@ See also: [Guarded Gateway](#guarded-gateway), [Customer-Managed Runtime](#custo
 
 ### Tenant
 
-The entity representing an organization, business unit, or consuming team. A tenant carries a tenant identifier, ownership information, AWS account information, data classification, allowed Regions, retention configuration, deployment mode, and authentication configuration (`seed.md` §9). Tenant is one of the six core domain entities defined in [AGR-017 — Core domain model](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model).
+The entity representing an organization, business unit, or consuming team. A tenant carries a tenant identifier, ownership information, AWS account information, data classification, allowed Regions, retention configuration, deployment mode, and authentication configuration ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). Tenant is one of the six core domain entities defined in [AGR-017 — Core domain model](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model).
 
 See also: [Workload](#workload), [Policy binding](#policy-binding).
 
@@ -417,7 +417,7 @@ See also: [Graduation](#graduation), [Guardrail category](#guardrail-category).
 
 ### Workload
 
-The entity representing an application, assistant, agent, gateway, or inference service that uses guardrails. A workload carries a workload identifier, tenant identifier, owner, environment, risk classification, gateway type, deployment mode, expected throughput, streaming requirements, assigned policy, and enforcement mode (`seed.md` §9). Workload is one of the six core domain entities defined in [AGR-017 — Core domain model](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model).
+The entity representing an application, assistant, agent, gateway, or inference service that uses guardrails. A workload carries a workload identifier, tenant identifier, owner, environment, risk classification, gateway type, deployment mode, expected throughput, streaming requirements, assigned policy, and enforcement mode ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). Workload is one of the six core domain entities defined in [AGR-017 — Core domain model](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model).
 
 See also: [Tenant](#tenant), [Policy binding](#policy-binding), [Enforce mode](#enforce-mode).
 

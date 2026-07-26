@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -21,7 +21,7 @@ While this ADR reads `Proposed` it binds no one.
 
 [`DEPLOYMENT-ARCHITECTURE.md` §9](../DEPLOYMENT-ARCHITECTURE.md) specifies the Mode C runtime container's supply chain precisely: built from source shared with the hosted runtime, published to a provider-controlled registry, pulled and run by the customer under their own IAM.
 
-**The connector has no equivalent.** No document names a distribution channel, a publication process, a versioning scheme, or an integrity mechanism for the artifact that consuming teams actually install. `seed.md` §18 lists "LiteLLM connector" as a Phase 1 deliverable; nothing says how a team obtains it.
+**The connector has no equivalent.** No document names a distribution channel, a publication process, a versioning scheme, or an integrity mechanism for the artifact that consuming teams actually install. [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) lists "LiteLLM connector" as a Phase 1 deliverable; nothing says how a team obtains it.
 
 The asymmetry runs opposite to the risk. The runtime container executes in the provider's account, or in a customer account the customer controls. **The connector executes inside the consuming team's gateway process, on the request path, with access to every prompt and response that workload handles.** It is the most privileged artifact this platform distributes and the only one with no defined supply chain.
 
@@ -54,7 +54,7 @@ Every published connector artifact carries an integrity mechanism a consuming te
 
 The specific mechanism follows the ecosystem's own convention rather than being invented here; what this ADR fixes is that verification must be **possible, documented, and part of the installation instructions** rather than an option a careful team might discover.
 
-This is distinct from, and does not depend on, policy signing — which remains later-phase scope ([OQ-012](../../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design), seed §17). Policy signing protects a *configuration artifact* distributed to runtimes. Connector integrity protects *executable code* distributed to consumers. The second is more urgent and structurally simpler, and deferring it because the first is deferred would be a category error.
+This is distinct from, and does not depend on, policy signing — which remains later-phase scope ([OQ-012](../../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design), [`SCOPE.md`](../../10-charter/SCOPE.md)). Policy signing protects a *configuration artifact* distributed to runtimes. Connector integrity protects *executable code* distributed to consumers. The second is more urgent and structurally simpler, and deferring it because the first is deferred would be a category error.
 
 ### 4. The connector's privilege is documented, not implied
 
@@ -87,7 +87,7 @@ This ADR does **not** decide:
   **Why not chosen:** Phase 1 requires two independent LiteLLM instances to install the connector; Phase 4 is years of sequencing away. The artifact is needed before the first validation demonstration can run, and an undocumented ad-hoc channel used for the pilot becomes the de facto channel by default.
 
 - **Alternative: publish only the SDK, and let each team write its own gateway integration.**
-  **Why not chosen:** [AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) names the LiteLLM connector as a Phase 1 deliverable, and `seed.md` §18 lists it explicitly. It also pushes enforcement mechanics into consumer code, which is precisely the divergence the connector exists to prevent.
+ **Why not chosen:** [AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) names the LiteLLM connector as a Phase 1 deliverable, and [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) lists it explicitly. It also pushes enforcement mechanics into consumer code, which is precisely the divergence the connector exists to prevent.
 
 - **Alternative (chosen): named per-ecosystem channels, independent connector versioning that declares its supported contract majors, verifiable integrity at installation, documented privilege, and a policy/credential-free artifact.**
   **Why accepted:** Gives compatibility validation something real to check, gives a consuming team's security review something factual to assess, and closes a supply-chain gap on the most privileged artifact the platform distributes — without over-specifying tooling that will differ per ecosystem anyway.

@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -17,7 +17,7 @@ This is an **L4** document: a derived presentation-guidance artifact. It must no
 
 * It is not the deck itself, and it is not [`DECK-BRIEF.md`](DECK-BRIEF.md) (the sibling document that defines the deck's narrative arc, slide sequence, and audience). This document governs *how things look and are built*; [`DECK-BRIEF.md`](DECK-BRIEF.md) governs *what is said and in what order*.
 * It is not a finalized brand guideline. No brand package exists yet in the source material. Every visual token below is explicitly marked **TBD** or **placeholder** and must be replaced once a real brand kit is issued — nothing here should be treated as a final color, font, or logo decision.
-* It does not introduce any metric, dollar figure, SLA, date, or customer name absent from `seed.md`. Where a chart or slide would conventionally show a number, this document tells the deck agent what to do in the absence of one (see [§3](#3-preferred-chart-types) and [§4](#4-image-policy)).
+* It does not introduce any metric, dollar figure, SLA, date, or customer name absent from the L1 registers. Where a chart or slide would conventionally show a number, this document tells the deck agent what to do in the absence of one (see [§3](#3-preferred-chart-types) and [§4](#4-image-policy)).
 
 ---
 
@@ -47,7 +47,7 @@ No brand kit exists in the source material. Every token below is a **placeholder
 | Logo / wordmark | **TBD** — no asset exists | Use a plain text wordmark, "AI Guardrails," in the placeholder heading typeface until a logo is delivered. Do not draw an improvised shield/lock logo and present it as a real mark. |
 | Primary color | **TBD** | Use a single restrained, low-saturation neutral (e.g., a dark slate) as a placeholder primary until brand supplies one. |
 | Secondary / accent color | **TBD** | One accent color, used sparingly (headline emphasis, single call-to-action element per slide). |
-| Semantic colors (allow / block / warn) | **TBD**, but functionally constrained — see [§6](#6-color-restrictions) | Map only to the `Decision` domain actions (`allow`, `block`, `redact`, `log_only`) defined in seed.md §9, not to overall product-quality claims. |
+| Semantic colors (allow / block / warn) | **TBD**, but functionally constrained — see [§6](#6-color-restrictions) | Map only to the `Decision` domain actions (`allow`, `block`, `redact`, `log_only`) defined in [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), not to overall product-quality claims. |
 | Neutral / background palette | **TBD** | Light and dark neutral placeholders sufficient to build one light-theme and one dark-theme template. |
 | Heading typeface | **TBD** | Use a system-safe sans-serif until a licensed typeface is confirmed. Do not embed a commercial font without confirming license coverage for redistribution in a deck. |
 | Body typeface | **TBD** | Same constraint as heading typeface; pair with a neutral system-safe serif or sans-serif. |
@@ -71,7 +71,7 @@ All placeholder values exist so that slide *structure* (layout, diagram geometry
 
 ### 2.2 Worked example: redrawing an ASCII source as a clean diagram
 
-`seed.md` §3 gives Mode A as ASCII art (`seed.md` lines ~54–65). The deck must never paste that ASCII block onto a slide as literal monospace text or as a screenshot of it. It is a **content source**, redrawn as a native, editable diagram. A clean redraw — shown here as Mermaid only to illustrate the target shape, not as the shippable artifact (see [§9](#9-diagram-editability)) — looks like:
+[AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) gives Mode A as ASCII art. The deck must never paste that ASCII block onto a slide as literal monospace text or as a screenshot of it. It is a **content source**, redrawn as a native, editable diagram. A clean redraw — shown here as Mermaid only to illustrate the target shape, not as the shippable artifact (see [§9](#9-diagram-editability)) — looks like:
 
 ```mermaid
 flowchart TB
@@ -81,18 +81,18 @@ flowchart TB
     GW -- "Output evaluation" --> Runtime
 ```
 
-The same discipline applies to Mode B and Mode C (`seed.md` §3) and to the logical architecture diagram (`seed.md` §10): identify the boxes, identify the labeled relationships, drop anything that is purely ASCII layout artifact (box-drawing corners, vertical bars used only for alignment), and rebuild as shapes and connectors in the deck tool.
+The same discipline applies to Mode B and Mode C ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)) and to the logical architecture diagram ([`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md)): identify the boxes, identify the labeled relationships, drop anything that is purely ASCII layout artifact (box-drawing corners, vertical bars used only for alignment), and rebuild as shapes and connectors in the deck tool.
 
 ### 2.3 Required diagram set
 
 At minimum, the deck must include native, editable versions of:
 
-1. **Three-mode topology diagrams** — one per mode (Mode A, Mode B, Mode C), each on its own slide, redrawn from `seed.md` §3.
-2. **Logical architecture diagram** — Control Plane → policy distribution → Guardrails Runtime → Evaluation engines, redrawn from `seed.md` §10.
-3. **Onboarding / "import" flow** — the seven-step stepper (Register workload → Select policy → Generate integration manifest → Install connector → Run in observe mode → Review evaluation results → Enable enforcement), redrawn from `seed.md` §4, as a horizontal stepper rather than a vertical flowchart, since it is a sales-narrative sequence rather than a system diagram.
-4. **Trust and enforcement ladder** — cooperative integration → platform-managed enforcement → network/IAM-enforced gateway, redrawn from `seed.md` §8 as an escalating three-tier diagram, not three independent boxes of equal visual weight (the ladder shape communicates "increasing enforcement strength," which flat boxes do not).
-5. **Observe-before-enforce progression** — Disabled → Observe → Warn → Redact → Block, from `seed.md` §5.6, as a horizontal stepped progression bar. This diagram is reused wherever the deck discusses policy rollout, since it is the same progression referenced by [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression).
-6. **Policy vs. connector separation** — the two-box "Policy: detect and block" / "Connector: invoke during pre-call" contrast from `seed.md` §5.3, used wherever the deck needs to make the policy/connector distinction concrete (this is a frequent buyer-confusion point per [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
+1. **Three-mode topology diagrams** — one per mode (Mode A, Mode B, Mode C), each on its own slide, redrawn from [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes).
+2. **Logical architecture diagram** — Control Plane → policy distribution → Guardrails Runtime → Evaluation engines, redrawn from [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md).
+3. **Onboarding / "import" flow** — the seven-step stepper (Register workload → Select policy → Generate integration manifest → Install connector → Run in observe mode → Review evaluation results → Enable enforcement), redrawn from [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), as a horizontal stepper rather than a vertical flowchart, since it is a sales-narrative sequence rather than a system diagram.
+4. **Trust and enforcement ladder** — cooperative integration → platform-managed enforcement → network/IAM-enforced gateway, redrawn from [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) as an escalating three-tier diagram, not three independent boxes of equal visual weight (the ladder shape communicates "increasing enforcement strength," which flat boxes do not).
+5. **Observe-before-enforce progression** — Disabled → Observe → Warn → Redact → Block, from [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), as a horizontal stepped progression bar. This diagram is reused wherever the deck discusses policy rollout, since it is the same progression referenced by [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression).
+6. **Policy vs. connector separation** — the two-box "Policy: detect and block" / "Connector: invoke during pre-call" contrast from [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors), used wherever the deck needs to make the policy/connector distinction concrete (this is a frequent buyer-confusion point per [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 
 Diagrams 1–2 are the core "how it works" slides; diagrams 3–6 are supporting slides used where the narrative in [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for them.
 
@@ -100,25 +100,25 @@ Diagrams 1–2 are the core "how it works" slides; diagrams 3–6 are supporting
 
 ## 3. Preferred chart types
 
-`seed.md` §19 lists success-metric *categories* (adoption, reliability, effectiveness, portability) but contains no populated numbers — no percentages, no latency figures, no dollar values. The deck must not fabricate sample data to fill a chart shape. Preferred chart types, in order of use:
+[`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) lists success-metric *categories* (adoption, reliability, effectiveness, portability) but contains no populated numbers — no percentages, no latency figures, no dollar values. The deck must not fabricate sample data to fill a chart shape. Preferred chart types, in order of use:
 
 | Chart type | Use for | Notes |
 |---|---|---|
-| Two/three-column comparison table | Mode A vs. Mode B vs. Mode C ownership (`seed.md` §3) | Preferred over any chart form for this content — it is inherently tabular, not numeric. |
-| Horizontal phase timeline (no dates) | Five-phase delivery sequence (`seed.md` §18) | Show sequence and phase names only; do not add invented duration estimates or calendar dates not present in the source. |
+| Two/three-column comparison table | Mode A vs. Mode B vs. Mode C ownership ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)) | Preferred over any chart form for this content — it is inherently tabular, not numeric. |
+| Horizontal phase timeline (no dates) | Five-phase delivery sequence ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) | Show sequence and phase names only; do not add invented duration estimates or calendar dates not present in the source. |
 | Stepped progression bar | Disabled → Observe → Warn → Redact → Block | Same shape as diagram 5 in [§2.3](#23-required-diagram-set); reusable as both an architecture diagram and, simplified, as a chart-like progress indicator. |
-| Ownership / RACI-style table | Stakeholder needs (`seed.md` §7) and ownership boundaries (`seed.md` §21) | Rows = responsibility area, columns = owning party. |
-| Capability grid (icon + label, no numbers) | In-scope vs. future-scope capability counts (`seed.md` §6) | Present as a categorized list/grid, not a bar chart with counts, unless the count is a literal, verifiable enumeration of named items already listed in the source (e.g., number of named Phase 1–2 core components in `seed.md` §16 — count the list, do not estimate it). |
+| Ownership / RACI-style table | Stakeholder needs ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)) and ownership boundaries ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)) | Rows = responsibility area, columns = owning party. |
+| Capability grid (icon + label, no numbers) | In-scope vs. future-scope capability counts ([`SCOPE.md`](../10-charter/SCOPE.md)) | Present as a categorized list/grid, not a bar chart with counts, unless the count is a literal, verifiable enumeration of named items already listed in the source (e.g., number of named Phase 1–2 core components in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) — count the list, do not estimate it). |
 
-**Not permitted:** bar, line, or pie charts depicting adoption rates, latency numbers, false-positive rates, ROI, cost savings, or any other quantity not explicitly present in `seed.md`. If a slide in [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for this kind of metric visualization before real pilot or production data exists, the deck agent must render a clearly labeled placeholder chart shell — axes and legend present, data area replaced with a "TBD — pending pilot data" watermark or callout — rather than plausible-looking sample data that a viewer could mistake for a real result.
+**Not permitted:** bar, line, or pie charts depicting adoption rates, latency numbers, false-positive rates, ROI, cost savings, or any other quantity not explicitly present in the L1 registers. If a slide in [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for this kind of metric visualization before real pilot or production data exists, the deck agent must render a clearly labeled placeholder chart shell — axes and legend present, data area replaced with a "TBD — pending pilot data" watermark or callout — rather than plausible-looking sample data that a viewer could mistake for a real result.
 
 ---
 
 ## 4. Image policy
 
 * **No stock photography.** No handshake photos, no generic "AI brain" or humanoid-robot imagery, no server-room clichés, no stock-photo people at laptops. These add no information and read as filler in an enterprise technical sale.
-* **No fabricated product screenshots.** `seed.md` §17 confirms the initial phases do not require a full administration portal, and no UI artifacts exist in the source material. Do not invent a screenshot of a dashboard, policy editor, or audit console. Where the narrative wants to show "what the product looks like," use an architecture or flow diagram instead, or a clearly labeled wireframe explicitly marked "Illustrative — not final UI" if a low-fidelity mockup is truly needed for a specific narrative beat.
-* **No fabricated customer logos or names.** Consistent with the source-of-truth rule against inventing customer names, the deck must not include a customer logo wall, testimonial, or case-study photo that does not exist in `seed.md`.
+* **No fabricated product screenshots.** [`SCOPE.md`](../10-charter/SCOPE.md) confirms the initial phases do not require a full administration portal, and no UI artifacts exist in the source material. Do not invent a screenshot of a dashboard, policy editor, or audit console. Where the narrative wants to show "what the product looks like," use an architecture or flow diagram instead, or a clearly labeled wireframe explicitly marked "Illustrative — not final UI" if a low-fidelity mockup is truly needed for a specific narrative beat.
+* **No fabricated customer logos or names.** Consistent with the source-of-truth rule against inventing customer names, the deck must not include a customer logo wall, testimonial, or case-study photo that does not exists in the L1 registers.
 * **Backgrounds:** plain or subtly textured neutral backgrounds only, consistent with the placeholder palette in [§1](#1-brand-and-design-tokens). Avoid busy photographic or abstract-art backgrounds behind text or diagrams — they reduce diagram legibility and fight the "clean architecture flow" style mandated in [§2](#2-diagram-style).
 
 ---
@@ -128,7 +128,7 @@ Diagrams 1–2 are the core "how it works" slides; diagrams 3–6 are supporting
 * **Line/outline icons**, single consistent stroke weight throughout the deck. No mixing of outline icons with filled/glyph icons in the same slide or the same icon family.
 * Monochrome or restrained two-tone, drawn from the placeholder palette in [§1](#1-brand-and-design-tokens) — no rainbow icon sets, no per-icon custom coloring.
 * No skeuomorphic, no gradient-filled, no photographic or 3D-rendered icons.
-* Icons should exist for, at minimum, the core domain-model entities and architectural concepts so the same icon is reused consistently wherever that concept appears (`seed.md` §9, §10):
+* Icons should exist for, at minimum, the core domain-model entities and architectural concepts so the same icon is reused consistently wherever that concept appears ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md)):
 
 | Concept | Icon needed for |
 |---|---|
@@ -151,8 +151,8 @@ Reuse one icon per concept across the whole deck rather than choosing a fresh ic
 ## 6. Color restrictions
 
 * No brand palette is final ([§1](#1-brand-and-design-tokens)); use the placeholder palette consistently until replaced.
-* **Semantic color use is functionally restricted, not merely stylistic.** Green/red/amber coloring may be used only to represent the literal `Decision` actions (`allow`, `block`, `redact`, `log_only`) or the five-state policy progression (`Disabled → Observe → Warn → Redact → Block`, `seed.md` §5.6). It must not be used to imply an overall product-quality, safety, or compliance-certification claim — `seed.md` §6.3 and §17 explicitly exclude "full compliance certification" from the feature set, so a green shield-with-checkmark motif that reads as "certified secure" is not permitted.
-* **No AWS trademark or co-branding implication.** Do not use AWS's orange/black brand colors, the AWS "Smile" mark, or a visual treatment styled to resemble official AWS partner badging, unless a real, approved partnership agreement exists. The product runs on AWS (`seed.md` §11) but that is an implementation detail, not a co-branding license.
+* **Semantic color use is functionally restricted, not merely stylistic.** Green/red/amber coloring may be used only to represent the literal `Decision` actions (`allow`, `block`, `redact`, `log_only`) or the five-state policy progression (`Disabled → Observe → Warn → Redact → Block`, [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). It must not be used to imply an overall product-quality, safety, or compliance-certification claim — [`SCOPE.md`](../10-charter/SCOPE.md) explicitly exclude "full compliance certification" from the feature set, so a green shield-with-checkmark motif that reads as "certified secure" is not permitted.
+* **No AWS trademark or co-branding implication.** Do not use AWS's orange/black brand colors, the AWS "Smile" mark, or a visual treatment styled to resemble official AWS partner badging, unless a real, approved partnership agreement exists. The product runs on AWS ([`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md)) but that is an implementation detail, not a co-branding license.
 * **No color treatment may imply Mode A (Remote Evaluation) is as data-local as Mode C (Customer-Managed Runtime).** Per [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), Mode A transmits tenant content to the hosted service. Do not, for example, color-code Mode A with the same "your data stays here" green treatment used for Mode C — that would visually contradict an L1 agreement. If a shared visual language is used for ownership across the three modes, keep the *content-exposure* dimension visually distinct from the *operational-ownership* dimension, per [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns) and [CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment).
 * Maintain WCAG AA contrast minimums for all text-on-background and icon-on-background pairings, including in dark-theme delivery (e.g., a projector or shared-screen setting with a dark room), even while palette values remain placeholders.
 
@@ -161,10 +161,10 @@ Reuse one icon per concept across the whole deck rather than choosing a fresh ic
 ## 7. Slide density
 
 * **One core idea per slide.** A slide that tries to carry a full architecture diagram, a full ownership table, and a bullet list simultaneously is a density failure, not an efficiency win.
-* Prefer a diagram (or single table) plus a short caption over a bullet-list wall. Where bullets are used, keep the list short enough to be read at a glance rather than studied — long enumerations (e.g., the full in-scope/out-of-scope capability lists in `seed.md` §6) belong in backup/appendix slides, not the primary narrative deck.
-* Architecture and topology slides carry exactly one diagram, optionally paired with one compact ownership table (see the Mode A/B/C ownership lists in `seed.md` §3) — not both a diagram and a separate detailed bullet breakdown of the same content.
-* Detail that exists in the source purely for completeness — the full domain-model attribute lists (`seed.md` §9), the full constraint register, the full risk register — belongs in backup slides referenced from, but not inline in, the main narrative.
-* Section-divider slides should be visually quiet: a single statement (e.g., a phase name from `seed.md` §18) and minimal supporting text, not a dense recap of the prior section.
+* Prefer a diagram (or single table) plus a short caption over a bullet-list wall. Where bullets are used, keep the list short enough to be read at a glance rather than studied — long enumerations (e.g., the full in-scope/out-of-scope capability lists in [`SCOPE.md`](../10-charter/SCOPE.md)) belong in backup/appendix slides, not the primary narrative deck.
+* Architecture and topology slides carry exactly one diagram, optionally paired with one compact ownership table (see the Mode A/B/C ownership lists in [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)) — not both a diagram and a separate detailed bullet breakdown of the same content.
+* Detail that exists in the source purely for completeness — the full domain-model attribute lists ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)), the full constraint register, the full risk register — belongs in backup slides referenced from, but not inline in, the main narrative.
+* Section-divider slides should be visually quiet: a single statement (e.g., a phase name from [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) and minimal supporting text, not a dense recap of the prior section.
 
 ---
 
@@ -174,10 +174,10 @@ Reuse one icon per concept across the whole deck rather than choosing a fresh ic
 
 Each slide's speaker notes must include:
 
-* **Sourcing** — which `seed.md` section, `AGREEMENTS.md` entry, or `CONSTRAINTS.md` entry the slide's content is derived from, so the presenter can point to the underlying source if challenged.
+* **Sourcing** — which `AGREEMENTS.md` entry or `CONSTRAINTS.md` entry the slide's content is derived from, so the presenter can point to the underlying source if challenged.
 * **Caveats not shown on-slide** — for example, a Mode A topology slide's notes must state the AGR-009 caveat (content is transmitted to the hosted service) even if the slide's visual treatment keeps that caveat implicit for narrative pacing.
 * **Talk track** — one or two sentences bridging from the previous slide and into the next, so the deck can be delivered by someone other than its author without losing the thread.
-* **Anticipated questions** — where the underlying material is qualified (e.g., "the initial phases do not include a full administration portal," `seed.md` §17), a one-line pointer to how to answer if asked, without overclaiming beyond what the source supports.
+* **Anticipated questions** — where the underlying material is qualified (e.g., "the initial phases do not include a full administration portal," [`SCOPE.md`](../10-charter/SCOPE.md)), a one-line pointer to how to answer if asked, without overclaiming beyond what the source supports.
 
 ---
 
@@ -186,7 +186,7 @@ Each slide's speaker notes must include:
 **All diagrams must remain fully editable in the deck's native format.** This applies to every diagram listed in [§2.3](#23-required-diagram-set) and to any additional diagram [`DECK-BRIEF.md`](DECK-BRIEF.md) calls for.
 
 * Diagrams must be built as native, grouped/ungrouped vector shapes in the deck-authoring tool (e.g., native shapes/SmartArt in a slide tool, or vector objects imported from a diagramming tool that exports editable groups) — never as a flattened raster image, a screenshot, or literal pasted ASCII/monospace text.
-* Mermaid (as used illustratively in [§2.2](#22-worked-example-redrawing-an-ascii-source-as-a-clean-diagram)) or the ASCII diagrams in `seed.md` §3 and §10 may be used as an authoring or staging aid, but the diagram is not considered deck-ready until it has been rebuilt as native editable shapes.
+* Mermaid (as used illustratively in [§2.2](#22-worked-example-redrawing-an-ascii-source-as-a-clean-diagram)) or the ASCII diagrams in [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md) may be used as an authoring or staging aid, but the diagram is not considered deck-ready until it has been rebuilt as native editable shapes.
 * Rationale: the deployment-mode topologies, ownership boundaries, and phase sequencing are all sourced from a solution charter that is still in **Draft** status and governed by an agreements register that can be amended. A flattened image forces a full redraw on every such change; an editable native diagram allows a box label, an arrow, or an ownership column to be updated in place.
 * Text inside diagram boxes must be real, editable text objects — not text baked into an image — so that future translation, rebranding, or terminology updates (e.g., if a domain-model term changes) do not require re-exporting artwork.
 
@@ -196,16 +196,16 @@ Each slide's speaker notes must include:
 
 | Deck diagram | Primary source | Cross-referenced solution-docs |
 |---|---|---|
-| Mode A — Remote Evaluation topology | `seed.md` §3 (lines ~54–96) | [AGREEMENTS.md AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), [CHARTER.md §10](../10-charter/CHARTER.md#10-operating-model) |
-| Mode B — Guarded Gateway topology | `seed.md` §3 (lines ~99–146) | [CHARTER.md §10](../10-charter/CHARTER.md#10-operating-model) |
-| Mode C — Customer-Managed Runtime topology | `seed.md` §3 (lines ~148–200) | [AGREEMENTS.md AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGREEMENTS.md AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime), [CONSTRAINTS.md CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured) |
-| Logical architecture (control plane / runtime / evaluation engines) | `seed.md` §10 (lines ~700–735) | [AGREEMENTS.md AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) |
-| Onboarding / "import" stepper | `seed.md` §4 (lines ~225–247) | [AGREEMENTS.md AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) |
-| Trust and enforcement ladder | `seed.md` §8 (lines ~505–573) | [AGREEMENTS.md AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) |
-| Observe-before-enforce progression | `seed.md` §5.6 (lines ~338–353) | [AGREEMENTS.md AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) |
-| Policy vs. connector separation | `seed.md` §5.3 (lines ~283–298) | [AGREEMENTS.md AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors) |
-| Five-phase delivery timeline | `seed.md` §18 | [PRODUCT-ROADMAP.md](../20-product/PRODUCT-ROADMAP.md#phase-sequence-at-a-glance), [AGREEMENTS.md AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) |
-| Ownership / RACI tables | `seed.md` §7, §21 | [CHARTER.md §11](../10-charter/CHARTER.md#11-ownership-and-responsibilities) |
+| Mode A — Remote Evaluation topology | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (lines ~54–96) | [AGREEMENTS.md AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), [CHARTER.md §10](../10-charter/CHARTER.md#10-operating-model) |
+| Mode B — Guarded Gateway topology | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (lines ~99–146) | [CHARTER.md §10](../10-charter/CHARTER.md#10-operating-model) |
+| Mode C — Customer-Managed Runtime topology | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (lines ~148–200) | [AGREEMENTS.md AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGREEMENTS.md AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime), [CONSTRAINTS.md CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured) |
+| Logical architecture (control plane / runtime / evaluation engines) | [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md) (lines ~700–735) | [AGREEMENTS.md AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract) |
+| Onboarding / "import" stepper | [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) (lines ~225–247) | [AGREEMENTS.md AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) |
+| Trust and enforcement ladder | [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) (lines ~505–573) | [AGREEMENTS.md AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) |
+| Observe-before-enforce progression | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) (lines ~338–353) | [AGREEMENTS.md AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) |
+| Policy vs. connector separation | [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors) (lines ~283–298) | [AGREEMENTS.md AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors) |
+| Five-phase delivery timeline | [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) | [PRODUCT-ROADMAP.md](../20-product/PRODUCT-ROADMAP.md#phase-sequence-at-a-glance), [AGREEMENTS.md AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) |
+| Ownership / RACI tables | [`TARGET-USERS.md`](../20-product/TARGET-USERS.md), [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) | [CHARTER.md §11](../10-charter/CHARTER.md#11-ownership-and-responsibilities) |
 
 ---
 

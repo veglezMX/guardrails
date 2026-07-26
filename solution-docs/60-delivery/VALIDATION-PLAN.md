@@ -3,7 +3,7 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -13,7 +13,7 @@ This document is the **spec-level validation plan** for the AI Guardrails progra
 
 This is an **L3 — derived** document. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative). Where this plan references a specific agreement or constraint, the ID is given (`AGR-NNN`, `CON-NNN`) so the two can be cross-checked. It also does not duplicate the detailed proof-of-concept scopes already defined in [`../50-architecture/FEASIBILITY-ASSESSMENT.md`](../50-architecture/FEASIBILITY-ASSESSMENT.md#4-required-proofs-of-concept) (PoC 1–PoC 5); where a validation activity below corresponds to one of those PoCs, this document cites it by number rather than restating its scope, and adds what the feasibility assessment does not: the delivery **gate** each activity must clear before the program is allowed to proceed past it.
 
-Per source-of-truth policy, no validation activity below is paired with an invented metric, threshold, date, or dollar figure. Where seed.md does not yet supply a number (a latency budget, an availability objective, a specific timeout value), the activity's job is described as *producing* that number, not assuming one exists already.
+Per source-of-truth policy, no validation activity below is paired with an invented metric, threshold, date, or dollar figure. Where the L1 registers do not yet supply a number (a latency budget, an availability objective, a specific timeout value), the activity's job is described as *producing* that number, not assuming one exists already.
 
 ---
 
@@ -60,8 +60,8 @@ Four delivery gates are referenced throughout this plan. None introduces a new p
 
 | Gate | Definition | Source |
 | --- | --- | --- |
-| **Phase 1–2 approval** | The point at which the Phase 1–2 validation demonstration ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) is declared satisfied in full (not a subset) — nested within Phase 1 (Integration proof) and Phase 2 (Internal multi-team platform) of the five-phase sequence in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). Phase 3 (Guarded Gateway) must not be resourced ahead of this gate. |
-| **Pilot** | The point at which a first real (non-synthetic) workload is onboarded to a hosted deployment mode — Mode A or Mode B — beyond the internal Phase 1/2 proof rigs, following the register → select policy → generate manifest → install connector → **observe** → review → enforce onboarding flow in seed.md §4. |
+| **Phase 1–2 approval** | The point at which the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) is declared satisfied in full (not a subset) — nested within Phase 1 (Integration proof) and Phase 2 (Internal multi-team platform) of the five-phase sequence in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). Phase 3 (Guarded Gateway) must not be resourced ahead of this gate. |
+| **Pilot** | The point at which a first real (non-synthetic) workload is onboarded to a hosted deployment mode — Mode A or Mode B — beyond the internal Phase 1/2 proof rigs, following the register → select policy → generate manifest → install connector → **observe** → review → enforce onboarding flow in [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import). |
 | **Phase-4 approval** | The point at which Customer-Managed Runtime (Mode C) deliverables — runtime container, Helm chart, ECS deployment template, infrastructure module, local policy cache, policy synchronization, customer-controlled telemetry, upgrade compatibility checks — are declared complete per the Phase 4 exit in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). |
 | **Production** | General availability of a deployment mode or enforcement posture for real tenant traffic, including any move from cooperative integration toward platform-managed or network/IAM-enforced enforcement per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model). Production is the strictest gate in this plan and may follow, not precede, both Phase 1–2 approval and any relevant pilot. |
 
@@ -82,14 +82,14 @@ flowchart LR
 
 ## Owner-role mapping
 
-This plan uses the same short owner labels the program uses day to day. Each maps onto the formal ownership boundaries in seed.md §21 and the role naming already used in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md), so accountability is traceable rather than a new vocabulary.
+This plan uses the same short owner labels the program uses day to day. Each maps onto the formal ownership boundaries in [`TEAM-AND-OWNERSHIP.md`](TEAM-AND-OWNERSHIP.md) and the role naming already used in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md), so accountability is traceable rather than a new vocabulary.
 
 | Short label (used below) | Formal role(s) | Ownership basis |
 | --- | --- | --- |
-| **Guardrails team** | AI Guardrails team (Technical lead, Integration lead) | Owns product architecture, policy schemas, the evaluation contract, the guardrail runtime, and the LiteLLM connector (seed.md §21). |
-| **Platform team** | Technical lead, with Platform operations lead for instrumentation and infrastructure | Owns guardrail runtime telemetry and evaluation-path engineering (seed.md §21: "Runtime telemetry"); partners with Platform operations, who own hosted infrastructure and service monitoring. |
-| **Cloud team** | Platform operations lead, with the AI Guardrails team for artifact design | Platform operations owns hosted infrastructure, runtime deployment, and network configuration (seed.md §21); the AI Guardrails team owns the supported deployment artifacts (container, Helm chart, ECS template) being packaged. |
-| **Security** | Security and governance lead | Owns organization-level policy requirements, risk classifications, retention requirements, and audit requirements (seed.md §21). |
+| **Guardrails team** | AI Guardrails team (Technical lead, Integration lead) | Owns product architecture, policy schemas, the evaluation contract, the guardrail runtime, and the LiteLLM connector ([`TEAM-AND-OWNERSHIP.md`](TEAM-AND-OWNERSHIP.md)). |
+| **Platform team** | Technical lead, with Platform operations lead for instrumentation and infrastructure | Owns guardrail runtime telemetry and evaluation-path engineering ([`TEAM-AND-OWNERSHIP.md`](TEAM-AND-OWNERSHIP.md): "Runtime telemetry"); partners with Platform operations, who own hosted infrastructure and service monitoring. |
+| **Cloud team** | Platform operations lead, with the AI Guardrails team for artifact design | Platform operations owns hosted infrastructure, runtime deployment, and network configuration ([`TEAM-AND-OWNERSHIP.md`](TEAM-AND-OWNERSHIP.md)); the AI Guardrails team owns the supported deployment artifacts (container, Helm chart, ECS template) being packaged. |
+| **Security** | Security and governance lead | Owns organization-level policy requirements, risk classifications, retention requirements, and audit requirements ([`TEAM-AND-OWNERSHIP.md`](TEAM-AND-OWNERSHIP.md)). |
 
 ---
 
@@ -120,7 +120,7 @@ This plan uses the same short owner labels the program uses day to day. Each map
 
 **Linked sources:** [PP-005](../40-sales-deck/PROOF-POINTS.md#pp-005--observe-mode-measures-effectiveness-before-blocking-becomes-possible) (Observe mode depends on measured latency to gate promotion); [ASM-011](../00-source-of-truth/ASSUMPTIONS.md#c-performance-and-operational-nfr-assumptions), [ASM-012](../00-source-of-truth/ASSUMPTIONS.md#c-performance-and-operational-nfr-assumptions); [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression); [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits); [NFR-PERF-001–007](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md#performance); `FEASIBILITY-ASSESSMENT.md` PoC 2.
 
-**If unresolved:** No stage-specific timeout can be set (CON-016 remains open), and no workload can be honestly promoted from Observe to Enforce, since AGR-011 requires latency to be measured first. Pilot teams could reject or bypass the connector as "slow" (seed.md §20, Latency risk), creating pressure to prioritize Customer-Managed Runtime ahead of its Phase 4 sequencing.
+**If unresolved:** No stage-specific timeout can be set (CON-016 remains open), and no workload can be honestly promoted from Observe to Enforce, since AGR-011 requires latency to be measured first. Pilot teams could reject or bypass the connector as "slow" ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md), Latency risk), creating pressure to prioritize Customer-Managed Runtime ahead of its Phase 4 sequencing.
 
 ---
 
@@ -132,7 +132,7 @@ This plan uses the same short owner labels the program uses day to day. Each map
 
 **Owner:** Guardrails team.
 
-**Required before:** Phase 1–2 approval. This is, per the demonstration recorded in [`seed.md` §16](../../seed.md#16-mvp-definition) and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), the literal, falsifiable condition Phases 1–2 must satisfy — it cannot be inferred from a single-instance test or declared complete on the basis of individual components working in isolation.
+**Required before:** Phase 1–2 approval. This is, per the demonstration recorded in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), the literal, falsifiable condition Phases 1–2 must satisfy — it cannot be inferred from a single-instance test or declared complete on the basis of individual components working in isolation.
 
 **Acceptance signal:** Identical policy version produces consistent decisions across both instances; no model-provider credential or LiteLLM configuration is exchanged with the guardrail platform; the Observe-mode instance logs findings without blocking; the Enforce-mode instance blocks/redacts per policy.
 
@@ -140,7 +140,7 @@ This plan uses the same short owner labels the program uses day to day. Each map
 
 **Important distinction:** Securing two **named, real, organizationally independent** teams willing to participate (a Delivery-lead-owned commercial/organizational task, tracked as a blocking decision in `FEASIBILITY-ASSESSMENT.md` §12) is a precondition for this test's full retirement of ASM-002/ASM-003, but is separate from the engineering execution of the test itself, which the Guardrails team owns regardless of whether the two instances are the two real teams or a simulated stand-in used to de-risk the connector and contract first.
 
-**If unresolved:** Phases 1–2 cannot be declared validated under the demonstration recorded in seed.md §16 and DEC-008, and the core "reusable policy across independent gateways" hypothesis the entire program depends on (seed.md §22) remains unproven.
+**If unresolved:** Phases 1–2 cannot be declared validated under the demonstration recorded in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) and DEC-008, and the core "reusable policy across independent gateways" hypothesis the entire program depends on ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)) remains unproven.
 
 ---
 
@@ -166,17 +166,17 @@ This plan uses the same short owner labels the program uses day to day. Each map
 
 **Claim / assumption under test:** [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities) (per-tenant workload identities enforce isolation), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies), and [ASM-005](../00-source-of-truth/ASSUMPTIONS.md#a-demand-adoption-and-trust-assumptions) — that a removable, non-bypass-proof cooperative connector is an acceptable enforcement posture for the teams it is initially offered to, and that the per-tenant identity boundary actually holds under adversarial conditions, not only under normal operation.
 
-**Validation method:** A threat model of the connector-bypass surface (seed.md §20) and the per-tenant identity boundary (CON-011), paired with a security review confirming none of the four weak proxies named in [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies) — API keys in LiteLLM configuration, unauthenticated tenant-supplied identifiers, unauthenticated client-provided policy versions, or connector telemetry — is relied on exclusively as a security or enforcement-evidence control anywhere in the implementation. The review must also confirm the enforcement-posture distinction in [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) (cooperative vs. platform-managed vs. network/IAM-enforced) is recorded per workload, not assumed.
+**Validation method:** A threat model of the connector-bypass surface ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)) and the per-tenant identity boundary (CON-011), paired with a security review confirming none of the four weak proxies named in [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies) — API keys in LiteLLM configuration, unauthenticated tenant-supplied identifiers, unauthenticated client-provided policy versions, or connector telemetry — is relied on exclusively as a security or enforcement-evidence control anywhere in the implementation. The review must also confirm the enforcement-posture distinction in [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) (cooperative vs. platform-managed vs. network/IAM-enforced) is recorded per workload, not assumed.
 
 **Owner:** Security.
 
-**Required before:** Production. A network/IAM-enforced gateway posture is explicitly **not** a Phase 1–2 requirement (seed.md §8, §17; AGR-018), so this validation activity does not block Phase 1–2 approval — but no workload may be promoted to production traffic under a claimed enforcement posture that has not been threat-modeled and reviewed against that claim.
+**Required before:** Production. A network/IAM-enforced gateway posture is explicitly **not** a Phase 1–2 requirement ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [`SCOPE.md`](../10-charter/SCOPE.md); AGR-018), so this validation activity does not block Phase 1–2 approval — but no workload may be promoted to production traffic under a claimed enforcement posture that has not been threat-modeled and reviewed against that claim.
 
 **Acceptance signal:** A documented threat model exists for the connector-bypass surface and the tenant-identity boundary; the security review confirms no exclusive reliance on any CON-012 weak proxy; each workload's recorded enforcement posture (cooperative, platform-managed, or network/IAM-enforced) matches what is actually implemented and what is described in any customer-facing material, per [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model).
 
-**Linked sources:** [PP-008](../40-sales-deck/PROOF-POINTS.md#pp-008--guardrails-are-not-authorization) (a related but distinct boundary — this item addresses tenant/identity isolation, not authorization scope); [ASM-005](../00-source-of-truth/ASSUMPTIONS.md#a-demand-adoption-and-trust-assumptions); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); seed.md §8 (Trust and enforcement model), §20 (Connector bypass risk).
+**Linked sources:** [PP-008](../40-sales-deck/PROOF-POINTS.md#pp-008--guardrails-are-not-authorization) (a related but distinct boundary — this item addresses tenant/identity isolation, not authorization scope); [ASM-005](../00-source-of-truth/ASSUMPTIONS.md#a-demand-adoption-and-trust-assumptions); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) (Trust and enforcement model), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) (Connector bypass risk).
 
-**If unresolved:** The connector-bypass risk (seed.md §20) materializes without a documented mitigation path, and — more seriously — the platform risks the "false confidence" risk also named in seed.md §20: a cooperative connector could be represented, explicitly or by omission, as a hard security boundary it was never designed to be, which AGR-018 expressly prohibits.
+**If unresolved:** The connector-bypass risk ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)) materializes without a documented mitigation path, and — more seriously — the platform risks the "false confidence" risk also named in [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md): a cooperative connector could be represented, explicitly or by omission, as a hard security boundary it was never designed to be, which AGR-018 expressly prohibits.
 
 ---
 
@@ -188,7 +188,7 @@ This plan uses the same short owner labels the program uses day to day. Each map
 
 **Owner:** Platform team.
 
-**Required before:** Phase 1–2 approval. The Phase 1–2 validation demonstration ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) explicitly lists "evaluation failures follow a configured failure policy" as one of its falsifiable conditions.
+**Required before:** Phase 1–2 approval. The Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) explicitly lists "evaluation failures follow a configured failure policy" as one of its falsifiable conditions.
 
 **Acceptance signal:** Every failure mode named in [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) — API timeout, detector unavailable, policy unresolved, control-plane unavailable, audit-delivery failure, unsafe response transform — produces the configured, not an implicit, outcome; a policy missing a required failure-behavior section is rejected or flagged rather than silently defaulted; audit metadata records the failure path taken (feeding [NFR-AUDIT-002](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md#auditability)).
 
@@ -218,11 +218,11 @@ This plan uses the same short owner labels the program uses day to day. Each map
 
 ## Validation sequencing
 
-The diagram below shows how the six items compose against the gates in [Gate definitions](#gate-definitions). VAL-001, VAL-002, and VAL-005 gate Phase 1–2 approval jointly — all three, not a subset, per the demonstration's complete condition list (seed.md §16; DEC-008). VAL-006 gates the Pilot checkpoint that follows. VAL-003 gates Phase-4 approval independently, on its own timeline, per AGR-020's phase sequencing. VAL-004 is the only item gating Production directly, since a network/IAM-enforced posture is explicitly not required for Phases 1–2.
+The diagram below shows how the six items compose against the gates in [Gate definitions](#gate-definitions). VAL-001, VAL-002, and VAL-005 gate Phase 1–2 approval jointly — all three, not a subset, per the demonstration's complete condition list ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); DEC-008). VAL-006 gates the Pilot checkpoint that follows. VAL-003 gates Phase-4 approval independently, on its own timeline, per AGR-020's phase sequencing. VAL-004 is the only item gating Production directly, since a network/IAM-enforced posture is explicitly not required for Phases 1–2.
 
 ```mermaid
 flowchart TD
-    subgraph P12["Phase 1–2 approval — all three required (seed.md §16 / DEC-008)"]
+ subgraph P12["Phase 1–2 approval — all three required ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) / DEC-008)"]
         V1[VAL-001<br/>Policy evaluation latency]
         V2[VAL-002<br/>Two-LiteLLM-one-policy consistency]
         V5[VAL-005<br/>Failure-policy behavior]
@@ -297,9 +297,9 @@ As of this document's date, **all six items are Not started.** None has been exe
 - [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md) — should gate Phase 1–2, pilot, Phase-4, and production readiness on the status of the items in this plan.
 - [`MILESTONES.md`](MILESTONES.md) — should sequence delivery milestones around the "Required before" gates defined here.
 - [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md) — should reflect VAL-001 through VAL-006 as delivery-plan inputs, not afterthoughts.
-- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — each "If unresolved" consequence above corresponds to a named risk in seed.md §20 (latency, connector bypass, hosted data exposure, false confidence) that should be tracked there.
+- [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — each "If unresolved" consequence above corresponds to a named risk in [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) (latency, connector bypass, hosted data exposure, false confidence) that should be tracked there.
 - [`../30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) — executive framing of the Phase 1–2 validation demonstration that VAL-001, VAL-002, and VAL-005 collectively substantiate.
 
 ---
 
-*This plan should be reviewed at every phase gate defined in seed.md §18 and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). New validation items surfaced during delivery should be appended with the next sequential `VAL-###` ID rather than renumbering existing entries.*
+*This plan should be reviewed at every phase gate defined in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). New validation items surfaced during delivery should be appended with the next sequential `VAL-###` ID rather than renumbering existing entries.*

@@ -3,7 +3,7 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -69,7 +69,7 @@ flowchart TB
     DE --> AP
 ```
 
-Three integration clients are shown because they are the ones defined in the charter's logical architecture ([seed.md §10](../../seed.md)): the LiteLLM connector, the generic SDK, and the provider-operated Guarded Gateway (which internally reuses the same connector contract against a provider-managed LiteLLM instance). All three call the same Evaluation API and receive the same decision structure — this is the one-contract guarantee ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
+Three integration clients are shown because they are the ones defined in the charter's logical architecture ([`CONTAINER-ARCHITECTURE.md`](CONTAINER-ARCHITECTURE.md)): the LiteLLM connector, the generic SDK, and the provider-operated Guarded Gateway (which internally reuses the same connector contract against a provider-managed LiteLLM instance). All three call the same Evaluation API and receive the same decision structure — this is the one-contract guarantee ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
 ---
 
@@ -91,7 +91,7 @@ An evaluation request always targets a named stage. The MVP supports two:
 | `memory_write` | Evaluates content before it is written to persistent memory. | Future scope |
 | `final_response` | Evaluates a fully assembled response distinct from `output`. | Future scope |
 
-The MVP initially limits evaluated content to user/model input and model output ([seed.md §13](../../seed.md)); future stages must be added by extending this table, not by inventing a parallel model.
+The MVP initially limits evaluated content to user/model input and model output ([`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md)); future stages must be added by extending this table, not by inventing a parallel model.
 
 ### 3.2 Evaluation request (conceptual shape)
 
@@ -106,7 +106,7 @@ An evaluation request carries, at minimum:
 | Stage | `input` or `output` (see §3.1). |
 | Content payload | The prompt, response, or other stage-appropriate content to evaluate. |
 | Correlation identifier | Propagated end to end so a single logical request can be traced across pre-call and post-call evaluations and audit records. |
-| Policy reference (optional) | Client-asserted policy/version hint; never authoritative on its own — the runtime resolves and authorizes the effective policy server-side ([seed.md §14](../../seed.md)). |
+| Policy reference (optional) | Client-asserted policy/version hint; never authoritative on its own — the runtime resolves and authorizes the effective policy server-side ([`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)). |
 
 ### 3.3 Decision structure
 
@@ -122,7 +122,7 @@ A decision is the normalized result of an evaluation, regardless of which evalua
 | Transformed content | Present when the action alters content (for example, `redact`). |
 | Correlation identifier | Ties the decision back to the originating request across stages. |
 | Audit identifier | Reference to the corresponding audit record. |
-| Evaluation latency | Time spent producing the decision, feeding the P50/P95/P99 latency metrics tracked platform-wide ([seed.md §15](../../seed.md)). |
+| Evaluation latency | Time spent producing the decision, feeding the P50/P95/P99 latency metrics tracked platform-wide ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)). |
 
 This structure is identical whether the decision was produced by a hosted Evaluation API call (Mode A/B) or a customer-managed runtime (Mode C) — see [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md).
 
@@ -138,7 +138,7 @@ Two fields join this set from decisions recorded elsewhere and are carried from 
 | `log_only` | Content proceeds unmodified; the decision is recorded for observe-mode measurement without affecting the request. | MVP |
 | `rewrite` / `discard` / `abstain` / `require_approval` | Additional normalized actions. | Future scope |
 
-These four MVP actions are what every connector — LiteLLM or otherwise — must be able to enforce ([seed.md §9](../../seed.md)).
+These four MVP actions are what every connector — LiteLLM or otherwise — must be able to enforce ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 An action is **what happened to a request**. It is not the same vocabulary as the five enforcement-ladder states of [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), which describe **how strongly a workload's binding is being enforced** — even though `Redact` and `Block` appear in both lists. See [§3.8](#38-enforcement-ladder-states-and-the-action-set) for how the two relate; `warn` and `disabled` are ladder states and are permanently excluded from the action vocabulary.
 
@@ -154,7 +154,7 @@ The concrete reason-code taxonomy is owned by the policy schema (see [`COMPONENT
 
 ### 3.6 Policy name, version, and compatibility
 
-Every decision names the exact immutable policy version that produced it. Policies support immutable versions, controlled promotion, workload-scoped rollout, immediate rollback, and compatibility validation ([seed.md §15](../../seed.md)). The evaluation contract must remain compatible across policy versions and across deployment modes simultaneously; contract changes are versioned and evaluated for backward compatibility before release ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
+Every decision names the exact immutable policy version that produced it. Policies support immutable versions, controlled promotion, workload-scoped rollout, immediate rollback, and compatibility validation ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)). The evaluation contract must remain compatible across policy versions and across deployment modes simultaneously; contract changes are versioned and evaluated for backward compatibility before release ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
 ### 3.7 Latency
 
@@ -229,7 +229,7 @@ This is the pre-call / post-call pattern shown in Mode A of [`DEPLOYMENT-ARCHITE
 
 ### 4.2 Connector responsibilities
 
-The LiteLLM connector is responsible for ([seed.md §12](../../seed.md)):
+The LiteLLM connector is responsible for ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)):
 
 | Responsibility | Detail |
 | --- | --- |
@@ -240,17 +240,17 @@ The LiteLLM connector is responsible for ([seed.md §12](../../seed.md)):
 | Applying safe output fallbacks | When the output decision is `block` (or evaluation cannot complete per the workload's failure policy), returns a safe fallback response rather than the raw model output. |
 | Propagating correlation identifiers | Carries a single correlation identifier through the input evaluation, the model call, and the output evaluation, so both decisions and the eventual audit trail can be joined. |
 | Handling evaluation timeouts | Applies the workload's configured timeout and failure behavior (§4.6) when the Evaluation API does not respond in time. |
-| Emitting connector-health telemetry | Reports connector-level health signals (reachability, timeout rate, error rate) distinct from the evaluation decisions themselves, supporting platform-managed enforcement visibility ([seed.md §8](../../seed.md)). |
+| Emitting connector-health telemetry | Reports connector-level health signals (reachability, timeout rate, error rate) distinct from the evaluation decisions themselves, supporting platform-managed enforcement visibility ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)). |
 
 ### 4.3 Connector non-responsibilities
 
-The connector explicitly does **not** own ([seed.md §12](../../seed.md)):
+The connector explicitly does **not** own ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)):
 
 | Not the connector's job | Owned instead by |
 | --- | --- |
 | Defining organization policy | The policy schema and the policy owner (see [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md)). |
 | Implementing detection models | Evaluator adapters and evaluation engines (§6). |
-| Managing model credentials | The consuming team (Mode A/C) or the provider's gateway operations (Mode B) — never the guardrail platform ([seed.md §3](../../seed.md)). |
+| Managing model credentials | The consuming team (Mode A/C) or the provider's gateway operations (Mode B) — never the guardrail platform ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)). |
 | Persisting audit records | The audit producer inside the Guardrails Runtime. |
 | Performing user authorization | The consuming application ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)). |
 | Managing policy versions | The control plane's policy resolver and rollout tooling. |
@@ -288,7 +288,7 @@ Failure behavior is part of the policy, not an implementation detail left to the
 | B — Guarded Gateway | Inside the provider-managed LiteLLM instance underlying the Guarded Gateway. | The provider's own Guardrails Runtime, in-process or over the private network. |
 | C — Customer-Managed Runtime | Inside the customer's LiteLLM or application. | The customer-hosted Guardrails Runtime, including its local policy cache and Bedrock Guardrails adapter. |
 
-The connector contract itself does not change across modes — only the network destination of the Evaluation API does. This is what allows the runtime to later be packaged for customer-managed deployment without changing the connector contract (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+The connector contract itself does not change across modes — only the network destination of the Evaluation API does. This is what allows the runtime to later be packaged for customer-managed deployment without changing the connector contract ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 
@@ -296,7 +296,7 @@ The connector contract itself does not change across modes — only the network 
 
 Not every workload uses LiteLLM. The generic HTTP Evaluation API is the direct, framework-independent surface that the LiteLLM connector itself is built on top of, and the SDK is a thin client library over that same API.
 
-* **Generic HTTP Evaluation API.** Exposes the same evaluation request/decision contract described in §3, callable by any application, custom gateway, or agent framework capable of making an authenticated HTTP call. This is explicitly in MVP scope alongside the LiteLLM integration ([seed.md §6.1](../../seed.md)).
+* **Generic HTTP Evaluation API.** Exposes the same evaluation request/decision contract described in §3, callable by any application, custom gateway, or agent framework capable of making an authenticated HTTP call. This is explicitly in MVP scope alongside the LiteLLM integration ([`SCOPE.md`](../10-charter/SCOPE.md)).
 * **Generic SDK.** A language-level convenience wrapper around the HTTP API (request construction, correlation-id propagation, timeout handling) with the same non-responsibilities as the LiteLLM connector (§4.3) — it does not define policy, implement detection, manage credentials, persist audit records, perform authorization, or manage policy versions.
 * **Relationship to the LiteLLM connector.** The LiteLLM connector and the generic SDK are two clients of one contract, not two contracts. A team migrating from a custom SDK integration to LiteLLM (or vice versa) changes only which client calls the Evaluation API — policies, decisions, reason codes, and audit records are unaffected.
 
@@ -321,20 +321,20 @@ flowchart LR
 * **Normalization responsibility.** The adapter is solely responsible for translating Bedrock Guardrails' native request and response formats into the platform's own decision structure (§3.3) before any result reaches a policy or a connector. No Bedrock-specific field, code, or response shape may leak past the adapter boundary.
 * **Adapter pattern applies uniformly.** Deterministic rules, PII evaluators, schema validators, and any future third-party evaluation engine are added behind the same adapter interface as Bedrock Guardrails — none of them are special-cased in the decision engine or in policy definitions.
 * **Contract permanence.** Marketing and technical documentation must not describe Bedrock Guardrails as the product's permanent or exclusive detection engine ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)); the public contract is designed to outlive any single engine choice.
-* **Deployment-mode presence.** In Mode C (Customer-Managed Runtime), the Bedrock Guardrails adapter runs inside the customer's own AWS account alongside the local policy cache and custom evaluators ([seed.md §3](../../seed.md)), using the same normalization logic as the hosted runtime.
+* **Deployment-mode presence.** In Mode C (Customer-Managed Runtime), the Bedrock Guardrails adapter runs inside the customer's own AWS account alongside the local policy cache and custom evaluators ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)), using the same normalization logic as the hosted runtime.
 
 ---
 
 ## 7. Extensibility: additional integrations without changing policy semantics
 
-The product must later support additional integrations — further gateways, agent frameworks, or evaluation engines — without changing policy semantics ([seed.md §12](../../seed.md)). This is achieved structurally, not by convention:
+The product must later support additional integrations — further gateways, agent frameworks, or evaluation engines — without changing policy semantics ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)). This is achieved structurally, not by convention:
 
 1. **Policies never reference connectors or engines.** A policy is defined purely in terms of stages, evaluator configuration, thresholds, enforcement actions, and failure behavior (§3), never in terms of "LiteLLM," "Bedrock," or any other vendor or framework identifier ([AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)).
 2. **Connectors implement an invocation contract, not a policy contract.** Adding a new connector means implementing request mapping, evaluation invocation, action enforcement, correlation propagation, timeout handling, and health telemetry (§4.2) against the existing Evaluation API — no policy, decision, or reason-code change is required.
 3. **Evaluation engines implement an adapter contract, not a decision contract.** Adding a new evaluation engine means normalizing its native output into the existing decision structure (§3.3, §6) — the decision engine and audit producer are unaffected.
 4. **Conformance is testable independently of any one integration.** Because the contract is defined once (§3) and shared across modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)), a conformance test suite can validate any new connector or engine against the same fixtures used for LiteLLM and Bedrock Guardrails, without bespoke per-integration test design.
 
-The Phase 1–2 validation demonstration directly exercises this property: two independent LiteLLM instances must consume the same policy and receive consistent normalized decisions, and the runtime must later be packaged for customer-managed deployment without changing the connector contract (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+The Phase 1–2 validation demonstration directly exercises this property: two independent LiteLLM instances must consume the same policy and receive consistent normalized decisions, and the runtime must later be packaged for customer-managed deployment without changing the connector contract ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 

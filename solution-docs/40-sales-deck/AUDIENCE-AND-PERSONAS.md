@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -11,18 +11,18 @@
 
 This document defines the five audiences the AI Guardrails sales deck must speak to, and what each one needs to hear to move from skepticism to sponsorship. It is written for whoever builds or presents the deck — sales engineering, product marketing, or a solution lead running a discovery conversation.
 
-This is an **L4** document: a derived sales artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), and every persona statement below uses the same "designed to / supports" language discipline required by [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) rather than proven-performance language. No metric, dollar figure, SLA, or timeline appears below unless it already exists in the seed material or the agreements register; where none exists, this document says **TBD**.
+This is an **L4** document: a derived sales artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), and every persona statement below uses the same "designed to / supports" language discipline required by [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) rather than proven-performance language. No metric, dollar figure, SLA, or timeline appears below unless it already exists in the source material or the agreements register; where none exists, this document says **TBD**.
 
-Four of the five personas map directly onto the stakeholder groups named in seed.md §7 ("Initial users and stakeholders"):
+Four of the five personas map directly onto the stakeholder groups named in [`TARGET-USERS.md`](../20-product/TARGET-USERS.md) ("Initial users and stakeholders"):
 
-| Persona in this document | seed.md §7 source group |
+| Persona in this document | [`TARGET-USERS.md`](../20-product/TARGET-USERS.md) source group |
 | --- | --- |
 | Platform / Enablement Lead | Platform teams |
 | Application / Engineering Lead | Application teams |
 | Security & Compliance Lead | Security and compliance teams |
 | Product Operator | Product operators |
 
-The fifth persona, **Executive Sponsor**, is not a named stakeholder group in seed.md §7 — a sales deck needs a decision-maker persona that §7 does not itemize. It is synthesized from material elsewhere in the charter that speaks directly to an executive audience: the product vision (seed.md §2), the decision summary and product statement (seed.md §22–§23), the success-metrics framework (seed.md §19), the key-risks register (seed.md §20, especially "product over-expansion"), the phased-delivery agreement ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), and the full-feature-set scope decision ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); scope boundaries per seed.md §6 and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)). Nothing in the Executive Sponsor profile below asserts a figure the charter does not supply.
+The fifth persona, **Executive Sponsor**, is not a named stakeholder group in [`TARGET-USERS.md`](../20-product/TARGET-USERS.md) — a sales deck needs a decision-maker persona that §7 does not itemize. It is synthesized from material elsewhere in the charter that speaks directly to an executive audience: the product vision ([`CHARTER.md`](../10-charter/CHARTER.md)), the decision summary and product statement ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md)), the success-metrics framework ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)), the key-risks register ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md), especially "product over-expansion"), the phased-delivery agreement ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), and the full-feature-set scope decision ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); scope boundaries per [`SCOPE.md`](../10-charter/SCOPE.md) and [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)). Nothing in the Executive Sponsor profile below asserts a figure the charter does not supply.
 
 ---
 
@@ -40,11 +40,11 @@ The fifth persona, **Executive Sponsor**, is not a named stakeholder group in se
 
 ## 1. Platform / Enablement Lead
 
-*(seed.md §7 — Platform teams)*
+*([`TARGET-USERS.md`](../20-product/TARGET-USERS.md) — Platform teams)*
 
 **Role.** Owns the guardrail policy layer as a shared internal capability: defines policies, curates connectors, and is accountable for guardrails being applied consistently across teams that do not share a gateway, provider, or framework.
 
-**Goals** (seed.md §7):
+**Goals** ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)):
 - Central guardrail policy definitions.
 - Reusable connectors.
 - Deployment consistency.
@@ -53,9 +53,9 @@ The fifth persona, **Executive Sponsor**, is not a named stakeholder group in se
 - Low operational overhead.
 
 **Top pains:**
-- Every application team today builds or bolts on its own detection logic, at different quality bars, with no shared definition of "safe" (seed.md §1–§2; [`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §2.1).
-- Heterogeneous gateways, providers, and frameworks defeat any attempt to centralize guardrail logic that is embedded directly in one team's stack (seed.md §2, §5.1).
-- Uncontrolled workload-specific overrides risk quietly re-fragmenting a shared policy back into per-workload variants — the "policy fragmentation" risk named in seed.md §20.
+- Every application team today builds or bolts on its own detection logic, at different quality bars, with no shared definition of "safe" ([`CHARTER.md`](../10-charter/CHARTER.md); [`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §2.1).
+- Heterogeneous gateways, providers, and frameworks defeat any attempt to centralize guardrail logic that is embedded directly in one team's stack ([`CHARTER.md`](../10-charter/CHARTER.md), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)).
+- Uncontrolled workload-specific overrides risk quietly re-fragmenting a shared policy back into per-workload variants — the "policy fragmentation" risk named in [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md).
 - Standing up a new shared capability can itself look like added operational overhead unless it is architected to be thin at the connector layer and centralized at the policy layer.
 
 **The message that lands:**
@@ -72,11 +72,11 @@ This is the exact question [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001
 
 ## 2. Application / Engineering Lead
 
-*(seed.md §7 — Application teams)*
+*([`TARGET-USERS.md`](../20-product/TARGET-USERS.md) — Application teams)*
 
 **Role.** Owns an application, assistant, agent, or inference service that consumes an LLM and is asked to adopt a shared guardrail policy without disrupting production traffic or taking on a large integration burden.
 
-**Goals** (seed.md §7):
+**Goals** ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)):
 - A simple onboarding process.
 - Minimal application changes.
 - Predictable latency.
@@ -85,15 +85,15 @@ This is the exact question [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001
 - A way to test policies before blocking users.
 
 **Top pains:**
-- Adopting an unproven capability is risky when there is no non-blocking way to see what a policy would do before it can affect real users (seed.md §5.6; [`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §5.1, "the all-or-nothing guardrail trap").
-- Synchronous input and output evaluation calls sit directly on the request path, adding latency exactly where the team is least willing to absorb it (seed.md §14, §15, §20 "Latency").
-- Without an explicit failure-behavior definition, a timed-out evaluator or an unavailable control plane could silently break production traffic, or silently fail open and defeat the guardrail's purpose (seed.md §5.7, §14; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)).
+- Adopting an unproven capability is risky when there is no non-blocking way to see what a policy would do before it can affect real users ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression); [`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §5.1, "the all-or-nothing guardrail trap").
+- Synchronous input and output evaluation calls sit directly on the request path, adding latency exactly where the team is least willing to absorb it ([`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) "Latency").
+- Without an explicit failure-behavior definition, a timed-out evaluator or an unavailable control plane could silently break production traffic, or silently fail open and defeat the guardrail's purpose ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)).
 - Opaque pass/fail results give the team nothing actionable when a request is blocked or redacted.
 
 **The message that lands:**
 > "You keep your gateway, your model provider, and your routing exactly as they are today. You bind a policy, run it in observe mode against real traffic, and only move to enforcement once you've reviewed the evidence yourself — never as a side effect of someone else's rollout."
 
-This is the onboarding flow itself (seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)): register workload, select policy, generate integration manifest, install connector, run in observe mode, review results, enable enforcement — and the observe-before-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)) that defaults every new binding to Observe, not Block.
+This is the onboarding flow itself ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)): register workload, select policy, generate integration manifest, install connector, run in observe mode, review results, enable enforcement — and the observe-before-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)) that defaults every new binding to Observe, not Block.
 
 **The objection they will raise:**
 > "This adds a synchronous call into my request path before and after every model invocation. What's the latency cost, and what happens to my traffic when the Evaluation API is slow, a detector is unavailable, or the control plane can't be reached?"
@@ -104,11 +104,11 @@ The honest answer is that failure behavior is mandatory and explicit, not implic
 
 ## 3. Security & Compliance Lead
 
-*(seed.md §7 — Security and compliance teams)*
+*([`TARGET-USERS.md`](../20-product/TARGET-USERS.md) — Security and compliance teams)*
 
 **Role.** Owns organization-level policy requirements, approves guardrail policies before they govern production workloads, and must be able to produce evidence — not just an assertion — that guardrails are actually in effect.
 
-**Goals** (seed.md §7):
+**Goals** ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)):
 - Policy ownership.
 - Decision evidence.
 - Policy-version traceability.
@@ -118,14 +118,14 @@ The honest answer is that failure behavior is mandatory and explicit, not implic
 
 **Top pains:**
 - Fragmented, bespoke guardrails cannot produce comparable evidence across workloads, because each team's implementation records different things — or nothing at all ([`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §2.3, §6).
-- A cooperative connector — the only enforcement posture the initial delivery (Phases 1–2) requires — can be disabled, removed, or misconfigured by the team that installs it, and must never be represented as a hard security boundary (seed.md §8, §20 "Connector bypass"; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
-- Teams may conflate "guardrail evaluation passed" with "this workload is fully secure," when in fact authorization, tenant isolation, and application security remain the consuming application's responsibility (seed.md §5.5, §20 "False confidence"; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
-- Content-retention posture must be independently verifiable per deployment, not inferred from who operates the infrastructure (seed.md §5.4; [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
+- A cooperative connector — the only enforcement posture the initial delivery (Phases 1–2) requires — can be disabled, removed, or misconfigured by the team that installs it, and must never be represented as a hard security boundary ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) "Connector bypass"; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
+- Teams may conflate "guardrail evaluation passed" with "this workload is fully secure," when in fact authorization, tenant isolation, and application security remain the consuming application's responsibility ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) "False confidence"; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
+- Content-retention posture must be independently verifiable per deployment, not inferred from who operates the infrastructure ([AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)).
 
 **The message that lands:**
 > "Every decision carries a policy name and version, structured reason codes, evaluator metadata, and an explicit record of whether raw content was retained. And the platform never lets you assume a security guarantee that isn't there — each workload's enforcement posture (cooperative, platform-managed, or network/IAM-enforced) is recorded and visible, not asserted."
 
-This draws directly on the decision structure (seed.md §9, "Decision"), the audit-metadata requirements (seed.md §15), and the trust-and-enforcement model ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
+This draws directly on the decision structure ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), "Decision"), the audit-metadata requirements ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)), and the trust-and-enforcement model ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 
 **The objection they will raise:**
 > "A cooperative connector can be disabled or misconfigured by any team that installs it. How is that acceptable evidence of enforcement for a regulated workload — and doesn't Remote Evaluation still send our content to a hosted service outside our own environment?"
@@ -136,40 +136,40 @@ Both halves of this objection are legitimate and must be answered honestly, not 
 
 ## 4. Executive Sponsor
 
-*(synthesized from seed.md §2, §19, §20, §22–§23; not a named group in seed.md §7 — see [Purpose and scope](#purpose-and-scope))*
+*(synthesized from [`CHARTER.md`](../10-charter/CHARTER.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md), [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md); not a named group in [`TARGET-USERS.md`](../20-product/TARGET-USERS.md) — see [Purpose and scope](#purpose-and-scope))*
 
 **Role.** Approves the investment, resourcing, and organizational commitment to build AI Guardrails, and owns the decision to fund each successive delivery phase.
 
-**Goals** (derived from seed.md §2 product vision, §22 decision summary, §23 product statement):
+**Goals** (derived from [`CHARTER.md`](../10-charter/CHARTER.md) product vision, §22 decision summary, §23 product statement):
 - A model-independent, deployment-flexible platform that lets the organization define governance once rather than pay for it repeatedly per team.
 - A fully defined and estimated scope up front, with a validated hypothesis at every phase gate — execution of each phase proceeds only after the prior phase validates.
 - Strategic alignment: reusability over duplicated engineering spend, and a graduated trust model rather than an overreaching, all-at-once enforcement mandate.
-- Confidence that the initiative will not silently expand into adjacent, unapproved scope (authorization, full AI governance, agent orchestration) before its core premise is proven (seed.md §20 "Product over-expansion").
+- Confidence that the initiative will not silently expand into adjacent, unapproved scope (authorization, full AI governance, agent orchestration) before its core premise is proven ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) "Product over-expansion").
 
 **Top pains:**
-- No dollar-value ROI, adoption percentage, or SLA figure exists in the source material to justify the investment on a numeric basis alone — the case must be made qualitatively, and the deck must say so rather than inventing a number (seed.md §19; [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §3, §7).
-- Every excluded adjacent capability — gateway replacement, full governance platform, business authorization, organization-wide enforcement — is a plausible scope-creep target that could turn a bounded delivery into an open-ended program (seed.md §6.3, §20 "Product over-expansion"; [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)).
-- A phased commitment (five phases; seed.md §18) requires trusting that each phase will actually be gated on the prior one's validated outcome, not on schedule momentum alone ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
+- No dollar-value ROI, adoption percentage, or SLA figure exists in the source material to justify the investment on a numeric basis alone — the case must be made qualitatively, and the deck must say so rather than inventing a number ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §3, §7).
+- Every excluded adjacent capability — gateway replacement, full governance platform, business authorization, organization-wide enforcement — is a plausible scope-creep target that could turn a bounded delivery into an open-ended program ([`SCOPE.md`](../10-charter/SCOPE.md), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) "Product over-expansion"; [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)).
+- A phased commitment (five phases; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) requires trusting that each phase will actually be gated on the prior one's validated outcome, not on schedule momentum alone ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 **The message that lands:**
 > "This is a fully defined, fully estimated solution with a disciplined delivery, not an open-ended program: approve the full feature set across five phases, starting with a falsifiable Phase 1–2 validation demonstration — one reusable policy applied consistently across two organizationally independent LiteLLM deployments, no shared credentials, no undocumented failure behavior — with each subsequent phase proceeding only after the prior one validates."
 
-This is the exact ask in the decision summary and the Phase 1–2 validation demonstration (seed.md §16, §22; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)), and is the same decision framed in [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10.
+This is the exact ask in the decision summary and the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)), and is the same decision framed in [`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §10.
 
 **The objection they will raise:**
 > "Give me the ROI and the timeline. And if the goal is organization-wide governance eventually, why phase this at all instead of building the complete platform — including authorization and agent protection — now?"
 
-The honest answer, again, is not a number the material doesn't have: budget, headcount, and delivery-date figures are **TBD** until the full-feature-set estimation is supplied, tracked as open items pending confirmation from delivery and product leads ([`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §7; [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)). On phasing: attempting everything at once alongside the core reusable-policy problem is precisely the "product over-expansion" risk the charter names (seed.md §20) — five sequenced phases exist so that each phase's operational and security scope is only taken on once the smaller, prior phase has proven the hypothesis it depends on ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
+The honest answer, again, is not a number the material doesn't have: budget, headcount, and delivery-date figures are **TBD** until the full-feature-set estimation is supplied, tracked as open items pending confirmation from delivery and product leads ([`EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) §7; [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md)). On phasing: attempting everything at once alongside the core reusable-policy problem is precisely the "product over-expansion" risk the charter names ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)) — five sequenced phases exist so that each phase's operational and security scope is only taken on once the smaller, prior phase has proven the hypothesis it depends on ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 ---
 
 ## 5. Product Operator
 
-*(seed.md §7 — Product operators)*
+*([`TARGET-USERS.md`](../20-product/TARGET-USERS.md) — Product operators)*
 
 **Role.** Runs AI Guardrails as an operated service: registers tenants and workloads, manages capacity, oversees policy rollouts, and tracks what version of what is running where.
 
-**Goals** (seed.md §7):
+**Goals** ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)):
 - Tenant and workload registration.
 - Service-health visibility.
 - Usage metrics.
@@ -180,18 +180,18 @@ The honest answer, again, is not a number the material doesn't have: budget, hea
 **Top pains:**
 - Without a shared registry, there is no way to know what tenants, workloads, and policy bindings actually exist across a growing portfolio ([`PROBLEM-STATEMENT.md`](../20-product/PROBLEM-STATEMENT.md) §6).
 - Fragmented, bespoke guardrail implementations produce no comparable service-health or usage signal — each one records different things, if anything at all.
-- As three deployment modes are adopted in parallel, deployment-compatibility drift (which policy version a given runtime or connector actually supports) becomes an operational risk without explicit tracking (seed.md §9 "Policy," §15 "Policy rollout").
-- The initial phases intentionally do not ship a full administration portal — operators must be prepared to work through a minimal management API and version-controlled configuration during the early phases (seed.md §17).
+- As three deployment modes are adopted in parallel, deployment-compatibility drift (which policy version a given runtime or connector actually supports) becomes an operational risk without explicit tracking ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) "Policy," §15 "Policy rollout").
+- The initial phases intentionally do not ship a full administration portal — operators must be prepared to work through a minimal management API and version-controlled configuration during the early phases ([`SCOPE.md`](../10-charter/SCOPE.md)).
 
 **The message that lands:**
 > "Tenant, workload, policy, and policy binding are first-class, registered domain entities from day one — not implicit knowledge scattered across teams. You get evaluation-API availability, timeout rate, detector-specific latency, decision distribution, and policy-cache hit rate as defined operational signals, plus immutable policy versions with controlled promotion and immediate rollback."
 
-This is the domain model (seed.md §9; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)) paired with the operational-requirements set (seed.md §15) that the platform is designed to expose.
+This is the domain model ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)) paired with the operational-requirements set ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)) that the platform is designed to expose.
 
 **The objection they will raise:**
 > "Where's the full administration portal to manage all of this centrally?"
 
-The early phases do not include one, and the deck must say so rather than imply otherwise: a complete administration portal is explicitly named as a non-goal for the initial delivery (seed.md §17); a minimal management API and version-controlled configuration are what the Phase 1–2 core provides instead. This is a sequencing trade-off consistent with the phase-gated delivery (seed.md §6; [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), not an oversight, and should be framed to product operators as "which phase does the fuller operator experience land in," not denied.
+The early phases do not include one, and the deck must say so rather than imply otherwise: a complete administration portal is explicitly named as a non-goal for the initial delivery ([`SCOPE.md`](../10-charter/SCOPE.md)); a minimal management API and version-controlled configuration are what the Phase 1–2 core provides instead. This is a sequencing trade-off consistent with the phase-gated delivery ([`SCOPE.md`](../10-charter/SCOPE.md); [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md); [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), not an oversight, and should be framed to product operators as "which phase does the fuller operator experience land in," not denied.
 
 ---
 

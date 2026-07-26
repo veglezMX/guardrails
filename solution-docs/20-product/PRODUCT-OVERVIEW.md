@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -35,7 +35,7 @@ Three things stay constant no matter how a team chooses to adopt the platform:
 
 > AI Guardrails is an AWS-based policy and enforcement platform that applies reusable safeguards to LLM applications and gateways. Teams may connect their existing LiteLLM instance to a hosted Evaluation API, consume a fully managed Guarded Gateway, or deploy the same guardrail runtime within their own AWS account. Policies remain portable across all three modes, while operational ownership and content exposure are explicitly defined for each deployment.
 
-*(seed.md §23 — Product statement, quoted verbatim)*
+*([`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — Product statement, quoted verbatim)*
 
 ---
 
@@ -54,7 +54,7 @@ AI Guardrails exists so an organization can:
 * Evolve from cooperative integration to mandatory enforcement.
 * Avoid coupling policy definitions to LiteLLM or Amazon Bedrock.
 
-*(seed.md §2 — Product vision)*
+*([`CHARTER.md`](../10-charter/CHARTER.md) — Product vision)*
 
 ---
 
@@ -124,19 +124,19 @@ The solution is defined — and its delivery estimated — over its full feature
 | Deployment | Hosted runtime deployment |
 | Deployment | A path to customer-managed deployment |
 
-*(seed.md §6.1 — In scope)*
+*([`SCOPE.md`](../10-charter/SCOPE.md) — In scope)*
 
 ### Committed later-phase capabilities
 
 The full solution also includes capabilities such as retrieval-content evaluation, indirect prompt-injection detection, streaming output evaluation, tool-call validation, MCP authorization, memory-write validation, groundedness evaluation, multilingual policy packs, human approval workflows, and dedicated hosted or air-gapped runtimes. These are committed to later delivery phases (mostly Phase 5) and included in the full-solution estimation ([`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) — but they are not built during Phases 1–2 and are **not available today**. See `20-product/PRODUCT-ROADMAP.md` for phasing.
 
-*(seed.md §6.2 — Future scope)*
+*([`SCOPE.md`](../10-charter/SCOPE.md) — Future scope)*
 
 ### Explicitly out of scope
 
 AI Guardrails is not, and does not attempt to be: a general-purpose LLM gateway replacement, a complete AI governance platform, a model training or fine-tuning system, a proprietary prompt-injection or moderation model, a complete DLP platform, an end-user authentication system, an application business-authorization system, a fully autonomous agent-governance system, organization-wide AWS enforcement, a cross-cloud deployment, a fully certified compliance product, or a general MCP security platform.
 
-*(seed.md §6.3 — Out of scope for the MVP)*
+*([`SCOPE.md`](../10-charter/SCOPE.md) — Out of scope for the MVP)*
 
 Multi-region active-active availability was formerly part of this exclusion list; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Proposed, pending owner ratification) supersedes that exclusion and commits it as a later-phase capability ([`CAP-036`](CAPABILITIES.md)) — not yet delivered, but no longer excluded from the feature set.
 
@@ -168,7 +168,7 @@ A full glossary lives in `70-governance/GLOSSARY.md`.
 | **Security and compliance teams** | Policy ownership, decision evidence, policy-version traceability, content-retention controls, exception tracking, evidence that policies are actually being applied |
 | **Product operators** | Tenant and workload registration, service-health visibility, usage metrics, runtime capacity management, policy rollout controls, deployment compatibility tracking |
 
-*(seed.md §7 — Initial users and stakeholders)*
+*([`TARGET-USERS.md`](TARGET-USERS.md) — Initial users and stakeholders)*
 
 ---
 
@@ -204,7 +204,7 @@ Every policy supports a graduated, non-blocking rollout so a team can measure fa
 Disabled → Observe → Warn → Redact → Block
 ```
 
-*(seed.md §5.6; [`AGREEMENTS.md` AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression))*
+*([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression); [`AGREEMENTS.md` AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression))*
 
 For the full serving and consumption model behind this flow — the Mode A front door, the managed/self-serve split, the integration contract, and the policy governance classes (Mandatory / Recommended / Own) — see [`20-product/SERVING-MODEL.md`](SERVING-MODEL.md).
 
@@ -235,7 +235,7 @@ AI Guardrails is delivered in five phases, moving from a narrow integration proo
 | 4 — Customer-managed runtime | Support workloads that require local evaluation and content isolation |
 | 5 — Advanced agent protection | Extend guardrail coverage beyond prompt and response evaluation (committed final phase — sequenced last, not available today) |
 
-*(seed.md §18; [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery))*
+*([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery))*
 
 ---
 

@@ -3,7 +3,7 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md (AGR-021)
+**Derived from:** AGREEMENTS.md (AGR-021)
 
 ---
 
@@ -63,7 +63,7 @@ A worked decomposition: "memory-write guardrails" (catalog [GR-011](../20-produc
 
 **What it is.** Adding a named point in the request lifecycle at which content can be evaluated — e.g., activating the reserved `retrieval` stage for RAG content (CAP-018) or `tool_call` for agent tool invocations (CAP-021).
 
-**Contract surface.** The `stage` field of the evaluation request and the `evaluation stages` attribute of the policy entity (seed.md §9; [`INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md) §3.1). A stage addition is a contract change and is versioned per AGR-006.
+**Contract surface.** The `stage` field of the evaluation request and the `evaluation stages` attribute of the policy entity ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model); [`INTEGRATION-ARCHITECTURE.md`](INTEGRATION-ARCHITECTURE.md) §3.1). A stage addition is a contract change and is versioned per AGR-006.
 
 **Reserved vs. proposed.** Exactly seven stages are **reserved** by the domain model: `input`, `output` (active) and `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` (future scope). Anything else — the catalog's candidates `retrieval_query`, `agent_plan`, `memory_read`, `tool_selection` — is **proposed, not reserved**: it may be named by vision-classified catalog items but must not appear in policy schemas, contract definitions, or connector code until [OQ-018](../00-source-of-truth/OPEN-QUESTIONS.md#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) is resolved and the reserved vocabulary formally extended.
 
@@ -111,7 +111,7 @@ A worked decomposition: "memory-write guardrails" (catalog [GR-011](../20-produc
 
 **Contract surface.** The `Decision.action` enum and, critically, **connector enforcement behavior**: an action only exists once every connector can enforce it (or explicitly declares it unsupported and the policy compatibility check refuses the binding).
 
-**Reserved vs. proposed vs. misclassified.** Active: `allow`, `block`, `redact`, `log_only`. Reserved (future scope, seed.md §9): `rewrite`, `discard`, `abstain`, `require_approval`. The catalog's draft heritage suggests more; this document classifies them normatively:
+**Reserved vs. proposed vs. misclassified.** Active: `allow`, `block`, `redact`, `log_only`. Reserved (future scope, [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)): `rewrite`, `discard`, `abstain`, `require_approval`. The catalog's draft heritage suggests more; this document classifies them normatively:
 
 | Candidate | Classification | Reason |
 |---|---|---|
@@ -229,7 +229,7 @@ The catalog stays honest only if movement through it is governed. Two change cla
 - Adding, removing, renaming, or reclassifying a **category** (amend AGR-021).
 - Changing an entry's **status** between the four values — in any direction. Promotion (Vision → committed) and demotion both.
 - Activating a **stage** or **action**; expanding the reserved vocabularies (OQ-018 path).
-- Anything touching an out-of-boundary classification (these encode seed.md §6.3 and AGR-010 — moving one is a scope decision of the first order).
+- Anything touching an out-of-boundary classification (these encode [`SCOPE.md`](../10-charter/SCOPE.md) and AGR-010 — moving one is a scope decision of the first order).
 
 **Path B — derived-document edits (not change-controlled):**
 - Adding, rewording, splitting, or merging **item rows** within their existing status.
@@ -259,7 +259,7 @@ Phased delivery
 
 The inverse also holds: nothing may skip the pipeline by editing the catalog. A catalog entry whose status says `Vision — uncommitted` and whose text quietly reads like a commitment is a defect — the claims-register review and RSK-010 ([`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)) exist to catch it.
 
-**Out-of-boundary is not a pipeline stage.** `Out-of-boundary` entries have no graduation path. Re-scoping one requires amending the underlying exclusion (seed.md §6.3 reaffirmed by DEC-008, or AGR-010) — a fundamentally different, heavier decision than graduating a vision item, and one this document takes no position on.
+**Out-of-boundary is not a pipeline stage.** `Out-of-boundary` entries have no graduation path. Re-scoping one requires amending the underlying exclusion ([`SCOPE.md`](../10-charter/SCOPE.md) reaffirmed by DEC-008, or AGR-010) — a fundamentally different, heavier decision than graduating a vision item, and one this document takes no position on.
 
 ---
 
@@ -288,7 +288,7 @@ The inverse also holds: nothing may skip the pipeline by editing the catalog. A 
 | Failure behavior is declared policy, including for new engines and actions | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) |
 | No connector — new or old — is a hard security boundary | [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) |
 | Category taxonomy is classification; graduation is the recorded scope-change path | [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model), [`SCOPE.md`](../10-charter/SCOPE.md) §8 |
-| Guardrails are not authorization; out-of-boundary entries never graduate sideways | [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), seed.md §6.3 |
+| Guardrails are not authorization; out-of-boundary entries never graduate sideways | [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [`SCOPE.md`](../10-charter/SCOPE.md) |
 
 ---
 

@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -19,13 +19,13 @@ While this ADR reads `Proposed` it binds no one.
 
 ## Context
 
-[`CONTAINER-ARCHITECTURE.md` §7.1](../CONTAINER-ARCHITECTURE.md) specifies policy distribution as one-way, asynchronous, and cached — then states plainly: *"The specific transport (push vs. pull, polling interval, or event-driven sync) is an implementation decision not specified in `seed.md` and is **TBD** at the component-design level."*
+[`CONTAINER-ARCHITECTURE.md` §7.1](../CONTAINER-ARCHITECTURE.md) specifies policy distribution as one-way, asynchronous, and cached — then states plainly: *"The specific transport (push vs. pull, polling interval, or event-driven sync) is an implementation decision not specified in the L1 registers and is **TBD** at the component-design level."*
 
 That TBD is load-bearing in four places:
 
 - **[AGR-015](../../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)** requires a customer-managed runtime to keep evaluating through a control-plane outage. Whether that is possible depends entirely on the distribution mechanism.
-- **"Immediate rollback"** (`seed.md` §15) has a propagation delay determined by this choice, and nobody has stated what "immediate" means once a cache exists.
-- **Policy-cache hit rate** is a tracked performance metric (`seed.md` §15) for a cache whose refresh behavior is undefined.
+- **"Immediate rollback"** ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../NON-FUNCTIONAL-REQUIREMENTS.md)) has a propagation delay determined by this choice, and nobody has stated what "immediate" means once a cache exists.
+- **Policy-cache hit rate** is a tracked performance metric ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../NON-FUNCTIONAL-REQUIREMENTS.md)) for a cache whose refresh behavior is undefined.
 - **[`TECHNICAL-RISKS.md` R7](../TECHNICAL-RISKS.md)** — degraded-mode correctness — describes a stale cached policy as *"a correctness gap, not a visible failure."* Its severity is a direct function of this decision.
 
 The question this ADR resolves: **how does published policy state reach a runtime, and what happens when it cannot?**
@@ -38,7 +38,7 @@ Every runtime — hosted and customer-managed — **pulls** policy state from th
 
 This is chosen primarily for Mode C. A push mechanism requires the control plane to reach into a customer's environment, which means inbound connectivity, endpoint registration, and a network path the customer must open. Pull inverts that: the customer's runtime makes an outbound call on its own schedule, through its own egress controls, and a customer-managed runtime behind a restrictive network boundary works the same way the hosted one does.
 
-One mechanism serving all three deployment modes is also what keeps Phase 4 a packaging exercise rather than a redesign (`seed.md` §16).
+One mechanism serving all three deployment modes is also what keeps Phase 4 a packaging exercise rather than a redesign ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md)).
 
 ### 2. Resolution reads local state only — never the control plane
 
@@ -65,7 +65,7 @@ A deployment carries a configured maximum tolerable staleness. Exceeding it is r
 
 ### 5. Rollback urgency is bounded by the refresh interval, and this is stated
 
-"Immediate rollback" (`seed.md` §15) means **immediate at the control plane**: the new binding takes effect there at once, and every runtime converges within its refresh interval. It does not mean instantaneous global effect, and no product, sales, or operator material may imply otherwise.
+"Immediate rollback" ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../NON-FUNCTIONAL-REQUIREMENTS.md)) means **immediate at the control plane**: the new binding takes effect there at once, and every runtime converges within its refresh interval. It does not mean instantaneous global effect, and no product, sales, or operator material may imply otherwise.
 
 The refresh interval is therefore a **safety parameter, not a performance tuning knob** — it sets the worst-case propagation delay for a rollback made in response to an incident. It is deployment configuration with an explicit value, not a default buried in code.
 

@@ -3,11 +3,11 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
-> This is a decision-request memo, not a narrative brief. It exists to isolate the specific, actionable approvals leadership must grant for AI Guardrails delivery to proceed, separately from the fuller context in the [Executive Brief](EXECUTIVE-BRIEF.md). Every ask below traces to the authoritative [AGREEMENTS.md](../00-source-of-truth/AGREEMENTS.md) register or to [seed.md](../../seed.md) directly. Where a figure (budget, headcount, date) is not established in the source material, it is marked **TBD** rather than estimated, per source-of-truth policy — see [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md) and [OPEN-QUESTIONS.md](../00-source-of-truth/OPEN-QUESTIONS.md).
+> This is a decision-request memo, not a narrative brief. It exists to isolate the specific, actionable approvals leadership must grant for AI Guardrails delivery to proceed, separately from the fuller context in the [Executive Brief](EXECUTIVE-BRIEF.md). Every ask below traces to the authoritative [AGREEMENTS.md](../00-source-of-truth/AGREEMENTS.md) register or to [CONSTRAINTS.md](../00-source-of-truth/CONSTRAINTS.md). Where a figure (budget, headcount, date) is not established in the source material, it is marked **TBD** rather than estimated, per source-of-truth policy — see [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md) and [OPEN-QUESTIONS.md](../00-source-of-truth/OPEN-QUESTIONS.md).
 
 ---
 
@@ -52,9 +52,9 @@ Each ask is independent and separately approvable, but DR-002 through DR-005 dep
 
 ### DR-001 — Approve and fund the full five-phase solution scope
 
-**Ask:** Approve building AI Guardrails over the **full solution scope — all five delivery phases** — on the basis of an estimation built over the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), and approve funding to run a discovery activity and begin execution with **Phase 1 — Integration Proof**, whose objective is to prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways (seed.md §18). Execution remains sequenced: each phase is validated before the next proceeds ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), and funding releases may follow those gates. Phase 1 deliverables are: the evaluation contract, the policy format, the Bedrock Guardrails adapter, the LiteLLM connector, observe mode, basic auditing, and an internal deployment.
+**Ask:** Approve building AI Guardrails over the **full solution scope — all five delivery phases** — on the basis of an estimation built over the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), and approve funding to run a discovery activity and begin execution with **Phase 1 — Integration Proof**, whose objective is to prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). Execution remains sequenced: each phase is validated before the next proceeds ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)), and funding releases may follow those gates. Phase 1 deliverables are: the evaluation contract, the policy format, the Bedrock Guardrails adapter, the LiteLLM connector, observe mode, basic auditing, and an internal deployment.
 
-**Discovery scope, specifically:** securing named commitments from **at least two organizationally independent teams**, each already operating its own LiteLLM instance, willing to participate in the Phase 1–2 validation demonstration — without this, the demonstration defined in seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) cannot be executed as specified (see ASM-002, ASM-003 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md)).
+**Discovery scope, specifically:** securing named commitments from **at least two organizationally independent teams**, each already operating its own LiteLLM instance, willing to participate in the Phase 1–2 validation demonstration — without this, the demonstration defined in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) cannot be executed as specified (see ASM-002, ASM-003 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md)).
 
 **Decision owner:** Executive sponsor / budget owner (name TBD), informed by the Product lead and Delivery lead.
 
@@ -68,13 +68,13 @@ Each ask is independent and separately approvable, but DR-002 through DR-005 dep
 
 ### DR-002 — Allocate a small, dedicated delivery team
 
-**Ask:** Approve allocating a **small, dedicated** cross-functional delivery team to Phase 1 — not a part-time or shared allocation — with the AWS and integration skills needed to build the seed §11 architecture (ECS Fargate or EKS, API Gateway/ALB, DynamoDB or versioned S3, Amazon Bedrock Guardrails, IAM, KMS, SQS, CloudWatch, ECR).
+**Ask:** Approve allocating a **small, dedicated** cross-functional delivery team to Phase 1 — not a part-time or shared allocation — with the AWS and integration skills needed to build the [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) architecture (ECS Fargate or EKS, API Gateway/ALB, DynamoDB or versioned S3, Amazon Bedrock Guardrails, IAM, KMS, SQS, CloudWatch, ECR).
 
 **Decision owner:** Engineering resourcing owner (name TBD), informed by the Technical lead.
 
 **What this unblocks:** Actual build work against the Phase 1 deliverables in DR-001. Without dedicated, named headcount, the Phase 1 timeline cannot be estimated or committed to.
 
-**Team size:** Not specified anywhere in the source material. The charter and agreements describe the required *skills and responsibilities* (seed.md §21; [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)) but no headcount number — this is recorded as **TBD**, described only qualitatively as "small" and "dedicated."
+**Team size:** Not specified anywhere in the source material. The charter and agreements describe the required *skills and responsibilities* ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md); [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)) but no headcount number — this is recorded as **TBD**, described only qualitatively as "small" and "dedicated."
 
 **Related risk to flag:** ASM-007 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md) — whether the delivery team already has, or can readily acquire, the required AWS skills is itself unvalidated and should be assessed as part of standing this team up.
 
@@ -88,11 +88,11 @@ Each ask is independent and separately approvable, but DR-002 through DR-005 dep
 
 **Decision owner:** Platform operations lead (name TBD), with concurrence from the Security and governance lead.
 
-**Basis:** seed.md §11 ("The MVP does not require separate management, production, and audit AWS accounts... A single non-production account and one production account are sufficient initially"), §17 (MVP non-goal: "Three-account AWS separation"); [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [CON-002](../00-source-of-truth/CONSTRAINTS.md#con-002--minimal-mvp-account-model).
+**Basis:** [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) ("The MVP does not require separate management, production, and audit AWS accounts... A single non-production account and one production account are sufficient initially"), [`SCOPE.md`](../10-charter/SCOPE.md) (MVP non-goal: "Three-account AWS separation"); [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [CON-002](../00-source-of-truth/CONSTRAINTS.md#con-002--minimal-mvp-account-model).
 
 **What this unblocks:** The AWS account-provisioning request (ASM-006 in [ASSUMPTIONS.md](../00-source-of-truth/ASSUMPTIONS.md)) can be filed; IAM role design and network-boundary design can begin against a known target topology.
 
-**Does not ask leadership to:** Rule out account separation permanently. Additional account separation is explicitly permitted — and expected — once justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments (seed.md §11; [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)). The measurable trigger point for that move is an open question ([OQ-009](../00-source-of-truth/OPEN-QUESTIONS.md#oq-009--trigger-point-for-three-account-aws-separation)) to be reassessed at each phase gate, not resolved by this approval. This ask also does not approve PrivateLink/private connectivity ([OQ-002](../00-source-of-truth/OPEN-QUESTIONS.md#oq-002--privatelink--private-connectivity)) or a multi-Region strategy ([OQ-003](../00-source-of-truth/OPEN-QUESTIONS.md#oq-003--regional-deployment-strategy-and-data-residency)), both of which remain open.
+**Does not ask leadership to:** Rule out account separation permanently. Additional account separation is explicitly permitted — and expected — once justified by external customers, compliance requirements, independent security ownership, immutable audit requirements, production scale, or dedicated tenant deployments ([`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md); [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)). The measurable trigger point for that move is an open question ([OQ-009](../00-source-of-truth/OPEN-QUESTIONS.md#oq-009--trigger-point-for-three-account-aws-separation)) to be reassessed at each phase gate, not resolved by this approval. This ask also does not approve PrivateLink/private connectivity ([OQ-002](../00-source-of-truth/OPEN-QUESTIONS.md#oq-002--privatelink--private-connectivity)) or a multi-Region strategy ([OQ-003](../00-source-of-truth/OPEN-QUESTIONS.md#oq-003--regional-deployment-strategy-and-data-residency)), both of which remain open.
 
 ---
 
@@ -102,7 +102,7 @@ Each ask is independent and separately approvable, but DR-002 through DR-005 dep
 
 **Decision owner:** Technical lead / Architecture lead (name TBD), with the Product lead confirming this creates no long-term single-vendor commitment claim.
 
-**Basis:** seed.md §10, §11 (AWS implementation direction — "Guardrail evaluation: Amazon Bedrock Guardrails"), §22; [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract).
+**Basis:** [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md), [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) (AWS implementation direction — "Guardrail evaluation: Amazon Bedrock Guardrails"), [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm); [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract).
 
 **What this unblocks:** Build of the Bedrock Guardrails adapter, a named Phase 1 deliverable and a dependency on the critical path for the Phase 1–2 validation demonstration (both the observe-mode and enforce-mode pilot workloads require a working evaluation engine).
 
@@ -118,11 +118,11 @@ Each ask is independent and separately approvable, but DR-002 through DR-005 dep
 
 **Decision owner:** Security and governance lead (name TBD), with concurrence from the pilot workloads' owners.
 
-**Basis:** seed.md §5.6 ("A team must be able to measure false positives, latency, and business impact before enabling blocking behavior"), §16 (validation demonstration: "One workload can run in observe mode... Another workload can run in enforce mode"); [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression).
+**Basis:** [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) ("A team must be able to measure false positives, latency, and business impact before enabling blocking behavior"), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) (validation demonstration: "One workload can run in observe mode... Another workload can run in enforce mode"); [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression).
 
 **What this unblocks:** Onboarding of the two independent pilot LiteLLM teams secured under DR-001 can proceed without exposing their production traffic to blocking risk while the policy's real-world false-positive rate, latency impact, and business impact are still unproven.
 
-**Important nuance:** the Phase 1–2 validation demonstration (seed.md §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) requires that **one** pilot workload run in observe mode while **another** runs in enforce mode — this ask approves observe mode as the mandatory *starting* posture for onboarding, not a ban on ever reaching enforce mode during Phase 1.
+**Important nuance:** the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) requires that **one** pilot workload run in observe mode while **another** runs in enforce mode — this ask approves observe mode as the mandatory *starting* posture for onboarding, not a ban on ever reaching enforce mode during Phase 1.
 
 **Does not ask leadership to:** Approve the go/no-go criteria for promoting any workload from observe to enforce. That is a separately tracked open question ([OQ-014](../00-source-of-truth/OPEN-QUESTIONS.md#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce)) that should be resolved before onboarding scales past this initial pilot set.
 
@@ -145,10 +145,10 @@ flowchart TD
     PROV --> BUILD
     ADAPTER --> BUILD
     BUILD --> ONBOARD
-    ONBOARD --> DEMO["Phase 1–2 validation demonstration\n(seed.md §16; VALIDATION-PLAN.md)"]
+ ONBOARD --> DEMO["Phase 1–2 validation demonstration\n([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); VALIDATION-PLAN.md)"]
 ```
 
-If DR-001 is not approved, none of DR-002 through DR-005 have any resourcing to act on — they remain approved-in-principle only. If DR-003 or DR-004 are deferred pending more information, Phase 1 planning can proceed but the architecture cannot be finalized until both resolve, since the account topology and the evaluation engine are both named Phase 1 deliverables (seed.md §11, §18).
+If DR-001 is not approved, none of DR-002 through DR-005 have any resourcing to act on — they remain approved-in-principle only. If DR-003 or DR-004 are deferred pending more information, Phase 1 planning can proceed but the architecture cannot be finalized until both resolve, since the account topology and the evaluation engine are both named Phase 1 deliverables ([`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 ---
 
@@ -157,9 +157,9 @@ If DR-001 is not approved, none of DR-002 through DR-005 have any resourcing to 
 Approving DR-001 through DR-005 does **not** constitute approval of:
 
 * A specific budget figure, headcount number, or delivery date — all remain **TBD**, to be supplied by the delivery and product leads once the full-scope delivery estimate is prepared.
-* Anything in the seed.md §6.3 product-category exclusions — general-purpose gateway replacement, complete AI governance platform, complete DLP platform, business authorization, cross-cloud deployment, among others — see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md).
+* Anything in the [`SCOPE.md`](../10-charter/SCOPE.md) product-category exclusions — general-purpose gateway replacement, complete AI governance platform, complete DLP platform, business authorization, cross-cloud deployment, among others — see [`10-charter/SCOPE.md`](../10-charter/SCOPE.md).
 * A three-or-more-account AWS topology, PrivateLink/private connectivity, a multi-Region or data-residency strategy, compliance certification, or a commercial/metering model — all of which remain open questions tracked in [OPEN-QUESTIONS.md](../00-source-of-truth/OPEN-QUESTIONS.md).
-* Any enforcement posture beyond cooperative integration for the initial pilot onboarding (the trust model appropriate for trusted, internal pilot teams) — platform-managed enforcement and network/IAM-enforced gateway postures arrive with later phases and remain governed by the trust model (seed.md §8; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)): a cooperative connector is never a hard security boundary.
+* Any enforcement posture beyond cooperative integration for the initial pilot onboarding (the trust model appropriate for trusted, internal pilot teams) — platform-managed enforcement and network/IAM-enforced gateway postures arrive with later phases and remain governed by the trust model ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)): a cooperative connector is never a hard security boundary.
 * A claim that Bedrock Guardrails is, or will remain, the product's only or permanent evaluation engine ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).
 
 ---
@@ -173,7 +173,7 @@ This register does not prescribe an outcome for a declined or deferred ask; it o
 | DR-001 (scope and funding) | Delivery cannot begin; discovery work to secure the two required pilot teams (ASM-002, ASM-003) does not start, and no full-scope delivery estimate is commissioned. |
 | DR-002 (team) | Even if funded, Phase 1 has no committed engineering capacity and cannot produce a delivery estimate. |
 | DR-003 (two-account topology) | AWS provisioning is blocked pending a topology decision; a three-account request would require its own justification against the triggers in [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) before being considered. |
-| DR-004 (Bedrock Guardrails) | The Phase 1 evaluation engine is undecided; Phase 1 could proceed only with deterministic rules, which seed.md §16 treats as a basic evaluator alongside, not a replacement for, the managed engine. |
+| DR-004 (Bedrock Guardrails) | The Phase 1 evaluation engine is undecided; Phase 1 could proceed only with deterministic rules, which [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) treats as a basic evaluator alongside, not a replacement for, the managed engine. |
 | DR-005 (observe mode for pilots) | Onboarding either has no defined starting enforcement posture, or risks defaulting to a blocking posture for an unproven policy — the exact outcome [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) exists to prevent. |
 
 ---

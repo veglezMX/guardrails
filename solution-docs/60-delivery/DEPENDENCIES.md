@@ -3,13 +3,13 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
 ## Purpose and authority
 
-This document registers the dependencies that gate AI Guardrails delivery — the things that must exist, be granted, or be confirmed before a given phase or milestone can start or complete. It is a **derived (L3)** document: it must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative), and it operationalizes, for delivery planning, dependencies already named qualitatively in [`seed.md`](../../seed.md) §11, §14, §20 and in [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §4. Where a figure (a date, a duration, a percentage) would normally accompany a dependency, none exists in the source material, and this document says **TBD** rather than inventing one.
+This document registers the dependencies that gate AI Guardrails delivery — the things that must exist, be granted, or be confirmed before a given phase or milestone can start or complete. It is a **derived (L3)** document: it must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative), and it operationalizes, for delivery planning, dependencies already named qualitatively in [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) and in [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §4. Where a figure (a date, a duration, a percentage) would normally accompany a dependency, none exists in the source material, and this document says **TBD** rather than inventing one.
 
 This document differs from [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) in altitude and audience: that document gives leadership a decision-relevant summary of principal risks *and* dependencies; this document gives the delivery team a working register of *only* dependencies, at the granularity needed to sequence build work — including a purely technical/internal sequencing dependency (a stable Evaluation contract before connector work) that is delivery-relevant but not leadership-relevant enough to appear in the executive view.
 
@@ -55,7 +55,7 @@ Related documents:
 | [AWS account provisioning — non-production and production](#31-aws-account-provisioning--non-production-and-production) | Internal | Phase 1 kickoff (all infrastructure work) | Platform operations lead | Unconfirmed |
 | [Amazon Bedrock Guardrails access in target Region(s)](#32-amazon-bedrock-guardrails-access-in-target-regions) | External | Phase 1 — Bedrock Guardrails adapter deliverable | Architecture lead | Unconfirmed |
 | [Stable Evaluation contract before connector work](#33-stable-evaluation-contract-before-connector-work) | Technical | Phase 1 — LiteLLM connector deliverable | Technical lead | Not started |
-| [Consuming-team LiteLLM availability and willingness to install the connector](#34-consuming-team-litellm-availability-and-willingness-to-install-the-connector) | External | Phase 1/2 — validation demonstration (seed.md §16; DEC-008) | Integration lead / Delivery lead | Unconfirmed |
+| [Consuming-team LiteLLM availability and willingness to install the connector](#34-consuming-team-litellm-availability-and-willingness-to-install-the-connector) | External | Phase 1/2 — validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); DEC-008) | Integration lead / Delivery lead | Unconfirmed |
 | [Security review sign-off](#35-security-review-sign-off) | Internal | Any workload's Observe → Enforce promotion; any external-customer onboarding | Security and governance lead | Not yet exercised |
 | [KMS and Secrets Manager setup](#36-kms-and-secrets-manager-setup) | Technical | Phase 1 — encryption at rest/in transit, runtime credential storage | Platform operations lead / Technical lead | Not started |
 | [CI with dependency and container scanning](#37-ci-with-dependency-and-container-scanning) | Technical | Every build, Phase 1 onward; release-blocking gate | Technical lead | Not started |
@@ -66,7 +66,7 @@ Related documents:
 
 ### 3.1 AWS account provisioning — non-production and production
 
-Phases 1–2 require exactly one non-production AWS account and one production AWS account, with IAM, storage, and environment boundaries kept explicit within that two-account model (seed.md §11; [`AGREEMENTS.md` AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [`CONSTRAINTS.md` CON-002](../00-source-of-truth/CONSTRAINTS.md#con-002--minimal-mvp-account-model)). No AWS infrastructure work — evaluation runtime, API layer, policy storage, workload registry, audit pipeline — can begin before these two accounts exist and are access-configured.
+Phases 1–2 require exactly one non-production AWS account and one production AWS account, with IAM, storage, and environment boundaries kept explicit within that two-account model ([`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md); [`AGREEMENTS.md` AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model); [`CONSTRAINTS.md` CON-002](../00-source-of-truth/CONSTRAINTS.md#con-002--minimal-mvp-account-model)). No AWS infrastructure work — evaluation runtime, API layer, policy storage, workload registry, audit pipeline — can begin before these two accounts exist and are access-configured.
 
 **Why it gates Phase 1:** every other technical dependency in this register (Bedrock Guardrails access, KMS/Secrets Manager setup, CI deployment targets) is provisioned *into* one of these two accounts. Account provisioning is therefore the first link in the delivery chain, not one dependency among many.
 
@@ -90,7 +90,7 @@ Amazon Bedrock Guardrails is the first managed evaluation engine the platform ad
 
 The evaluation contract — policy definitions, request structures, decision structures, reason codes, enforcement actions, audit metadata, and policy-version semantics — must be identical across every deployment mode and every connector ([`AGREEMENTS.md` AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [`INTEGRATION-ARCHITECTURE.md` §3](../50-architecture/INTEGRATION-ARCHITECTURE.md)). The LiteLLM connector is a **client** of that contract, not an extension of it ([`AGREEMENTS.md` AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)) — it maps LiteLLM's own request/response shapes onto the contract's stage-appropriate evaluation requests, and translates decisions back into LiteLLM-native effects.
 
-This makes contract stability a **hard prerequisite**, not a parallelizable workstream: building the LiteLLM pre-call/post-call connector against a contract that is still changing means every contract revision forces a matching connector revision, and — because the Phase 1–2 validation demonstration requires two independent LiteLLM instances to receive *consistent* normalized decisions ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) — an unstable contract at onboarding time would make that consistency unverifiable.
+This makes contract stability a **hard prerequisite**, not a parallelizable workstream: building the LiteLLM pre-call/post-call connector against a contract that is still changing means every contract revision forces a matching connector revision, and — because the Phase 1–2 validation demonstration requires two independent LiteLLM instances to receive *consistent* normalized decisions ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) — an unstable contract at onboarding time would make that consistency unverifiable.
 
 **Why it is Technical:** unlike the account-provisioning or Bedrock-access dependencies, this is not something the delivery team is waiting on an external party for — it is an internal design-then-build sequencing rule the team must enforce on itself.
 
@@ -100,9 +100,9 @@ This makes contract stability a **hard prerequisite**, not a parallelizable work
 
 ### 3.4 Consuming-team LiteLLM availability and willingness to install the connector
 
-Mode A (Remote Evaluation) requires the consuming team to already operate its own LiteLLM instance (seed.md §3, Mode A). The Phase 1–2 validation demonstration further requires **two organizationally independent** LiteLLM instances, each consuming the same policy, neither sharing model-provider credentials with the guardrail platform ([`seed.md` §16](../../seed.md#16-mvp-definition); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Both the existence of a LiteLLM deployment and that team's willingness to install and cooperate with the connector are outside the AI Guardrails delivery team's control.
+Mode A (Remote Evaluation) requires the consuming team to already operate its own LiteLLM instance ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode A). The Phase 1–2 validation demonstration further requires **two organizationally independent** LiteLLM instances, each consuming the same policy, neither sharing model-provider credentials with the guardrail platform ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Both the existence of a LiteLLM deployment and that team's willingness to install and cooperate with the connector are outside the AI Guardrails delivery team's control.
 
-**Why it is External:** these are other teams, operating on their own adoption timeline and trust posture (seed.md §8, cooperative integration) — the connector "can be disabled, removed, or misconfigured" by design in the cooperative model, so willingness is a genuine, ongoing dependency, not a one-time approval.
+**Why it is External:** these are other teams, operating on their own adoption timeline and trust posture ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), cooperative integration) — the connector "can be disabled, removed, or misconfigured" by design in the cooperative model, so willingness is a genuine, ongoing dependency, not a one-time approval.
 
 **Impact if unmet:** without at least two independent, cooperating teams, the falsifiable Phase 1–2 validation demonstration cannot be executed as specified, and Phase 1–2 validation would need to be redefined or delayed.
 
@@ -112,7 +112,7 @@ Mode A (Remote Evaluation) requires the consuming team to already operate its ow
 
 ### 3.5 Security review sign-off
 
-Security and compliance teams own policy approval, exception criteria, retention requirements, and audit requirements (seed.md §21). A workload cannot be promoted from Observe to Enforce, and no external customer can be onboarded, without security and compliance stakeholders having reviewed the policy content, the content-exposure documentation for the workload's deployment mode, and its enforcement posture ([`AGREEMENTS.md` AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
+Security and compliance teams own policy approval, exception criteria, retention requirements, and audit requirements ([`TEAM-AND-OWNERSHIP.md`](TEAM-AND-OWNERSHIP.md)). A workload cannot be promoted from Observe to Enforce, and no external customer can be onboarded, without security and compliance stakeholders having reviewed the policy content, the content-exposure documentation for the workload's deployment mode, and its enforcement posture ([`AGREEMENTS.md` AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 
 **Why it is Internal:** the security and governance function is inside the organization but outside the AI Guardrails delivery team, and its sign-off process is not something the delivery team can accelerate unilaterally.
 
@@ -124,7 +124,7 @@ Security and compliance teams own policy approval, exception criteria, retention
 
 ### 3.6 KMS and Secrets Manager setup
 
-Data handled by the platform must be encrypted in transit and at rest using AWS KMS-backed encryption, covering policy storage, the workload registry, audit event buffers/archives, and any cached policy data in customer-managed runtimes ([`CONSTRAINTS.md` CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest); seed.md §11, §13, §14). AWS Secrets Manager is the designated store for runtime credentials and other secrets (seed.md §11).
+Data handled by the platform must be encrypted in transit and at rest using AWS KMS-backed encryption, covering policy storage, the workload registry, audit event buffers/archives, and any cached policy data in customer-managed runtimes ([`CONSTRAINTS.md` CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest); [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md), [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)). AWS Secrets Manager is the designated store for runtime credentials and other secrets ([`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md)).
 
 **Why it is Technical:** this is infrastructure the delivery team configures itself, inside the accounts from §3.1, rather than something granted by an external party.
 
@@ -136,7 +136,7 @@ Data handled by the platform must be encrypted in transit and at rest using AWS 
 
 ### 3.7 CI with dependency and container scanning
 
-The product must support dependency and container scanning as a security requirement (seed.md §14). Concretely: 100% of runtime container images and declared dependencies must be scanned for known vulnerabilities before deployment, with unresolved critical findings blocking release pending an explicit exception ([`NON-FUNCTIONAL-REQUIREMENTS.md` NFR-SEC-006](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md#nfr-sec-006--dependency-and-container-scanning)).
+The product must support dependency and container scanning as a security requirement ([`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)). Concretely: 100% of runtime container images and declared dependencies must be scanned for known vulnerabilities before deployment, with unresolved critical findings blocking release pending an explicit exception ([`NON-FUNCTIONAL-REQUIREMENTS.md` NFR-SEC-006](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md#nfr-sec-006--dependency-and-container-scanning)).
 
 **Why it is Technical:** this is CI/CD tooling the delivery team builds and operates, not a grant from an external or internal-but-separate function.
 
@@ -156,14 +156,14 @@ flowchart LR
     A --> C["LiteLLM post-call\nconnector built"]
     B --> D["Connector invokes\nEvaluation API against\nfrozen contract"]
     C --> D
-    D --> E["Two independent LiteLLM\ninstances onboard\n(seed.md §16)"]
+ D --> E["Two independent LiteLLM\ninstances onboard\n([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md))"]
     E --> F["Consistent normalized\ndecisions verified\nacross both instances"]
 
     G["Contract changes\nafter connector build starts"] -.->|"forces connector\nrework, breaks AGR-006"| B
     G -.-> C
 ```
 
-If the connector is built against a contract that has not stabilized, every subsequent contract revision forces a matching connector revision — and because the Phase 1–2 validation demonstration requires *consistent* decisions across two independent LiteLLM instances (seed.md §16; DEC-008), an unstable contract at onboarding time makes that consistency unverifiable. The practical rule: freeze/version the Evaluation contract (even a v0) before starting connector build work, not after.
+If the connector is built against a contract that has not stabilized, every subsequent contract revision forces a matching connector revision — and because the Phase 1–2 validation demonstration requires *consistent* decisions across two independent LiteLLM instances ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); DEC-008), an unstable contract at onboarding time makes that consistency unverifiable. The practical rule: freeze/version the Evaluation contract (even a v0) before starting connector build work, not after.
 
 ---
 
@@ -180,7 +180,7 @@ flowchart TD
     BR --> P1
     CONTRACT["Stable Evaluation\ncontract (§4)"] --> P1
 
-    LITELLM["Consuming-team LiteLLM\navailability + willingness"] --> DEMO["Phase 1–2 validation\ndemonstration\n(seed.md §16)"]
+ LITELLM["Consuming-team LiteLLM\navailability + willingness"] --> DEMO["Phase 1–2 validation\ndemonstration\n([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md))"]
     P1 --> DEMO
 
     SEC["Security review\nsign-off"] --> ENFORCE["Any workload's\nObserve → Enforce\npromotion"]
@@ -219,4 +219,4 @@ No dependency in Section 2 is currently marked Confirmed or Complete — this re
 - [`50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) — NFR-SEC-006 (dependency/container scanning), the Security section this document's CI dependency operationalizes.
 - [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — the five delivery phases referenced in the "Needed for" column of Section 2.
 - [`IMPLEMENTATION-STRATEGY.md`](IMPLEMENTATION-STRATEGY.md), [`MILESTONES.md`](MILESTONES.md), [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md), [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md) — sibling delivery documents that consume this register for phase-gate criteria and detailed sequencing.
-- [seed.md](../../seed.md) §11 (AWS implementation direction), §14 (Security requirements), §18 (Delivery phases), §20 (Key risks) — original source material this register is derived from.
+- [`../00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) — where the original charter material behind this register now lives; the register is derived from.

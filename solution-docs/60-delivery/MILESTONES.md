@@ -3,7 +3,7 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -11,7 +11,7 @@
 
 This document translates the five-phase delivery structure agreed in [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) into **outcome-based milestones**: for each phase, a named milestone (M1–M5) paired with a checklist of completion criteria that must be independently verifiable — not a calendar plan. This is a delivery-facing (**L3**) document. It operationalizes, but must never contradict, the L1-authoritative [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), and it must stay consistent with the L2 [`SCOPE.md`](../10-charter/SCOPE.md) and [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md). Where a conflict is ever found, those documents win and this one must be corrected.
 
-This document **does not contain committed dates, quarters, durations, headcounts, or budgets**. Every reference to sequence below means *ordering and dependency*, not *scheduling*. Where seed.md and `AGREEMENTS.md` do not supply a concrete figure (an SLA number, a latency target, a size limit), this document records **TBD** rather than inventing one, per source-of-truth policy. Per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), these milestones cover the **full feature set** — the Phase 1–2 core plus the later-phase capabilities — as committed-and-estimated scope; overall solution completion is reached only when all five milestones are delivered and validated.
+This document **does not contain committed dates, quarters, durations, headcounts, or budgets**. Every reference to sequence below means *ordering and dependency*, not *scheduling*. Where `AGREEMENTS.md` and `CONSTRAINTS.md` do not supply a concrete figure (an SLA number, a latency target, a size limit), this document records **TBD** rather than inventing one, per source-of-truth policy. Per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), these milestones cover the **full feature set** — the Phase 1–2 core plus the later-phase capabilities — as committed-and-estimated scope; overall solution completion is reached only when all five milestones are delivered and validated.
 
 The relationship between this document and its neighbors:
 
@@ -46,8 +46,8 @@ Each milestone below follows the same fixed shape:
 | Field | Meaning |
 | --- | --- |
 | **Milestone** | A short name (M1–M5) identifying the outcome, not a date. |
-| **Maps to** | The corresponding phase from seed.md §18 and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). |
-| **Objective** | The single-sentence objective for the phase, taken verbatim from seed.md §18. |
+| **Maps to** | The corresponding phase from [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). |
+| **Objective** | The single-sentence objective for the phase, taken verbatim from [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery). |
 | **Primary deployment mode** | Which of the three modes ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)) this milestone principally exercises. |
 | **Entry condition** | What must already be true (i.e., which prior milestone must be complete) before this milestone's work is committed. |
 | **Completion criteria** | A checklist. A milestone is "done" only when every box in its checklist can be independently verified — not when most of them can, and not when the underlying code merely exists but is unverified. |
@@ -91,26 +91,26 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 
 | Field | Detail |
 | --- | --- |
-| **Maps to** | Phase 1 (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
+| **Maps to** | Phase 1 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | **Primary deployment mode** | Mode A — Remote Evaluation only |
 | **Entry condition** | None — this is the delivery entry point. |
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways.
 
 **Completion criteria:**
 
-- [ ] The evaluation contract is defined and published: request structure, decision structure, reason codes, and policy-version semantics, expressed independently of any single gateway or vendor ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); seed.md §9–§10).
+- [ ] The evaluation contract is defined and published: request structure, decision structure, reason codes, and policy-version semantics, expressed independently of any single gateway or vendor ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [`CONTAINER-ARCHITECTURE.md`](../50-architecture/CONTAINER-ARCHITECTURE.md)).
 - [ ] The guardrail policy format is defined as a versioned, vendor-independent schema (the Policy entity — [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 - [ ] The Amazon Bedrock Guardrails adapter is implemented, normalizing Bedrock-specific responses into the platform's own decision structure before they reach any policy or connector ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract); [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats)).
-- [ ] A basic deterministic evaluator is implemented behind the same evaluator-adapter pattern used by the Bedrock adapter (seed.md §16, component 7).
-- [ ] The LiteLLM pre-call connector is implemented, invoking input evaluation before model invocation ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary); seed.md §12).
-- [ ] The LiteLLM post-call connector is implemented, invoking output evaluation after model invocation and applying safe output fallbacks (seed.md §12).
+- [ ] A basic deterministic evaluator is implemented behind the same evaluator-adapter pattern used by the Bedrock adapter ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), component 7).
+- [ ] The LiteLLM pre-call connector is implemented, invoking input evaluation before model invocation ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
+- [ ] The LiteLLM post-call connector is implemented, invoking output evaluation after model invocation and applying safe output fallbacks ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 - [ ] Connectors invoke the Evaluation API only — no policy logic, thresholds, or detection rules are embedded in the connector itself ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors); [CON-006](../00-source-of-truth/CONSTRAINTS.md#con-006--policies-separate-from-connectors)).
 - [ ] Observe mode is implemented and is the default state for a new policy binding — no new binding defaults to a blocking mode ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
-- [ ] Basic auditing is implemented: decision metadata (tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, whether raw content was retained) is logged for every evaluation (seed.md §15).
-- [ ] Evaluation latency is measured per evaluation (P50, P95, P99) (seed.md §15).
+- [ ] Basic auditing is implemented: decision metadata (tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, whether raw content was retained) is logged for every evaluation ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)).
+- [ ] Evaluation latency is measured per evaluation (P50, P95, P99) ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)).
 - [ ] The runtime is deployed internally, within the minimal MVP account model — one non-production account and one production account ([CON-002](../00-source-of-truth/CONSTRAINTS.md#con-002--minimal-mvp-account-model)).
 - [ ] All runtime communication between connectors, the Evaluation API, and evaluation engines uses TLS ([CON-008](../00-source-of-truth/CONSTRAINTS.md#con-008--tls-for-all-runtime-communication)).
 - [ ] At least two independently deployed LiteLLM instances each invoke the Evaluation API and resolve decisions from the same published policy version, with neither instance transmitting model-provider credentials to the guardrail platform, demonstrating **MVP-01, MVP-02, and MVP-03** ([SUCCESS-CRITERIA.md §1.2](../10-charter/SUCCESS-CRITERIA.md#12-criteria-table)).
@@ -134,30 +134,30 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 
 | Field | Detail |
 | --- | --- |
-| **Maps to** | Phase 2 (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
+| **Maps to** | Phase 2 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | **Primary deployment mode** | Mode A — Remote Evaluation |
 | **Entry condition** | M1 complete (evaluation contract, policy format, Bedrock adapter, LiteLLM connector, observe mode, basic auditing, and internal deployment all verified). |
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Allow multiple internal teams to onboard and operate distinct workloads.
 
 **Completion criteria:**
 
-- [ ] A tenant and workload registry is implemented, exposing the Tenant and Workload domain entities as first-class, queryable records ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model); seed.md §9).
+- [ ] A tenant and workload registry is implemented, exposing the Tenant and Workload domain entities as first-class, queryable records ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 - [ ] Policy bindings are implemented, associating a workload with a specific policy version and an explicit observe/enforce mode selection ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 - [ ] IAM-based authentication is implemented for platform consumers, using least-privilege, short-lived credentials rather than long-lived static secrets ([CON-010](../00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles)).
 - [ ] Per-tenant workload identities are issued and enforced; no workload identity is shared across tenants ([CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities)).
 - [ ] Quotas are implemented and enforced per tenant and per workload.
-- [ ] Policy promotion is implemented: a new immutable policy version can be published and bound to a workload through a controlled, auditable promotion step (seed.md §15, "Policy rollout").
+- [ ] Policy promotion is implemented: a new immutable policy version can be published and bound to a workload through a controlled, auditable promotion step ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md), "Policy rollout").
 - [ ] Policy rollback is implemented: a workload's binding can be reverted immediately to a prior immutable policy version, with prior evaluation behavior restored, and both transitions captured in audit metadata.
 - [ ] Promotion between observe/warn/redact/block states is an explicit, auditable action for a given binding — never an implicit side effect of another change ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
-- [ ] Service-level monitoring is implemented, covering evaluation latency (P50/P95/P99), timeout rate, decision distribution, and policy-cache hit rate (seed.md §15).
+- [ ] Service-level monitoring is implemented, covering evaluation latency (P50/P95/P99), timeout rate, decision distribution, and policy-cache hit rate ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)).
 - [ ] A basic administration workflow exists for tenant/workload/policy-binding management; a minimal management API and version-controlled configuration are acceptable substitutes for a full administration portal at this milestone ([`SCOPE.md` §6, non-goal 1](../10-charter/SCOPE.md#6-delivery-non-goals-phases-12)).
 - [ ] At least two internal teams have independently registered a workload, bound it to the same shared policy version, and are operating it under distinct tenant/workload identities and distinct enforcement modes.
 - [ ] A published policy version is upgraded for one of those workloads and then rolled back, with both the upgraded and restored behavior verified and both transitions present in the audit trail, demonstrating **MVP-06** ([SUCCESS-CRITERIA.md §1.2](../10-charter/SUCCESS-CRITERIA.md#12-criteria-table)).
 
-**Definition of done:** M2 is complete when every checklist item above is independently verified. Because MVP-06 (policy upgrade and rollback) is the only validation demonstration criterion not yet demonstrable at the close of M1, **Phases 1–2 are validated at M2: the full Phase 1–2 validation demonstration — all nine criteria, MVP-01 through MVP-09, together, using two genuinely independent LiteLLM deployments — passes at M2**, per the gating rule in [`seed.md` §16](../../seed.md#16-mvp-definition), [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), and [`SUCCESS-CRITERIA.md` §1.3](../10-charter/SUCCESS-CRITERIA.md#13-gating-rule). No subset of criteria, and no single deployment exercised twice in place of two independent ones, satisfies this gate.
+**Definition of done:** M2 is complete when every checklist item above is independently verified. Because MVP-06 (policy upgrade and rollback) is the only validation demonstration criterion not yet demonstrable at the close of M1, **Phases 1–2 are validated at M2: the full Phase 1–2 validation demonstration — all nine criteria, MVP-01 through MVP-09, together, using two genuinely independent LiteLLM deployments — passes at M2**, per the gating rule in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), and [`SUCCESS-CRITERIA.md` §1.3](../10-charter/SUCCESS-CRITERIA.md#13-gating-rule). No subset of criteria, and no single deployment exercised twice in place of two independent ones, satisfies this gate.
 
 **Explicitly not required for M2** (per [`SCOPE.md`](../10-charter/SCOPE.md)):
 
@@ -171,23 +171,23 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 
 | Field | Detail |
 | --- | --- |
-| **Maps to** | Phase 3 (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
+| **Maps to** | Phase 3 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | **Primary deployment mode** | Mode B — Guarded Gateway (introduced at this milestone) |
 | **Entry condition** | M2 complete (full Phase 1–2 validation demonstration passed). Phase 3 lies beyond the Phase 1–2 validation gate and must not be resourced ahead of it. |
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Offer a fully hosted model and guardrail path for teams without their own gateway.
 
 **Completion criteria:**
 
-- [ ] A managed LiteLLM gateway (or equivalent) is operated end-to-end by the AI Guardrails provider, consistent with Mode B ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes); seed.md §3, Mode B).
+- [ ] A managed LiteLLM gateway (or equivalent) is operated end-to-end by the AI Guardrails provider, consistent with Mode B ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode B).
 - [ ] Model-provider configuration is implemented and operated by the provider, not the consuming team, for Guarded Gateway traffic.
 - [ ] Per-tenant routing is implemented, directing each tenant's inference traffic to the correct model configuration.
-- [ ] Cost and rate controls are implemented, covering rate limits and usage quotas for the managed gateway path (seed.md §3, Mode B; seed.md §15).
+- [ ] Cost and rate controls are implemented, covering rate limits and usage quotas for the managed gateway path ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode B; [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)).
 - [ ] Managed credentials: the provider holds model-provider credentials for Mode B traffic; the consuming team does not need to supply or manage them.
-- [ ] A unified availability objective spanning both model routing and guardrail evaluation is defined and documented for the Guarded Gateway path (seed.md §18, Phase 3). Specific SLA figures are **TBD** until set by the accountable owner — this criterion requires the objective to be *defined*, not a specific number to be met.
-- [ ] At least one workload is onboarded and operating end-to-end through the Guarded Gateway, with input guardrails, model routing, model invocation, output guardrails, and audit/usage reporting all functioning on the same request path (seed.md §3, Mode B diagram).
+- [ ] A unified availability objective spanning both model routing and guardrail evaluation is defined and documented for the Guarded Gateway path ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), Phase 3). Specific SLA figures are **TBD** until set by the accountable owner — this criterion requires the objective to be *defined*, not a specific number to be met.
+- [ ] At least one workload is onboarded and operating end-to-end through the Guarded Gateway, with input guardrails, model routing, model invocation, output guardrails, and audit/usage reporting all functioning on the same request path ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode B diagram).
 - [ ] Content-exposure documentation for Mode B is published, explicitly separating operational ownership (the provider now runs the complete inference path) from data exposure, per [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns).
 - [ ] The same evaluation contract, decision structure, reason codes, and policy-version semantics used in M1/M2 (Mode A) are verified unchanged for Mode B traffic ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
@@ -205,11 +205,11 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 
 | Field | Detail |
 | --- | --- |
-| **Maps to** | Phase 4 (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
+| **Maps to** | Phase 4 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | **Primary deployment mode** | Mode C — Customer-Managed Runtime (introduced at this milestone) |
 | **Entry condition** | M2 complete (full Phase 1–2 validation demonstration passed, including MVP-09's packaging validation). M4 does not require M3 to be complete — Modes B and C are independent extensions of the M2 baseline — but delivery sequencing per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) treats Phase 4 as following Phase 3. |
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Support workloads that require local evaluation and content isolation.
 
@@ -225,7 +225,7 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 - [ ] Customer-controlled telemetry is implemented, spanning the full range from health status, product version, policy version, aggregated evaluation counts, reason-code totals, latency metrics, and sanitized decision metadata down to a fully supported "no telemetry" configuration ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)).
 - [ ] Raw prompt/response content is verified to never leave the customer-managed runtime unless the customer has explicitly configured that transmission ([CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured)).
 - [ ] Upgrade compatibility checks are implemented, validating that a runtime version upgrade remains compatible with the policy versions currently bound to that deployment.
-- [ ] At least one customer-managed runtime deployment is validated end-to-end inside a customer-controlled AWS account: local evaluation, policy cache behavior during a simulated control-plane outage, telemetry configuration (including "no telemetry"), and an upgrade compatibility check all function as specified (seed.md §3, Mode C).
+- [ ] At least one customer-managed runtime deployment is validated end-to-end inside a customer-controlled AWS account: local evaluation, policy cache behavior during a simulated control-plane outage, telemetry configuration (including "no telemetry"), and an upgrade compatibility check all function as specified ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C).
 - [ ] The LiteLLM connector's invocation contract to the Evaluation API is verified unchanged between hosted (Mode A/B) and customer-managed (Mode C) deployments, completing in shipped form the packaging criterion validated architecturally at M1/M2 (**MVP-09**) ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)).
 
 **Definition of done:** M4 is complete when every checklist item above is independently verified for at least one real customer-managed deployment. M4 lies beyond the Phase 1–2 validation gate; it delivers the *shipped* customer-managed packaging that the validation demonstration (M2) only required to be *architecturally feasible*.
@@ -242,15 +242,15 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 
 | Field | Detail |
 | --- | --- |
-| **Maps to** | Phase 5 (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
+| **Maps to** | Phase 5 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | **Primary deployment mode** | All modes (extension of existing evaluation stages, not a new deployment mode) |
 | **Entry condition** | M4 complete and validated. Per [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), Phase 5 is a separate product expansion — not a prerequisite for Phases 1–2 — and must not be scheduled or resourced as part of M1–M4 delivery; its scope is nonetheless defined and estimated as part of the full feature set ([DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). |
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Extend guardrail coverage beyond prompt and response evaluation.
 
-**Completion criteria** — committed-and-estimated scope per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), matching the Phase 5 deliverables in seed.md §18 and [DEC-006](../00-source-of-truth/DECISIONS.md#dec-006--sequence-delivery-into-five-phases). Each item remains bounded by the product-category exclusions in seed.md §6.3 and the AGR-010 authorization boundary:
+**Completion criteria** — committed-and-estimated scope per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), matching the Phase 5 deliverables in [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and [DEC-006](../00-source-of-truth/DECISIONS.md#dec-006--sequence-delivery-into-five-phases). Each item remains bounded by the product-category exclusions in [`SCOPE.md`](../10-charter/SCOPE.md) and the AGR-010 authorization boundary:
 
 - [ ] Retrieval-content evaluation is available as an evaluator behind the existing adapter pattern, without requiring a redesign of the evaluation contract ([`SCOPE.md` §4, item 1](../10-charter/SCOPE.md#4-later-phase-scope--committed-and-estimated-phases-35)).
 - [ ] Indirect prompt-injection detection is available as a new evaluator behind the same adapter pattern ([`SCOPE.md` §4, item 2](../10-charter/SCOPE.md#4-later-phase-scope--committed-and-estimated-phases-35)).
@@ -266,14 +266,14 @@ All five milestones are committed-and-estimated scope under [DEC-008](../00-sour
 
 **Explicitly not required — ever, without a separate decision:**
 
-- A general-purpose MCP security platform or fully autonomous agent governance — both remain product-category exclusions (seed.md §6.3) and are not implied to be complete even if every M5 item above ships ([`SCOPE.md` §5, items 9 and 14](../10-charter/SCOPE.md#5-out-of-scope-for-the-solution)).
+- A general-purpose MCP security platform or fully autonomous agent governance — both remain product-category exclusions ([`SCOPE.md`](../10-charter/SCOPE.md)) and are not implied to be complete even if every M5 item above ships ([`SCOPE.md` §5, items 9 and 14](../10-charter/SCOPE.md#5-out-of-scope-for-the-solution)).
 - Any redefinition of a guardrail decision as an authorization decision — this boundary does not move regardless of which M5 items ship ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 
 ---
 
 ## 8. Milestone-to-validation-demonstration traceability
 
-The table below shows, for each of the nine Phase 1–2 validation demonstration criteria (MVP-01 through MVP-09) defined in [`SUCCESS-CRITERIA.md` §1.2](../10-charter/SUCCESS-CRITERIA.md#12-criteria-table), the milestone at which it first becomes independently demonstrable. Per [`seed.md` §16](../../seed.md#16-mvp-definition), [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), and [`SUCCESS-CRITERIA.md` §1.3](../10-charter/SUCCESS-CRITERIA.md#13-gating-rule), the demonstration is not considered passed until **all nine** are shown together — this table traces *when each becomes possible*, not a claim that any subset is sufficient on its own.
+The table below shows, for each of the nine Phase 1–2 validation demonstration criteria (MVP-01 through MVP-09) defined in [`SUCCESS-CRITERIA.md` §1.2](../10-charter/SUCCESS-CRITERIA.md#12-criteria-table), the milestone at which it first becomes independently demonstrable. Per [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), and [`SUCCESS-CRITERIA.md` §1.3](../10-charter/SUCCESS-CRITERIA.md#13-gating-rule), the demonstration is not considered passed until **all nine** are shown together — this table traces *when each becomes possible*, not a claim that any subset is sufficient on its own.
 
 | Criterion | Short description | First demonstrable at |
 | --- | --- | --- |
@@ -298,7 +298,7 @@ Per source-of-truth policy, this document does not state:
 - Calendar dates, quarters, or durations for any milestone — all sequencing is dependency-based only, not scheduled.
 - Headcount, budget, or dollar figures for any milestone.
 - M5 scheduling or resourcing inside M1–M4 delivery — M5's scope is committed and estimated per [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), but Phase 5 must not be scheduled or resourced as part of M1–M4 delivery, and the deferral of adjacent capabilities in [`DECISIONS.md` DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement) remains in force.
-- SLA numbers, latency targets, input-size limits, or timeout values — these are tracked qualitatively in seed.md §14–§15 and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (CON-015, CON-016) and remain **TBD** until an accountable owner sets them.
+- SLA numbers, latency targets, input-size limits, or timeout values — these are tracked qualitatively in [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (CON-015, CON-016) and remain **TBD** until an accountable owner sets them.
 - Verification methods, environments, or sign-off owners for individual checklist items — those belong in [`VALIDATION-PLAN.md`](VALIDATION-PLAN.md), not here.
 - A formal release/go/no-go gate — that is the role of [`RELEASE-CRITERIA.md`](RELEASE-CRITERIA.md), which is expected to consume this document's checklists rather than duplicate them.
 

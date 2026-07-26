@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md + DEC-010 + DEC-011
+**Derived from:** AGREEMENTS.md + DEC-010 + DEC-011
 
 ---
 

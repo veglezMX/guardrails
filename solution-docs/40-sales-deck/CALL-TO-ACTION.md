@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -29,17 +29,17 @@
 
 > **Run a pilot with two workloads bound to the same guardrail policy, both starting in observe mode, with model-provider credentials remaining under each team's own control throughout — then, after reviewing the observe-mode findings together, promote one workload to enforce.**
 
-This pilot is the concrete, in-room commitment that accompanies the deck's broader ask: approval of **the AI Guardrails solution — full feature set, delivered in five phases**, each phase validated before the next proceeds ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). The pilot authorizes the smallest activity that produces real evidence toward the reusable-policy hypothesis stated in the charter — **one reusable policy can be applied consistently to multiple independent LiteLLM deployments** — the target of the Phase 1–2 validation demonstration (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+This pilot is the concrete, in-room commitment that accompanies the deck's broader ask: approval of **the AI Guardrails solution — full feature set, delivered in five phases**, each phase validated before the next proceeds ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). The pilot authorizes the smallest activity that produces real evidence toward the reusable-policy hypothesis stated in the charter — **one reusable policy can be applied consistently to multiple independent LiteLLM deployments** — the target of the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 
 ---
 
 ## 2. Why a pilot, and why this shape
 
-* **Two workloads, not one.** A single workload cannot show that a policy is *reusable* — it can only show that it runs once. The pilot requires two organizationally distinct workloads (seed.md §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
-* **One shared policy, not two bespoke ones.** The point being tested is policy reuse, not policy authoring. Both workloads bind to the same policy name and version (seed.md §9, Policy binding; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
-* **Observe mode first, for both.** Per the observe-before-enforce principle, no workload is put into a blocking posture before its team has had a chance to measure false positives, latency, and business impact (seed.md §5.6; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
-* **Credentials stay with the teams.** "Importing" a policy never means transferring model-provider credentials, exposing gateway administration endpoints, or handing the guardrail platform administrative access to a team's LiteLLM instance (seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). Each team's LiteLLM instance keeps sole custody of its own credentials for the life of the pilot.
-* **Promotion is a decision, not a default.** Moving a workload from observe to enforce happens only after its findings are reviewed, and only as an explicit, auditable action — never as a side effect of onboarding or of the other workload's progress (seed.md §5.6; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
+* **Two workloads, not one.** A single workload cannot show that a policy is *reusable* — it can only show that it runs once. The pilot requires two organizationally distinct workloads ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+* **One shared policy, not two bespoke ones.** The point being tested is policy reuse, not policy authoring. Both workloads bind to the same policy name and version ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), Policy binding; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
+* **Observe mode first, for both.** Per the observe-before-enforce principle, no workload is put into a blocking posture before its team has had a chance to measure false positives, latency, and business impact ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
+* **Credentials stay with the teams.** "Importing" a policy never means transferring model-provider credentials, exposing gateway administration endpoints, or handing the guardrail platform administrative access to a team's LiteLLM instance ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). Each team's LiteLLM instance keeps sole custody of its own credentials for the life of the pilot.
+* **Promotion is a decision, not a default.** Moving a workload from observe to enforce happens only after its findings are reviewed, and only as an explicit, auditable action — never as a side effect of onboarding or of the other workload's progress ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)).
 
 ---
 
@@ -76,17 +76,17 @@ This is the same demonstration topology defined in [`10-charter/SUCCESS-CRITERIA
 
 | Parameter | Value for the pilot |
 | --- | --- |
-| Number of workloads | Two, each owned by an organizationally distinct team, each operating its own LiteLLM instance (seed.md §16). |
-| Policy | One versioned guardrail policy, bound identically to both workloads (seed.md §9, Policy binding). |
-| Starting enforcement mode | **Observe** for both workloads (seed.md §5.6; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). |
-| Model-provider credentials | Remain with each team; never transferred to or stored by the guardrail platform (seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). |
-| Review step | Both teams, together with the guardrail platform team and security/governance, review observe-mode findings before any promotion decision (seed.md §21). |
+| Number of workloads | Two, each owned by an organizationally distinct team, each operating its own LiteLLM instance ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)). |
+| Policy | One versioned guardrail policy, bound identically to both workloads ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), Policy binding). |
+| Starting enforcement mode | **Observe** for both workloads ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). |
+| Model-provider credentials | Remain with each team; never transferred to or stored by the guardrail platform ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). |
+| Review step | Both teams, together with the guardrail platform team and security/governance, review observe-mode findings before any promotion decision ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)). |
 | End state | One workload promoted to **enforce**; the other may remain in observe or be promoted in a later, separately reviewed step. |
-| Deployment mode exercised | Remote Evaluation (Mode A) — each team keeps its own LiteLLM gateway and consumes the hosted Evaluation API (seed.md §3). |
+| Deployment mode exercised | Remote Evaluation (Mode A) — each team keeps its own LiteLLM gateway and consumes the hosted Evaluation API ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)). |
 
 ### 3.3 What "credentials stay with the teams" does and does not mean
 
-Retaining model-provider credentials is a statement about **operational ownership**, not about **data exposure** — the two are deliberately separate concerns ([AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)). In this pilot's Mode A topology, prompts and responses submitted for evaluation still reach the hosted Evaluation API; Remote Evaluation must never be described as a private-data or data-local model ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)). Teams with a hard requirement that content never leave their own AWS account should be routed to Customer-Managed Runtime instead, which is a later-phase deliverable, not part of this pilot (seed.md §18, Phase 4; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
+Retaining model-provider credentials is a statement about **operational ownership**, not about **data exposure** — the two are deliberately separate concerns ([AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns)). In this pilot's Mode A topology, prompts and responses submitted for evaluation still reach the hosted Evaluation API; Remote Evaluation must never be described as a private-data or data-local model ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)). Teams with a hard requirement that content never leave their own AWS account should be routed to Customer-Managed Runtime instead, which is a later-phase deliverable, not part of this pilot ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), Phase 4; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
 
 ---
 
@@ -96,7 +96,7 @@ The single action needed to start the clock on this pilot:
 
 > **Confirm the two candidate teams and register their workloads against one policy version.**
 
-Concretely, this means walking the first steps of the standard onboarding flow (seed.md §4) for both workloads in parallel:
+Concretely, this means walking the first steps of the standard onboarding flow ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)) for both workloads in parallel:
 
 ```mermaid
 flowchart LR
@@ -115,13 +115,13 @@ Confirming named commitments from two organizationally independent teams, each a
 
 | Role | Pilot responsibility |
 | --- | --- |
-| **Application team owner — Workload A** | Registers Workload A, installs the connector in Team A's LiteLLM instance, keeps Team A's model-provider credentials, reviews Workload A's observe-mode findings (seed.md §7, §21). |
-| **Application team owner — Workload B** | Registers Workload B, installs the connector in Team B's LiteLLM instance, keeps Team B's model-provider credentials, reviews Workload B's observe-mode findings, and — if findings support it — accepts the move to enforce mode (seed.md §7, §21). |
-| **AI Guardrails / platform team** | Selects or confirms the policy version both workloads bind to, generates the integration manifests, operates the Evaluation API and decision engine, and produces the audit/decision evidence both teams review (seed.md §21). |
-| **Security and governance lead** | Approves the policy content being piloted, confirms the content-exposure statement for Mode A is understood by both teams, and signs off before any workload is promoted from observe to enforce (seed.md §7; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization); [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §4, "Security review"). |
+| **Application team owner — Workload A** | Registers Workload A, installs the connector in Team A's LiteLLM instance, keeps Team A's model-provider credentials, reviews Workload A's observe-mode findings ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md), [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)). |
+| **Application team owner — Workload B** | Registers Workload B, installs the connector in Team B's LiteLLM instance, keeps Team B's model-provider credentials, reviews Workload B's observe-mode findings, and — if findings support it — accepts the move to enforce mode ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md), [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)). |
+| **AI Guardrails / platform team** | Selects or confirms the policy version both workloads bind to, generates the integration manifests, operates the Evaluation API and decision engine, and produces the audit/decision evidence both teams review ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)). |
+| **Security and governance lead** | Approves the policy content being piloted, confirms the content-exposure statement for Mode A is understood by both teams, and signs off before any workload is promoted from observe to enforce ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md); [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization); [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §4, "Security review"). |
 | **Product or technical lead (pilot sponsor)** | Coordinates the two teams, tracks the pilot against the criteria in Section 6, and is accountable for reporting the outcome. |
 
-This mirrors the ownership boundaries already agreed for the platform (seed.md §21) — the pilot introduces no new roles.
+This mirrors the ownership boundaries already agreed for the platform ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)) — the pilot introduces no new roles.
 
 ---
 
@@ -139,7 +139,7 @@ The pilot is designed to produce direct, checkable evidence against the criteria
 | MVP-04 | One workload can run in observe mode. | Workload A (or whichever workload is not promoted) remains in observe for the pilot's duration. |
 | MVP-05 | Another workload can run in enforce mode. | Workload B is promoted to enforce after its observe-mode findings are reviewed and accepted. |
 
-Two consuming-team responsibilities named in the charter are exercised explicitly by this pilot: **review of observe-mode findings** and **acceptance of enforcement behavior** (seed.md §21).
+Two consuming-team responsibilities named in the charter are exercised explicitly by this pilot: **review of observe-mode findings** and **acceptance of enforcement behavior** ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)).
 
 ### 6.2 What this pilot does not, by itself, complete
 
@@ -157,12 +157,12 @@ Because the pilot already stands up the two-workload, one-policy topology those 
 ## 7. What this ask does not commit to
 
 * **Not a platform-wide rollout.** This is two workloads, not an organization-wide mandate.
-* **Not a hard security boundary.** The pilot uses cooperative integration — the connector can be disabled, removed, or misconfigured by either team, and it must not be represented as bypass-proof (seed.md §8; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
+* **Not a hard security boundary.** The pilot uses cooperative integration — the connector can be disabled, removed, or misconfigured by either team, and it must not be represented as bypass-proof ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)).
 * **Not a data-residency guarantee.** As noted in Section 3.3, prompts and responses reach the hosted Evaluation API in this Mode A pilot; this is not a private-data or data-local deployment ([AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model)).
-* **Not an authorization decision.** A guardrail decision that content or a tool call appears safe does not determine whether a user is permitted to take that action; the consuming applications remain responsible for authentication and business authorization throughout the pilot (seed.md §5.5; [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
+* **Not an authorization decision.** A guardrail decision that content or a tool call appears safe does not determine whether a user is permitted to take that action; the consuming applications remain responsible for authentication and business authorization throughout the pilot ([AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)).
 * **Not a budget, timeline, or SLA commitment.** No dollar figure, date, or availability target is asserted for the pilot; these remain **TBD** per [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) and [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md).
-* **Not delivery of Phases 2–5 today.** Guarded Gateway, Customer-Managed Runtime, and Advanced Agent Protection are committed-in-scope and estimated as part of the full solution, but each proceeds only after the prior phase validates; none is built or available today (seed.md §18; [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
-* **Not anything in the seed.md §6.3 exclusions.** A general-purpose gateway replacement, complete AI governance or DLP platform, proprietary detection models, general MCP security, and organization-wide AWS enforcement remain excluded from the feature set.
+* **Not delivery of Phases 2–5 today.** Guarded Gateway, Customer-Managed Runtime, and Advanced Agent Protection are committed-in-scope and estimated as part of the full solution, but each proceeds only after the prior phase validates; none is built or available today ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)).
+* **Not anything in the [`SCOPE.md`](../10-charter/SCOPE.md) exclusions.** A general-purpose gateway replacement, complete AI governance or DLP platform, proprietary detection models, general MCP security, and organization-wide AWS enforcement remain excluded from the feature set.
 
 ---
 

@@ -3,13 +3,13 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
 ## Purpose and how to use this document
 
-This document equips sales, sales-engineering, and solution-consulting teams with honest, source-grounded responses to the objections prospects most commonly raise about AI Guardrails. It is a **derived, L4** document: every response traces back to the authoritative [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) (L1) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (L1) registers, and to `seed.md`. Where the source material does not establish a number, timeline, or dollar figure, this document says **TBD** rather than inventing one.
+This document equips sales, sales-engineering, and solution-consulting teams with honest, source-grounded responses to the objections prospects most commonly raise about AI Guardrails. It is a **derived, L4** document: every response traces back to the authoritative [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) (L1) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (L1) registers. Where the source material does not establish a number, timeline, or dollar figure, this document says **TBD** rather than inventing one.
 
 **Ground rule for anyone using this document in a live conversation:** the single largest named risk in the solution charter is *false confidence* — a prospect (or a rep) overstating what guardrails guarantee. Every response below is written to close deals honestly, not to win an objection by overclaiming. Where a stronger-sounding answer would contradict `AGREEMENTS.md`, the honest, narrower answer is the one to give. If an answer here ever appears to conflict with `AGREEMENTS.md` or `CONSTRAINTS.md`, those registers win and this document must be corrected — never the other way around.
 
@@ -59,7 +59,7 @@ Two further points worth making regardless of mode:
 
 ### Supporting source
 
-seed.md §3 (Mode A, Mode C), §5.4 (Explicit content-exposure model), §13 (Data handling requirements); [`AGREEMENTS.md` — AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime); [`CONSTRAINTS.md` — CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment), [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime).
+[AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (Mode A, Mode C), [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns) (Explicit content-exposure model), [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) (Data handling requirements); [`AGREEMENTS.md` — AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default), [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime); [`CONSTRAINTS.md` — CON-007](../00-source-of-truth/CONSTRAINTS.md#con-007--explicit-content-exposure-documentation-per-deployment), [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured), [CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime).
 
 ---
 
@@ -86,7 +86,7 @@ This objection should be met with agreement on the underlying fact, not denial: 
 
 ### Supporting source
 
-seed.md §15 (Operational requirements — Performance), §20 (Key risks — Latency); [`AGREEMENTS.md` — AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [`CONSTRAINTS.md` — CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits).
+[`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) (Operational requirements — Performance), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) (Key risks — Latency); [`AGREEMENTS.md` — AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [`CONSTRAINTS.md` — CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits).
 
 ---
 
@@ -112,7 +112,7 @@ Put simply: adopting AI Guardrails does not require replacing your gateway, your
 
 ### Supporting source
 
-seed.md §4 (Definition of the import capability), §5.1 (Policy portability), §12 (LiteLLM integration), §22 (Decision summary); [`AGREEMENTS.md` — AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [`CONSTRAINTS.md` — CON-003](../00-source-of-truth/CONSTRAINTS.md#con-003--no-coupling-to-litellm-configuration-structures), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats).
+[AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) (Definition of the import capability), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) (Policy portability), [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) (LiteLLM integration), [AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm) (Decision summary); [`AGREEMENTS.md` — AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [`CONSTRAINTS.md` — CON-003](../00-source-of-truth/CONSTRAINTS.md#con-003--no-coupling-to-litellm-configuration-structures), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats).
 
 ---
 
@@ -144,7 +144,7 @@ The platform also does not treat weak signals as substitutes for real enforcemen
 
 ### Supporting source
 
-seed.md §8 (Trust and enforcement model), §14 (Security requirements), §20 (Key risks — Connector bypass); [`AGREEMENTS.md` — AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [`CONSTRAINTS.md` — CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies).
+[AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) (Trust and enforcement model), [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (Security requirements), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) (Key risks — Connector bypass); [`AGREEMENTS.md` — AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [`CONSTRAINTS.md` — CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies).
 
 ```mermaid
 flowchart LR
@@ -173,8 +173,8 @@ The direct answer is **no**, and this should be stated plainly rather than softe
 
 Specifically:
 
-* **Guardrails are not authorization.** A guardrail can determine that a prompt, response, or tool call *appears safe* from a content-policy perspective. It does not determine whether the current, authenticated user is permitted to execute that action against a particular resource. Authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows remain the consuming application's responsibility, in full. Tool and agent authorization integration lands in Phase 5 of the delivery sequence and is not available today; end-user authentication and application business authorization remain excluded from the feature set entirely (seed.md §6.3).
-* **Guardrails are not a complete security boundary.** The platform explicitly excludes from its feature set (seed.md §6.3): a general-purpose LLM gateway replacement, a complete AI governance platform, model training or fine-tuning, a proprietary prompt-injection model, a proprietary moderation model, a complete DLP platform, end-user authentication, application business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, full compliance certification, or a general MCP security platform. (Multi-region active-active availability was formerly part of this exclusion list; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Proposed, pending owner ratification) supersedes that exclusion and commits it as a later-phase capability, [`CAP-036`](../20-product/CAPABILITIES.md) — not yet delivered, but no longer excluded.)
+* **Guardrails are not authorization.** A guardrail can determine that a prompt, response, or tool call *appears safe* from a content-policy perspective. It does not determine whether the current, authenticated user is permitted to execute that action against a particular resource. Authentication, business authorization, tenant isolation, resource ownership, transaction limits, and approval workflows remain the consuming application's responsibility, in full. Tool and agent authorization integration lands in Phase 5 of the delivery sequence and is not available today; end-user authentication and application business authorization remain excluded from the feature set entirely ([`SCOPE.md`](../10-charter/SCOPE.md)).
+* **Guardrails are not a complete security boundary.** The platform explicitly excludes from its feature set ([`SCOPE.md`](../10-charter/SCOPE.md)): a general-purpose LLM gateway replacement, a complete AI governance platform, model training or fine-tuning, a proprietary prompt-injection model, a proprietary moderation model, a complete DLP platform, end-user authentication, application business authorization, fully autonomous agent governance, organization-wide AWS enforcement, cross-cloud deployment, full compliance certification, or a general MCP security platform. (Multi-region active-active availability was formerly part of this exclusion list; [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Proposed, pending owner ratification) supersedes that exclusion and commits it as a later-phase capability, [`CAP-036`](../20-product/CAPABILITIES.md) — not yet delivered, but no longer excluded.)
 * **What guardrails actually deliver:** a reusable policy, evaluation, and enforcement layer that applies consistent input/output content evaluation across workloads, gateways, and providers, with normalized decisions, observe-before-enforce rollout, and auditable evidence that policies were applied. That is a precise and valuable scope — it is just not the same thing as "your AI systems are fully secured."
 
 The correct sales posture is to state the scope boundary as part of the value proposition, not as a caveat buried in a footnote: telling a prospect exactly which risks the platform addresses, and which remain theirs to own (authentication, authorization, tenant isolation, full compliance certification, and the risk categories the platform does not yet cover), is itself part of what makes the platform trustworthy.
@@ -183,17 +183,17 @@ The correct sales posture is to state the scope boundary as part of the value pr
 
 * Do not market or describe AI Guardrails as "complete AI security," "full AI governance," or a "security boundary" on its own.
 * Do not describe a guardrail decision (content appears safe) as an authorization decision (this user may take this action).
-* Do not claim coverage for risk categories excluded from the feature set — proprietary detection models, a complete DLP platform, a general MCP security platform, or full compliance certification (seed.md §6.3) — and do not present Phase 5 capabilities (tool-call validation, MCP integration) as already delivered.
+* Do not claim coverage for risk categories excluded from the feature set — proprietary detection models, a complete DLP platform, a general MCP security platform, or full compliance certification ([`SCOPE.md`](../10-charter/SCOPE.md)) — and do not present Phase 5 capabilities (tool-call validation, MCP integration) as already delivered.
 
 ### Supporting source
 
-seed.md §5.5 (Guardrails are not authorization), §6 (scope, including the §6.3 exclusions), §20 (Key risks — False confidence); [`AGREEMENTS.md` — AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization); [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) (authoritative scope boundaries; the former MVP-scope agreement was removed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
+[AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) (Guardrails are not authorization), [`SCOPE.md`](../10-charter/SCOPE.md) (scope, including the §6.3 exclusions), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) (Key risks — False confidence); [`AGREEMENTS.md` — AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization); [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) (authoritative scope boundaries; the former MVP-scope agreement was removed by [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)).
 
 ---
 
 ## Cross-cutting principle: honesty outranks a closed deal
 
-Every response in this document is built on the same discipline the source material applies to itself: where a claim would sound better but is not supported by `AGREEMENTS.md`, `CONSTRAINTS.md`, or `seed.md`, the narrower, accurate claim is the one to use. This is not a compliance formality — it is the direct mitigation for two of the six risks named in the charter (false confidence and, indirectly, connector bypass, if a customer is sold a posture stronger than what they actually deploy). A rep who oversells the exposure model, the bypass resistance of a cooperative connector, or the completeness of guardrail coverage is creating exactly the risk exposure this platform is designed to reduce.
+Every response in this document is built on the same discipline the source material applies to itself: where a claim would sound better but is not supported by `AGREEMENTS.md` or `CONSTRAINTS.md`, the narrower, accurate claim is the one to use. This is not a compliance formality — it is the direct mitigation for two of the six risks named in the charter (false confidence and, indirectly, connector bypass, if a customer is sold a posture stronger than what they actually deploy). A rep who oversells the exposure model, the bypass resistance of a cooperative connector, or the completeness of guardrail coverage is creating exactly the risk exposure this platform is designed to reduce.
 
 ---
 
@@ -208,4 +208,4 @@ Every response in this document is built on the same discipline the source mater
 - [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — the in-scope, future-scope, and out-of-scope boundaries referenced in §5.
 - [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — register of enforceable, approved external-facing wording; governs this document.
 - [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) — fuller risk register, including connector bypass and false confidence.
-- [seed.md](../../seed.md) — original charter source for every objection response above.
+- [`../00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) — where the original charter material behind these responses now lives.

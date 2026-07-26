@@ -3,7 +3,7 @@
 **Authority level:** L1
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -13,7 +13,7 @@ This matrix exists so that **no derived document can drift from an accepted agre
 
 This document is **L1 — Authoritative** in the narrow sense that its cross-references are the binding record of *which artifact implements which agreement*. It does not itself create, relax, or reinterpret any agreement — [`AGREEMENTS.md`](AGREEMENTS.md) and [`CONSTRAINTS.md`](CONSTRAINTS.md) remain the sole source of the underlying decisions and boundaries. If this matrix and a derived document disagree about coverage, the derived document is corrected. If this matrix and `AGREEMENTS.md` disagree about what was agreed, `AGREEMENTS.md` wins and this matrix is corrected.
 
-**Scope:** one row per accepted agreement in `AGREEMENTS.md` (AGR-001 through AGR-021 — all 21 are "major" in the sense that all are `Status: Accepted`, L1). The former AGR-019 (MVP scope boundaries) and former AGR-020 (MVP success demonstration) were removed by [DEC-008](DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); their rows are gone, and their governing role passed to seed.md §6/§16, [`10-charter/SCOPE.md`](../10-charter/SCOPE.md), and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) as noted below the matrix. For each agreement, the row records:
+**Scope:** one row per accepted agreement in `AGREEMENTS.md` (AGR-001 through AGR-021 — all 21 are "major" in the sense that all are `Status: Accepted`, L1). The former AGR-019 (MVP scope boundaries) and former AGR-020 (MVP success demonstration) were removed by [DEC-008](DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases); their rows are gone, and their governing role passed to [`SCOPE.md`](../10-charter/SCOPE.md)/§16, [`10-charter/SCOPE.md`](../10-charter/SCOPE.md), and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) as noted below the matrix. For each agreement, the row records:
 
 | Column | What it records | Source of truth for this column |
 | --- | --- | --- |
@@ -88,8 +88,8 @@ flowchart LR
 | **[AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)**<br>Guardrail-category taxonomy and extension model | The guardrail-category catalog itself ([`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md), `GR-001`–`GR-018`) — classification over, not addition to, `CAP-001`–`CAP-034` | [`EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) (extension seams, catalog governance) | **[ADR-0002](../50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md)** — Accepted (pending owner ratification); the former `TBD` gap is closed | "Covers all guardrail categories / complete AI-risk coverage" — **Not approved**; approved wording: the architecture permits — but does not yet deliver — extension into most categories ([Section 7](../70-governance/CLAIMS-REGISTER.md#section-7--safety-and-detection-claims)) |
 
 > **Removed rows (DEC-008).** The former **AGR-019 — MVP scope boundaries** and **AGR-020 — MVP success demonstration** were removed from the register by [DEC-008](DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases): the solution is now defined and estimated over the full feature set (`CAP-001`–`CAP-034`) across the five phases of AGR-020. Their traceability did not disappear — it moved:
-> * Scope boundaries → seed.md §6 and [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) (core Phases 1–2 vs. later-phase scope vs. seed §6.3 exclusions). Claims formerly rejected under the old AGR-019 — "complete AI governance platform / general MCP security platform", compliance-certification, invented latency/ROI figures — remain **Not approved**, re-anchored to seed.md §6.3 and the TBD discipline (see the [Not-approved coverage check](#coverage-check-every-not-approved-claim-traces-to-an-agreement)).
-> * Success demonstration → the **Phase 1–2 validation demonstration** in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) (seed.md §16); the claim "two independent LiteLLM instances have successfully shared one policy" remains **Hypothesis** until executed and recorded ([Section 9](../70-governance/CLAIMS-REGISTER.md#section-9--validation-demonstration-proof-and-metrics-claims)).
+> * Scope boundaries → [`SCOPE.md`](../10-charter/SCOPE.md) and [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) (core Phases 1–2 vs. later-phase scope vs. [`SCOPE.md`](../10-charter/SCOPE.md) exclusions). Claims formerly rejected under the old AGR-019 — "complete AI governance platform / general MCP security platform", compliance-certification, invented latency/ROI figures — remain **Not approved**, re-anchored to [`SCOPE.md`](../10-charter/SCOPE.md) and the TBD discipline (see the [Not-approved coverage check](#coverage-check-every-not-approved-claim-traces-to-an-agreement)).
+> * Success demonstration → the **Phase 1–2 validation demonstration** in [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)); the claim "two independent LiteLLM instances have successfully shared one policy" remains **Hypothesis** until executed and recorded ([Section 9](../70-governance/CLAIMS-REGISTER.md#section-9--validation-demonstration-proof-and-metrics-claims)).
 
 ---
 
@@ -145,19 +145,19 @@ This check confirms every restricted external claim in [`CLAIMS-REGISTER.md`](..
 
 | Not-approved claim (Claims Register) | Governing authority (this matrix) |
 | --- | --- |
-| Enterprise-ready / production-proven / compliance-certified (§1) | AGR-012 (constrains); seed.md §6.3 + TBD discipline (former AGR-019, removed by DEC-008) |
-| Blocks all prompt injection / guarantees safety (§1) | seed.md §6.3 + claims discipline (former AGR-019, removed by DEC-008) |
+| Enterprise-ready / production-proven / compliance-certified (§1) | AGR-012 (constrains); [`SCOPE.md`](../10-charter/SCOPE.md) + TBD discipline (former AGR-019, removed by DEC-008) |
+| Blocks all prompt injection / guarantees safety (§1) | [`SCOPE.md`](../10-charter/SCOPE.md) + claims discipline (former AGR-019, removed by DEC-008) |
 | Remote Evaluation is a private-data or data-local model (§3) | AGR-009 |
 | Deployment modes offer identical operational ownership (§3) | AGR-008 |
 | Bedrock Guardrails is AI Guardrails' permanent or exclusive detection engine (§4) | AGR-004 |
-| AI Guardrails is a complete AI governance platform or general MCP security platform (§7) | seed.md §6.3 (former AGR-019, removed by DEC-008) |
+| AI Guardrails is a complete AI governance platform or general MCP security platform (§7) | [`SCOPE.md`](../10-charter/SCOPE.md) (former AGR-019, removed by DEC-008) |
 | Delivery has passed the initial phases / is generally available (§8) | AGR-020 |
-| The product carries a specific compliance certification (§8) | seed.md §6.3 (former AGR-019, removed by DEC-008) |
+| The product carries a specific compliance certification (§8) | [`SCOPE.md`](../10-charter/SCOPE.md) (former AGR-019, removed by DEC-008) |
 | Specific evaluation latency figures (§9) | TBD discipline — no metric committed beyond "must measure" (former AGR-019, removed by DEC-008) |
 | Adoption, ROI, or cost-savings figures (§9) | TBD discipline (former AGR-019, removed by DEC-008) |
 | "Importing" implies remote control of another team's LiteLLM (§10) | AGR-019 |
 | Cooperative connector is a hard or bypass-proof security boundary (§6) | AGR-018 |
-| Covers all guardrail categories / complete AI-risk coverage (§7) | AGR-021; seed.md §6.3 (out-of-boundary categories are excluded, not future) |
+| Covers all guardrail categories / complete AI-risk coverage (§7) | AGR-021; [`SCOPE.md`](../10-charter/SCOPE.md) (out-of-boundary categories are excluded, not future) |
 
 ---
 

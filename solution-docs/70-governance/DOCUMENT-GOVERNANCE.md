@@ -3,7 +3,7 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -40,9 +40,9 @@ This document exists to prevent that by defining, once, for the whole set:
 * The **review cadence** appropriate to each level.
 * How [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](../CHANGELOG.md) are used together to detect and correct drift.
 
-**Scope.** This document governs every file under `solution-docs/`, plus [`../seed.md`](../../seed.md) as the frozen origin material those files are derived from. It does not govern the AI Guardrails product itself — that is what the rest of the set describes.
+**Scope.** This document governs every file under `solution-docs/`. It does not govern the AI Guardrails product itself — that is what the rest of the set describes.
 
-**Relationship to `seed.md`.** `seed.md` is the raw solution charter: the original, full source-of-truth material every document in this set is derived from. It is treated as a **frozen historical input**, not as a live, editable member of the L1–L5 hierarchy — it is never edited to reflect later decisions. [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) is the **accepted, currently governing** distillation of `seed.md` into discrete, numbered agreements (`AGR-001`…`AGR-020`). Where a later, accepted agreement narrows or supersedes something `seed.md` said more loosely, `AGREEMENTS.md` governs going forward; `seed.md` remains available as historical context and is cited in every document's `Derived from:` line for that reason.
+**Relationship to the original solution charter.** This documentation set began as a single raw charter file at the repository root. That file no longer exists: its content has been absorbed in full by the documents in this set, and [`../00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) records, section by section, which document now owns each part of it. [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) is the **accepted, currently governing** distillation of that charter into discrete, numbered agreements (`AGR-001`…`AGR-021`). Where an accepted agreement narrows or supersedes something the original charter stated more loosely, `AGREEMENTS.md` governs; the deliberate divergences are listed in `PROVENANCE.md` §4. The provenance record is a map, not a source — nothing may be derived from it, and it is never cited as evidence for a claim.
 
 ---
 
@@ -54,7 +54,7 @@ Every document in `solution-docs/` declares its authority level in its header fi
 | --- | --- | --- | --- | --- |
 | **L1** | **Authoritative** | Agreements ([`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md)), constraints ([`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)), the decision log ([`DECISIONS.md`](../00-source-of-truth/DECISIONS.md)), the assumptions and open-questions registers, and any Architecture Decision Record whose `Status` is **Accepted**. | Record negotiated, accepted ground truth. Be cited by every other level. | Be silently overridden, reinterpreted, or "corrected" by a lower level. Any change here is a change-controlled amendment (§6), not an edit. |
 | **L2** | **Defining** | The solution charter and its companions ([`PRINCIPLES.md`](../10-charter/PRINCIPLES.md), [`SCOPE.md`](../10-charter/SCOPE.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)), product capability definitions ([`CAPABILITIES.md`](../20-product/CAPABILITIES.md)), non-functional requirements ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md)), the canonical glossary, the claims register, and this document. | Give durable, boundary-setting structure and definitions derived from L1. Be cited by L3–L5. | Introduce a decision that is not already backed by an L1 agreement or constraint. |
-| **L3** | **Analytical** | The architecture report and component/system/data/deployment/integration/container architecture, feasibility assessment, operability plan, the business case, investment summary, the risk register, and delivery/implementation planning. | Explain, analyze, model trade-offs, and justify a design or plan in terms of L1/L2. Be fully re-derivable from L1/L2 at any time. | State something L1/L2 does not support as if it were settled; invent figures not present in `seed.md` (must say **TBD**). |
+| **L3** | **Analytical** | The architecture report and component/system/data/deployment/integration/container architecture, feasibility assessment, operability plan, the business case, investment summary, the risk register, and delivery/implementation planning. | Explain, analyze, model trade-offs, and justify a design or plan in terms of L1/L2. Be fully re-derivable from L1/L2 at any time. | State something L1/L2 does not support as if it were settled; invent figures not present in the L1 registers (must say **TBD**). |
 | **L4** | **Communicative** | The executive brief, expected outcomes, decision request, product-facing materials (overview, use cases, target users, value proposition, differentiators, problem statement, roadmap), the FAQ, and every sales-deck input. | Simplify and tailor L1–L3 content for a specific audience (executives, prospects, application teams). | Add a claim, number, or nuance not traceable to L1–L3; imply a security or data-exposure posture stronger than what L1/L3 actually state (see [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)). |
 | **L5** | **Generated** | Rendered slide decks, one-page summaries, and any machine-generated digest produced for another AI agent or a point-in-time audience (for example, material staged under [`80-agent-inputs/`](../80-agent-inputs/)). | Be regenerated on demand from L1–L4 whenever those change. | Be hand-edited as if it were a new source of truth, or treated as authoritative for anything not already stated at L1–L4. |
 
@@ -111,7 +111,7 @@ The table below maps every directory in `solution-docs/` to the authority level(
 
 | Directory | Levels present | Representative documents | Owning role(s) (§5) |
 | --- | --- | --- | --- |
-| [`00-source-of-truth/`](../00-source-of-truth/) | **L1** | `AGREEMENTS.md`, `CONSTRAINTS.md`, `DECISIONS.md`, `ASSUMPTIONS.md`, `OPEN-QUESTIONS.md`, `TRACEABILITY-MATRIX.md` | Product lead + Technical lead + Security and governance lead (joint) |
+| [`00-source-of-truth/`](../00-source-of-truth/) | **L1** | `AGREEMENTS.md`, `CONSTRAINTS.md`, `DECISIONS.md`, `ASSUMPTIONS.md`, `PROVENANCE.md` (provenance record, outside the hierarchy), `OPEN-QUESTIONS.md`, `TRACEABILITY-MATRIX.md` | Product lead + Technical lead + Security and governance lead (joint) |
 | [`10-charter/`](../10-charter/) | **L2** | `CHARTER.md`, `PRINCIPLES.md`, `SCOPE.md`, `SUCCESS-CRITERIA.md` | Product lead + Technical lead |
 | [`20-product/`](../20-product/) | **L2** (`CAPABILITIES.md`, `GUARDRAIL-CATALOG.md`) / **L4** (all others) | `PRODUCT-OVERVIEW.md`, `USE-CASES.md`, `TARGET-USERS.md`, `VALUE-PROPOSITION.md`, `DIFFERENTIATORS.md`, `PROBLEM-STATEMENT.md`, `PRODUCT-ROADMAP.md`, `FAQ.md`, `GUARDRAIL-CATALOG.md` (guardrail-category taxonomy per AGR-021 — category IDs are change-controlled via Path A; item rows are Path B) | Product lead (+ Security and governance lead co-approval for `GUARDRAIL-CATALOG.md` status changes) |
 | [`30-executive/`](../30-executive/) | **L3** (`BUSINESS-CASE.md`, `INVESTMENT-SUMMARY.md`, `RISKS-AND-DEPENDENCIES.md`) / **L4** (`EXECUTIVE-BRIEF.md`, `EXPECTED-OUTCOMES.md`, `DECISION-REQUEST.md`) | as listed | Product lead, with Technical lead review on L3 items |
@@ -126,23 +126,23 @@ The table below maps every directory in `solution-docs/` to the authority level(
 
 ## 5. Ownership per area
 
-Documentation ownership follows the same stakeholder groups the solution charter already defines for the *product* (seed.md §21, "Ownership boundaries") and the specific role names already used as `Owners:` on every entry in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md): **Product lead, Technical lead, Architecture lead, Integration lead, Security and governance lead, Platform operations lead,** and **Delivery lead**.
+Documentation ownership follows the same stakeholder groups the solution charter already defines for the *product* ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md), "Ownership boundaries") and the specific role names already used as `Owners:` on every entry in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md): **Product lead, Technical lead, Architecture lead, Integration lead, Security and governance lead, Platform operations lead,** and **Delivery lead**.
 
 | Documentation area | Owning role(s) | Basis |
 | --- | --- | --- |
 | L1 registers (`00-source-of-truth/`) | Product lead, Technical lead, Security and governance lead — joint sign-off required for any amendment | Mirrors the multi-role `Owners:` field on every `AGR-NNN` entry |
-| Charter (`10-charter/`) | Product lead, Technical lead | seed.md §21 — "AI Guardrails team" owns product architecture and roadmap |
-| Product materials (`20-product/`) | Product lead | seed.md §21 — AI Guardrails team; consuming-team needs (seed.md §7) inform but do not override content |
+| Charter (`10-charter/`) | Product lead, Technical lead | [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) — "AI Guardrails team" owns product architecture and roadmap |
+| Product materials (`20-product/`) | Product lead | [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) — AI Guardrails team; consuming-team needs ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)) inform but do not override content |
 | Executive materials (`30-executive/`) | Product lead, with Technical lead review of L3 analytical content | Product lead owns the narrative; technical accuracy of feasibility/business-case content is reviewed by Technical lead |
 | Sales-deck inputs (`40-sales-deck/`) | Product lead | AGR-009/AGR-018 claims discipline applies regardless of audience; Product lead is accountable even though sales/marketing enablement consumes the material |
-| Architecture (`50-architecture/`) | Technical lead, Architecture lead | seed.md §21 — AI Guardrails team owns "product architecture," "the evaluation contract," "the guardrail runtime" |
-| ADRs (`50-architecture/adrs/`) | Technical lead, Architecture lead (drafting); becomes L1 only once formally **Accepted**, at which point it is treated with the same change-control rigor as an agreement | seed.md §21; AGREEMENTS.md preamble |
+| Architecture (`50-architecture/`) | Technical lead, Architecture lead | [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) — AI Guardrails team owns "product architecture," "the evaluation contract," "the guardrail runtime" |
+| ADRs (`50-architecture/adrs/`) | Technical lead, Architecture lead (drafting); becomes L1 only once formally **Accepted**, at which point it is treated with the same change-control rigor as an agreement | [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md); AGREEMENTS.md preamble |
 | Delivery planning (`60-delivery/`, planned) | Delivery lead, Technical lead | AGREEMENTS.md `Owners:` fields on AGR-013 and AGR-020 |
 | Governance (`70-governance/`, this document, `CLAIMS-REGISTER.md`, `RISK-REGISTER.md`, `GLOSSARY.md`, `CHANGELOG.md`) | Product lead, Technical lead, Security and governance lead — joint | Cross-cutting concern; mirrors L1 joint-ownership pattern since these documents enforce the hierarchy for the whole set |
 | Agent-input extracts (`80-agent-inputs/`, planned) | Technical lead | Tooling/automation output; treated as L5, never as a new source of truth |
 | Archive (`90-archive/`, planned) | Whoever owned the document immediately before it was superseded | §10 below |
-| Hosted infrastructure content wherever it appears (e.g., deployment architecture, operability) | Platform operations lead (co-review) | seed.md §21 — "Platform operations" owns hosted infrastructure, deployment, monitoring, incident response |
-| Consuming-team-facing accuracy (onboarding flow, connector behavior as documented) | Reviewed against seed.md §21 "Consuming teams" responsibilities before publication | Ensures documentation does not imply consuming teams are relieved of authentication, authorization, or workload-registration responsibilities |
+| Hosted infrastructure content wherever it appears (e.g., deployment architecture, operability) | Platform operations lead (co-review) | [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) — "Platform operations" owns hosted infrastructure, deployment, monitoring, incident response |
+| Consuming-team-facing accuracy (onboarding flow, connector behavior as documented) | Reviewed against [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) "Consuming teams" responsibilities before publication | Ensures documentation does not imply consuming teams are relieved of authentication, authorization, or workload-registration responsibilities |
 
 Two things do **not** change ownership:
 
@@ -202,7 +202,7 @@ Regenerating an L5 artifact (a rendered deck, a one-page summary, an agent diges
 
 ## 7. Review cadence
 
-`seed.md` and [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) do not specify a fixed calendar cadence (e.g., "quarterly") for reviewing documentation, so none is invented here. Instead, cadence is **event-triggered**, consistent with how [`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) already ties its own review points to phase-gate transitions:
+[`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) do not specify a fixed calendar cadence (e.g., "quarterly") for reviewing documentation, so none is invented here. Instead, cadence is **event-triggered**, consistent with how [`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) already ties its own review points to phase-gate transitions:
 
 | Level | Review trigger | Notes |
 | --- | --- | --- |

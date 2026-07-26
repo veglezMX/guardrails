@@ -3,7 +3,7 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -13,7 +13,7 @@ This document defines the AI Guardrails **data architecture**: the six core doma
 
 This is a **derived (L3)** artifact. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative), and it must remain consistent with [`CHARTER.md`](../10-charter/CHARTER.md) and [`CAPABILITIES.md`](../20-product/CAPABILITIES.md) (L2). Where a conflict is found, the L1 documents win and this document must be corrected. This document specifically implements [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) **CON-007**, **CON-013**, and **CON-014**, as recorded in that register's [related documents](../00-source-of-truth/CONSTRAINTS.md#related-documents) section.
 
-No metric, dollar figure, SLA, retention period, or performance number is asserted beyond what `seed.md` states. Where a figure would normally appear and is not present in the seed, this document says **TBD**.
+No metric, dollar figure, SLA, retention period, or performance number is asserted beyond what the L1 registers state. Where a figure would normally appear and is not present in the original charter, this document says **TBD**.
 
 ---
 
@@ -50,11 +50,11 @@ No metric, dollar figure, SLA, retention period, or performance number is assert
 
 ## 1. Domain entity model
 
-The platform's domain model consists of exactly six core entities — **Tenant**, **Workload**, **Policy**, **Policy binding**, **Evaluation**, and **Decision** — as agreed in [`AGREEMENTS.md` AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and defined in `seed.md` §9 ("Core domain model"). All data storage, APIs, and audit records must map directly onto these six concepts; new capabilities must extend this model rather than introduce parallel vocabulary.
+The platform's domain model consists of exactly six core entities — **Tenant**, **Workload**, **Policy**, **Policy binding**, **Evaluation**, and **Decision** — as agreed in [`AGREEMENTS.md` AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and defined in [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) ("Core domain model"). All data storage, APIs, and audit records must map directly onto these six concepts; new capabilities must extend this model rather than introduce parallel vocabulary.
 
 ### 1.1 Entity summary
 
-| Entity | Represents | seed.md source |
+| Entity | Represents | Charter source |
 |---|---|---|
 | Tenant | An organization, business unit, or consuming team | §9 |
 | Workload | An application, assistant, agent, gateway, or inference service using guardrails | §9 |
@@ -92,7 +92,7 @@ Represents an application, assistant, agent, gateway, or inference service using
 | Gateway type | e.g., LiteLLM, generic SDK, Guarded Gateway |
 | Deployment mode | May differ per workload even within one tenant |
 | Expected throughput | Capacity-planning input |
-| Streaming requirements | Whether the workload requires streaming evaluation (future scope; see `seed.md` §6.2) |
+| Streaming requirements | Whether the workload requires streaming evaluation (future scope; see [`SCOPE.md`](../10-charter/SCOPE.md)) |
 | Assigned policy | Denormalized pointer to the workload's currently effective policy — the operational read of the active [Policy binding](#15-policy-binding) |
 | Enforcement mode | Denormalized pointer to the workload's currently effective mode (Disabled → Observe → Warn → Redact → Block, per [`AGREEMENTS.md` AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)) |
 
@@ -103,7 +103,7 @@ Defines the checks and actions applied to evaluated content.
 | Attribute | Notes |
 |---|---|
 | Policy name | Groups an ordered family of immutable versions |
-| Policy version | Immutable; supports controlled promotion, rollback, and evaluation-result comparison (`seed.md` §15) |
+| Policy version | Immutable; supports controlled promotion, rollback, and evaluation-result comparison ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)) |
 | Evaluation stages | Which stages the policy applies to (`input`, `output`, and future stages — see [1.6 Evaluation](#16-evaluation)) |
 | Evaluator configuration | Which evaluator adapters/engines are invoked and how |
 | Enforcement actions | Which [Decision](#17-decision) actions the policy may produce |
@@ -112,7 +112,7 @@ Defines the checks and actions applied to evaluated content.
 | Audit behavior | What the policy requires to be captured in the audit trail (see [4. Audit metadata](#4-audit-metadata)) |
 | Compatibility metadata | Supports runtime compatibility checks across hosted and customer-managed deployments |
 
-A Policy is not attributed to a single Tenant in the seed model: the product vision explicitly calls for defining a policy once and applying it to multiple workloads (`seed.md` §2), so Policy is scoped independently of Tenant and joined to workloads only through the Policy binding.
+A Policy is not attributed to a single Tenant in the original charter model: the product vision explicitly calls for defining a policy once and applying it to multiple workloads ([`CHARTER.md`](../10-charter/CHARTER.md)), so Policy is scoped independently of Tenant and joined to workloads only through the Policy binding.
 
 ### 1.5 Policy binding
 
@@ -123,20 +123,20 @@ Associates a workload with a policy version.
 | Workload identifier | Foreign key to Workload |
 | Policy name + Policy version | Foreign key to the specific immutable Policy version |
 | Observe or enforce mode | The binding's current position on the Disabled → Observe → Warn → Redact → Block progression |
-| Allowed workload-specific overrides | Bounded per [`AGREEMENTS.md` AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) to avoid policy fragmentation (`seed.md` §20) |
+| Allowed workload-specific overrides | Bounded per [`AGREEMENTS.md` AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) to avoid policy fragmentation ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)) |
 | Effective date | When the binding becomes/became active |
 | Rollback version | The version to revert to if the bound version must be rolled back |
 | Runtime compatibility requirements | Whether the runtime executing the workload's evaluations supports the bound policy version |
 
-A workload may accumulate multiple Policy binding records over time (current and historical), which is what makes "immediate rollback" and "evaluation-result comparison between versions" (`seed.md` §15) possible; the Workload's `Assigned policy` / `Enforcement mode` attributes are the operational read of whichever binding is currently effective.
+A workload may accumulate multiple Policy binding records over time (current and historical), which is what makes "immediate rollback" and "evaluation-result comparison between versions" ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)) possible; the Workload's `Assigned policy` / `Enforcement mode` attributes are the operational read of whichever binding is currently effective.
 
 ### 1.6 Evaluation
 
 Represents a request to inspect content at a particular stage.
 
-Supported initial stages: `input`, `output`. Future stages: `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` (`seed.md` §9).
+Supported initial stages: `input`, `output`. Future stages: `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
-> **Note on completeness:** unlike the other five entities, `seed.md` §9 does not give Evaluation an explicit attribute bullet list — only its purpose and its stage enumeration. The minimal identifying attributes below (evaluation identifier, workload reference, resolved policy-version reference, correlation identifier) are inferred from the relationships the seed describes elsewhere — the Decision's `Correlation identifier` attribute, and the audit metadata list in `seed.md` §15 — rather than asserted as a literal seed enumeration. No additional fields, formats, or cardinalities beyond what those two sources support are introduced here.
+> **Note on completeness:** unlike the other five entities, [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) does not give Evaluation an explicit attribute bullet list — only its purpose and its stage enumeration. The minimal identifying attributes below (evaluation identifier, workload reference, resolved policy-version reference, correlation identifier) are inferred from the relationships the original charter describes elsewhere — the Decision's `Correlation identifier` attribute, and the audit metadata list in [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md) — rather than asserted as a literal charter enumeration. No additional fields, formats, or cardinalities beyond what those two sources support are introduced here.
 
 | Attribute (inferred, see note above) | Notes |
 |---|---|
@@ -144,13 +144,13 @@ Supported initial stages: `input`, `output`. Future stages: `retrieval`, `tool_c
 | Workload identifier | The workload on whose behalf the evaluation runs |
 | Policy name + Policy version (resolved) | The specific policy version in effect for the workload at evaluation time |
 | Stage | `input` or `output` (MVP); see [3.3 MVP content-scope limitation](#33-mvp-content-scope-limitation) |
-| Correlation identifier | Propagated end-to-end per `seed.md` §12 (LiteLLM connector responsibility: "Propagating correlation identifiers") |
+| Correlation identifier | Propagated end-to-end per [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) (LiteLLM connector responsibility: "Propagating correlation identifiers") |
 
 ### 1.7 Decision
 
 Represents the normalized result of an evaluation.
 
-Initial actions: `allow`, `block`, `redact`, `log_only`. Future actions: `rewrite`, `discard`, `abstain`, `require_approval` (`seed.md` §9).
+Initial actions: `allow`, `block`, `redact`, `log_only`. Future actions: `rewrite`, `discard`, `abstain`, `require_approval` ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)).
 
 | Attribute | Notes |
 |---|---|
@@ -163,15 +163,15 @@ Initial actions: `allow`, `block`, `redact`, `log_only`. Future actions: `rewrit
 | Transformed content | Present only where a transformation (e.g., redaction) was applied |
 | Correlation identifier | Ties the decision back to the originating request |
 | Audit identifier | Ties the decision to its durable audit record (see [4. Audit metadata](#4-audit-metadata)) |
-| Evaluation latency | Per-decision latency measurement, feeding the P50/P95/P99 metrics in `seed.md` §15 |
+| Evaluation latency | Per-decision latency measurement, feeding the P50/P95/P99 metrics in [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md) |
 
 ### 1.8 Relationships
 
 * A **Tenant** owns many **Workloads** (`Workload.Tenant identifier`).
 * A **Workload** has one currently effective **Policy binding**, plus zero or more historical bindings retained for rollback and version comparison.
-* A **Policy** version may be bound, via **Policy binding**, to many **Workloads** — this many-to-many reuse (one policy, many workloads) is the core product hypothesis under validation in the Phase 1–2 validation demonstration (`seed.md` §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+* A **Policy** version may be bound, via **Policy binding**, to many **Workloads** — this many-to-many reuse (one policy, many workloads) is the core product hypothesis under validation in the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 * A **Workload** triggers many **Evaluations**; each **Evaluation** runs under exactly one resolved **Policy** version (the one currently bound to that workload).
-* Each **Evaluation** produces exactly one **Decision** — the decision is defined in the seed as "the normalized result of an evaluation," a one-to-one relationship.
+* Each **Evaluation** produces exactly one **Decision** — the decision is defined in the original charter as "the normalized result of an evaluation," a one-to-one relationship.
 
 ### 1.9 Entity-relationship diagram
 
@@ -258,24 +258,24 @@ erDiagram
 
 ## 2. Storage architecture
 
-`seed.md` §11 ("AWS implementation direction") lists the suggested initial AWS service per capability. This section maps those service choices onto the domain entities in [Section 1](#1-domain-entity-model).
+[`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) ("AWS implementation direction") lists the suggested initial AWS service per capability. This section maps those service choices onto the domain entities in [Section 1](#1-domain-entity-model).
 
 ### 2.1 Storage mapping by entity
 
-| Domain entity / data concern | Initial AWS service (seed.md §11) | Notes |
+| Domain entity / data concern | Initial AWS service ([`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md)) | Notes |
 |---|---|---|
 | Tenant registry | DynamoDB | Grouped with the workload registry as control-plane registry data |
-| Workload registry | DynamoDB | `seed.md` §11: "Workload registry — DynamoDB" |
-| Policy | DynamoDB or versioned S3 | `seed.md` §11: "Policy storage — DynamoDB or versioned S3"; see [2.2](#22-policy-storage-dynamodb-or-versioned-s3) |
+| Workload registry | DynamoDB | [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md): "Workload registry — DynamoDB" |
+| Policy | DynamoDB or versioned S3 | [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md): "Policy storage — DynamoDB or versioned S3"; see [2.2](#22-policy-storage-dynamodb-or-versioned-s3) |
 | Policy binding | DynamoDB | Requires low-latency point lookups on the evaluation path to resolve a workload's currently effective policy |
-| Evaluation (in-flight) | Not persisted independently | Transient, request-scoped state inside the Evaluation runtime (ECS Fargate or EKS per `seed.md` §11); it is not a durable store — its durable trace is the Decision plus its audit record |
-| Decision metadata (audit) | Amazon SQS (buffer) → Amazon S3 (archive) | `seed.md` §11: "Audit event buffering — Amazon SQS"; "Audit archive — Amazon S3"; see [2.3](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) |
+| Evaluation (in-flight) | Not persisted independently | Transient, request-scoped state inside the Evaluation runtime (ECS Fargate or EKS per [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md)); it is not a durable store — its durable trace is the Decision plus its audit record |
+| Decision metadata (audit) | Amazon SQS (buffer) → Amazon S3 (archive) | [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md): "Audit event buffering — Amazon SQS"; "Audit archive — Amazon S3"; see [2.3](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) |
 
-Compute, networking, and cross-cutting services referenced by `seed.md` §11 (Evaluation runtime, API layer, Bedrock Guardrails, runtime credentials, Secrets Manager, CloudWatch, ECR) are architectural concerns outside the scope of a data-architecture document and are addressed in [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) and [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md).
+Compute, networking, and cross-cutting services referenced by [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) (Evaluation runtime, API layer, Bedrock Guardrails, runtime credentials, Secrets Manager, CloudWatch, ECR) are architectural concerns outside the scope of a data-architecture document and are addressed in [`COMPONENT-ARCHITECTURE.md`](COMPONENT-ARCHITECTURE.md) and [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md).
 
 ### 2.2 Policy storage: DynamoDB or versioned S3
 
-`seed.md` §11 lists policy storage as "DynamoDB or versioned S3" without selecting between them; this document does not resolve that choice beyond restating the seed's constraint on the outcome, consistent with the "write TBD rather than invent" rule for absent figures. Whichever store is selected must satisfy the immutable-version and rollout requirements in `seed.md` §15:
+[`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) lists policy storage as "DynamoDB or versioned S3" without selecting between them; this document does not resolve that choice beyond restating the constraint on the outcome, consistent with the "write TBD rather than invent" rule for absent figures. Whichever store is selected must satisfy the immutable-version and rollout requirements in [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md):
 
 * Immutable versions — a stored policy version must never be mutated in place.
 * Observe mode and controlled promotion — the store must support a policy version existing before it is promoted to any workload.
@@ -283,7 +283,7 @@ Compute, networking, and cross-cutting services referenced by `seed.md` §11 (Ev
 * Immediate rollback — a prior version must remain retrievable and immediately bindable.
 * Compatibility validation — the store (or a layer above it) must expose compatibility metadata per version.
 
-The choice between DynamoDB (single low-latency store, natural fit for point lookups by policy name/version) and versioned S3 (natural fit for immutable, content-addressed version objects with native versioning) is an implementation decision left open by the seed; either can satisfy the requirements above.
+The choice between DynamoDB (single low-latency store, natural fit for point lookups by policy name/version) and versioned S3 (natural fit for immutable, content-addressed version objects with native versioning) is an implementation decision left open by the original charter; either can satisfy the requirements above.
 
 ### 2.3 Audit event pipeline: SQS buffering to S3 archive
 
@@ -300,23 +300,23 @@ Amazon SQS  ── audit event buffer ──┐
 Audit archive writer  ◄──────────────┘
         │
         ▼
-Amazon S3  ── audit archive ──  (seed.md §11)
+Amazon S3 ── audit archive ── ([`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md))
         │
         ▼
 KMS-encrypted at rest; tenant-scoped retention lifecycle applied
 (see 3.1 Default behavior and CONSTRAINTS.md CON-009, CON-014)
 ```
 
-Buffering audit events through SQS before they land in the S3 archive keeps the synchronous evaluation path (which is on the consuming application's request path, per `seed.md` §20 "Latency" risk) decoupled from archive-write latency and transient archive-side unavailability. Audit-delivery failure is itself a documented failure mode under [`AGREEMENTS.md` AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) ("Audit delivery fails" is one of the failure conditions a workload's policy must define behavior for), and audit delivery success rate is a named reliability metric (`seed.md` §19).
+Buffering audit events through SQS before they land in the S3 archive keeps the synchronous evaluation path (which is on the consuming application's request path, per [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) "Latency" risk) decoupled from archive-write latency and transient archive-side unavailability. Audit-delivery failure is itself a documented failure mode under [`AGREEMENTS.md` AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) ("Audit delivery fails" is one of the failure conditions a workload's policy must define behavior for), and audit delivery success rate is a named reliability metric ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)).
 
 ### 2.4 Storage in the Customer-Managed Runtime
 
-In Mode C (Customer-Managed Runtime), storage responsibility splits between the customer's AWS account and the hosted control plane, per `seed.md` §3 (Mode C) and §11:
+In Mode C (Customer-Managed Runtime), storage responsibility splits between the customer's AWS account and the hosted control plane, per [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) (Mode C), [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md):
 
 | Data | Location | Owner |
 |---|---|---|
 | Policy cache | Customer AWS account, inside the customer-hosted Guardrails Runtime | Consuming team (runtime infrastructure) |
-| Local audit integration / local audit storage | Customer AWS account | Consuming team (`seed.md` §3, Mode C: "The consuming team owns... Local audit storage") |
+| Local audit integration / local audit storage | Customer AWS account | Consuming team ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C: "The consuming team owns... Local audit storage") |
 | Policy source of truth (DynamoDB / versioned S3) | Hosted control plane | AI Guardrails provider; synchronized to the local cache asynchronously |
 | Telemetry reaching the hosted control plane | Customer-selectable — health status, product version, policy version, aggregated evaluation counts, reason-code totals, latency metrics, sanitized decision metadata, or none at all | Consuming team selects; provider receives only what is selected |
 
@@ -350,7 +350,7 @@ This is a constraint on *where* the entities in [Section 1](#1-domain-entity-mod
 
 ### 3.1 Default behavior (hosted runtime)
 
-Per `seed.md` §13 ("Data handling requirements — Default behavior"), the hosted runtime (Remote Evaluation and Guarded Gateway modes) must:
+Per [original charter §13](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) ("Data handling requirements — Default behavior"), the hosted runtime (Remote Evaluation and Guarded Gateway modes) must:
 
 1. **Process content only for evaluation.** Prompt and response content is read in order to run evaluators and produce a Decision; it is not used for any other purpose by default.
 2. **Avoid persisting raw prompts and responses by default.** No raw-content retention occurs unless a tenant explicitly configures it (`CONSTRAINTS.md` CON-014).
@@ -367,7 +367,7 @@ Remote Evaluation (Mode A) must never be described as private-data or data-local
 
 ### 3.2 Content categories that may be evaluated
 
-`seed.md` §13 lists the content categories that may be evaluated, depending on workload configuration:
+[original charter §13](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) lists the content categories that may be evaluated, depending on workload configuration:
 
 | Content category | Description |
 |---|---|
@@ -382,11 +382,11 @@ Remote Evaluation (Mode A) must never be described as private-data or data-local
 
 ### 3.3 MVP content-scope limitation
 
-The MVP initially limits support to **user/model input and model output** — that is, user prompts as `input`-stage content and model responses as `output`-stage content (`seed.md` §13). This directly matches the two initial [Evaluation](#16-evaluation) stages (`input`, `output`) defined in `seed.md` §9. System prompts, conversation history, retrieved documents, tool arguments, tool responses, and structured-output payloads remain content categories the architecture must **permit**, but none are evaluated in the MVP; several correspond to future evaluation stages (`retrieval`, `tool_call`, `tool_result`) explicitly deferred to Phase 5 (`seed.md` §18, "Advanced agent protection") and future scope (`seed.md` §6.2).
+The MVP initially limits support to **user/model input and model output** — that is, user prompts as `input`-stage content and model responses as `output`-stage content ([original charter §13](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)). This directly matches the two initial [Evaluation](#16-evaluation) stages (`input`, `output`) defined in [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model). System prompts, conversation history, retrieved documents, tool arguments, tool responses, and structured-output payloads remain content categories the architecture must **permit**, but none are evaluated in the MVP; several correspond to future evaluation stages (`retrieval`, `tool_call`, `tool_result`) explicitly deferred to Phase 5 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), "Advanced agent protection") and future scope ([`SCOPE.md`](../10-charter/SCOPE.md)).
 
 ### 3.4 Customer-managed telemetry
 
-For Customer-Managed Runtime deployments specifically, `seed.md` §13 ("Customer-managed telemetry") requires that the customer be able to choose what the hosted control plane receives, from a defined set down to nothing:
+For Customer-Managed Runtime deployments specifically, [original charter §13](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) ("Customer-managed telemetry") requires that the customer be able to choose what the hosted control plane receives, from a defined set down to nothing:
 
 | Telemetry category | Notes |
 |---|---|
@@ -399,13 +399,13 @@ For Customer-Managed Runtime deployments specifically, `seed.md` §13 ("Customer
 | Sanitized decision metadata | |
 | No telemetry | A fully supported configuration, not a degraded one (`AGREEMENTS.md` AGR-016) |
 
-Raw content must never leave a customer-managed runtime unless explicitly configured (`seed.md` §13; `CONSTRAINTS.md` CON-013). Any telemetry payload design must be reviewed to confirm it cannot carry raw prompt or response content by construction (`AGREEMENTS.md` AGR-016).
+Raw content must never leave a customer-managed runtime unless explicitly configured ([original charter §13](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); `CONSTRAINTS.md` CON-013). Any telemetry payload design must be reviewed to confirm it cannot carry raw prompt or response content by construction (`AGREEMENTS.md` AGR-016).
 
 ---
 
 ## 4. Audit metadata
 
-Per `seed.md` §15 ("Operational requirements — Auditing"), audit metadata must include the following fields for every evaluation:
+Per [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md) ("Operational requirements — Auditing"), audit metadata must include the following fields for every evaluation:
 
 | Field | Description |
 |---|---|
@@ -421,28 +421,28 @@ Per `seed.md` §15 ("Operational requirements — Auditing"), audit metadata mus
 | Correlation identifier | Ties the audit record back to the originating request across connector, runtime, and any downstream system |
 | Whether raw content was retained | Records whether raw prompt/response content was persisted for this evaluation — defaults to "no" per [3.1](#31-default-behavior-hosted-runtime) |
 
-These fields are the durable record written through the [audit event pipeline](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) and are what security and compliance teams rely on as decision evidence and policy-version traceability (`seed.md` §7, "Security and compliance teams").
+These fields are the durable record written through the [audit event pipeline](#23-audit-event-pipeline-sqs-buffering-to-s3-archive) and are what security and compliance teams rely on as decision evidence and policy-version traceability ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md), "Security and compliance teams").
 
 ---
 
 ## 5. Open items and TBDs
 
-Per source-of-truth policy, the following figures are not present in `seed.md` and are recorded here as **TBD** rather than invented:
+Per source-of-truth policy, the following figures are not present in the L1 registers and are recorded here as **TBD** rather than invented:
 
 | Item | Status | Related constraint |
 |---|---|---|
-| Specific retention period(s) per tenant | TBD — tenant-specific retention is required, but no default duration is specified in the seed | `Tenant.Retention configuration` ([1.2](#12-tenant)) |
+| Specific retention period(s) per tenant | TBD — tenant-specific retention is required, but no default duration is specified in the original charter | `Tenant.Retention configuration` ([1.2](#12-tenant)) |
 | Specific hashing algorithm for user/conversation identifiers | TBD — "hash where possible" is required; the algorithm is not specified | [3.1](#31-default-behavior-hosted-runtime), item 4 |
 | Specific input-size limits per evaluation stage | TBD — see `CONSTRAINTS.md` CON-015 | CON-015 |
 | Specific timeout values per stage/detector | TBD — see `CONSTRAINTS.md` CON-016 | CON-016 |
-| Choice between DynamoDB and versioned S3 for Policy storage | TBD — seed.md §11 lists both as acceptable without selecting one | [2.2](#22-policy-storage-dynamodb-or-versioned-s3) |
+| Choice between DynamoDB and versioned S3 for Policy storage | TBD — [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) lists both as acceptable without selecting one | [2.2](#22-policy-storage-dynamodb-or-versioned-s3) |
 | Specific mechanism enforcing the per-tenant Region boundary (IAM condition keys, region-scoped routing, per-region deployment topology) | TBD — CAP-035/DEC-018 establish the requirement; the enforcement mechanism is a `DEPLOYMENT-ARCHITECTURE.md` concern not yet specified | [2.6](#26-per-tenant-residency-enforcement) |
 
 ---
 
 ## 6. Traceability
 
-| This document's content | seed.md source | AGREEMENTS.md / CONSTRAINTS.md |
+| This document's content | Charter source | AGREEMENTS.md / CONSTRAINTS.md |
 |---|---|---|
 | Domain entities and attributes | §9 | AGR-017 |
 | Storage choices | §11 | — |
@@ -453,8 +453,8 @@ Per source-of-truth policy, the following figures are not present in `seed.md` a
 | Customer-managed runtime independence from control plane | §3 (Mode C) | AGR-015 |
 | Audit metadata fields | §15 | — |
 | Content categories and phased scope limitation | §13 | — (scope per [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)) |
-| Per-tenant residency enforcement (`Tenant.Allowed Regions`, §2.6) | — (post-seed decision) | AGR-013 (amended); [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga); [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) |
-| `guardrail_category` field and category-namespaced reason codes | — (post-seed decision) | AGR-017; [`DECISIONS.md` DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension); [`adrs/ADR-0003`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) |
+| Per-tenant residency enforcement (`Tenant.Allowed Regions`, §2.6) | — (post-charter decision) | AGR-013 (amended); [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga); [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md) |
+| `guardrail_category` field and category-namespaced reason codes | — (post-charter decision) | AGR-017; [`DECISIONS.md` DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension); [`adrs/ADR-0003`](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) |
 
 ---
 

@@ -3,7 +3,7 @@
 **Authority level:** L1
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -21,11 +21,11 @@ AI Guardrails exists to provide a reusable policy, evaluation, and enforcement l
 
 The solution charter, however, sets requirements that a LiteLLM-embedded implementation cannot satisfy:
 
-- The product must let an organization **define guardrail policies once and apply the same policies to multiple workloads**, across **different LLM gateways and providers**, not only LiteLLM (seed.md §2, Product vision).
-- The product vision explicitly calls out the need to **"avoid coupling policy definitions to LiteLLM or Amazon Bedrock"** (seed.md §2).
-- The charter defines three required deployment modes — Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime (seed.md §3) — only one of which (Guarded Gateway) involves the provider operating a gateway at all, and none of which assume the guardrail runtime *is* a fork or extension of one specific team's LiteLLM deployment.
-- Product principle 5.1, **Policy portability**, requires that guardrail policies "must not depend directly on LiteLLM configuration structures, Bedrock Guardrails response formats, a specific model provider, a specific programming language, or a specific application framework" (seed.md §5.1).
-- Product principle 5.3 requires that **policies remain separate from integrations**: "A policy defines what must be evaluated and how violations should be handled. A connector defines how a specific gateway or application invokes and enforces that policy" (seed.md §5.3).
+- The product must let an organization **define guardrail policies once and apply the same policies to multiple workloads**, across **different LLM gateways and providers**, not only LiteLLM ([`CHARTER.md`](../../10-charter/CHARTER.md), Product vision).
+- The product vision explicitly calls out the need to **"avoid coupling policy definitions to LiteLLM or Amazon Bedrock"** ([`CHARTER.md`](../../10-charter/CHARTER.md)).
+- The charter defines three required deployment modes — Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime ([AGR-002](../../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)) — only one of which (Guarded Gateway) involves the provider operating a gateway at all, and none of which assume the guardrail runtime *is* a fork or extension of one specific team's LiteLLM deployment.
+- Product principle 5.1, **Policy portability**, requires that guardrail policies "must not depend directly on LiteLLM configuration structures, Bedrock Guardrails response formats, a specific model provider, a specific programming language, or a specific application framework" ([AGR-005](../../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)).
+- Product principle 5.3 requires that **policies remain separate from integrations**: "A policy defines what must be evaluated and how violations should be handled. A connector defines how a specific gateway or application invokes and enforces that policy" ([AGR-007](../../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)).
 - Section 12 of the charter states directly: **"LiteLLM is the first supported gateway adapter, not the product boundary,"** and enumerates what the LiteLLM connector is and is not responsible for.
 - Section 22, the charter's own decision summary, states: *"The AI Guardrails solution will be built as a standalone policy and enforcement platform rather than as functionality embedded inside the existing internal LiteLLM instance. LiteLLM will serve as the first supported connector and may also be used to provide the managed Guarded Gateway mode."*
 
@@ -37,14 +37,14 @@ This question matters because it determines whether the platform can ever satisf
 
 AI Guardrails **will be built and delivered as a standalone policy and enforcement platform**, independently deployable, versioned, and operated from any single LiteLLM instance.
 
-LiteLLM will be treated as the **first supported connector** to this platform, and may optionally serve as the substrate used to provide the managed **Guarded Gateway** mode (seed.md §22; §3, Mode B). It will not define the boundary of the product.
+LiteLLM will be treated as the **first supported connector** to this platform, and may optionally serve as the substrate used to provide the managed **Guarded Gateway** mode ([AGR-001](../../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm); §3, Mode B). It will not define the boundary of the product.
 
 Concretely, this means:
 
-- The **Evaluation API**, **policy resolver**, **decision engine**, and **evaluator adapters** are built and operated as a distinct **Guardrails Runtime**, separate from any team's LiteLLM deployment (seed.md §10, Logical architecture).
-- A **Guardrails Control Plane** (tenants, workloads, policies, bindings, rollouts) governs policy distribution independently of any gateway (seed.md §10).
-- The **LiteLLM connector** is scoped narrowly: it maps LiteLLM requests into the evaluation contract, invokes input/output evaluation, enforces block/redact decisions, and propagates correlation identifiers — it does **not** define organization policy, implement detection models, manage model credentials, or persist audit records (seed.md §12).
-- The evaluation contract, policy schema, and decision structures are defined independently of LiteLLM's internal request/response structures, so that additional connectors (a generic HTTP Evaluation API, other gateways) can be added without changing policy semantics (seed.md §5.1, §5.3, §12).
+- The **Evaluation API**, **policy resolver**, **decision engine**, and **evaluator adapters** are built and operated as a distinct **Guardrails Runtime**, separate from any team's LiteLLM deployment ([`CONTAINER-ARCHITECTURE.md`](../CONTAINER-ARCHITECTURE.md), Logical architecture).
+- A **Guardrails Control Plane** (tenants, workloads, policies, bindings, rollouts) governs policy distribution independently of any gateway ([`CONTAINER-ARCHITECTURE.md`](../CONTAINER-ARCHITECTURE.md)).
+- The **LiteLLM connector** is scoped narrowly: it maps LiteLLM requests into the evaluation contract, invokes input/output evaluation, enforces block/redact decisions, and propagates correlation identifiers — it does **not** define organization policy, implement detection models, manage model credentials, or persist audit records ([AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
+- The evaluation contract, policy schema, and decision structures are defined independently of LiteLLM's internal request/response structures, so that additional connectors (a generic HTTP Evaluation API, other gateways) can be added without changing policy semantics ([AGR-005](../../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-007](../../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors), [AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 
 ```mermaid
 flowchart TB
@@ -90,10 +90,10 @@ Add policy evaluation, detection calls, and enforcement logic directly into the 
 **Why rejected:**
 
 - Couples guardrail enforcement to **one team's gateway lifecycle** — its release cadence, upgrade schedule, and operational ownership — directly contradicting the requirement to decouple the product roadmap from the internal LiteLLM team's roadmap (AGR-001 rationale).
-- Cannot serve teams that use **a different gateway, no gateway, or invoke evaluation directly**, which breaks the "define policies once, apply to multiple workloads across different gateways and providers" vision (seed.md §2).
-- Makes it structurally difficult to keep **policy portability** (seed.md §5.1): logic embedded in LiteLLM's own configuration and extension points naturally starts depending on LiteLLM's request/response shapes, defeating the adapter-based isolation the charter requires.
-- Forecloses the **Customer-Managed Runtime** mode entirely, since there would be no independently packagable runtime artifact to deploy into a customer's AWS account (seed.md §3, Mode C; §15).
-- Provides no basis for the MVP's core validation goal — proving that **one reusable policy can be applied consistently to multiple independent LiteLLM deployments** (seed.md §16) — since an embedded implementation is, by construction, specific to a single instance.
+- Cannot serve teams that use **a different gateway, no gateway, or invoke evaluation directly**, which breaks the "define policies once, apply to multiple workloads across different gateways and providers" vision ([`CHARTER.md`](../../10-charter/CHARTER.md)).
+- Makes it structurally difficult to keep **policy portability** ([AGR-005](../../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)): logic embedded in LiteLLM's own configuration and extension points naturally starts depending on LiteLLM's request/response shapes, defeating the adapter-based isolation the charter requires.
+- Forecloses the **Customer-Managed Runtime** mode entirely, since there would be no independently packagable runtime artifact to deploy into a customer's AWS account ([AGR-002](../../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C; §15).
+- Provides no basis for the MVP's core validation goal — proving that **one reusable policy can be applied consistently to multiple independent LiteLLM deployments** ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md)) — since an embedded implementation is, by construction, specific to a single instance.
 
 ### Alternative 2 — Fork LiteLLM into a guardrails-enabled gateway
 
@@ -101,10 +101,10 @@ Maintain a dedicated fork of LiteLLM with guardrail evaluation and enforcement b
 
 **Why rejected:**
 
-- Effectively turns the product into **a general-purpose LLM gateway replacement**, which is explicitly out of scope for the MVP (seed.md §6.3).
+- Effectively turns the product into **a general-purpose LLM gateway replacement**, which is explicitly out of scope for the MVP ([`SCOPE.md`](../../10-charter/SCOPE.md)).
 - Still ties the product to LiteLLM's internal architecture and upstream release cadence — the coupling problem is relocated, not solved, and now carries the added cost of tracking and rebasing against upstream LiteLLM changes indefinitely.
-- Does not help teams that use a different gateway or no gateway at all; it only produces a second LiteLLM variant, which does not satisfy "avoid coupling policy definitions to LiteLLM" (seed.md §2).
-- Undermines the one-logical-contract-across-modes requirement (seed.md §5.2): a fork-based approach naturally encourages embedding policy logic in gateway internals rather than behind a stable, portable evaluation contract.
+- Does not help teams that use a different gateway or no gateway at all; it only produces a second LiteLLM variant, which does not satisfy "avoid coupling policy definitions to LiteLLM" ([`CHARTER.md`](../../10-charter/CHARTER.md)).
+- Undermines the one-logical-contract-across-modes requirement ([AGR-006](../../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)): a fork-based approach naturally encourages embedding policy logic in gateway internals rather than behind a stable, portable evaluation contract.
 - Increases long-term maintenance burden without adding capability beyond what a well-scoped connector already provides for Mode A and Mode B.
 
 ### Alternative 3 — Build a standalone policy and enforcement platform (chosen)
@@ -113,11 +113,11 @@ Build the Guardrails Control Plane and Runtime as an independently deployable pr
 
 **Why accepted:**
 
-- Directly satisfies the reuse-across-multiple-gateways requirement and the three-deployment-mode model (seed.md §2, §3; AGR-002).
+- Directly satisfies the reuse-across-multiple-gateways requirement and the three-deployment-mode model ([`CHARTER.md`](../../10-charter/CHARTER.md), [AGR-002](../../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes); AGR-002).
 - Keeps policy definitions portable and vendor-independent, consistent with product principle 5.1 and 5.3 (AGR-005, AGR-007).
 - Allows the same evaluation contract to be honored by Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime alike (AGR-006).
-- Leaves LiteLLM's own roadmap and operations untouched and independently owned, while still letting LiteLLM serve double duty as the Guarded Gateway substrate when useful (seed.md §22).
-- Directly supports the Phase 1–2 validation demonstration requirement of proving policy reuse across two independent LiteLLM deployments (seed.md §16; [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md)).
+- Leaves LiteLLM's own roadmap and operations untouched and independently owned, while still letting LiteLLM serve double duty as the Guarded Gateway substrate when useful ([AGR-001](../../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)).
+- Directly supports the Phase 1–2 validation demonstration requirement of proving policy reuse across two independent LiteLLM deployments ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md); [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md)).
 
 ### Comparison summary
 
@@ -135,34 +135,34 @@ Build the Guardrails Control Plane and Runtime as an independently deployable pr
 
 ### Positive
 
-- The same versioned guardrail policy can be bound to multiple, independently operated workloads and gateways, satisfying the core reuse hypothesis of the product (seed.md §2, §16).
-- The platform can support all three charter-mandated deployment modes — Remote Evaluation, Guarded Gateway, Customer-Managed Runtime — without redesigning the core evaluation contract for each (seed.md §3; AGR-002, AGR-006).
-- Policy definitions stay independent of LiteLLM configuration structures and Bedrock Guardrails response formats, preserving portability and the ability to add evaluation engines or connectors later without breaking existing policies (seed.md §5.1; AGR-004, AGR-005).
-- Additional connectors (generic HTTP Evaluation API, future gateways) can be added by implementing the invocation contract only, without changing policy semantics (seed.md §12; AGR-003, AGR-007).
+- The same versioned guardrail policy can be bound to multiple, independently operated workloads and gateways, satisfying the core reuse hypothesis of the product ([`CHARTER.md`](../../10-charter/CHARTER.md), [`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md)).
+- The platform can support all three charter-mandated deployment modes — Remote Evaluation, Guarded Gateway, Customer-Managed Runtime — without redesigning the core evaluation contract for each ([AGR-002](../../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes); AGR-002, AGR-006).
+- Policy definitions stay independent of LiteLLM configuration structures and Bedrock Guardrails response formats, preserving portability and the ability to add evaluation engines or connectors later without breaking existing policies ([AGR-005](../../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability); AGR-004, AGR-005).
+- Additional connectors (generic HTTP Evaluation API, future gateways) can be added by implementing the invocation contract only, without changing policy semantics ([AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary); AGR-003, AGR-007).
 - The Guardrails product's release cadence, ownership, and roadmap are decoupled from the internal LiteLLM team's roadmap (AGR-001 implications).
-- The runtime can later be packaged for **Customer-Managed Runtime** deployment (container, Helm chart, ECS template) without changing the connector contract, because the runtime was never architecturally fused to a single gateway (seed.md §16, §18 Phase 4).
+- The runtime can later be packaged for **Customer-Managed Runtime** deployment (container, Helm chart, ECS template) without changing the connector contract, because the runtime was never architecturally fused to a single gateway ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md), [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) Phase 4).
 
 ### Negative
 
-- Introduces a separately deployed, versioned, and operated service (Control Plane + Runtime) rather than reusing an existing LiteLLM deployment, which is additional upfront engineering and operational investment (seed.md §11, AWS implementation direction; §21, Platform operations ownership).
-- Requires designing and maintaining a stable evaluation contract and policy schema up front, rather than iterating directly inside LiteLLM's existing extension points — more design work is needed before any connector can be built (seed.md §5.2, §12).
-- The LiteLLM connector itself becomes an additional component to build, version, and support, distinct from both the runtime and from LiteLLM's own codebase (seed.md §12).
-- Onboarding a workload now requires an explicit registration and integration step (register workload → select policy → generate integration manifest → install connector → observe → review → enforce) rather than guardrails being automatically present for anything already running on the shared LiteLLM instance (seed.md §4, Conceptual onboarding flow).
+- Introduces a separately deployed, versioned, and operated service (Control Plane + Runtime) rather than reusing an existing LiteLLM deployment, which is additional upfront engineering and operational investment ([`DEPLOYMENT-ARCHITECTURE.md`](../DEPLOYMENT-ARCHITECTURE.md), AWS implementation direction; §21, Platform operations ownership).
+- Requires designing and maintaining a stable evaluation contract and policy schema up front, rather than iterating directly inside LiteLLM's existing extension points — more design work is needed before any connector can be built ([AGR-006](../../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
+- The LiteLLM connector itself becomes an additional component to build, version, and support, distinct from both the runtime and from LiteLLM's own codebase ([AGR-003](../../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
+- Onboarding a workload now requires an explicit registration and integration step (register workload → select policy → generate integration manifest → install connector → observe → review → enforce) rather than guardrails being automatically present for anything already running on the shared LiteLLM instance ([AGR-019](../../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), Conceptual onboarding flow).
 
 ### Risks
 
-The following key risks from the charter (seed.md §20) are directly relevant to, or introduced by, this decision and must be tracked:
+The following key risks from the charter ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md)) are directly relevant to, or introduced by, this decision and must be tracked:
 
-- **Connector bypass** — because enforcement now depends on a connector being correctly installed and maintained rather than being inseparable from a single shared LiteLLM instance, a consuming team may remove, disable, or misconfigure the LiteLLM connector. Mitigation depends on trust level: cooperative onboarding, configuration validation, managed gateway deployment, and — where required — IAM/network enforcement (seed.md §20, "Connector bypass"; §8, §18 for enforcement posture options).
-- **False confidence** — teams may interpret a passing guardrail evaluation as complete AI security, when guardrails are explicitly not authorization and do not cover every risk category (seed.md §20, "False confidence"; AGR-010).
-- **Latency** — a standalone runtime reached over the network adds synchronous evaluation latency compared to logic executing in-process inside LiteLLM. This must be measured per evaluator and mitigated with stage-specific timeouts, local deterministic checks, and, where necessary, the Customer-Managed Runtime option (seed.md §20, "Latency").
-- **Hosted data exposure** — for Remote Evaluation and Guarded Gateway modes, prompts and responses reach a runtime outside the consuming team's direct operational boundary; this must be explicitly documented per AGR-008 and AGR-009 rather than implied away by "standalone" architecture (seed.md §20, "Hosted data exposure").
-- **Policy fragmentation** — as more workloads bind to the platform, workload-specific overrides could erode the consistency that motivated building a standalone platform in the first place; overrides must be limited and tracked (seed.md §20, "Policy fragmentation").
-- **Product over-expansion** — a standalone platform creates surface area (control plane, runtime, multiple connectors, multiple deployment modes) that could tempt scope growth into gateway management, full AI governance, or authorization before the core integration is validated. Strict phased scope boundaries (`10-charter/SCOPE.md`; AGR-020) are the explicit mitigation (seed.md §20, "Product over-expansion").
+- **Connector bypass** — because enforcement now depends on a connector being correctly installed and maintained rather than being inseparable from a single shared LiteLLM instance, a consuming team may remove, disable, or misconfigure the LiteLLM connector. Mitigation depends on trust level: cooperative onboarding, configuration validation, managed gateway deployment, and — where required — IAM/network enforcement ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md), "Connector bypass"; §8, §18 for enforcement posture options).
+- **False confidence** — teams may interpret a passing guardrail evaluation as complete AI security, when guardrails are explicitly not authorization and do not cover every risk category ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md), "False confidence"; AGR-010).
+- **Latency** — a standalone runtime reached over the network adds synchronous evaluation latency compared to logic executing in-process inside LiteLLM. This must be measured per evaluator and mitigated with stage-specific timeouts, local deterministic checks, and, where necessary, the Customer-Managed Runtime option ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md), "Latency").
+- **Hosted data exposure** — for Remote Evaluation and Guarded Gateway modes, prompts and responses reach a runtime outside the consuming team's direct operational boundary; this must be explicitly documented per AGR-008 and AGR-009 rather than implied away by "standalone" architecture ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md), "Hosted data exposure").
+- **Policy fragmentation** — as more workloads bind to the platform, workload-specific overrides could erode the consistency that motivated building a standalone platform in the first place; overrides must be limited and tracked ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md), "Policy fragmentation").
+- **Product over-expansion** — a standalone platform creates surface area (control plane, runtime, multiple connectors, multiple deployment modes) that could tempt scope growth into gateway management, full AI governance, or authorization before the core integration is validated. Strict phased scope boundaries (`10-charter/SCOPE.md`; AGR-020) are the explicit mitigation ([`RISK-REGISTER.md`](../../70-governance/RISK-REGISTER.md), "Product over-expansion").
 
 ## Validation Required
 
-This decision is not considered validated until the Phase 1–2 validation demonstration defined in the charter and in [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md) has been executed and passed. Specifically, the demonstration must show that (seed.md §16, MVP demonstration):
+This decision is not considered validated until the Phase 1–2 validation demonstration defined in the charter and in [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md) has been executed and passed. Specifically, the demonstration must show that ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md), MVP demonstration):
 
 1. **Two separate LiteLLM instances** consume the **same policy**.
 2. **Neither instance shares model-provider credentials** with the guardrail platform.
@@ -173,9 +173,9 @@ This decision is not considered validated until the Phase 1–2 validation demon
 7. **Evaluation failures follow a configured failure policy** rather than an undocumented fallback (see AGR-012).
 8. The runtime **can later be packaged for customer-managed deployment without changing the connector contract**.
 
-Delivery planning must produce **two genuinely independent LiteLLM deployments** to exercise this demonstration — not the same deployment tested twice (seed.md §16; `60-delivery/VALIDATION-PLAN.md`). Until all eight conditions are met, this ADR's premise — that a standalone platform is both necessary and sufficient to enable policy reuse across independent gateways — remains unproven in practice, even though it is architecturally accepted.
+Delivery planning must produce **two genuinely independent LiteLLM deployments** to exercise this demonstration — not the same deployment tested twice ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md); `60-delivery/VALIDATION-PLAN.md`). Until all eight conditions are met, this ADR's premise — that a standalone platform is both necessary and sufficient to enable policy reuse across independent gateways — remains unproven in practice, even though it is architecturally accepted.
 
-This demonstration corresponds to **Phase 1 — Integration proof** of the five-phase delivery plan (seed.md §18; AGR-020), whose stated objective is to *"prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways."*
+This demonstration corresponds to **Phase 1 — Integration proof** of the five-phase delivery plan ([AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); AGR-020), whose stated objective is to *"prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways."*
 
 ## Related Agreements
 
@@ -191,7 +191,7 @@ This ADR is grounded in, and must remain consistent with, the following authorit
 | [AGR-007](../../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors) | The mandatory separation between policy and connector that this architecture is built to enforce. |
 | [AGR-012](../../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) | Governs the "evaluation failures follow a configured failure policy" condition of the validation demonstration. |
 | [`../../10-charter/SCOPE.md`](../../10-charter/SCOPE.md) (see [DEC-008](../../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)) | The phased scope boundary that constrains this architecture against over-expansion (formerly AGR-019 "MVP scope boundaries", removed by DEC-008). |
-| [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md) (seed.md §16) | The concrete, falsifiable Phase 1–2 validation demonstration that validates this decision (formerly AGR-020 "MVP success demonstration", removed by DEC-008). |
+| [`../../60-delivery/VALIDATION-PLAN.md`](../../60-delivery/VALIDATION-PLAN.md) ([`SUCCESS-CRITERIA.md`](../../10-charter/SUCCESS-CRITERIA.md)) | The concrete, falsifiable Phase 1–2 validation demonstration that validates this decision (formerly AGR-020 "MVP success demonstration", removed by DEC-008). |
 | [AGR-020](../../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) | Places this ADR's validation inside Phase 1 — Integration proof of the five-phase delivery plan. |
 
 ## Related Documents

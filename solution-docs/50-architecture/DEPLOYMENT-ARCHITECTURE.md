@@ -3,7 +3,7 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -11,7 +11,7 @@
 
 This document defines the deployment topologies for the AI Guardrails platform: the three supported deployment modes, the AWS implementation direction behind them, the MVP account model, and the Phase 4 customer-managed packaging plan.
 
-This is an **L3 (derived)** document. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative). Where this document references a specific agreement or constraint, the ID is given (`AGR-NNN`, `CON-NNN`) so the two can be cross-checked. Where seed.md does not supply a concrete figure (throughput numbers, SLA targets, cost figures), this document says **TBD** or describes the requirement qualitatively rather than inventing one.
+This is an **L3 (derived)** document. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative). Where this document references a specific agreement or constraint, the ID is given (`AGR-NNN`, `CON-NNN`) so the two can be cross-checked. Where the L1 registers do not supply a concrete figure (throughput numbers, SLA targets, cost figures), this document says **TBD** or describes the requirement qualitatively rather than inventing one.
 
 Related documents:
 
@@ -78,8 +78,8 @@ The consuming team's LiteLLM (or equivalent gateway) lives entirely inside the *
 |---|---|
 | Where are prompts processed? | In the team's own LiteLLM, then transmitted to the hosted Evaluation API for input evaluation. |
 | Where are responses processed? | In the team's own LiteLLM (post-inference), then transmitted to the hosted Evaluation API for output evaluation. |
-| Is retrieved content transmitted? | Only if the workload is configured to submit it for evaluation; the MVP limits evaluated content to model input/output (seed.md §13). |
-| Are tool arguments transmitted? | Not in the MVP; tool-call evaluation is future scope (seed.md §6.2). |
+| Is retrieved content transmitted? | Only if the workload is configured to submit it for evaluation; the MVP limits evaluated content to model input/output ([`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md)). |
+| Are tool arguments transmitted? | Not in the MVP; tool-call evaluation is future scope ([`SCOPE.md`](../10-charter/SCOPE.md)). |
 | Is content persisted? | Not by default. The hosted runtime persists decision metadata, not raw prompts/responses, unless the tenant explicitly configures retention (CON-014). |
 | What telemetry leaves the runtime? | Decision metadata, evaluation latency, and audit records flow to the hosted control plane and audit pipeline as part of normal operation — this is not optional telemetry, it is how the hosted service functions. |
 | Which AWS accounts/Regions are involved? | The team's own account/Region for LiteLLM; the AI Guardrails hosted account for the Evaluation API and audit pipeline, served from that tenant's pinned processing Region (§7.4, DEC-018/CAP-035). |
@@ -162,7 +162,7 @@ The entire guardrail runtime — policy cache, evaluator adapters, and local aud
 |---|---|
 | Policy cache | Holds the most recently synchronized, immutable policy version(s) locally so evaluation can proceed without a synchronous call to the hosted control plane (AGR-015). Populated by asynchronous policy synchronization (§6.5). |
 | Bedrock Guardrails adapter | Normalizes calls to Amazon Bedrock Guardrails — running in the customer's own account — into the platform's vendor-independent decision structure (AGR-004, CON-004). |
-| Custom evaluators | Deterministic rules and any customer-specific evaluator plugins (future scope, seed.md §6.2) that run entirely inside the customer's account. |
+| Custom evaluators | Deterministic rules and any customer-specific evaluator plugins (future scope, [`SCOPE.md`](../10-charter/SCOPE.md)) that run entirely inside the customer's account. |
 | Local audit integration | Writes audit records (tenant, workload, policy version, stage, decision, reason codes, evaluator versions, timestamp, correlation ID, whether raw content was retained) to storage the customer controls. |
 
 ### 4.3 Ownership split
@@ -233,7 +233,7 @@ flowchart LR
 
 ## 6. Enforcement posture is orthogonal to deployment mode
 
-The three deployment modes describe **where** the runtime lives. Separately, seed.md §8 defines three **trust/enforcement postures** describing how hard it is to bypass the guardrail connector. Both dimensions must be tracked independently per workload (AGR-018) — a workload's deployment mode does not by itself determine its enforcement posture.
+The three deployment modes describe **where** the runtime lives. Separately, [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) defines three **trust/enforcement postures** describing how hard it is to bypass the guardrail connector. Both dimensions must be tracked independently per workload (AGR-018) — a workload's deployment mode does not by itself determine its enforcement posture.
 
 | Posture | Description | Topology | Appropriate when |
 |---|---|---|---|
@@ -249,7 +249,7 @@ A **cooperative connector must never be represented as a hard security boundary*
 
 ### 7.1 Service mapping
 
-The MVP uses the minimum AWS architecture required to validate the product (seed.md §11):
+The MVP uses the minimum AWS architecture required to validate the product ([original charter §11](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)):
 
 | Capability | Initial AWS service |
 |---|---|
@@ -333,7 +333,7 @@ Until the residency-enforcement mechanism ships, Region assignment is a placemen
 
 ### 7.5 Multi-region active-active — later phase (DEC-019 / CAP-036)
 
-[`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed — register-level, owner ratification required) commits **multi-region active-active availability** — live cross-Region failover and replication providing continuous availability across Regions — as a **later phase, committed** capability, [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md#extended-deployment-and-commercial). This supersedes the prior `seed.md` §6.3 listing of active-active as an out-of-scope exclusion.
+[`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed — register-level, owner ratification required) commits **multi-region active-active availability** — live cross-Region failover and replication providing continuous availability across Regions — as a **later phase, committed** capability, [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md#extended-deployment-and-commercial). This supersedes the prior [`SCOPE.md`](../10-charter/SCOPE.md) listing of active-active as an out-of-scope exclusion.
 
 **Explicitly distinct from §7.4.** DEC-018/CAP-035 is region *availability* with a tenant *pinned* to a single processing Region; DEC-019/CAP-036 is live cross-Region *high availability* on top of that — replication and failover so that a Region-level event does not interrupt an in-flight tenant's evaluation traffic. CAP-036 layers onto the CAP-035 multi-Region footprint; it is not a prerequisite for CAP-035, and CAP-035 does not imply it. Until CAP-036 ships, a Region-level outage affecting a tenant's assigned Region is an availability event for that tenant, handled per the failure-behavior requirements of §1 above (AGR-012) — it is not masked by cross-Region failover.
 
@@ -368,7 +368,7 @@ This two-account model applies to the **hosted side of the platform** (i.e., the
 
 ### 8.2 When to add account separation
 
-Additional account separation should be introduced **only when justified** by one or more of the following triggers (seed.md §11, CON-002):
+Additional account separation should be introduced **only when justified** by one or more of the following triggers ([original charter §11](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), CON-002):
 
 | Trigger | Why it justifies more accounts |
 |---|---|
@@ -379,7 +379,7 @@ Additional account separation should be introduced **only when justified** by on
 | Production scale | Operational or capacity isolation once a single production account becomes a scaling or blast-radius concern. |
 | Dedicated tenant deployments | A tenant requiring infrastructure dedicated to them rather than shared multi-tenant hosted infrastructure. |
 
-Three-account (or greater) AWS separation is explicitly an **MVP non-goal** (seed.md §17) and must not be assumed by MVP infrastructure-as-code (CON-002). Any request to add account separation must be justified against this trigger list before implementation, not adopted speculatively.
+Three-account (or greater) AWS separation is explicitly an **MVP non-goal** ([`SCOPE.md`](../10-charter/SCOPE.md)) and must not be assumed by MVP infrastructure-as-code (CON-002). Any request to add account separation must be justified against this trigger list before implementation, not adopted speculatively.
 
 ---
 
@@ -396,7 +396,7 @@ Phase 4 of the five-phase delivery plan (AGR-020; see [`20-product/PRODUCT-ROADM
 | Local policy cache | The runtime component (see §4.2, §4.4) that lets evaluation continue without a synchronous control-plane connection (AGR-015). |
 | Policy synchronization | The asynchronous mechanism that keeps the local policy cache current with the hosted control plane's published policy versions, without ever blocking the evaluation path. |
 | Customer-controlled telemetry | The configurable telemetry mechanism (AGR-016, CON-013) letting the customer choose what — if anything — the hosted control plane receives back from their runtime. |
-| Upgrade compatibility checks | Tooling/process ensuring a customer can upgrade the runtime container and policy schema version without breaking the connector contract that Modes A/B already rely on (AGR-006; seed.md §16, [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). |
+| Upgrade compatibility checks | Tooling/process ensuring a customer can upgrade the runtime container and policy schema version without breaking the connector contract that Modes A/B already rely on (AGR-006; [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). |
 
 ### 9.1 Packaging and delivery flow
 
@@ -420,7 +420,7 @@ flowchart LR
 
 ### 9.2 Relationship to the shared contract
 
-Consistent with AGR-006 and the Phase 1–2 validation demonstration (seed.md §16; [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)), Phase 4 packaging must not introduce a divergent connector contract. The validation demonstration criteria explicitly require that *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* (seed.md §16, §20). Phase 4 is therefore a **packaging and deployment-automation exercise** on top of the runtime already validated in Phases 1–3, not a redesign of the evaluation contract, policy schema, or decision structure.
+Consistent with AGR-006 and the Phase 1–2 validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)), Phase 4 packaging must not introduce a divergent connector contract. The validation demonstration criteria explicitly require that *"the runtime can later be packaged for customer-managed deployment without changing the connector contract"* ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)). Phase 4 is therefore a **packaging and deployment-automation exercise** on top of the runtime already validated in Phases 1–3, not a redesign of the evaluation contract, policy schema, or decision structure.
 
 ---
 
@@ -446,6 +446,6 @@ This guide is directional; it does not override the explicit content-exposure an
 - Three deployment modes — Remote Evaluation, Guarded Gateway, Customer-Managed Runtime — share one logical evaluation contract but differ sharply in operational ownership and, independently, in content exposure (AGR-002, AGR-006, AGR-008).
 - Mode A must never be marketed as data-local (AGR-009); only Mode C keeps raw content in the customer's account by default.
 - Mode C's runtime (policy cache, Bedrock Guardrails adapter, custom evaluators, local audit) must operate without a synchronous control-plane connection (AGR-015), with explicit degraded-mode behavior when the local policy cache goes stale.
-- The MVP AWS footprint follows the seed.md §11 service mapping and a minimal two-account model (AGR-013, CON-002); additional account separation is added only against a documented trigger, never speculatively.
+- The MVP AWS footprint follows the [original charter §11](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map) service mapping and a minimal two-account model (AGR-013, CON-002); additional account separation is added only against a documented trigger, never speculatively.
 - The hosted side offers multi-region availability from GA, with each tenant pinned to a single processing Region — not active-active (DEC-018, CAP-035, §7.4); per-tenant residency *enforcement* is a distinct, later-phase-committed sub-scope layered on top of that Core-phase availability. Live cross-Region active-active availability is a separate, later-phase-committed capability (DEC-019, CAP-036, §7.5), explicitly distinguished from single-Region pinning. Neither changes the two-account model (AGR-013, amended, §8.1).
 - Phase 4 turns Mode C from an architectural capability into a consumable product: runtime container, Helm chart, ECS template, IaC module, local policy cache, policy synchronization, customer-controlled telemetry, and upgrade compatibility checks — all without changing the connector contract validated in earlier phases.

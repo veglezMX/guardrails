@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -38,7 +38,7 @@ Every instruction file in this directory must point *at* those documents. It mus
 
 ## Why this directory exists
 
-The rest of `solution-docs/` is a layered set of derived views over two sources of truth (`seed.md` and `AGREEMENTS.md`): a charter, a product description, executive materials, sales materials, an architecture set, and a delivery plan. Several of those views — the executive brief, the sales deck, the architecture review, and the charter — are produced by dedicated generation agents rather than written from scratch each time.
+The rest of `solution-docs/` is a layered set of derived views over two sources of truth (`AGREEMENTS.md` and `CONSTRAINTS.md`): a charter, a product description, executive materials, sales materials, an architecture set, and a delivery plan. Several of those views — the executive brief, the sales deck, the architecture review, and the charter — are produced by dedicated generation agents rather than written from scratch each time.
 
 `80-agent-inputs/` is where the **instructions those agents run on** live, so that:
 

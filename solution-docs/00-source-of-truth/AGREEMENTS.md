@@ -333,7 +333,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 **Status:** Accepted
 **Date:** 2026-07-24
 **Owners:** Technical lead, product lead
-**Agreement:** The platform's domain model consists of six core entities — tenant, workload, policy, policy binding, evaluation, and decision — with the attributes and relationships defined in the solution charter, and all architecture and implementation must be expressed in terms of this model.
+**Agreement:** The platform's domain model consists of six core entities — tenant, workload, policy, policy binding, evaluation, and decision — with the per-entity attributes enumerated in [`70-governance/GLOSSARY.md`](../70-governance/GLOSSARY.md) and made testable as requirements in [`50-architecture/REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md) (`FR-001`, `FR-007`, `FR-008`, `FR-012`–`FR-016`), and all architecture and implementation must be expressed in terms of this model.
 **Rationale:** A shared, stable domain model is what allows policies, connectors, and deployment modes to interoperate; without it, each component would invent its own vocabulary and the one-contract-across-modes agreement (AGR-006) could not hold.
 **Implications:**
 - Data storage, APIs, and audit records must map directly onto tenant, workload, policy, binding, evaluation, and decision concepts.
@@ -342,6 +342,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 **Affected documents:**
 - `50-architecture/DATA-ARCHITECTURE.md`
 - `50-architecture/COMPONENT-ARCHITECTURE.md`
+- `50-architecture/REQUIREMENTS.md`
 - `70-governance/GLOSSARY.md`
 - `00-source-of-truth/TRACEABILITY-MATRIX.md`
 
@@ -415,7 +416,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 **Implications:**
 - Category identifiers (GR-001 through GR-018) are change-controlled: adding, removing, renaming, or reclassifying a category is a register-level change, not an editorial one.
 - Item-level guardrails listed inside a category are illustrative and may be edited without register change, provided they do not contradict this register or `CONSTRAINTS.md`.
-- Catalog entries whose subject matter falls under a standing exclusion (seed.md §6.3) or under AGR-010 must be classified out-of-boundary with a named external owner and must never be presented as future deliverables.
+- Catalog entries whose subject matter falls under a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)) or under AGR-010 must be classified out-of-boundary with a named external owner and must never be presented as future deliverables.
 - This taxonomy does not alter the defined-and-estimated full feature set recorded by DEC-008; graduation of a vision-classified entry into committed scope requires the scope-change process (`10-charter/SCOPE.md` §8) and a recorded decision.
 **Affected documents:**
 - `20-product/GUARDRAIL-CATALOG.md`

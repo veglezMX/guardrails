@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -171,6 +171,7 @@ These are not owned by any single audience and are relevant regardless of role:
 | [`00-source-of-truth/DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log (L1). |
 | [`00-source-of-truth/ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | Standing assumptions the rest of the set relies on (L1). |
 | [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) | Unresolved questions tracked for future resolution (L1). |
+| [`00-source-of-truth/PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) | Where the original solution charter's content now lives; a lookup aid, not a source. |
 | [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) | The L1–L5 authority model, precedence rules, and change-control process governing this entire map. |
 | [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) | Canonical terminology (tenant, workload, policy, binding, evaluation, decision, and the three deployment modes). |
 | [`70-governance/CLAIMS-REGISTER.md`](70-governance/CLAIMS-REGISTER.md) | Claim patterns that are approved or explicitly rejected (for example, Mode A must never be described as data-local). |
@@ -206,6 +207,7 @@ solution-docs/
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | Hard constraints on the solution. |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log. |
 | [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) | Open questions awaiting resolution. |
+| [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) | Provenance of the original solution charter. |
 | [`TRACEABILITY-MATRIX.md`](00-source-of-truth/TRACEABILITY-MATRIX.md) | Maps each agreement to the capability, architecture section, ADR, and executive/sales claim that realize it; the drift-prevention backbone of the set. |
 
 ### `10-charter/` — L2, defining

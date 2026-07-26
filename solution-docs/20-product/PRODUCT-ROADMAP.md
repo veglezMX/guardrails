@@ -3,7 +3,7 @@
 **Authority level:** L4
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -18,9 +18,9 @@ This roadmap is **directional only**. No phase carries a committed date, quarter
 ## How to read this roadmap
 
 * **Sequencing, not scheduling.** The five phases are ordered by dependency and risk, not by calendar. Each phase's deliverables must be completed and validated before the next phase's scope proceeds (AGR-020) — every phase boundary is a validation gate.
-* **Committed-and-estimated full scope.** Per [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), this roadmap presents the full feature set — the Phase 1–2 core platform plus the later-phase capabilities — as committed and estimated scope. **Phases 1–2** deliver the core platform (seed.md §6.1, §16): Phase 1 delivers the core integration proof, and the Phase 1–2 validation demonstration ([`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) additionally requires policy promotion and rollback, which is a Phase 2 deliverable. Phases 3 and 4 extend the platform to the Guarded Gateway and Customer-Managed Runtime modes.
-* **Phase 5 is sequenced last.** Phase 5 (Advanced agent protection) is part of the committed-and-estimated full solution (DEC-008), and it remains a separate product expansion in delivery terms per AGR-020 and seed.md §18: its scope proceeds only after the preceding phases' deliverables are validated, it is not scheduled or resourced within the earlier phases, and none of its capabilities are available today.
-* **No invented figures.** Where seed.md and AGREEMENTS.md do not specify a metric, date, or headcount, this document says so explicitly rather than inventing one.
+* **Committed-and-estimated full scope.** Per [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), this roadmap presents the full feature set — the Phase 1–2 core platform plus the later-phase capabilities — as committed and estimated scope. **Phases 1–2** deliver the core platform ([`SCOPE.md`](../10-charter/SCOPE.md), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)): Phase 1 delivers the core integration proof, and the Phase 1–2 validation demonstration ([`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)) additionally requires policy promotion and rollback, which is a Phase 2 deliverable. Phases 3 and 4 extend the platform to the Guarded Gateway and Customer-Managed Runtime modes.
+* **Phase 5 is sequenced last.** Phase 5 (Advanced agent protection) is part of the committed-and-estimated full solution (DEC-008), and it remains a separate product expansion in delivery terms per AGR-020 and [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery): its scope proceeds only after the preceding phases' deliverables are validated, it is not scheduled or resourced within the earlier phases, and none of its capabilities are available today.
+* **No invented figures.** Where AGREEMENTS.md and CONSTRAINTS.md do not specify a metric, date, or headcount, this document says so explicitly rather than inventing one.
 
 ---
 
@@ -49,13 +49,13 @@ flowchart LR
 | [Phase 4 — Customer-managed runtime](#phase-4--customer-managed-runtime) | Support workloads that require local evaluation and content isolation. | Committed later phase | Mode C (Customer-Managed Runtime) |
 | [Phase 5 — Advanced agent protection](#phase-5--advanced-agent-protection) | Extend guardrail coverage beyond prompt and response evaluation. | **Committed final phase — sequenced last, not available today** | All modes (extension) |
 
-*Deployment modes A/B/C are defined in seed.md §3 and [`AGREEMENTS.md` AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes).*
+*Deployment modes A/B/C are defined in [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes) and [`AGREEMENTS.md` AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes).*
 
 ---
 
 ## Phase 1 — Integration proof
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Prove that guardrail policy and evaluation can be separated from LiteLLM and reused across multiple gateways.
 
@@ -75,7 +75,7 @@ flowchart LR
 
 ## Phase 2 — Internal multi-team platform
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Allow multiple internal teams to onboard and operate distinct workloads.
 
@@ -85,17 +85,17 @@ flowchart LR
 * Policy bindings (associating a workload with a policy version, per the Policy Binding domain entity).
 * IAM authentication (per [`CONSTRAINTS.md` CON-010](../00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles) and CON-011).
 * Quotas.
-* Policy promotion and rollback (immutable policy versions, controlled promotion, immediate rollback — required to complete the Phase 1–2 validation demonstration in seed.md §16 and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
+* Policy promotion and rollback (immutable policy versions, controlled promotion, immediate rollback — required to complete the Phase 1–2 validation demonstration in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) and [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)).
 * Service-level monitoring.
 * Basic administration workflow.
 
-**Notes:** Phase 2 is where the platform moves from a single proven integration to a genuinely multi-tenant, multi-workload system. It is also the phase that closes out the remaining Phase 1–2 validation criteria — specifically, "a policy can be upgraded and rolled back" (seed.md §16) — so the Phase 1–2 validation demonstration is not complete until Phase 2's policy promotion/rollback capability exists alongside Phase 1's integration proof.
+**Notes:** Phase 2 is where the platform moves from a single proven integration to a genuinely multi-tenant, multi-workload system. It is also the phase that closes out the remaining Phase 1–2 validation criteria — specifically, "a policy can be upgraded and rolled back" ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) — so the Phase 1–2 validation demonstration is not complete until Phase 2's policy promotion/rollback capability exists alongside Phase 1's integration proof.
 
 ---
 
 ## Phase 3 — Guarded gateway
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Offer a fully hosted model and guardrail path for teams without their own gateway.
 
@@ -111,13 +111,13 @@ flowchart LR
 * Multi-region active-active availability — live cross-region failover and replication, beyond CAP-035's single-region-per-tenant model ([`CAPABILITIES.md` CAP-036](CAPABILITIES.md), [`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase)).
 * Per-category decision metrics — block/redact rates by guardrail category, extending the Phase 1–2 decision-distribution metric with a `guardrail_category` dimension ([`CAPABILITIES.md` CAP-037](CAPABILITIES.md) — pending `CAPABILITIES.md`/`TRACEABILITY-MATRIX.md` registration at owner ratification, [`DECISIONS.md` DEC-020](../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope)). Depends on the reason-code taxonomy and `guardrail_category` decision field established by [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension).
 
-**Notes:** Phase 3 introduces Mode B (Guarded Gateway), which creates the largest operational, security, and compliance scope for the provider, since the provider now participates in the complete inference path (seed.md §3, Mode B). Phases 1–2 prove the policy-reuse hypothesis under Mode A only; Phase 3 extends the committed solution to Mode B once those phases are validated. Multi-region availability (CAP-035) is offered from GA as part of the core platform (Phases 1–2) — a tenant's traffic is pinned to a single processing region from the outset; per-tenant residency *enforcement* and multi-region active-active availability (CAP-036) are the committed later-phase pieces delivered here (DEC-018, DEC-019). Per-category decision metrics (CAP-037) is the ADR-0002 §2 graduation exercise (DEC-020): a reporting/aggregation capability over the `guardrail_category` field the reason-code taxonomy (DEC-013) adds to the decision record, not a new evaluation-contract surface (AGR-006 unaffected).
+**Notes:** Phase 3 introduces Mode B (Guarded Gateway), which creates the largest operational, security, and compliance scope for the provider, since the provider now participates in the complete inference path ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode B). Phases 1–2 prove the policy-reuse hypothesis under Mode A only; Phase 3 extends the committed solution to Mode B once those phases are validated. Multi-region availability (CAP-035) is offered from GA as part of the core platform (Phases 1–2) — a tenant's traffic is pinned to a single processing region from the outset; per-tenant residency *enforcement* and multi-region active-active availability (CAP-036) are the committed later-phase pieces delivered here (DEC-018, DEC-019). Per-category decision metrics (CAP-037) is the ADR-0002 §2 graduation exercise (DEC-020): a reporting/aggregation capability over the `guardrail_category` field the reason-code taxonomy (DEC-013) adds to the decision record, not a new evaluation-contract surface (AGR-006 unaffected).
 
 ---
 
 ## Phase 4 — Customer-managed runtime
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Support workloads that require local evaluation and content isolation.
 
@@ -132,17 +132,17 @@ flowchart LR
 * Customer-controlled telemetry (including a fully supported "no telemetry" configuration — [`AGREEMENTS.md` AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)).
 * Upgrade compatibility checks.
 
-**Notes:** Phase 4 introduces Mode C (Customer-Managed Runtime) for regulated workloads, data-residency requirements, high-volume workloads, air-gapped environments, and teams that prohibit prompt or response content from leaving their account (seed.md §3, Mode C). Raw content must never leave a customer-managed runtime unless explicitly configured ([`CONSTRAINTS.md` CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured)). The Phase 1–2 core requires that the runtime built in Phases 1–2 *can later be packaged* for customer-managed deployment without changing the connector contract (seed.md §16) — Phase 4 is where that packaging is actually delivered.
+**Notes:** Phase 4 introduces Mode C (Customer-Managed Runtime) for regulated workloads, data-residency requirements, high-volume workloads, air-gapped environments, and teams that prohibit prompt or response content from leaving their account ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C). Raw content must never leave a customer-managed runtime unless explicitly configured ([`CONSTRAINTS.md` CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured)). The Phase 1–2 core requires that the runtime built in Phases 1–2 *can later be packaged* for customer-managed deployment without changing the connector contract ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)) — Phase 4 is where that packaging is actually delivered.
 
 ---
 
 ## Phase 5 — Advanced agent protection
 
-**Objective** (seed.md §18):
+**Objective** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)):
 
 > Extend guardrail coverage beyond prompt and response evaluation.
 
-**Headline deliverables** (seed.md §18; committed to the full solution and included in its estimation per [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — delivered only in this final phase):
+**Headline deliverables** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); committed to the full solution and included in its estimation per [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) — delivered only in this final phase):
 
 * Retrieval-content evaluation.
 * Tool-call validation.
@@ -153,13 +153,13 @@ flowchart LR
 * MCP integration.
 * Advanced authorization integration.
 
-> **This phase is committed and estimated as part of the full solution, but it is sequenced last: it is a separate product expansion in delivery terms, its scope proceeds only after the preceding phases are validated, and none of its capabilities are available today.** (seed.md §18; [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases))
+> **This phase is committed and estimated as part of the full solution, but it is sequenced last: it is a separate product expansion in delivery terms, its scope proceeds only after the preceding phases are validated, and none of its capabilities are available today.** ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases))
 
 **Notes:**
 
-* Every Phase 5 deliverable corresponds to a capability explicitly called out in seed.md §6.2 (retrieval-content evaluation, indirect prompt-injection detection, tool-call validation, MCP authorization, memory-write validation, human approval workflows). Per DEC-008 these are committed to Phase 5 and included in the full-solution estimation; the earlier phases design for them but do not build them, and they are not available today.
+* Every Phase 5 deliverable corresponds to a capability explicitly called out in [`SCOPE.md`](../10-charter/SCOPE.md) (retrieval-content evaluation, indirect prompt-injection detection, tool-call validation, MCP authorization, memory-write validation, human approval workflows). Per DEC-008 these are committed to Phase 5 and included in the full-solution estimation; the earlier phases design for them but do not build them, and they are not available today.
 * Guardrail decisions are never authorization decisions ([`AGREEMENTS.md` AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization)); a guardrail decision that content or a tool call "appears safe" is never a business-authorization decision, and this remains true even after Phase 5 ships.
-* A general-purpose MCP security platform and fully autonomous agent governance remain explicitly **excluded from the full feature set** (seed.md §6.3; DEC-008) and are not implied to be delivered by Phase 5 — Phase 5 extends coverage, it does not claim completeness.
+* A general-purpose MCP security platform and fully autonomous agent governance remain explicitly **excluded from the full feature set** ([`SCOPE.md`](../10-charter/SCOPE.md); DEC-008) and are not implied to be delivered by Phase 5 — Phase 5 extends coverage, it does not claim completeness.
 * Phase 5 must not be scheduled or resourced within the earlier phases ([`DECISIONS.md` DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement); AGR-020). It is committed and estimated as part of the full solution, with all timing TBD per this roadmap's no-dates rule.
 
 ---
@@ -185,8 +185,8 @@ Per source-of-truth policy, this document does not state:
 
 * Calendar dates, quarters, or durations for any phase — all timing is **TBD / sequencing only**.
 * Headcount, budget, or dollar figures for any phase.
-* A committed delivery date or resourcing decision for any phase, including Phase 5 — Phase 5's scope is committed and estimated (DEC-008), but its start is gated on validation of the preceding phases and its timing remains TBD (seed.md §20, "Product over-expansion"; [`DECISIONS.md` DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement)).
-* SLA numbers or performance targets — these are tracked qualitatively in seed.md §15 (Operational requirements) and are not yet populated with figures anywhere in the source-of-truth set.
+* A committed delivery date or resourcing decision for any phase, including Phase 5 — Phase 5's scope is committed and estimated (DEC-008), but its start is gated on validation of the preceding phases and its timing remains TBD ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md), "Product over-expansion"; [`DECISIONS.md` DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement)).
+* SLA numbers or performance targets — these are tracked qualitatively in [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) (Operational requirements) and are not yet populated with figures anywhere in the source-of-truth set.
 
 ---
 

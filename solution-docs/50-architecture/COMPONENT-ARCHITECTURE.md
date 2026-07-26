@@ -3,11 +3,11 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
-> This is a derived (L3) architecture view. It does not introduce new decisions and must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1). Where this document and those registers appear to differ, the registers win and this document must be corrected. Metrics, SLAs, capacity figures, and dates not present in `seed.md` are marked **TBD** rather than invented, per source-of-truth policy.
+> This is a derived (L3) architecture view. It does not introduce new decisions and must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1). Where this document and those registers appear to differ, the registers win and this document must be corrected. Metrics, SLAs, capacity figures, and dates not present in the L1 registers are marked **TBD** rather than invented, per source-of-truth policy.
 
 ## Table of contents
 
@@ -38,12 +38,12 @@
 
 ## 1. Purpose and scope
 
-This document is the **C4 level-3 (component) view** of the two containers introduced at the logical-architecture level in `seed.md` §10 and summarized at container granularity in [`ARCHITECTURE-REPORT.md`](ARCHITECTURE-REPORT.md) §7–§8:
+This document is the **C4 level-3 (component) view** of the two containers introduced at the logical-architecture level in [`CONTAINER-ARCHITECTURE.md`](CONTAINER-ARCHITECTURE.md) and summarized at container granularity in [`ARCHITECTURE-REPORT.md`](ARCHITECTURE-REPORT.md) §7–§8:
 
 - The **Guardrails Runtime** — the container that exposes the Evaluation API, resolves policy, executes evaluators, normalizes decisions, and produces audit records, identically across all three deployment modes.
 - The **Guardrails Control Plane** — the container that owns the domain model (tenants, workloads, policies, bindings, rollouts) and distributes policy to every Runtime instance.
 
-For each component, this document states its **responsibility**, its **key inputs and outputs**, and the **contract it upholds** — principally the normalized decision structure and the reason-code contract defined in `seed.md` §9 and made mandatory across deployment modes by [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes).
+For each component, this document states its **responsibility**, its **key inputs and outputs**, and the **contract it upholds** — principally the normalized decision structure and the reason-code contract defined in [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and made mandatory across deployment modes by [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes).
 
 This document does **not** cover:
 
@@ -72,7 +72,7 @@ C4 Level 3 — Components (HERE)    : The internal components of the Guardrails 
 C4 Level 4 — Code                 : Classes/modules — out of scope for solution-docs.
 ```
 
-The logical diagram this document decomposes is reproduced from `seed.md` §10:
+The logical diagram this document decomposes is reproduced from [`CONTAINER-ARCHITECTURE.md`](CONTAINER-ARCHITECTURE.md):
 
 ```text
                               ┌─────────────────────────┐
@@ -149,7 +149,7 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 | Field | Detail |
 |---|---|
 | **Responsibility** | Single entry point for the Evaluation API. Authenticates the caller via IAM and per-tenant workload identity ([CON-010](../00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles), [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities)); validates the request against the evaluation contract (stage, tenant/workload identifiers, content payload); enforces input-size limits ([CON-015](../00-source-of-truth/CONSTRAINTS.md#con-015--input-size-limits)) and establishes the per-request timeout budget ([CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits)) before any content reaches an evaluator. |
-| **Key inputs** | Raw evaluation request from a connector (LiteLLM connector, generic SDK, or Guarded Gateway) — tenant ID, workload ID, evaluation stage (`input` or `output` in the MVP; `seed.md` §9), content, optional caller-supplied correlation ID, IAM credentials. |
+| **Key inputs** | Raw evaluation request from a connector (LiteLLM connector, generic SDK, or Guarded Gateway) — tenant ID, workload ID, evaluation stage (`input` or `output` in the MVP; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)), content, optional caller-supplied correlation ID, IAM credentials. |
 | **Key outputs** | A validated internal evaluation-request object passed to RT-2; a structural/authentication rejection returned directly to the caller; a size- or timeout-budget violation routed to RT-6. Every accepted request carries a correlation identifier (assigned by RT-7 if the caller did not supply one). |
 | **Contract upheld** | Enforces the **one logical evaluation contract** ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes)) at the boundary: it accepts only contract-conformant requests regardless of which connector or deployment mode submitted them, so nothing downstream needs to special-case the caller. |
 
@@ -159,17 +159,17 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 |---|---|
 | **Responsibility** | Resolves the effective policy definition for a (tenant, workload) pair by looking up the active [policy binding](#cp-3--binding-manager) and the corresponding [policy version](#cp-2--policy-store-immutable-versions) from a **local cache**. The cache is kept current by asynchronous, non-blocking policy distribution from the Control Plane, so evaluation never depends on a synchronous control-plane call ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)). On control-plane unavailability, serves the last-known-good cached policy, subject to the workload's degraded-mode failure behavior. |
 | **Key inputs** | Tenant ID + workload ID (from RT-1); the local policy cache; an asynchronous policy-distribution feed sourced from CP-2, CP-3, and CP-4. |
-| **Key outputs** | A resolved policy (evaluation stages, evaluator configuration, thresholds, enforcement actions, failure behavior, audit behavior — `seed.md` §9) passed to RT-3; a "policy cannot be resolved" event routed to RT-6 when no binding or no usable cached version exists. |
+| **Key outputs** | A resolved policy (evaluation stages, evaluator configuration, thresholds, enforcement actions, failure behavior, audit behavior — [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)) passed to RT-3; a "policy cannot be resolved" event routed to RT-6 when no binding or no usable cached version exists. |
 | **Contract upheld** | Preserves **policy-version semantics** identically across deployment modes ([CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes)) and is the component that makes [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection) true in practice — the Runtime keeps evaluating during a Control Plane outage in every mode, not only Mode C. |
 
 ### RT-3 — Decision engine / decision normalization
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | Orchestrates the [evaluator adapter layer](#rt-4--evaluator-adapter-layer) according to the resolved policy's evaluation stages and evaluator configuration; aggregates per-evaluator findings; applies the policy's thresholds and enforcement actions; determines the final decision action consistent with the workload's current binding mode along the Disabled → Observe → Warn → Redact → Block progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)); and normalizes every result — whatever engine produced it — into the single `Decision` structure defined in the domain model (`seed.md` §9). |
+| **Responsibility** | Orchestrates the [evaluator adapter layer](#rt-4--evaluator-adapter-layer) according to the resolved policy's evaluation stages and evaluator configuration; aggregates per-evaluator findings; applies the policy's thresholds and enforcement actions; determines the final decision action consistent with the workload's current binding mode along the Disabled → Observe → Warn → Redact → Block progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)); and normalizes every result — whatever engine produced it — into the single `Decision` structure defined in the domain model ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). |
 | **Key inputs** | Resolved policy (from RT-2); per-evaluator findings (from RT-4), each already carrying its own reason code(s) and evaluator metadata; the workload's current binding mode (sourced, via the resolved policy/binding, from CP-3). |
 | **Key outputs** | A normalized `Decision` object — **action** (`allow`, `block`, `redact`, or `log_only` in Phases 1–2; `rewrite`, `discard`, `abstain`, `require_approval` are later-phase scope per [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)), **allowed status**, **reason codes**, **policy name and version**, **evaluator metadata**, **transformed content** where applicable, **correlation identifier**, **audit identifier**, and **evaluation latency** — returned via RT-1's response path and forwarded to RT-5. |
-| **Contract upheld** | This is the primary owner of the **normalized-decision contract** ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); `seed.md` §9 `Decision` entity). Every deployment mode and every evaluation engine must funnel through this single normalization point so that connectors and audit consumers never observe an evaluator- or vendor-specific response shape. |
+| **Contract upheld** | This is the primary owner of the **normalized-decision contract** ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) `Decision` entity). Every deployment mode and every evaluation engine must funnel through this single normalization point so that connectors and audit consumers never observe an evaluator- or vendor-specific response shape. |
 
 ### RT-4 — Evaluator adapter layer
 
@@ -177,9 +177,9 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 |---|---|
 | **Responsibility** | Translates the Runtime's internal evaluation call into each backing engine's native invocation, and translates that engine's native output back into a common **per-evaluator finding** (category, verdict/confidence, reason code(s), evaluator version, latency). This is the *only* place in the Runtime where vendor- or engine-specific logic or response formats are permitted to exist ([CON-003](../00-source-of-truth/CONSTRAINTS.md#con-003--no-coupling-to-litellm-configuration-structures), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats)). It houses four adapters at MVP scope: |
 | — | **Bedrock Guardrails adapter** — wraps Amazon Bedrock Guardrails as the first managed evaluation engine; normalizes Bedrock's native response format ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)). |
-| — | **Deterministic-rule evaluator** — executes organization-defined deterministic rules (`seed.md` §6.1). |
-| — | **PII evaluator** — performs basic sensitive-data handling/detection (`seed.md` §6.1). |
-| — | **Schema validator** — validates structured-output payloads against an expected schema (`seed.md` §9, §13). |
+| — | **Deterministic-rule evaluator** — executes organization-defined deterministic rules ([`SCOPE.md`](../10-charter/SCOPE.md)). |
+| — | **PII evaluator** — performs basic sensitive-data handling/detection ([`SCOPE.md`](../10-charter/SCOPE.md)). |
+| — | **Schema validator** — validates structured-output payloads against an expected schema ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md)). |
 | **Key inputs** | Content to evaluate, scoped by the resolved policy to only the evaluators and stage(s) it configures (from RT-3); per-evaluator configuration and thresholds (from the resolved policy). |
 | **Key outputs** | A normalized per-evaluator finding to RT-3 for each invoked evaluator; a detector-unavailable or detector-timeout event routed to RT-6 when an engine cannot respond within its stage timeout ([CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits)). |
 | **Contract upheld** | Guarantees that adding a new evaluation engine never requires a policy or connector change ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability)), as long as the adapter emits the standard finding shape. This is the structural mechanism behind the constraint that the public product contract must never couple to any one vendor's response format. |
@@ -188,7 +188,7 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | Emits the audit record for **every** evaluation — whether the normal decision path completed or a failure-behavior path was taken. Captures tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, and whether raw content was retained (`seed.md` §15). Buffers and archives audit events per the hosted-runtime AWS mapping in `seed.md` §11 (SQS buffer, S3 archive) and, in Customer-Managed Runtime deployments, integrates with the customer's own local audit stack (`seed.md` §3, Mode C diagram) instead of the hosted pipeline. |
+| **Responsibility** | Emits the audit record for **every** evaluation — whether the normal decision path completed or a failure-behavior path was taken. Captures tenant, workload, policy version, evaluation stage, decision, reason codes, evaluator versions, timestamp, correlation identifier, and whether raw content was retained ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)). Buffers and archives audit events per the hosted-runtime AWS mapping in [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) (SQS buffer, S3 archive) and, in Customer-Managed Runtime deployments, integrates with the customer's own local audit stack ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C diagram) instead of the hosted pipeline. |
 | **Key inputs** | The normalized `Decision` (from RT-3); the failure-path outcome (from RT-6, when applicable); the tenant's retention configuration (sourced from CP-1). |
 | **Key outputs** | An audit event delivered to the buffering/archive pipeline (hosted modes) or the local audit integration (Mode C); an audit identifier returned into the `Decision` object before RT-3 responds to the caller. |
 | **Contract upheld** | Upholds the shared **audit-metadata contract** across all three modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) and the "no undocumented fallback behavior" transparency requirement ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)) by always recording which path — normal or failure — produced a given decision, and by never persisting raw content unless the tenant has explicitly configured retention ([CON-014](../00-source-of-truth/CONSTRAINTS.md#con-014--no-raw-content-retention-by-default-in-the-hosted-runtime), [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured)). |
@@ -197,7 +197,7 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | Implements the workload's explicitly configured failure behavior for each of the six failure modes `seed.md` §5.7 requires a policy to define: the Evaluation API times out; a detector is unavailable; the policy cannot be resolved; the control plane is unavailable; audit delivery fails; a response cannot be safely transformed. Selects among the documented behaviors — allow and log, return a safe fallback, block the request, use a cached policy, require manual approval — strictly according to the policy's mandatory failure-behavior section, and refuses to apply any behavior the policy does not declare ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)). |
+| **Responsibility** | Implements the workload's explicitly configured failure behavior for each of the six failure modes [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) requires a policy to define: the Evaluation API times out; a detector is unavailable; the policy cannot be resolved; the control plane is unavailable; audit delivery fails; a response cannot be safely transformed. Selects among the documented behaviors — allow and log, return a safe fallback, block the request, use a cached policy, require manual approval — strictly according to the policy's mandatory failure-behavior section, and refuses to apply any behavior the policy does not declare ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)). |
 | **Key inputs** | Failure signals from RT-1 (size/timeout/auth), RT-2 (policy unresolved / control-plane unavailable), RT-4 (detector unavailable or timed out), RT-5 (audit delivery failure); the resolved policy's failure-behavior configuration. |
 | **Key outputs** | A substitute decision or action fed back into RT-3's normalization path — so the caller still receives a normalized `Decision`, now annotated with the failure path taken — or an explicit rejection when the policy specifies fail-closed behavior; a mandatory audit annotation delivered to RT-5 recording which failure path fired. |
 | **Contract upheld** | Guarantees **"no undocumented fallback behavior"** ([AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)) and that even a degraded or failed evaluation still returns a normalized `Decision`, never an ad hoc error shape — preserving the one-logical-contract requirement ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) even under failure. |
@@ -207,9 +207,9 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 | Field | Detail |
 |---|---|
 | **Responsibility** | Generates a correlation identifier at first ingress (RT-1) when the caller did not supply one, and threads that identifier unchanged through policy resolution (RT-2), evaluator adapter calls (RT-4), decision normalization (RT-3), audit production (RT-5), and the failure-behavior path (RT-6), and back to the connector. This is a **cross-cutting** concern threaded through every other Runtime component rather than a discrete processing stage. |
-| **Key inputs** | A connector-supplied correlation identifier, if present (`seed.md` §12 — the LiteLLM connector is responsible for "propagating correlation identifiers"); otherwise none. |
+| **Key inputs** | A connector-supplied correlation identifier, if present ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) — the LiteLLM connector is responsible for "propagating correlation identifiers"); otherwise none. |
 | **Key outputs** | A single correlation identifier embedded in every internal call between RT-1 and RT-6, in the final `Decision` object, and in the audit record — enabling a paired `input`/`output` evaluation for one logical request to be traced end-to-end. |
-| **Contract upheld** | Correlation identifier is a mandatory field of the `Decision` structure (`seed.md` §9) and of audit metadata (`seed.md` §15; "request correlation" is also a named security requirement in §14). This is what makes the one-logical-evaluation-contract requirement ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) traceable end-to-end, regardless of deployment mode. |
+| **Contract upheld** | Correlation identifier is a mandatory field of the `Decision` structure ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)) and of audit metadata ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md); "request correlation" is also a named security requirement in §14). This is what makes the one-logical-evaluation-contract requirement ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) traceable end-to-end, regardless of deployment mode. |
 
 ---
 
@@ -219,8 +219,8 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | System of record for the `Tenant` and `Workload` domain entities (`seed.md` §9): tenant identifier, ownership information, AWS account information, data classification, allowed Regions, retention configuration, deployment mode, and authentication configuration; workload identifier, tenant identifier, owner, environment, risk classification, gateway type, deployment mode, expected throughput, streaming requirements, assigned policy, and enforcement mode. Issues the **per-tenant workload identities** ([CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities)) that RT-1 authenticates against. |
-| **Key inputs** | Registration requests from the onboarding / "import" flow's "Register workload" step (`seed.md` §4); updates from product operators (`seed.md` §7). |
+| **Responsibility** | System of record for the `Tenant` and `Workload` domain entities ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)): tenant identifier, ownership information, AWS account information, data classification, allowed Regions, retention configuration, deployment mode, and authentication configuration; workload identifier, tenant identifier, owner, environment, risk classification, gateway type, deployment mode, expected throughput, streaming requirements, assigned policy, and enforcement mode. Issues the **per-tenant workload identities** ([CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities)) that RT-1 authenticates against. |
+| **Key inputs** | Registration requests from the onboarding / "import" flow's "Register workload" step ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)); updates from product operators ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md)). |
 | **Key outputs** | Tenant and workload records consumed by the [Binding manager](#cp-3--binding-manager); workload identity material consumed by RT-1; tenant retention configuration consumed by RT-5. |
 | **Contract upheld** | Is the sole authoritative source of "who is this tenant/workload" — every other component resolves tenant/workload identity through this registry rather than trusting a caller-supplied identifier alone ([CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies)). |
 
@@ -228,8 +228,8 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | System of record for the `Policy` domain entity (`seed.md` §9): policy name, policy version, evaluation stages, evaluator configuration, enforcement actions, thresholds, failure behavior, audit behavior, and compatibility metadata. Enforces that a published policy version is **immutable** (`seed.md` §15, "Policy rollout: Immutable versions") — any change produces a new version rather than mutating an existing one. |
-| **Key inputs** | Policy authoring and publication actions, owned organizationally by security and governance (`seed.md` §7, §21); compatibility metadata submitted at publication time. |
+| **Responsibility** | System of record for the `Policy` domain entity ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)): policy name, policy version, evaluation stages, evaluator configuration, enforcement actions, thresholds, failure behavior, audit behavior, and compatibility metadata. Enforces that a published policy version is **immutable** ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md), "Policy rollout: Immutable versions") — any change produces a new version rather than mutating an existing one. |
+| **Key inputs** | Policy authoring and publication actions, owned organizationally by security and governance ([`TARGET-USERS.md`](../20-product/TARGET-USERS.md), [`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)); compatibility metadata submitted at publication time. |
 | **Key outputs** | Versioned, immutable policy definitions consumed by the [Binding manager](#cp-3--binding-manager) and, via asynchronous policy distribution, by [RT-2](#rt-2--policy-resolver-with-local-policy-cache)'s local cache in every deployment mode. |
 | **Contract upheld** | Is the origin of the **policy-version semantics** that must stay compatible across all three deployment modes ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [CON-005](../00-source-of-truth/CONSTRAINTS.md#con-005--one-logical-evaluation-contract-across-all-modes)). Immutability is what lets RT-2's local cache, and RT-6's cached-policy failure path, be trusted as a faithful, unaltered copy of a specific version rather than something that could have silently drifted. |
 
@@ -237,8 +237,8 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | System of record for the `Policy binding` domain entity (`seed.md` §9): associates a workload with a specific policy version; records the workload's current mode along the Disabled → Observe → Warn → Redact → Block progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)); records allowed workload-specific overrides (deliberately bounded to limit the policy-fragmentation risk identified in `seed.md` §20), effective date, rollback version, and runtime compatibility requirements. |
-| **Key inputs** | Policy selection during onboarding (`seed.md` §4, "Select policy" step); promotion/rollback actions from the [Rollout controller](#cp-4--rollout-controller); workload and policy references from CP-1 and CP-2. |
+| **Responsibility** | System of record for the `Policy binding` domain entity ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)): associates a workload with a specific policy version; records the workload's current mode along the Disabled → Observe → Warn → Redact → Block progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)); records allowed workload-specific overrides (deliberately bounded to limit the policy-fragmentation risk identified in [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)), effective date, rollback version, and runtime compatibility requirements. |
+| **Key inputs** | Policy selection during onboarding ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), "Select policy" step); promotion/rollback actions from the [Rollout controller](#cp-4--rollout-controller); workload and policy references from CP-1 and CP-2. |
 | **Key outputs** | The active binding (workload → policy version → mode) consumed by [RT-2](#rt-2--policy-resolver-with-local-policy-cache) to determine which policy — and which enforcement mode — applies to a given workload's evaluations. |
 | **Contract upheld** | Makes binding-mode promotion an **explicit, auditable action** rather than an implicit side effect of another change ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)); keeps policy and connector concerns strictly separate ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors), [CON-006](../00-source-of-truth/CONSTRAINTS.md#con-006--policies-separate-from-connectors)), since a binding references only a policy version — never connector-specific configuration. |
 
@@ -246,10 +246,10 @@ All eleven components are expressed in terms of the six-entity domain model (ten
 
 | Field | Detail |
 |---|---|
-| **Responsibility** | Drives controlled promotion and rollback of policy versions across bound workloads: workload-scoped rollout, immediate rollback, compatibility validation before promotion, and evaluation-result comparison between an incoming and outgoing version (`seed.md` §15, "Policy rollout"). Is the mechanism behind the Phase 1–2 validation demonstration requirement that "a policy can be upgraded and rolled back" (`seed.md` §16; [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). |
+| **Responsibility** | Drives controlled promotion and rollback of policy versions across bound workloads: workload-scoped rollout, immediate rollback, compatibility validation before promotion, and evaluation-result comparison between an incoming and outgoing version ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md), "Policy rollout"). Is the mechanism behind the Phase 1–2 validation demonstration requirement that "a policy can be upgraded and rolled back" ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); [`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md)). |
 | **Key inputs** | Candidate policy version (from CP-2); current bindings (from CP-3); evaluation-result comparison data sourced from audit/telemetry produced by RT-5 — or, in Mode C, only whatever telemetry category the customer has chosen to share ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)). |
 | **Key outputs** | Binding updates (new version, rollback version) applied through CP-3; rollout/rollback events that flow into the same asynchronous policy-distribution feed that reaches RT-2's local cache in every deployment mode. |
-| **Contract upheld** | Upholds "controlled promotion" and "immediate rollback" as first-class, auditable operations (`seed.md` §15) and guarantees rollout decisions are propagated in a way that never breaks the one-logical-contract requirement ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) — the same rollout mechanism governs hosted and customer-managed runtimes alike, differing only in policy-distribution latency, never in contract shape. |
+| **Contract upheld** | Upholds "controlled promotion" and "immediate rollback" as first-class, auditable operations ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)) and guarantees rollout decisions are propagated in a way that never breaks the one-logical-contract requirement ([AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) — the same rollout mechanism governs hosted and customer-managed runtimes alike, differing only in policy-distribution latency, never in contract shape. |
 
 ---
 
@@ -259,7 +259,7 @@ Three contracts are shared across every component above and must never vary by d
 
 ### 6.1 Normalized decision contract
 
-Owned structurally by [RT-3](#rt-3--decision-engine--decision-normalization). Per the domain model (`seed.md` §9), a `Decision` must always contain:
+Owned structurally by [RT-3](#rt-3--decision-engine--decision-normalization). Per the domain model ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)), a `Decision` must always contain:
 
 | Field | Meaning |
 |---|---|
@@ -271,7 +271,7 @@ Owned structurally by [RT-3](#rt-3--decision-engine--decision-normalization). Pe
 | Transformed content | Present only when the action requires it (e.g., `redact`). |
 | Correlation identifier | See [§6.3](#63-correlation-identifier-contract) below. |
 | Audit identifier | Assigned by RT-5; links the decision to its audit record. |
-| Evaluation latency | Measured end-to-end for the request, supporting the P50/P95/P99 latency metrics required by `seed.md` §15. |
+| Evaluation latency | Measured end-to-end for the request, supporting the P50/P95/P99 latency metrics required by [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md). |
 
 No component other than RT-3 may emit a `Decision`-shaped object to a connector or to RT-5 — this is what prevents a vendor- or evaluator-specific shape from leaking past RT-4.
 
@@ -409,7 +409,7 @@ sequenceDiagram
     end
 ```
 
-The `output` stage follows the identical sequence, reusing the same correlation identifier established during the paired `input` evaluation (`seed.md` §12 — the LiteLLM connector is responsible for invoking both stages and propagating the correlation identifier between them).
+The `output` stage follows the identical sequence, reusing the same correlation identifier established during the paired `input` evaluation ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary) — the LiteLLM connector is responsible for invoking both stages and propagating the correlation identifier between them).
 
 ---
 
@@ -422,8 +422,8 @@ Per [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-mode
 | RT-1 Request intake / validation | Hosted (provider) | Hosted (provider), fronting the Guarded Gateway's input path | Deployed inside the customer's AWS account |
 | RT-2 Policy resolver + local cache | Hosted (provider); cache mainly a latency/availability optimization | Hosted (provider) | Deployed in the customer account; the cache is **load-bearing** — it is what satisfies [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection) |
 | RT-3 Decision engine | Hosted (provider) | Hosted (provider) | Deployed in the customer account |
-| RT-4 Evaluator adapter layer | Hosted (provider); Bedrock adapter calls Bedrock Guardrails from the provider side | Hosted (provider) | Deployed in the customer account; adapters call Bedrock Guardrails (or other configured engines) reachable from that account (`seed.md` §3, Mode C diagram: "Bedrock Guardrails adapter", "Custom evaluators") |
-| RT-5 Audit producer | Hosted (provider) SQS/S3 pipeline | Hosted (provider) SQS/S3 pipeline, combined with usage reporting | **Local audit integration** in the customer account (`seed.md` §3); only customer-selected telemetry categories — or none — reach the hosted control plane ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)) |
+| RT-4 Evaluator adapter layer | Hosted (provider); Bedrock adapter calls Bedrock Guardrails from the provider side | Hosted (provider) | Deployed in the customer account; adapters call Bedrock Guardrails (or other configured engines) reachable from that account ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode C diagram: "Bedrock Guardrails adapter", "Custom evaluators") |
+| RT-5 Audit producer | Hosted (provider) SQS/S3 pipeline | Hosted (provider) SQS/S3 pipeline, combined with usage reporting | **Local audit integration** in the customer account ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)); only customer-selected telemetry categories — or none — reach the hosted control plane ([AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime)) |
 | RT-6 Failure-behavior handler | Hosted (provider) | Hosted (provider) | Deployed in the customer account |
 | RT-7 Correlation propagation | End-to-end across connector ⇄ hosted runtime | End-to-end within the Guarded Gateway | End-to-end within the customer account; may also flow into the customer's own logs |
 | CP-1…CP-4 (all Control Plane components) | Always hosted by the provider; reached at onboarding/administration time, never on the synchronous evaluation path | Always hosted by the provider | Always hosted by the provider; reached **only asynchronously**, per [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection) — never a runtime-path dependency |
@@ -453,7 +453,7 @@ The following are intentionally left undefined here, consistent with source-of-t
 
 - **Reason-code taxonomy** — the enumerated code list, namespace convention, and versioning/governance process referenced in [§6.2](#62-reason-code-contract) is TBD; owned by a future policy-schema document, not this one.
 - **Input-size and timeout values enforced by RT-1/RT-4/RT-6** — the ceilings themselves are TBD per [CON-015](../00-source-of-truth/CONSTRAINTS.md#con-015--input-size-limits) and [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits); only the requirement that they exist and are explicit is architected here.
-- **Policy-compatibility validation algorithm** used by CP-4 before promotion — `seed.md` requires "compatibility validation" but does not specify its method; see [OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design) for the related open question on policy signing and inheritance.
+- **Policy-compatibility validation algorithm** used by CP-4 before promotion — the L1 registers require "compatibility validation" but does not specify its method; see [OQ-012](../00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design) for the related open question on policy signing and inheritance.
 - **Objective promotion criteria** (observe → enforce) that CP-4/CP-3 would gate on — tracked as [OQ-014](../00-source-of-truth/OPEN-QUESTIONS.md#oq-014--gono-go-criteria-to-move-a-workload-from-observe-to-enforce), not resolved by this document.
 - **Numeric availability/latency objectives** for RT-1 through RT-6 — TBD; the availability-topology question once tracked here as [OQ-016](../00-source-of-truth/OPEN-QUESTIONS.md#oq-016--multi-region-active-active-availability-need) is now **resolved** ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase), Status: Proposed — multi-region active-active committed as a later phase, not yet delivered); the remaining numeric-target gap is tracked at the requirements level in [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md).
 - **Customer-specific evaluator plugin governance** for a potential fifth RT-4 sub-component beyond the MVP's four — later-phase scope ([`../10-charter/SCOPE.md`](../10-charter/SCOPE.md)); see [OQ-013](../00-source-of-truth/OPEN-QUESTIONS.md#oq-013--customer-specific-evaluator-plugin-governance).

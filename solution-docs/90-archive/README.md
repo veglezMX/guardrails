@@ -3,7 +3,7 @@
 **Authority level:** L5
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -68,7 +68,7 @@ Several categories of "old" content are handled elsewhere and must **not** be mo
 | Architecture Decision Records, at any status (`Proposed`, `Accepted`, `Rejected`, `Superseded`) | Stay in [`50-architecture/adrs/`](../50-architecture/adrs/README.md) | ADRs have their own permanent, never-reused numbering and their own historical-record obligation; a `Superseded` ADR is retained in place, pointing forward to the ADR that replaced it, per the ADR index. |
 | Ordinary wording corrections, cross-link fixes, and other Path B edits | Git history | Archiving is for retiring a document's role or entire content, not for tracking incremental edits already covered by version control. |
 | L5 generated artifacts (rendered decks, one-page summaries, `80-agent-inputs/` digests) | Regenerated on demand, not preserved | Per `DOCUMENT-GOVERNANCE.md` §6.3 and §7, a stale generated artifact is simply regenerated from current L1–L4 content, not archived as a historical record. |
-| `seed.md` | Stays at the repository root | Treated as frozen historical input from the outset (`DOCUMENT-GOVERNANCE.md` §1) — it was never a live member of the L1–L5 hierarchy to begin with, so it cannot be "archived" out of it. |
+| The original solution charter | Removed; content absorbed into `solution-docs/` | Never archived here. It was never a live member of the L1–L5 hierarchy, so there was nothing to supersede — [`../00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) records where each of its sections now lives. It was never a live member of the L1–L5 hierarchy to begin with, so it cannot be "archived" out of it. |
 
 ---
 

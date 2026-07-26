@@ -3,7 +3,7 @@
 **Authority level:** L2
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md (AGR-021) + DECISIONS.md (DEC-009)
+**Derived from:** AGREEMENTS.md (AGR-021) + DECISIONS.md (DEC-009)
 
 ---
 
@@ -15,7 +15,7 @@ Three sentences govern how every entry below must be read:
 
 1. **The catalog is classification, not commitment.** It does not add anything to the defined-and-estimated full feature set (`CAP-001`–`CAP-034`, [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), and listing an item here does not schedule, resource, or promise it. Delivered and committed coverage is defined by [`CAPABILITIES.md`](CAPABILITIES.md) alone.
 2. **The architecture permits — but does not yet deliver — extension into most categories.** That is the only approved forward-looking framing for this catalog (see [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md)); any wording implying delivered or complete coverage of these categories is not approved.
-3. **Out-of-boundary entries are excluded, not deferred.** Where an entry's subject matter falls under a standing exclusion (seed.md §6.3) or under [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), it is classified `Out-of-boundary` with a named external owner, and must never be phrased as future work.
+3. **Out-of-boundary entries are excluded, not deferred.** Where an entry's subject matter falls under a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)) or under [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), it is classified `Out-of-boundary` with a named external owner, and must never be phrased as future work.
 
 This is a derived L2 document: it must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); where a conflict is found, those registers win and this catalog is corrected. The mechanics by which a category or item grows into delivered capability are defined in [`50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md).
 
@@ -67,7 +67,7 @@ Every category (and, where statuses differ within a category, every item) carrie
 | **Core (Phases 1–2)** | Delivered by the Phase 1–2 core platform; maps to a `CAP-001`–`CAP-017` capability. Same semantics as in [`CAPABILITIES.md`](CAPABILITIES.md). |
 | **Later phase — committed** | Part of the defined-and-estimated full solution (DEC-008), delivered in Phases 3–5; maps to a `CAP-018`–`CAP-034` capability or an `FR-078`–`FR-094` requirement. **Not available today.** |
 | **Vision — uncommitted** | Direction only. Outside the DEC-008 estimated feature set; not scheduled, not resourced, not estimated. May enter committed scope only via the graduation process ([`EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10). |
-| **Out-of-boundary → \<owner\>** | Excluded per seed.md §6.3 or [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization). Owned by the named external party. **Never a future deliverable of this product.** |
+| **Out-of-boundary → \<owner\>** | Excluded per [`SCOPE.md`](../10-charter/SCOPE.md) or [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization). Owned by the named external party. **Never a future deliverable of this product.** |
 
 ### Enforcement layer vocabulary
 
@@ -88,7 +88,7 @@ OWASP LLM-risk identifiers and NIST AI RMF functions appear per category **for o
 
 ### Stages
 
-The `Stages used` field draws on the reserved stage vocabulary of seed.md §9 (`input`, `output` now; `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` reserved for later phases). A stage marked **(proposed, not reserved)** exists only as a catalog candidate gated on [OQ-018](../00-source-of-truth/OPEN-QUESTIONS.md#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) and must not appear in policy schemas or contracts.
+The `Stages used` field draws on the reserved stage vocabulary of [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (`input`, `output` now; `retrieval`, `tool_call`, `tool_result`, `memory_write`, `final_response` reserved for later phases). A stage marked **(proposed, not reserved)** exists only as a catalog candidate gated on [OQ-018](../00-source-of-truth/OPEN-QUESTIONS.md#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) and must not appear in policy schemas or contracts.
 
 ### Reason codes
 
@@ -152,7 +152,7 @@ The process detail — who raises what, which registers change, and how the four
 | External mapping (orientation only) | OWASP LLM01 Prompt Injection, LLM07 System Prompt Leakage; NIST AI RMF Measure/Manage |
 | Related architecture | [`INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md) §3; [`COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md) RT-4 |
 
-Controls that prevent untrusted content from overriding, extracting, or weakening trusted instructions. Detection-scoped: the platform detects and blocks attack patterns; it does not claim to block all prompt injection (that claim is Not approved — [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) §1), and it ships no proprietary injection model (seed.md §6.3).
+Controls that prevent untrusted content from overriding, extracting, or weakening trusted instructions. Detection-scoped: the platform detects and blocks attack patterns; it does not claim to block all prompt injection (that claim is Not approved — [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) §1), and it ships no proprietary injection model ([`SCOPE.md`](../10-charter/SCOPE.md)).
 
 ### Items (illustrative, not change-controlled)
 
@@ -218,7 +218,7 @@ Prevent prohibited or inappropriate content from entering or leaving the system,
 | External mapping (orientation only) | OWASP LLM02 Sensitive Information Disclosure; NIST AI RMF Map/Manage |
 | Related architecture | [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) §3 |
 
-Prevent unauthorized exposure of sensitive information in evaluated content — detection plus `redact` enforcement. Explicitly **not** a complete DLP platform (seed.md §6.3): enterprise-wide data-loss prevention across channels, endpoints, and storage remains external.
+Prevent unauthorized exposure of sensitive information in evaluated content — detection plus `redact` enforcement. Explicitly **not** a complete DLP platform ([`SCOPE.md`](../10-charter/SCOPE.md)): enterprise-wide data-loss prevention across channels, endpoints, and storage remains external.
 
 ### Items (illustrative, not change-controlled)
 
@@ -233,11 +233,11 @@ Prevent unauthorized exposure of sensitive information in evaluated content — 
 | PHI-specific detection tiers | Health-information-specific entity coverage beyond the initial tier. | Vision — uncommitted |
 | Format-preserving masking / tokenization | Pseudonymization schemes preserving format for downstream systems. | Vision — uncommitted |
 | Consent-state and purpose-of-processing validation | Requires per-request consent context the contract does not carry; application-owned data. | Vision — uncommitted |
-| Enterprise DLP (channels, endpoints, storage) | Cross-channel data-loss prevention outside evaluated LLM content. | Out-of-boundary → enterprise DLP tooling (seed.md §6.3) |
+| Enterprise DLP (channels, endpoints, storage) | Cross-channel data-loss prevention outside evaluated LLM content. | Out-of-boundary → enterprise DLP tooling ([`SCOPE.md`](../10-charter/SCOPE.md)) |
 
 ### Boundary notes
 
-"Complete DLP platform" is a standing exclusion (seed.md §6.3). This category covers sensitive-data handling **within evaluated content** only; items implying enterprise-wide DLP are classified out-of-boundary permanently, not deferred.
+"Complete DLP platform" is a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)). This category covers sensitive-data handling **within evaluated content** only; items implying enterprise-wide DLP are classified out-of-boundary permanently, not deferred.
 
 ---
 
@@ -383,7 +383,7 @@ Validate outputs intended for software systems — schema conformance and determ
 | Deployment-mode support | Enforceable primarily in Mode B (provider operates the gateway); observational elsewhere |
 | Phase status | Vision — uncommitted, mixed — see items |
 | Related agreements | AGR-013, AGR-018 |
-| Related capabilities / requirements | CAP-002 (workload attributes); Phase 3 Guarded Gateway deliverables (routing, cost/rate controls — seed.md §18) |
+| Related capabilities / requirements | CAP-002 (workload attributes); Phase 3 Guarded Gateway deliverables (routing, cost/rate controls — [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | External mapping (orientation only) | OWASP LLM03 adjacent; NIST AI RMF Govern |
 | Related architecture | [`DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) §3 (Mode B) |
 
@@ -394,16 +394,16 @@ Control which models may be used and under what conditions. In Modes A and C the
 | Item | Description | Status |
 |---|---|---|
 | Workload gateway/model metadata registration | Gateway type and deployment mode recorded at registration (CAP-002). | Core (Phases 1–2) — registration only, not enforcement |
-| Per-tenant model routing (Mode B) | Guarded Gateway routes to configured providers per tenant. | Later phase — committed (Phase 3, seed.md §18) |
+| Per-tenant model routing (Mode B) | Guarded Gateway routes to configured providers per tenant. | Later phase — committed (Phase 3, [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | Approved-model allowlist / denylist enforcement | Platform-enforced model selection policy. | Vision — uncommitted |
 | Model-version pinning and deprecation handling | Version governance across workloads. | Vision — uncommitted |
 | Data-classification-to-model routing | Routing by data sensitivity; requires classification context. | Vision — uncommitted |
 | Inference parameter limits (temperature, max tokens) | Parameter governance at the gateway. | Vision — uncommitted (gateway-native today) |
-| Organization-wide AWS enforcement of guardrails (SCPs, AWS Organizations baselines) | Account-level mandatory enforcement across an organization. | Out-of-boundary → cloud platform team / AWS Organizations (seed.md §6.3) |
+| Organization-wide AWS enforcement of guardrails (SCPs, AWS Organizations baselines) | Account-level mandatory enforcement across an organization. | Out-of-boundary → cloud platform team / AWS Organizations ([`SCOPE.md`](../10-charter/SCOPE.md)) |
 
 ### Boundary notes
 
-"Organization-wide AWS enforcement" is a standing exclusion (seed.md §6.3). Mechanisms such as AWS Organizations policies can mandate Bedrock Guardrails account-wide, but operating that baseline is the cloud platform team's control, not this product's.
+"Organization-wide AWS enforcement" is a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)). Mechanisms such as AWS Organizations policies can mandate Bedrock Guardrails account-wide, but operating that baseline is the cloud platform team's control, not this product's.
 
 ---
 
@@ -422,7 +422,7 @@ Control which models may be used and under what conditions. In Modes A and C the
 | External mapping (orientation only) | OWASP LLM06 Excessive Agency; agentic-risk guidance (tool misuse, memory poisoning); NIST AI RMF Manage |
 | Related architecture | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) §11–§12 |
 
-Evaluate proposed tool invocations and tool results as **content**. A favorable decision means the call's name and arguments passed policy checks — it never means the principal is authorized to execute it (AGR-010). The product is not, and will not become, a general MCP security platform (seed.md §6.3); CAP-022 covers MCP-specific authorization controls only, and even that is narrower than platform-wide MCP security.
+Evaluate proposed tool invocations and tool results as **content**. A favorable decision means the call's name and arguments passed policy checks — it never means the principal is authorized to execute it (AGR-010). The product is not, and will not become, a general MCP security platform ([`SCOPE.md`](../10-charter/SCOPE.md)); CAP-022 covers MCP-specific authorization controls only, and even that is narrower than platform-wide MCP security.
 
 ### Items (illustrative, not change-controlled)
 
@@ -440,7 +440,7 @@ Evaluate proposed tool invocations and tool results as **content**. A favorable 
 
 ### Boundary notes
 
-The platform judges the **proposed call**; the agent runtime must enforce the decision and everything about execution (permissions, limits, kill switches) stays with the consuming application. Fully autonomous agent governance is a standing exclusion (seed.md §6.3).
+The platform judges the **proposed call**; the agent runtime must enforce the decision and everything about execution (permissions, limits, kill switches) stays with the consuming application. Fully autonomous agent governance is a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)).
 
 ---
 
@@ -459,7 +459,7 @@ The platform judges the **proposed call**; the agent runtime must enforce the de
 | External mapping (orientation only) | OWASP LLM06 adjacent; NIST AI RMF Govern |
 | Related architecture | [`SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md) §5, §11 |
 
-This category exists in the catalog **to name what the product will never own**. End-user authentication, business authorization, resource ownership, row/attribute-level access, transaction limits, delegation, and approval-authority decisions belong to the consuming application and its identity provider — permanently, per [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) and seed.md §6.3.
+This category exists in the catalog **to name what the product will never own**. End-user authentication, business authorization, resource ownership, row/attribute-level access, transaction limits, delegation, and approval-authority decisions belong to the consuming application and its identity provider — permanently, per [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization) and [`SCOPE.md`](../10-charter/SCOPE.md).
 
 Two narrow platform properties are related but are **not** guardrails in this category's sense:
 
@@ -523,7 +523,7 @@ Evaluate content before it is persisted to agent or assistant memory, preventing
 | Deployment-mode support | Mode B natively (provider gateway); Modes A/C gateway-native (team-owned) |
 | Phase status | Vision — uncommitted, mixed — see items; graduation gated on [OQ-017](../00-source-of-truth/OPEN-QUESTIONS.md#oq-017--token-and-cost-metadata-in-the-evaluation-contract) |
 | Related agreements | AGR-006 (contract change control), AGR-012 |
-| Related capabilities / requirements | Phase 3 cost/rate controls (seed.md §18); NFR-SCALE/NFR-PERF (platform's own limits) |
+| Related capabilities / requirements | Phase 3 cost/rate controls ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)); NFR-SCALE/NFR-PERF (platform's own limits) |
 | External mapping (orientation only) | OWASP LLM10 Unbounded Consumption; NIST AI RMF Manage |
 | Related architecture | [`OPERABILITY.md`](../50-architecture/OPERABILITY.md) §2; [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) |
 
@@ -534,8 +534,8 @@ Prevent denial-of-wallet, runaway consumption, and availability exhaustion. Toda
 | Item | Description | Status |
 |---|---|---|
 | Evaluation input-size limits and per-stage timeouts | Platform self-protection (CON-015/CON-016). | Core (Phases 1–2) — platform property |
-| Per-tenant/per-workload evaluation quotas | Platform-side quota enforcement (Phase 2 deliverable, seed.md §18). | Core (Phases 1–2) |
-| Gateway cost and rate controls (Mode B) | Guarded Gateway per-tenant cost/rate controls. | Later phase — committed (Phase 3, seed.md §18) |
+| Per-tenant/per-workload evaluation quotas | Platform-side quota enforcement (Phase 2 deliverable, [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). | Core (Phases 1–2) |
+| Gateway cost and rate controls (Mode B) | Guarded Gateway per-tenant cost/rate controls. | Later phase — committed (Phase 3, [AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) |
 | Token/cost budgets as guardrail policy | Policy-expressed spend limits requiring contract extension. | Vision — uncommitted (gated on OQ-017) |
 | Cost-anomaly / denial-of-wallet detection | Detection over usage telemetry. | Vision — uncommitted |
 | Model-invocation rate limiting (Modes A/C) | The team's own gateway enforces its limits (e.g., LiteLLM budgets). | Out-of-boundary → consuming team's gateway |
@@ -667,7 +667,7 @@ Protect models, evaluators, connectors, dependencies, and deployment artifacts. 
 | Customer-evaluator plugin review model | Security/compatibility review before third-party evaluator code runs. | Later phase — committed as a prerequisite of CAP-030 (OQ-013) |
 | Customer model provenance, dataset poisoning assessment | Provenance of the customer's models and training data. | Out-of-boundary → consuming team / model provider |
 | Customer CI/CD security (SBOM, image signing, IaC scanning) | The consuming team's delivery pipeline. | Out-of-boundary → consuming team's CI/CD |
-| MCP server registry and third-party tool approval | Which MCP servers/tools an organization allows. | Out-of-boundary → consuming organization (seed.md §6.3 — no general MCP security platform) |
+| MCP server registry and third-party tool approval | Which MCP servers/tools an organization allows. | Out-of-boundary → consuming organization ([`SCOPE.md`](../10-charter/SCOPE.md) — no general MCP security platform) |
 
 ---
 
@@ -682,7 +682,7 @@ Protect models, evaluators, connectors, dependencies, and deployment artifacts. 
 | Deployment-mode support | A / B hosted; C limited to customer-shared telemetry (AGR-016) |
 | Phase status | Core (Phases 1–2), mixed — see items |
 | Related agreements | AGR-011, AGR-016, AGR-018 |
-| Related capabilities / requirements | CAP-014, CAP-015; connector-health telemetry (seed.md §12) |
+| Related capabilities / requirements | CAP-014, CAP-015; connector-health telemetry ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)) |
 | External mapping (orientation only) | NIST AI RMF Measure/Manage |
 | Related architecture | [`OPERABILITY.md`](../50-architecture/OPERABILITY.md) §3, §6 |
 
@@ -730,7 +730,7 @@ Apply rules unique to a product, industry, or business process — deterministic
 | Customer-specific evaluator plugins | Custom evaluators behind the standard adapter contract. | Later phase — committed (CAP-030, FR-090; gated on OQ-013) |
 | Reference-data-backed validation (catalog, pricing, eligibility) | Checks against live business reference data; requires plugin mechanism plus data access. | Vision — uncommitted |
 | Brand-tone and communication-standard validation | Style/tone conformance evaluation. | Vision — uncommitted |
-| Business authorization (transaction approval, credit decisions, HR decisions) | Whether the business action may proceed. | Out-of-boundary → consuming application (AGR-010; seed.md §6.3) |
+| Business authorization (transaction approval, credit decisions, HR decisions) | Whether the business action may proceed. | Out-of-boundary → consuming application (AGR-010; [`SCOPE.md`](../10-charter/SCOPE.md)) |
 
 ### Boundary notes
 
@@ -740,9 +740,9 @@ A deterministic rule can check that generated text respects a refund-policy phra
 
 ## Out-of-boundary and exclusion map
 
-Standing exclusions (seed.md §6.3, reaffirmed by DEC-008) mapped to the categories they touch. Rows here are **excluded, not deferred** — each has a named external owner and none is a future deliverable of this product:
+Standing exclusions ([`SCOPE.md`](../10-charter/SCOPE.md), reaffirmed by DEC-008) mapped to the categories they touch. Rows here are **excluded, not deferred** — each has a named external owner and none is a future deliverable of this product:
 
-| Standing exclusion (seed.md §6.3) | Touches | External owner |
+| Standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)) | Touches | External owner |
 |---|---|---|
 | End-user authentication | GR-010 | Consuming application / identity provider |
 | Application business authorization | GR-010, GR-018, GR-009 | Consuming application |
@@ -754,7 +754,7 @@ Standing exclusions (seed.md §6.3, reaffirmed by DEC-008) mapped to the categor
 | Proprietary prompt-injection / moderation models | GR-001, GR-002 (build-approach exclusion) | n/a — the platform integrates engines, it does not train models |
 | General-purpose LLM gateway replacement | GR-008, GR-012 (gateway-native items) | Consuming team's gateway |
 
-Also externally owned without being seed.md §6.3 items: application UX obligations (GR-013 disclosure/appeals), execution-environment controls (GR-007 sandboxing, GR-009 agent limits), the consuming team's CI/CD (GR-007, GR-016), and RAG infrastructure (GR-005).
+Also externally owned without being [`SCOPE.md`](../10-charter/SCOPE.md) items: application UX obligations (GR-013 disclosure/appeals), execution-environment controls (GR-007 sandboxing, GR-009 agent limits), the consuming team's CI/CD (GR-007, GR-016), and RAG infrastructure (GR-005).
 
 ---
 

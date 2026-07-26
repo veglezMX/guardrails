@@ -3,11 +3,11 @@
 **Authority level:** L3
 **Status:** Draft
 **Date:** 2026-07-24
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
-> This document is **L3 — Product & architecture**. It operationalizes the availability, performance, policy-rollout, and auditing requirements stated in [`seed.md` §15](../../seed.md#15-operational-requirements), the failure-behavior agreement [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), the observe-before-enforce agreement [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), and the resource/operational-limit constraints [CON-015, CON-016](../00-source-of-truth/CONSTRAINTS.md#resource-and-operational-limits). Where anything below could be read as conflicting with [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), those documents win and this document must be corrected.
+> This document is **L3 — Product & architecture**. It operationalizes the availability, performance, policy-rollout, and auditing requirements stated in [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md), the failure-behavior agreement [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), the observe-before-enforce agreement [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), and the resource/operational-limit constraints [CON-015, CON-016](../00-source-of-truth/CONSTRAINTS.md#resource-and-operational-limits). Where anything below could be read as conflicting with [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1), those documents win and this document must be corrected.
 >
 > Numeric targets (availability percentages, latency budgets, retry counts, cache-staleness windows, cool-down durations) are **not yet defined** in the source material. Every such figure below is marked **TBD** rather than invented, per [`ASSUMPTIONS.md` ASM-011, ASM-012, ASM-013](../00-source-of-truth/ASSUMPTIONS.md). The availability-topology question that previously gated this — [`OPEN-QUESTIONS.md` OQ-016](../00-source-of-truth/OPEN-QUESTIONS.md#oq-016--multi-region-active-active-availability-need) — is now **resolved**: the platform is multi-region from GA with each tenant pinned to a single processing region ([`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga), Status: Proposed / [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md)), and multi-region active-active availability is committed as a later phase, not yet delivered ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase), Status: Proposed / [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md)). The *numeric* availability objective itself remains **TBD** — see [2.1](#21-availability-objective). This document defines the *shape* of each behavior — what must be defined, measured, and configurable — so that numeric targets can be filled in later without redesigning the runtime.
 
@@ -36,7 +36,7 @@
 
 ## 1. Purpose and scope
 
-This document defines how the AI Guardrails Runtime behaves under normal load, degraded conditions, and outright failure, and what must be measured, published, and actionable by an operator at any point in that spectrum. It covers, per [`seed.md` §15](../../seed.md#15-operational-requirements):
+This document defines how the AI Guardrails Runtime behaves under normal load, degraded conditions, and outright failure, and what must be measured, published, and actionable by an operator at any point in that spectrum. It covers, per [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md):
 
 * **Availability** — the objective, and the timeout, retry, cached-policy, degraded-mode, and circuit-breaker behaviors that support it.
 * **Performance** — the metrics the platform must measure to know whether the availability objective is being met.
@@ -52,15 +52,15 @@ Every requirement in this document is binding on the Evaluation API, the policy 
 
 ## 2. Availability
 
-The guardrail runtime sits synchronously on the request path of every consuming application ([`seed.md` §20](../../seed.md#20-key-risks), "Latency" risk). Availability behavior must therefore be defined explicitly rather than left to default library or framework behavior — an undefined timeout, retry, or fallback on this path can stall production inference indefinitely.
+The guardrail runtime sits synchronously on the request path of every consuming application ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md), "Latency" risk). Availability behavior must therefore be defined explicitly rather than left to default library or framework behavior — an undefined timeout, retry, or fallback on this path can stall production inference indefinitely.
 
 ### 2.1 Availability objective
 
 | Item | Status |
 | --- | --- |
-| Numeric availability target (e.g., a percentage uptime figure) for the Evaluation API | **TBD** — not defined in `seed.md`. The topology question once tracked here as [`OPEN-QUESTIONS.md` OQ-016](../00-source-of-truth/OPEN-QUESTIONS.md#oq-016--multi-region-active-active-availability-need) is now **resolved** by [`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed); the remaining numeric-target gap is tracked via [`ASSUMPTIONS.md` ASM-012](../00-source-of-truth/ASSUMPTIONS.md) and the Process row below. |
-| Topology assumption | Multi-region availability from GA, with each tenant pinned to a single processing Region — not active-active ([`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) (Status: Proposed) / [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md); see `DEPLOYMENT-ARCHITECTURE.md` §7.4). Multi-region active-active availability is committed as a **later phase**, not yet delivered ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed) / [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md)) — this supersedes the prior `seed.md` §6.3 exclusion. The two-account model ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model), amended) is retained. |
-| Success-metric linkage | "Evaluation API availability" is a tracked reliability success metric ([`seed.md` §19](../../seed.md#19-success-metrics)); the actively tracked, current value is maintained in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), not restated here. |
+| Numeric availability target (e.g., a percentage uptime figure) for the Evaluation API | **TBD** — not defined in the L1 registers. The topology question once tracked here as [`OPEN-QUESTIONS.md` OQ-016](../00-source-of-truth/OPEN-QUESTIONS.md#oq-016--multi-region-active-active-availability-need) is now **resolved** by [`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed); the remaining numeric-target gap is tracked via [`ASSUMPTIONS.md` ASM-012](../00-source-of-truth/ASSUMPTIONS.md) and the Process row below. |
+| Topology assumption | Multi-region availability from GA, with each tenant pinned to a single processing Region — not active-active ([`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) (Status: Proposed) / [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md); see `DEPLOYMENT-ARCHITECTURE.md` §7.4). Multi-region active-active availability is committed as a **later phase**, not yet delivered ([`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed) / [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md)) — this supersedes the prior [`SCOPE.md`](../10-charter/SCOPE.md) exclusion. The two-account model ([AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model), amended) is retained. |
+| Success-metric linkage | "Evaluation API availability" is a tracked reliability success metric ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)); the actively tracked, current value is maintained in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), not restated here. |
 | Process | A specific availability objective, together with the timeout, retry, cached-policy, and degraded-mode behaviors below, must be defined and socialized with pilot workloads before Phase 2 exit, and captured as a written non-functional requirement rather than an implicit expectation ([`ASSUMPTIONS.md` ASM-012](../00-source-of-truth/ASSUMPTIONS.md)). |
 
 Until a numeric objective is set, the runtime must still be built so that one can be enforced later without redesign: every dependency on the request path (policy resolution, evaluator adapters, audit delivery) must have an explicit timeout and an explicit, configured behavior for exceeding it (see [Section 7](#7-failure-behavior-is-explicit--no-undocumented-fallback)).
@@ -80,7 +80,7 @@ What happens when a timeout is reached is **not** a runtime default — it is a 
 
 ### 2.3 Retry behavior
 
-Retry behavior applies to the guardrail runtime's own calls to its dependencies (evaluation engines, the control plane, audit sinks) — it is distinct from, and must not be confused with, the consuming team's own retry and fallback behavior for **model invocation**, which remains the consuming team's responsibility in Mode A and Mode C ([`seed.md` §3](../../seed.md#3-core-architectural-decision), Mode A/C ownership lists).
+Retry behavior applies to the guardrail runtime's own calls to its dependencies (evaluation engines, the control plane, audit sinks) — it is distinct from, and must not be confused with, the consuming team's own retry and fallback behavior for **model invocation**, which remains the consuming team's responsibility in Mode A and Mode C ([AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), Mode A/C ownership lists).
 
 Principles that must hold regardless of numeric values (all **TBD**):
 
@@ -133,17 +133,17 @@ The failure-count threshold, timeout-rate threshold, and cool-down duration that
 
 ## 3. Performance metrics
 
-The platform must measure the following, per [`seed.md` §15](../../seed.md#15-operational-requirements). These are the metrics that turn the qualitative availability behaviors in [Section 2](#2-availability) into evidence an operator, a workload owner, or a security/governance reviewer can act on.
+The platform must measure the following, per [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md). These are the metrics that turn the qualitative availability behaviors in [Section 2](#2-availability) into evidence an operator, a workload owner, or a security/governance reviewer can act on.
 
 | Metric | Definition | Why it matters |
 | --- | --- | --- |
 | **P50 evaluation latency** | Median end-to-end latency of an evaluation request | Represents typical-case latency experienced by consuming applications |
-| **P95 evaluation latency** | 95th-percentile end-to-end evaluation latency | Tracked reliability success metric ([`seed.md` §19](../../seed.md#19-success-metrics)); the figure most commonly used to characterize "slow but not pathological" behavior |
+| **P95 evaluation latency** | 95th-percentile end-to-end evaluation latency | Tracked reliability success metric ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)); the figure most commonly used to characterize "slow but not pathological" behavior |
 | **P99 evaluation latency** | 99th-percentile end-to-end evaluation latency | Surfaces tail-latency behavior that P50/P95 can mask, and that is most likely to trigger circuit-breaker or timeout paths |
 | **Evaluation throughput** | Evaluations processed per unit time, by stage and by workload | Required for capacity planning and for validating the runtime against actual (not assumed) workload volume ([`ASSUMPTIONS.md` ASM-001](../00-source-of-truth/ASSUMPTIONS.md)) |
-| **Timeout rate** | Proportion of evaluations that exceed their configured timeout, by stage and by detector | Tracked reliability success metric ([`seed.md` §19](../../seed.md#19-success-metrics)); directly informs [Section 2.2](#22-timeout-behavior) and circuit-breaker tuning ([Section 2.6](#26-circuit-breaker-behavior)) |
-| **Detector-specific latency** | Latency contribution of each individual evaluator adapter (Bedrock Guardrails adapter, deterministic evaluator, PII evaluator, schema validator, and future adapters) | Lets an operator or policy author identify which evaluator is responsible for a stage's latency, and supports the "apply only relevant evaluators" latency mitigation ([`seed.md` §20](../../seed.md#20-key-risks), "Latency" risk) |
-| **Decision distribution** | Count of evaluations by normalized decision (`allow`, `block`, `redact`, `log_only`, and future actions), by policy version and by workload | Surfaces policy behavior in aggregate; feeds [evaluation-result comparison between versions](#4-policy-rollout) and the effectiveness success metrics in [`seed.md` §19](../../seed.md#19-success-metrics) |
+| **Timeout rate** | Proportion of evaluations that exceed their configured timeout, by stage and by detector | Tracked reliability success metric ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)); directly informs [Section 2.2](#22-timeout-behavior) and circuit-breaker tuning ([Section 2.6](#26-circuit-breaker-behavior)) |
+| **Detector-specific latency** | Latency contribution of each individual evaluator adapter (Bedrock Guardrails adapter, deterministic evaluator, PII evaluator, schema validator, and future adapters) | Lets an operator or policy author identify which evaluator is responsible for a stage's latency, and supports the "apply only relevant evaluators" latency mitigation ([`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md), "Latency" risk) |
+| **Decision distribution** | Count of evaluations by normalized decision (`allow`, `block`, `redact`, `log_only`, and future actions), by policy version and by workload | Surfaces policy behavior in aggregate; feeds [evaluation-result comparison between versions](#4-policy-rollout) and the effectiveness success metrics in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) |
 | **Policy-cache hit rate** | Proportion of evaluations served from a cached, already-resolved policy version versus a fresh resolution | Directly measures the effectiveness of [cached-policy behavior](#24-cached-policy-behavior) and is a leading indicator of policy-resolution latency and failure risk |
 
 **Numeric targets** for each metric (for example, an acceptable P95 latency ceiling, an acceptable timeout-rate threshold) are **TBD**; per [`ASSUMPTIONS.md` ASM-011](../00-source-of-truth/ASSUMPTIONS.md), these must be measured against actual pilot-workload traffic during Observe mode, before any workload is promoted to Enforce. The related reliability and effectiveness success-metric definitions are maintained in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) rather than duplicated here.
@@ -156,7 +156,7 @@ All metrics must be attributable by **tenant**, **workload**, **policy version**
 
 ## 4. Policy rollout
 
-Policies are **immutable, versioned artifacts** ([`seed.md` §9](../../seed.md#9-core-domain-model), Policy entity; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). A published policy version is never edited in place — a change is always a new version. This is what makes controlled promotion, comparison, and rollback possible without ambiguity about what was actually running at a given time.
+Policies are **immutable, versioned artifacts** ([AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), Policy entity; [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model)). A published policy version is never edited in place — a change is always a new version. This is what makes controlled promotion, comparison, and rollback possible without ambiguity about what was actually running at a given time.
 
 ```mermaid
 flowchart LR
@@ -171,13 +171,13 @@ flowchart LR
 
 | Rollout requirement | What it means | Source |
 | --- | --- | --- |
-| **Immutable versions** | Once published, a policy version's content never changes; a new version number is required for any change. Audit records reference the exact version in force at evaluation time. | [`seed.md` §9](../../seed.md#9-core-domain-model) (Policy), §15 |
+| **Immutable versions** | Once published, a policy version's content never changes; a new version number is required for any change. Audit records reference the exact version in force at evaluation time. | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Policy), §15 |
 | **Observe mode** | Every new policy version defaults to Observe when first bound to a workload — never directly to Block. Onboarding workflows must not bypass this default. | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) |
 | **Controlled promotion** | Moving a binding from one enforcement state to the next (Disabled → Observe → Warn → Redact → Block) is an explicit, auditable action taken deliberately by a workload owner and, per current working practice, jointly with security/governance — never an implicit side effect of another change. | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression); [`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) (promotion-gate question) |
-| **Workload-scoped rollout** | A policy version's promotion is scoped to one policy binding (one workload) at a time; promoting for one workload does not implicitly promote the same version for every other workload bound to it. | [`seed.md` §9](../../seed.md#9-core-domain-model) (Policy binding) |
-| **Immediate rollback** | A workload's binding can be reverted to its prior policy version at any time, without waiting for a scheduled release; the binding entity records a rollback version for exactly this purpose. | [`seed.md` §9](../../seed.md#9-core-domain-model) (Policy binding — "Rollback version") |
-| **Compatibility validation** | A candidate policy version must be validated against the runtime's supported schema and the workload's declared runtime-compatibility requirements before it can be bound or promoted. | [`seed.md` §9](../../seed.md#9-core-domain-model) (Policy — "Compatibility metadata"; Policy binding — "Runtime compatibility requirements") |
-| **Evaluation-result comparison between versions** | The runtime (or an offline replay process) must be able to compare the decisions produced by an old and a candidate policy version against the same evaluated content, to surface regressions before promotion. | [`seed.md` §15](../../seed.md#15-operational-requirements) |
+| **Workload-scoped rollout** | A policy version's promotion is scoped to one policy binding (one workload) at a time; promoting for one workload does not implicitly promote the same version for every other workload bound to it. | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Policy binding) |
+| **Immediate rollback** | A workload's binding can be reverted to its prior policy version at any time, without waiting for a scheduled release; the binding entity records a rollback version for exactly this purpose. | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Policy binding — "Rollback version") |
+| **Compatibility validation** | A candidate policy version must be validated against the runtime's supported schema and the workload's declared runtime-compatibility requirements before it can be bound or promoted. | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Policy — "Compatibility metadata"; Policy binding — "Runtime compatibility requirements") |
+| **Evaluation-result comparison between versions** | The runtime (or an offline replay process) must be able to compare the decisions produced by an old and a candidate policy version against the same evaluated content, to surface regressions before promotion. | [`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md) |
 
 A **quantitative or procedural promotion gate** (for example, a maximum acceptable false-positive rate, or a minimum observation period before promotion is allowed) is **not yet defined** in the source material; promotion currently remains a manual, jointly owned decision informed by the Observe-mode metrics required above (false-positive rate, latency, decision distribution), with rationale captured in audit metadata regardless. This gap is tracked as an open question and must not be resolved by inventing a numeric threshold here.
 
@@ -187,16 +187,16 @@ Policy rollout mechanics must behave identically across all three deployment mod
 
 ## 5. Auditing metadata
 
-Every evaluation — regardless of decision outcome, and regardless of whether it completed normally or via a configured failure-behavior path — must produce an audit record containing at least the following fields ([`seed.md` §15](../../seed.md#15-operational-requirements)):
+Every evaluation — regardless of decision outcome, and regardless of whether it completed normally or via a configured failure-behavior path — must produce an audit record containing at least the following fields ([`NON-FUNCTIONAL-REQUIREMENTS.md`](NON-FUNCTIONAL-REQUIREMENTS.md)):
 
 | Field | Description | Related constraint |
 | --- | --- | --- |
 | **Tenant** | The tenant the evaluated workload belongs to | [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities) (per-tenant workload identity) |
 | **Workload** | The specific workload the evaluation was performed for | [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities) |
 | **Policy version** | The exact immutable policy version in force at evaluation time | [Section 4](#4-policy-rollout) (immutable versions) |
-| **Evaluation stage** | Which stage was evaluated (`input`, `output`, or a future stage) | [`seed.md` §9](../../seed.md#9-core-domain-model) (Evaluation) |
-| **Decision** | The normalized decision produced (`allow`, `block`, `redact`, `log_only`, or a future action) | [`seed.md` §9](../../seed.md#9-core-domain-model) (Decision) |
-| **Reason codes** | The normalized reason code(s) explaining the decision | [`seed.md` §9](../../seed.md#9-core-domain-model) (Decision) |
+| **Evaluation stage** | Which stage was evaluated (`input`, `output`, or a future stage) | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Evaluation) |
+| **Decision** | The normalized decision produced (`allow`, `block`, `redact`, `log_only`, or a future action) | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Decision) |
+| **Reason codes** | The normalized reason code(s) explaining the decision | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) (Decision) |
 | **Evaluator versions** | Version identifiers of every evaluator/adapter that contributed to the decision | Supports [detector-specific latency](#3-performance-metrics) attribution and reproducibility |
 | **Timestamp** | When the evaluation occurred | Baseline audit requirement |
 | **Correlation identifier** | The identifier propagated across the request, connector, runtime, and any retries, that ties the audit record back to one logical evaluation | [Section 2.3](#23-retry-behavior) (correlation identifier preserved across retries) |
@@ -208,7 +208,7 @@ Additional operational conditions must also be reflected in the audit record whe
 * Whether the evaluation was performed while the runtime was in **degraded mode**, and which dependency was unavailable ([Section 2.5](#25-degraded-operating-mode)).
 * Which **failure-behavior path** was taken, if the evaluation could not complete normally ([Section 7](#7-failure-behavior-is-explicit--no-undocumented-fallback)) — required per [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy).
 
-Per [`seed.md` §11](../../seed.md#11-aws-implementation-direction), audit events are intended to be buffered (Amazon SQS) and archived (Amazon S3) with KMS encryption at rest ([CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest)). **Audit delivery success rate** is itself a tracked reliability success metric ([`seed.md` §19](../../seed.md#19-success-metrics)); what happens when audit delivery itself fails is governed by the workload's failure behavior ([Section 7](#7-failure-behavior-is-explicit--no-undocumented-fallback)), not by silent event loss.
+Per [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md), audit events are intended to be buffered (Amazon SQS) and archived (Amazon S3) with KMS encryption at rest ([CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest)). **Audit delivery success rate** is itself a tracked reliability success metric ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)); what happens when audit delivery itself fails is governed by the workload's failure behavior ([Section 7](#7-failure-behavior-is-explicit--no-undocumented-fallback)), not by silent event loss.
 
 ---
 
@@ -216,7 +216,7 @@ Per [`seed.md` §11](../../seed.md#11-aws-implementation-direction), audit event
 
 ### 6.1 Metrics
 
-The performance metrics in [Section 3](#3-performance-metrics) are the primary quantitative observability signal, intended for the operational-metrics AWS service named in [`seed.md` §11](../../seed.md#11-aws-implementation-direction) (Amazon CloudWatch). All metrics must be attributable by tenant, workload, policy version, and evaluation stage. Guardrail category ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)) is a planned fifth attribution dimension, gated on the reason-code taxonomy ([OQ-019](../00-source-of-truth/OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension)) — see the note in Section 3.
+The performance metrics in [Section 3](#3-performance-metrics) are the primary quantitative observability signal, intended for the operational-metrics AWS service named in [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) (Amazon CloudWatch). All metrics must be attributable by tenant, workload, policy version, and evaluation stage. Guardrail category ([`../20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md)) is a planned fifth attribution dimension, gated on the reason-code taxonomy ([OQ-019](../00-source-of-truth/OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension)) — see the note in Section 3.
 
 ### 6.2 Logs and correlation
 
@@ -233,7 +233,7 @@ A runtime that is live but not ready must be removed from active traffic routing
 
 ### 6.4 Connector-health telemetry
 
-Connectors (starting with the LiteLLM connector) are responsible for emitting connector-health telemetry ([`seed.md` §12](../../seed.md#12-litellm-integration)) — evidence that the connector is installed, invoking evaluation as expected, and correctly propagating correlation identifiers and enforcement decisions. Per [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies) and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), connector-health telemetry is a useful operational signal but must **never** be treated as evidence of mandatory enforcement — a connector can always be disabled, removed, or misconfigured in the cooperative-integration trust model.
+Connectors (starting with the LiteLLM connector) are responsible for emitting connector-health telemetry ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)) — evidence that the connector is installed, invoking evaluation as expected, and correctly propagating correlation identifiers and enforcement decisions. Per [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies) and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), connector-health telemetry is a useful operational signal but must **never** be treated as evidence of mandatory enforcement — a connector can always be disabled, removed, or misconfigured in the cooperative-integration trust model.
 
 ### 6.5 Customer-managed telemetry categories
 
@@ -288,7 +288,7 @@ The following table maps observable signals to likely causes and first-response 
 | Circuit breaker Open for a dependency | Consecutive failures or a sustained timeout-rate breach against that dependency | Confirm downstream dependency health directly; do not manually force-close the breaker until the underlying dependency is confirmed healthy; monitor Half-open trial outcomes |
 | P99 latency spike with normal P50/P95 | Tail-latency issue — likely a specific slow evaluator, a policy-resolution stall, or GC/resource contention | Correlate with detector-specific latency and policy-cache hit rate; check for policy-resolution timeouts specifically |
 | Policy-cache hit rate drops sharply | Control-plane connectivity issue, cache invalidation storm, or a large batch of newly bound workloads | Check control-plane reachability and policy-synchronization health first (especially for Mode C); confirm whether degraded mode ([Section 2.5](#25-degraded-operating-mode)) has been entered |
-| Audit delivery success rate drops | Audit sink (queue/archive) unavailable or throttled | Check the audit-buffering/archival path directly (Amazon SQS / Amazon S3 per [`seed.md` §11](../../seed.md#11-aws-implementation-direction)); confirm the workload's configured audit-delivery-failure behavior is active as expected, not silently dropping events |
+| Audit delivery success rate drops | Audit sink (queue/archive) unavailable or throttled | Check the audit-buffering/archival path directly (Amazon SQS / Amazon S3 per [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md)); confirm the workload's configured audit-delivery-failure behavior is active as expected, not silently dropping events |
 | A workload's decision distribution shifts sharply after a policy promotion | The newly promoted policy version behaves differently than the version it replaced | Use evaluation-result comparison ([Section 4](#4-policy-rollout)) against the prior version; if the shift is a regression, execute immediate rollback ([Section 4](#4-policy-rollout)) |
 | Connector-health telemetry stops reporting for a workload | Connector removed, disabled, or misconfigured (cooperative-integration risk) | Treat as a connector-bypass signal, not a runtime outage; do **not** treat resumed telemetry alone as proof of enforcement ([Section 6.4](#64-connector-health-telemetry); [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)) |
 | Readiness check failing while liveness passes | A dependency required for evaluation (policy resolution, a mandatory evaluator) is unreachable and no valid degraded-mode path is configured | Remove the instance from active routing; escalate as a policy-configuration gap if no degraded-mode behavior was defined for the affected dependency |

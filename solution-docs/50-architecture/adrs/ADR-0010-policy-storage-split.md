@@ -3,7 +3,7 @@
 **Authority level:** L1 (once Accepted)
 **Status:** Draft
 **Date:** 2026-07-26
-**Derived from:** seed.md + AGREEMENTS.md
+**Derived from:** AGREEMENTS.md
 
 ---
 
@@ -19,7 +19,7 @@ While this ADR reads `Proposed` it binds no one.
 
 ## Context
 
-`seed.md` §11 names policy storage as **"DynamoDB or versioned S3"** and leaves the choice open. [`TRADE-OFFS.md` §6](../TRADE-OFFS.md) analyses both and reaches a recommendation, but records it explicitly as *"recommended, not yet an AGR,"* and states that if accepted it should become an agreement and its own ADR.
+[`DEPLOYMENT-ARCHITECTURE.md`](../DEPLOYMENT-ARCHITECTURE.md) names policy storage as **"DynamoDB or versioned S3"** and leaves the choice open. [`TRADE-OFFS.md` §6](../TRADE-OFFS.md) analyses both and reaches a recommendation, but records it explicitly as *"recommended, not yet an AGR,"* and states that if accepted it should become an agreement and its own ADR.
 
 That recommendation has sat unratified while every downstream document assumes storage works. It is load-bearing in three places:
 
@@ -37,16 +37,16 @@ Policy state is divided by **how it is read**, not by what it is called:
 
 | What | Store | Why |
 | --- | --- | --- |
-| **Bindings** — which policy version a workload is bound to, its mode, effective date, rollback version, compatibility requirements | Low-latency key-value store (**DynamoDB**), the same store already required for the workload registry (`seed.md` §11) | Read once per evaluation on the hot path, by workload identity. One store for both registry and binding lookups |
+| **Bindings** — which policy version a workload is bound to, its mode, effective date, rollback version, compatibility requirements | Low-latency key-value store (**DynamoDB**), the same store already required for the workload registry ([`DEPLOYMENT-ARCHITECTURE.md`](../DEPLOYMENT-ARCHITECTURE.md)) | Read once per evaluation on the hot path, by workload identity. One store for both registry and binding lookups |
 | **Policy documents** — the immutable versioned content itself | Object store with native versioning (**versioned S3**) | Immutability is native rather than schema-encoded; a versioned object is the natural artifact to distribute, checksum, and cache locally |
 
-This is **not** an either/or between the two services `seed.md` §11 names. It is a division of responsibility between them, and the division follows the two genuinely different access patterns the platform has.
+This is **not** an either/or between the two services [`DEPLOYMENT-ARCHITECTURE.md`](../DEPLOYMENT-ARCHITECTURE.md) names. It is a division of responsibility between them, and the division follows the two genuinely different access patterns the platform has.
 
 ### 2. Bindings are append-only
 
 Rollback writes a **new binding record and supersedes the prior one**. Nothing is mutated in place and nothing is deleted.
 
-This is what makes two required capabilities queryable rather than aspirational: "immediate rollback" (`seed.md` §15) becomes writing a record rather than restoring one, and "evaluation-result comparison between versions" (`seed.md` §15) becomes a query over history rather than an archaeology exercise. It also gives [ADR-0007](./ADR-0007-connector-identity-verification-and-liveness.md)'s workload lifecycle a durable place to record decommissioning without losing history.
+This is what makes two required capabilities queryable rather than aspirational: "immediate rollback" ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../NON-FUNCTIONAL-REQUIREMENTS.md)) becomes writing a record rather than restoring one, and "evaluation-result comparison between versions" ([`NON-FUNCTIONAL-REQUIREMENTS.md`](../NON-FUNCTIONAL-REQUIREMENTS.md)) becomes a query over history rather than an archaeology exercise. It also gives [ADR-0007](./ADR-0007-connector-identity-verification-and-liveness.md)'s workload lifecycle a durable place to record decommissioning without losing history.
 
 ### 3. The policy document is the distribution artifact
 
@@ -74,7 +74,7 @@ This ADR does **not** decide:
   **Why not chosen:** Immutability must then be encoded in the schema rather than provided by the store, so "immutable version" becomes a convention any write path can violate. Distribution to Mode C also becomes a live read against the hosted control plane or a bespoke export, which is precisely the synchronous dependency [AGR-015](../../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection) forbids.
 
 - **Alternative: one store for everything (object store only).**
-  **Why not chosen:** Binding resolution is a per-evaluation, hot-path lookup by workload identity. An object store is the wrong shape for it, and the workload registry already requires a key-value store (`seed.md` §11) — so this option adds a second store's latency without removing the first.
+ **Why not chosen:** Binding resolution is a per-evaluation, hot-path lookup by workload identity. An object store is the wrong shape for it, and the workload registry already requires a key-value store ([`DEPLOYMENT-ARCHITECTURE.md`](../DEPLOYMENT-ARCHITECTURE.md)) — so this option adds a second store's latency without removing the first.
 
 - **Alternative: defer the choice and let implementation settle it.**
   **Why not chosen:** This is the current state, and it is the reason this ADR exists. The choice determines whether immutability is structural or conventional and whether Mode C distribution is natural or bespoke — both too consequential to be settled by whoever writes the first storage adapter.
