@@ -18,6 +18,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [2026-07-25 — Evaluation contract wire format and enforcement-ladder reconciliation](#2026-07-25--evaluation-contract-wire-format-and-enforcement-ladder-reconciliation)
 - [2026-07-24 — Guardrail-category catalog and extensibility architecture](#2026-07-24--guardrail-category-catalog-and-extensibility-architecture)
 - [2026-07-24 — Initial documentation set](#2026-07-24--initial-documentation-set)
 
@@ -50,6 +51,39 @@
 
 ### Security
 - _Nothing._
+
+---
+
+## [2026-07-25] — Evaluation contract wire format and enforcement-ladder reconciliation
+
+**Change type:** Path B (new ADRs at `Proposed`, plus derived-document corrections; no L1 register amended)
+**Trigger:** A pre-implementation consistency review of the architecture set found one contradiction and one structural gap that would each have been resolved arbitrarily by whoever wrote code first: the AGR-011 five-state enforcement ladder shares two identifiers (`Redact`, `Block`) with the §3.4 decision-action set while `Warn` has no action at all; and [AGR-006](00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)'s requirement that contract changes be "versioned and evaluated for backward compatibility before release" had no versionable artifact to operate on.
+**Owner:** Technical lead, architecture lead (joint; security and governance lead co-owner on ADR-0004)
+
+### Added
+- [`adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md`](50-architecture/adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) — **Proposed.** The ladder state is a *ceiling* on the emitted action, held on the policy binding as `enforcement_state` and reported on the decision. `Warn` is distinguished from `Observe` by that field rather than by a fifth action; `disabled` skips evaluators but still produces a decision and an audit record; reason codes are invariant across all five states. AGR-011 is expressed, not relaxed — all five states survive.
+- [`adrs/ADR-0005-evaluation-contract-wire-format.md`](50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md) — **Proposed.** JSON over HTTPS with SigV4; URI major versioning; an OpenAPI 3.1 document generated from the runtime's own models and gated by a CI golden diff; RFC 9457 error bodies; and the rule that any completed evaluation returns `200` whatever its action, so a policy block never travels the client's error path.
+- [`50-architecture/INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) **§3.8 — Enforcement-ladder states and the action set**, applying ADR-0004 at the contract level.
+- [`adrs/README.md`](50-architecture/adrs/README.md) backlog candidate **Client-side failure behaviour and configuration distribution** — §4.4 requires a connector to apply its workload's configured timeout and failure behaviour, but that configuration resolves server-side and the timeout case is precisely when the server is unreachable. Named as an explicit open gap in ADR-0005's scope boundaries.
+
+### Changed
+- [`50-architecture/INTEGRATION-ARCHITECTURE.md`](50-architecture/INTEGRATION-ARCHITECTURE.md) §3.2 and §3.3 now cite ADR-0005 as the normative serialization of the field sets they describe, and §3.3 records that `guardrail_category` (DEC-013 / ADR-0003) and `enforcement_state` (ADR-0004) are carried from the first release rather than added later. §3.4 gains a pointer to §3.8 distinguishing actions from ladder states.
+- [`50-architecture/EXTENSIBILITY-ARCHITECTURE.md`](50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §5 (seam 3 — new decision action): the `warn` exclusion is generalized to `warn` **and** `disabled`, cites ADR-0004 for the underlying rule that an identifier may name a binding state or a decision action but never both, and records that a new action must declare its position in the `allow < log_only < redact < block` severity order because ladder states clamp against it.
+- [`adrs/README.md`](50-architecture/adrs/README.md) — ADR-0004 and ADR-0005 added to the Current ADRs index; the **API + SDK integration model** backlog candidate marked partially fulfilled by ADR-0005, with its client-side half explicitly still open.
+
+### Deprecated
+- _Nothing._
+
+### Removed
+- _Nothing._
+
+### Fixed
+- The `Warn` ladder state was previously unimplementable: no document said what action a `Warn` binding produced, and `EXTENSIBILITY-ARCHITECTURE.md` §5 forbids a `warn` action. FR-051 marks all five states MVP scope. ADR-0004 §3 closes this.
+- The `Disabled` ladder state had no defined evaluation or audit semantics, leaving no evidence distinguishing a deliberately disabled workload from a removed connector — a gap directly relevant to the connector-bypass risk (`TECHNICAL-RISKS.md` R1) and to AGR-018's requirement that enforcement posture be recorded and visible. ADR-0004 §4 closes this.
+- An internal inconsistency in ADR-0005's own first draft was corrected before publication: it had classified a new response-enum value as a *minor* change on the strength of a fail-closed client rule, which contradicts `EXTENSIBILITY-ARCHITECTURE.md` §5's position that "unknown-action tolerance is **not** acceptable for enforcement clients." Bind-time compatibility refusal is now primary and the fail-closed rule is a backstop; a new action is a **major** contract change following the full seam-3 process.
+
+### Security
+- _Nothing._ Both ADRs are contract-shape decisions; the transport, identity, and encryption controls of `SECURITY-ARCHITECTURE.md` are cited, not changed.
 
 ---
 

@@ -115,7 +115,7 @@ A worked decomposition: "memory-write guardrails" (catalog [GR-011](../20-produc
 
 | Candidate | Classification | Reason |
 |---|---|---|
-| `warn` | **Not an action — a binding mode.** | `Warn` is a state on the AGR-011 enforcement ladder (Disabled → Observe → Warn → Redact → Block), recorded on the policy binding (CP-3), not a per-decision instruction. Introducing a `warn` action would create two meanings for one word across the same contract. |
+| `warn`, `disabled` | **Not actions — binding states. Permanently excluded.** | Both are states on the AGR-011 enforcement ladder (Disabled → Observe → Warn → Redact → Block), recorded on the policy binding (CP-3) as `enforcement_state`, not per-decision instructions. Introducing either as an action would create two meanings for one word across the same contract. [ADR-0004](adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) generalizes this rule — an identifier may name a binding state or a decision action, never both — and resolves the pre-existing overlap for `Redact` and `Block` by making the ladder state a *ceiling* on the emitted action rather than a parallel vocabulary. `Warn` is distinguished from `Observe` by the `enforcement_state` field on the decision, not by a fifth action. |
 | `terminate`, `revoke` | **Control-plane operations, not decision actions.** | Stopping a workflow, suspending a workload, revoking a credential are administrative operations against control-plane entities, with their own authorization and audit path — not values a per-content evaluation returns. |
 | `regenerate`, `quarantine`, `safe_fallback` | **Proposed, not reserved.** | Plausible future actions; each needs its own OQ→AGR path. Note `safe_fallback` already exists as *failure behavior* (AGR-012) — reserving it as an action would need to reconcile the two meanings first. |
 
@@ -126,7 +126,7 @@ A worked decomposition: "memory-write guardrails" (catalog [GR-011](../20-produc
 4. Extend conformance fixtures across all three modes; extend the decision-distribution metric enumeration ([`OPERABILITY.md`](OPERABILITY.md) §3).
 5. Update: `INTEGRATION-ARCHITECTURE.md` §3.4 action table, `GLOSSARY.md` action entry, catalog items that referenced the action as vision.
 
-**Constraints inherited.** CON-005 (identical across modes); AGR-011 (the action must compose sensibly with observe mode — in Observe, every action's effect degrades to recorded-not-applied); AGR-012 (its failure paths must be declarable).
+**Constraints inherited.** CON-005 (identical across modes); AGR-011 (the action must compose sensibly with the enforcement ladder — per [ADR-0004](adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) a new action must declare its position in the severity order `allow < log_only < redact < block`, since ladder states clamp against that order; in Observe every action's effect degrades to recorded-not-applied); AGR-012 (its failure paths must be declarable).
 
 **Governance gate.** Always register-level: an action changes what every connector must implement, so it is never an engineering-local decision.
 

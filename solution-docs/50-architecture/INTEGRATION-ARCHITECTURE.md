@@ -95,6 +95,8 @@ The MVP initially limits evaluated content to user/model input and model output 
 
 ### 3.2 Evaluation request (conceptual shape)
 
+> The field set below is conceptual. Its **normative serialization** — JSON field names, HTTP path, status-code mapping, error envelope, and version scheme — is defined in [ADR-0005](adrs/ADR-0005-evaluation-contract-wire-format.md). Where this table and that ADR could be read as differing, the ADR governs the wire and this table governs the meaning.
+
 An evaluation request carries, at minimum:
 
 | Field | Purpose |
@@ -124,6 +126,8 @@ A decision is the normalized result of an evaluation, regardless of which evalua
 
 This structure is identical whether the decision was produced by a hosted Evaluation API call (Mode A/B) or a customer-managed runtime (Mode C) — see [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md).
 
+Two fields join this set from decisions recorded elsewhere and are carried from the first release rather than added later: **`guardrail_category`** ([DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) / [ADR-0003](adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md)) and **`enforcement_state`** ([ADR-0004](adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md), see [§3.8](#38-enforcement-ladder-states-and-the-action-set)). The normative serialization of the whole set is [ADR-0005](adrs/ADR-0005-evaluation-contract-wire-format.md).
+
 ### 3.4 Enforcement actions
 
 | Action | Meaning | Status |
@@ -135,6 +139,8 @@ This structure is identical whether the decision was produced by a hosted Evalua
 | `rewrite` / `discard` / `abstain` / `require_approval` | Additional normalized actions. | Future scope |
 
 These four MVP actions are what every connector — LiteLLM or otherwise — must be able to enforce ([seed.md §9](../../seed.md)).
+
+An action is **what happened to a request**. It is not the same vocabulary as the five enforcement-ladder states of [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), which describe **how strongly a workload's binding is being enforced** — even though `Redact` and `Block` appear in both lists. See [§3.8](#38-enforcement-ladder-states-and-the-action-set) for how the two relate; `warn` and `disabled` are ladder states and are permanently excluded from the action vocabulary.
 
 ### 3.5 Reason codes
 
@@ -153,6 +159,34 @@ Every decision names the exact immutable policy version that produced it. Polici
 ### 3.7 Latency
 
 Evaluation latency is a first-class decision field, not an out-of-band metric. It rolls up into platform-level P50/P95/P99 evaluation latency, timeout rate, and detector-specific latency measurements used for both reliability reporting and the observe-mode graduation described in [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression).
+
+### 3.8 Enforcement-ladder states and the action set
+
+[AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) and [FR-051](REQUIREMENTS.md) require five enforcement-ladder states — Disabled → Observe → Warn → Redact → Block — represented per policy, per workload. §3.4 defines four decision actions. Two names, `Redact` and `Block`, appear in both vocabularies, and `Warn` has no corresponding action. [ADR-0004](adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) resolves this.
+
+> **Status.** ADR-0004 currently reads `Proposed` and therefore binds no one; AGR-011 and §3.4 remain the standing authorities. This section records the reconciliation the ADR proposes so it can be reviewed in context. On ratification to `Accepted`, the ADR becomes L1 and this section becomes its derived statement — at which point [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) §1.5 and §1.7 must be updated to carry `enforcement_state` (ADR-0004, Validation required §4).
+
+The rules are:
+
+**The ladder state lives on the policy binding**, as the attribute `enforcement_state`, and nowhere else. A `Policy` carries no enforcement state ([`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md) §1.4), which is what allows one policy version to serve many workloads at different rollout maturities.
+
+**The state is a ceiling on the emitted action, never a selector.** The decision engine computes the action the policy calls for, then clamps it to the ceiling. The severity order is `allow < log_only < redact < block`. A policy calling for a *less* severe action than the ceiling permits is never escalated.
+
+| `enforcement_state` | Evaluators run | Ceiling | Emitted when the policy calls for `block` |
+| --- | --- | --- | --- |
+| `disabled` | **No** | `allow` | `allow` |
+| `observe` | Yes | `log_only` | `log_only` |
+| `warn` | Yes | `log_only` | `log_only` |
+| `redact` | Yes | `redact` | `redact` |
+| `block` | Yes | `block` | `block` |
+
+**`enforcement_state` is reported on the decision.** This is what distinguishes `warn` from `observe` without inventing a fifth action: under `observe` the client proceeds silently, while under `warn` the client proceeds *and* surfaces the decision's reason codes to the caller or operator. How it surfaces them is client-specific — a response header, a log line, a response annotation — and is deliberately not fixed here, because the LiteLLM connector, the SDK, and a custom gateway have different affordances.
+
+**`disabled` still calls the Evaluation API and still produces an audit record.** Evaluators are skipped, the decision is `allow` with empty reason codes, and the record is written. A client cannot know its binding state without calling, and the record is what distinguishes a deliberately disabled workload from a removed connector — the distinction [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) requires enforcement posture to make.
+
+**Clamping changes the action only.** Reason codes, `guardrail_category`, evaluator metadata, and confidence are identical for identical input at every ladder state. This is what makes observe→enforce promotion measurable, and what gives the Phase 1–2 validation demonstration's "consistent normalized decisions" a testable meaning ([`../60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) VAL-002).
+
+**A `redact` ceiling that cannot be satisfied is a failure, not a fallback.** Where a binding in state `redact` meets a policy calling for `block` but the evaluator produced no usable spans, the `transform_failed` behaviour of [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) applies — never a silent downgrade to `allow` or upgrade to `block`.
 
 ---
 
