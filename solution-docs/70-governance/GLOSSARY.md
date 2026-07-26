@@ -19,7 +19,7 @@ Figures, dates, and thresholds are not restated here beyond what `seed.md` speci
 
 ## Quick index
 
-[Action](#action-allow--block--redact--log_only) · [AI Guardrails](#ai-guardrails) · [Audit metadata](#audit-metadata) · [Bedrock Guardrails](#bedrock-guardrails) · [Category-namespaced reason code](#category-namespaced-reason-code) · [Connector](#connector) · [Control plane](#control-plane) · [Control type](#control-type) · [Correlation identifier](#correlation-identifier) · [Customer-Managed Runtime](#customer-managed-runtime) · [Data plane](#data-plane) · [Decision](#decision) · [Deterministic evaluator](#deterministic-evaluator) · [Enforce mode](#enforce-mode) · [Enforcement layer](#enforcement-layer) · [Evaluation](#evaluation) · [Evaluation contract](#evaluation-contract) · [Evaluator adapter](#evaluator-adapter) · [Extension seam](#extension-seam) · [Failure behavior](#failure-behavior) · [Governance class](#governance-class) · [Graduation](#graduation) · [Guarded Gateway](#guarded-gateway) · [Guardrail category](#guardrail-category) · [Guardrail item](#guardrail-item) · [Guardrail policy](#guardrail-policy) · [Import](#import) · [LiteLLM](#litellm) · [Mandatory policy](#mandatory-policy) · [Observe mode](#observe-mode) · [PII evaluator](#pii-evaluator) · [Policy binding](#policy-binding) · [Policy inheritance (v0)](#policy-inheritance-v0) · [Policy pack](#policy-pack) · [Redaction](#redaction) · [Reason code](#reason-code) · [Remote Evaluation](#remote-evaluation) · [Tenant](#tenant) · [Vision — uncommitted](#vision--uncommitted) · [Workload](#workload)
+[Action](#action-allow--block--redact--log_only) · [AI Guardrails](#ai-guardrails) · [Audit metadata](#audit-metadata) · [Bedrock Guardrails](#bedrock-guardrails) · [Category-namespaced reason code](#category-namespaced-reason-code) · [Connector](#connector) · [Control plane](#control-plane) · [Control type](#control-type) · [Correlation identifier](#correlation-identifier) · [Customer-Managed Runtime](#customer-managed-runtime) · [Data plane](#data-plane) · [Decision](#decision) · [Deterministic evaluator](#deterministic-evaluator) · [Enforce mode](#enforce-mode) · [Enforcement layer](#enforcement-layer) · [Evaluation](#evaluation) · [Evaluation contract](#evaluation-contract) · [Evaluator adapter](#evaluator-adapter) · [Extension seam](#extension-seam) · [Failure behavior](#failure-behavior) · [Governance class](#governance-class) · [Graduation](#graduation) · [Guarded Gateway](#guarded-gateway) · [Guardrail category](#guardrail-category) · [Guardrail item](#guardrail-item) · [Guardrail policy](#guardrail-policy) · [Import](#import) · [Integration manifest](#integration-manifest) · [LiteLLM](#litellm) · [Mandatory policy](#mandatory-policy) · [Observe mode](#observe-mode) · [PII evaluator](#pii-evaluator) · [Policy binding](#policy-binding) · [Policy inheritance (v0)](#policy-inheritance-v0) · [Policy pack](#policy-pack) · [Redaction](#redaction) · [Reason code](#reason-code) · [Remote Evaluation](#remote-evaluation) · [Tenant](#tenant) · [Vision — uncommitted](#vision--uncommitted) · [Workload](#workload)
 
 ---
 
@@ -99,9 +99,19 @@ See also: [Reason code](#reason-code), [Guardrail category](#guardrail-category)
 
 ### Connector
 
-The component that defines **how** a specific gateway or application invokes and enforces a [guardrail policy](#guardrail-policy) — for example, mapping requests into the evaluation contract, invoking input/output evaluation, and applying block or redact decisions. A connector must never embed policy logic, thresholds, or detection rules; this separation from policy is mandatory ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)). [LiteLLM](#litellm) is the first supported connector.
+The component that defines **how** a specific gateway or application invokes and enforces a [guardrail policy](#guardrail-policy) — for example, mapping requests into the evaluation contract, invoking input/output evaluation, and applying block or redact decisions. A connector must never embed policy logic, thresholds, or detection rules; this separation from policy is mandatory ([AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors)). [LiteLLM](#litellm) is the first supported connector, but not the product boundary ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)).
 
-See also: [Guardrail policy](#guardrail-policy), [LiteLLM](#litellm), [Import](#import).
+**"Install connector" means three different things, depending on connector type.** The onboarding flow ([Import](#import)) uses one phrase for all three, and the workload's **connector type** attribute is what disambiguates:
+
+| Connector type | What "install" means |
+| --- | --- |
+| Gateway plugin (e.g. LiteLLM) | Install a published plugin artifact into the gateway and configure it from the integration manifest |
+| Generic SDK | Add the published SDK as a dependency and add evaluation calls at the application's own input and output points |
+| Consumer-operated custom gateway | **Nothing is installed.** The consuming team implements the evaluation contract directly and demonstrates conformance ([AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)) |
+
+In all three cases the connector's responsibilities, its non-responsibilities, and its cooperative status ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)) are identical — only the installation mechanics differ. Distribution and integrity of the published artifacts are specified in [ADR-0008](../50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md); how the platform learns which connector is actually running is specified in [ADR-0007](../50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md).
+
+See also: [Guardrail policy](#guardrail-policy), [LiteLLM](#litellm), [Import](#import), [Integration manifest](#integration-manifest).
 
 ---
 
@@ -293,7 +303,19 @@ Register workload → Select policy → Generate integration manifest
   → Enable enforcement
 ```
 
-See also: [Policy binding](#policy-binding), [Connector](#connector), [Observe mode](#observe-mode).
+See also: [Policy binding](#policy-binding), [Connector](#connector), [Observe mode](#observe-mode), [Integration manifest](#integration-manifest).
+
+---
+
+### Integration manifest
+
+The generated, shareable configuration artifact a consuming team receives at the "generate integration manifest" step of [Import](#import) and installs alongside its [connector](#connector). It carries workload identity, the bound policy name and version, enforcement mode, deployment mode and Evaluation API endpoint, connector type and supported version range, per-stage timeouts, client-side [failure behavior](#failure-behavior), and required runtime capabilities.
+
+A manifest is a **file**, not a screen: version-controllable, reviewable in a pull request, and shareable between teams. It is **derived from a [policy binding](#policy-binding)** and is never authoritative at evaluation time — the runtime resolves the effective policy and mode server-side regardless of what a manifest asserts. It is **not a credential**: the workload identity it carries is an identifier, authentication remains IAM-based, and possession grants no access.
+
+A manifest must never contain model-provider credentials, gateway administration endpoints, model-routing configuration, any reference requiring access to a consuming team's LiteLLM database, or any platform secret ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [ADR-0006](../50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md)).
+
+See also: [Import](#import), [Policy binding](#policy-binding), [Connector](#connector), [Failure behavior](#failure-behavior).
 
 ---
 

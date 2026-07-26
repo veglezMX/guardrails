@@ -18,6 +18,8 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [2026-07-26b — Connector lifecycle and the pre-implementation decision backlog](#2026-07-26b--connector-lifecycle-and-the-pre-implementation-decision-backlog)
+- [2026-07-26 — Integration manifest defined](#2026-07-26--integration-manifest-defined)
 - [2026-07-25 — Evaluation contract wire format and enforcement-ladder reconciliation](#2026-07-25--evaluation-contract-wire-format-and-enforcement-ladder-reconciliation)
 - [2026-07-24 — Guardrail-category catalog and extensibility architecture](#2026-07-24--guardrail-category-catalog-and-extensibility-architecture)
 - [2026-07-24 — Initial documentation set](#2026-07-24--initial-documentation-set)
@@ -51,6 +53,92 @@
 
 ### Security
 - _Nothing._
+
+---
+
+## [2026-07-26b] — Connector lifecycle and the pre-implementation decision backlog
+
+**Change type:** Path B (nine new ADRs at `Proposed`, one new open question, glossary additions; no L1 register amended)
+**Trigger:** Continuation of the pre-implementation review that produced ADR-0005 and ADR-0006. Two sweeps: the **connector lifecycle**, where three accepted requirements (FR-006, FR-016, FR-075) rest on a fact the platform cannot currently obtain; and the **decision backlog** — the structural choices that a pre-implementation design pass identified as load-bearing and unrecorded, each of which would otherwise be settled arbitrarily by whoever wrote code first.
+**Owner:** Technical lead, architecture lead (joint; security and governance lead co-owner on ADR-0008, ADR-0009, ADR-0014; platform operations lead co-owner on ADR-0007, ADR-0015)
+
+### Added
+
+**Connector lifecycle**
+- [`adrs/ADR-0007-connector-identity-verification-and-liveness.md`](50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md) — **Proposed.** Compatibility validation is two-phase: *declared* at bind time, *observed* at request time, and neither alone satisfies FR-016. Connector identity travels as an optional request field (minor under ADR-0005 §2), is self-reported and therefore explicitly not a security control. A workload stays in `pending verification` until an evaluation has been observed at every stage its policy declares — making a half-wired connector visible. Bound workloads that stop evaluating are reported stale, and an explicit decommissioning action exists because without it staleness becomes alert noise and the only detection capability cooperative posture offers is destroyed.
+- [`adrs/ADR-0008-connector-distribution-and-integrity.md`](50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md) — **Proposed.** Named per-ecosystem publication channels, connector versioning independent of the contract/policy/product versions but declaring which contract majors it speaks, integrity verifiable at installation, documented privilege, and an artifact carrying no policy and no credential.
+
+**Decision backlog**
+- [`adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md`](50-architecture/adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md) — **Proposed.** Every failure-behavior key required, **no defaults**; capability-based evaluator selection; immutable versions; retention off unless opted in.
+- [`adrs/ADR-0010-policy-storage-split.md`](50-architecture/adrs/ADR-0010-policy-storage-split.md) — **Proposed.** Ratifies `TRADE-OFFS.md` §6's standing recommendation: key-value for hot-path bindings, versioned object storage for immutable documents, append-only bindings, one artifact for both storage and Mode C distribution.
+- [`adrs/ADR-0011-policy-distribution-and-caching.md`](50-architecture/adrs/ADR-0011-policy-distribution-and-caching.md) — **Proposed.** Runtimes pull; resolution reads local state only in every mode; refresh failure never fails an evaluation; staleness measured and bounded; "immediate rollback" means immediate *at the control plane*, converging within the refresh interval.
+- [`adrs/ADR-0012-client-bootstrap-configuration.md`](50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md) — **Proposed.** A dedicated configuration retrieval path seeded by the integration manifest; a never-configured client **refuses to evaluate** rather than defaulting to allow; losing contact never un-configures a client; the channel carries no policy.
+- [`adrs/ADR-0013-runtime-capability-manifest.md`](50-architecture/adrs/ADR-0013-runtime-capability-manifest.md) — **Proposed.** Runtimes publish capabilities (never implementations), fail to start on unsatisfiable configuration, and unsatisfiable bindings are refused at bind time.
+- [`adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md`](50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) — **Proposed.** Rejected requests and client-synthesized decisions both produce audit records; the client store is bounded, content-free, and visibly lossy; client-origin records are never presented as equivalent to platform observations.
+- [`adrs/ADR-0015-runtime-deployment-target.md`](50-architecture/adrs/ADR-0015-runtime-deployment-target.md) — **Proposed.** Containers on ECS Fargate behind an ALB, chosen because Phase 4 ships this runtime into customer accounts as a container and a second packaging path would falsify the `seed.md` §16 criterion.
+
+**Registers**
+- [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) **OQ-022 — Connector version support window and deprecation policy**, under a new section **K. Client lifecycle**. `PROOF-POINTS.md` already commits externally that a connector must be "maintained by the consuming team" — an obligation with no terms, and no answer for a workload that never migrates when ADR-0005 §2's migration window closes.
+- [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) **Integration manifest** entry, and a table in the **Connector** entry recording that "install connector" means three different things by connector type — a plugin install, an SDK dependency plus call sites, or (for a custom gateway) nothing installed at all.
+
+**Registration of the nine ADRs into the requirement and capability registers**
+- [`50-architecture/REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) **FR-101–FR-127** (27 requirements) and four new sections: **§13 Policy distribution and caching**, **§14 Runtime capability manifest and bind-time compatibility**, **§15 Connector identity, installation verification, and liveness**, **§16 Client distribution, configuration, and conformance**. Former §13–§15 renumbered to §17–§19.
+- [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) **CAP-039** (connector installation verification and liveness), **CAP-040** (published, verifiable client artifacts), **CAP-041** (client conformance suite).
+- **FR-127** — the generic SDK must offer both synchronous and asynchronous surfaces over one shared transport, configuration source, and failure-behavior path, so adopting guardrails never forces a consuming application onto an asynchronous runtime.
+- **FR-126 / CAP-041 close a gap found during the final extraction sweep.** [`INTEGRATION-ARCHITECTURE.md` §5](50-architecture/INTEGRATION-ARCHITECTURE.md) states that a conformance suite *"can"* validate any new connector — a property of the design, never a committed artifact. With a consumer-operated custom gateway in Phase 1–2 scope ([AGR-003](00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)) and the glossary now stating that such a team "demonstrates conformance," the suite must be a published deliverable or that obligation has nothing behind it.
+
+### Changed
+- [`adrs/README.md`](50-architecture/adrs/README.md) — ADR-0007 through ADR-0015 added to the Current ADRs index with summaries; backlog candidates updated: **client-side failure behaviour and configuration distribution** closed by ADR-0012, **event-driven policy distribution** closed by ADR-0011, **separate control plane and data plane** partially addressed by ADR-0010/ADR-0011, **support managed and standalone deployment** compute target settled by ADR-0015.
+
+### Deprecated
+- _Nothing._
+
+### Removed
+- _Nothing._
+
+### Fixed
+- **FR-006, FR-016, and FR-075 were unimplementable on the connector side.** All three require validating compatibility against "the resolving runtime/**connector** version," and no document stated how the platform learns which connector version a workload runs. The integration manifest carries the *expected* range, so the check compared an expectation against itself. ADR-0007 §1–§2 closes this.
+- **`CONTAINER-ARCHITECTURE.md` §7.1's explicit TBD** on policy-distribution transport, on which AGR-015, "immediate rollback," the policy-cache-hit metric, and TECHNICAL-RISKS R7 all depend. ADR-0011 closes it.
+- **`TRADE-OFFS.md` §6's "recommended, not yet an AGR"** policy-storage note, which asked to be recorded as an agreement and its own ADR. ADR-0010 does so.
+- **The binding's "Runtime compatibility requirements" attribute** (`DATA-ARCHITECTURE.md` §1) was defined and unused. ADR-0013 activates it.
+- **The bootstrap gap ADR-0005 named in its own scope boundaries** — a client is required to apply configuration that resolves server-side, at the moment the server is unreachable. ADR-0012 closes it.
+- **"ECS Fargate or EKS" and "API Gateway or ALB"** were repeated across `CONTAINER-ARCHITECTURE.md` and `INVESTMENT-SUMMARY.md` without either being chosen. ADR-0015 resolves both.
+
+### Security
+- ADR-0008 addresses a supply-chain surface no document covered: the connector executes **inside the consuming team's gateway process, on the request path, with access to every prompt and response** that workload handles, while the Mode C runtime container — which runs in an account its operator controls — already had a fully specified supply chain. Integrity verification is required to be possible, documented, and part of the installation instructions.
+- ADR-0007 §2 and ADR-0014 §4 both state explicitly that self-reported client data is operationally valuable and **not evidentiary**, preserving CON-012 and AGR-018 against the most likely misuse — aggregating client self-reports into figures that read as platform observations.
+
+---
+
+## [2026-07-26] — Integration manifest defined
+
+**Change type:** Path B (new ADR at `Proposed`, plus a new capability, requirements, and an open question; no L1 register amended)
+**Trigger:** A review of the onboarding flow found that "integration manifest" — named in [AGR-019](00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import) and repeated across the charter, product, executive, sales-deck, architecture, delivery, and governance layers — had no definition anywhere. The same defect ADR-0005 found in the evaluation contract, one step earlier in the flow: a load-bearing named artifact that every document references and none specifies.
+**Owner:** Product lead, technical lead (joint)
+
+### Added
+- [`adrs/ADR-0006-integration-manifest-format-and-contents.md`](50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md) — **Proposed.** The manifest is a generated, schema-validated, secret-free YAML **file** a consuming team commits, reviews, and shares — not a screen. It is derived from a policy binding and never authoritative at evaluation time; one shape serves all three deployment modes; and its **prohibited-contents list turns AGR-019's trust commitments into schema constraints checkable in CI** rather than review discipline.
+- [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) **CAP-038 — Integration manifest generation.** Core (Phases 1–2), dependent on the workload registry and bindings. Generation is API-first, so a later policy-catalog surface is one consumer of it rather than the only way to obtain a manifest.
+- [`50-architecture/REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) **FR-095–FR-100** — manifest as a shareable file; required contents; prohibited contents; the manifest is not a credential; the manifest is not authoritative at evaluation time; one shape across all three modes.
+- [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) **OQ-021 — Policy-selection cardinality in the onboarding flow.** Curated policy packs organised by guardrail category invite selecting several, but a binding associates exactly one workload with exactly one immutable policy version. Whether "select policy" means one version or a composed set must be settled before any selection surface is designed; sequenced with the [OQ-012](00-source-of-truth/OPEN-QUESTIONS.md#oq-012--policy-signing-and-policy-inheritance-design) inheritance work.
+
+### Changed
+- [`50-architecture/REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) §3 now records that the binding is what a manifest is generated from, and implements CAP-038 alongside CAP-003; the functional-area map gains the manifest-generation step between binding and connectors; the traceability summary and requirement counts updated (100 requirements, 82 MVP).
+- [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) capability count summary: 38 cataloged capabilities, 18 core.
+- [`adrs/README.md`](50-architecture/adrs/README.md) — ADR-0006 added to the Current ADRs index with a summary.
+
+### Deprecated
+- _Nothing._
+
+### Removed
+- _Nothing._
+
+### Fixed
+- **[EO-B1](30-executive/EXPECTED-OUTCOMES.md) was unverifiable.** It commits to the onboarding flow "implemented end to end," with "generate integration manifest" as an explicit step, while no artifact existed to point at. ADR-0006 gives that step something demonstrable.
+- **AGR-019's prohibitions were unenforceable.** The agreement forbids import requiring model-provider credentials, gateway administration access, model-routing configuration, or LiteLLM database access — all constraints on what the manifest carries, and uncheckable against an undefined object. FR-097 and ADR-0006 §4 make them schema constraints.
+
+### Security
+- The manifest is explicitly **not a credential** (FR-098, ADR-0006 §5): the workload identity it carries is an identifier, authentication remains IAM-based per [CON-010](00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles), and possession grants no access. This is what permits a manifest to be committed and shared; any future proposal to embed a credential is a proposal to make it unshareable and must be recorded as such.
 
 ---
 

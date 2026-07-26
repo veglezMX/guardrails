@@ -47,9 +47,13 @@ This document is deliberately more granular than [`../20-product/CAPABILITIES.md
 - [10. Decision-metadata audit](#10-decision-metadata-audit)
 - [11. Evaluation latency and performance metrics](#11-evaluation-latency-and-performance-metrics)
 - [12. Policy promotion and rollback](#12-policy-promotion-and-rollback)
-- [13. Future-scope functional requirements (not built in the MVP)](#13-future-scope-functional-requirements-not-built-in-the-mvp)
-- [14. Traceability summary](#14-traceability-summary)
-- [15. Related documents](#15-related-documents)
+- [13. Policy distribution and caching](#13-policy-distribution-and-caching)
+- [14. Runtime capability manifest and bind-time compatibility](#14-runtime-capability-manifest-and-bind-time-compatibility)
+- [15. Connector identity, installation verification, and liveness](#15-connector-identity-installation-verification-and-liveness)
+- [16. Client distribution, configuration, and conformance](#16-client-distribution-configuration-and-conformance)
+- [17. Future-scope functional requirements (not built in the MVP)](#17-future-scope-functional-requirements-not-built-in-the-mvp)
+- [18. Traceability summary](#18-traceability-summary)
+- [19. Related documents](#19-related-documents)
 
 ---
 
@@ -59,10 +63,11 @@ The diagram below places each functional area (and its `FR-` range) against the 
 
 ```mermaid
 flowchart TB
-    subgraph POLICY["Policy & binding — §1-§3 (FR-001..FR-017)"]
+    subgraph POLICY["Policy & binding — §1-§3 (FR-001..FR-017, FR-095..FR-100)"]
         P1["Define versioned policy\nFR-001..FR-006"]
         P2["Register tenant & workload\nFR-007..FR-011"]
         P3["Bind policy version to workload\nFR-012..FR-017"]
+        P4["Generate integration manifest\nFR-095..FR-100"]
     end
 
     subgraph CONNECT["Connectors & APIs — §6-§7 (FR-031..FR-042)"]
@@ -87,15 +92,23 @@ flowchart TB
         O2["Latency & performance metrics\nFR-064..FR-070"]
     end
 
-    subgraph LIFECYCLE["Policy lifecycle — §12 (FR-071..FR-077)"]
+    subgraph LIFECYCLE["Policy lifecycle — §12-§14 (FR-071..FR-077, FR-106..FR-112)"]
         L1["Promotion, rollback,\ncompatibility validation\nFR-071..FR-077"]
+        L2["Distribution, caching,\nstaleness bounds\nFR-106..FR-109"]
+        L3["Runtime capability manifest,\nbind-time refusal\nFR-110..FR-112"]
+    end
+
+    subgraph CLIENTLIFE["Client lifecycle — §15-§16 (FR-113..FR-127)"]
+        K1["Identity, verification,\nliveness, decommission\nFR-113..FR-118"]
+        K2["Distribution, configuration,\nconformance\nFR-119..FR-127"]
     end
 
     P2 --> P3
     P1 --> P3
-    P3 --> C1
-    P3 --> C2
-    P3 --> C3
+    P3 --> P4
+    P4 --> C1
+    P4 --> C2
+    P4 --> C3
     C1 --> E1 --> E3 --> E4
     C2 --> E2 --> E3
     E4 --> M1
@@ -105,6 +118,11 @@ flowchart TB
     E4 --> O2
     P1 -.-> L1
     L1 -.-> P3
+    L2 -.-> L1
+    L3 -.-> P3
+    K2 --> K1
+    K1 -.-> C1
+    K1 -.-> C3
 ```
 
 ---
@@ -121,6 +139,8 @@ A policy defines what must be evaluated and how violations are handled ([`AGREEM
 | FR-004 | A policy definition must not encode LiteLLM configuration structures, Bedrock Guardrails response formats, a specific model provider, a specific programming language, or a specific application framework; any such vendor- or framework-specific logic must live in a connector or adapter, never in the policy itself. | seed.md §5.1 (Policy portability); [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability); [CON-003](../00-source-of-truth/CONSTRAINTS.md#con-003--no-coupling-to-litellm-configuration-structures); [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats) | MVP |
 | FR-005 | Policy storage must retain every previously published policy version in a resolvable form, so a binding can reference, compare against, or roll back to any prior version. | seed.md §11 (Policy storage), §15 (Policy rollout) | MVP |
 | FR-006 | A policy version's compatibility metadata must be evaluable by the runtime to determine whether that version is compatible with a given runtime or connector version before it can be bound to a workload. | seed.md §9 (Policy — compatibility metadata), §15 (Compatibility validation) | MVP |
+| FR-101 | Policy validation must occur at publication. A policy document that fails schema validation — including any missing failure-behavior key (FR-003) — must never be published, and therefore must never be resolvable by a runtime. Publishing an already-published name and version must be refused. | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model); [ADR-0009](adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md) §1, §4, §6 | MVP |
+| FR-102 | A policy must select evaluators by detection family and capability, never by implementation, vendor, or engine name. Which implementation serves a family in a given deployment is deployment configuration, so the same policy document must resolve to different implementations in different deployments without modification. | [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats); [ADR-0009](adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md) §3 | MVP |
 
 ---
 
@@ -140,7 +160,7 @@ Tenant and Workload are the two identity entities that every policy binding, eva
 
 ## 3. Policy-to-workload binding
 
-A binding associates a workload with a specific, immutable policy version and carries the mode, override, and rollback metadata needed to operate the observe-before-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). Implements [`CAPABILITIES.md` CAP-003](../20-product/CAPABILITIES.md#workload-and-binding).
+A binding associates a workload with a specific, immutable policy version and carries the mode, override, and rollback metadata needed to operate the observe-before-enforce progression ([AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression)). The binding is also what an integration manifest is generated from — the "generate integration manifest" step of the onboarding flow ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)), specified in [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md). Implements [`CAPABILITIES.md` CAP-003](../20-product/CAPABILITIES.md#workload-and-binding) and [CAP-038](../20-product/CAPABILITIES.md#workload-and-binding).
 
 | ID | Requirement | Rationale / Source | Priority |
 |---|---|---|---|
@@ -150,6 +170,12 @@ A binding associates a workload with a specific, immutable policy version and ca
 | FR-015 | Every binding must record an effective date and a designated rollback policy version. | seed.md §9 (Policy binding) | MVP |
 | FR-016 | Every binding must record its runtime compatibility requirements, and the platform must validate those requirements against the resolving runtime/connector version before the binding is activated. | seed.md §9 (Policy binding), §15 (Compatibility validation) | MVP |
 | FR-017 | A newly created binding must default to Observe mode; enforcement must never be enabled as an implicit side effect of binding creation or of any other change. | [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression) (implications) | MVP |
+| FR-095 | The platform must generate, from a policy binding, an integration manifest: a machine-readable, version-controllable artifact a consuming team can commit to its own repository, review, and share with another team. It must not be a rendered page or a copy-paste snippet. | seed.md §4 (onboarding flow); [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md); CAP-038 | MVP |
+| FR-096 | An integration manifest must carry, at minimum: manifest schema version, tenant identifier, workload identity, bound policy name and immutable version, enforcement mode, deployment mode, Evaluation API endpoint, evaluation contract major version, connector type and supported connector version range, per-stage evaluation timeouts, client-side failure behavior, required runtime capabilities, correlation-identifier propagation requirement, and the source binding reference with a generation timestamp. | seed.md §4, §9, §12; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import), [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits); [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md) §3 | MVP |
+| FR-097 | An integration manifest must never contain model-provider credentials, gateway administration endpoints or credentials, any part of the consuming team's model-routing configuration, any reference requiring access to the team's LiteLLM database, or any AI Guardrails platform secret or long-lived bearer credential. The manifest schema must forbid these, and generated manifests must be validated against that prohibition. | seed.md §4; [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md) §4 | MVP |
+| FR-098 | Possession of an integration manifest must grant no access. The workload identity it carries is an identifier, not a secret; authentication to the Evaluation API remains IAM-based. | [CON-010](../00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles), [CON-011](../00-source-of-truth/CONSTRAINTS.md#con-011--per-tenant-workload-identities); [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md) §5 | MVP |
+| FR-099 | An integration manifest must not be authoritative at evaluation time: the runtime must resolve the effective policy version and enforcement mode server-side regardless of what any manifest asserts, and a manifest must be regenerable from its binding. | [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md) §2 | MVP |
+| FR-100 | One integration-manifest structure must serve all three deployment modes; only field values, not the artifact's shape, may differ between Remote Evaluation, Guarded Gateway, and Customer-Managed Runtime. | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [ADR-0006](adrs/ADR-0006-integration-manifest-format-and-contents.md) §7 | MVP |
 
 ---
 
@@ -259,6 +285,9 @@ Audit metadata is the evidence that policies are being applied, and the mechanis
 | FR-061 | Audit-delivery failure must be handled according to the workload's configured failure behavior; the platform must record that audit delivery did not complete normally and which failure-behavior path was taken. | seed.md §5.7; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy) | MVP |
 | FR-062 | Audit-event integrity must be preserved from the point a decision is generated through to durable storage — a decision must not be silently dropped between generation and archival. | seed.md §14 (Audit-event integrity) | MVP |
 | FR-063 | In a Customer-Managed Runtime deployment, audit records generated locally must remain local by default; only telemetry categories the customer has explicitly selected (or none) may reach the hosted control plane. | seed.md §13 (Customer-managed telemetry); [AGR-016](../00-source-of-truth/AGREEMENTS.md#agr-016--customer-controlled-telemetry-for-the-customer-managed-runtime); [CON-013](../00-source-of-truth/CONSTRAINTS.md#con-013--raw-content-must-not-leave-a-customer-managed-runtime-unless-explicitly-configured) | MVP |
+| FR-103 | A request the runtime declines to evaluate — oversized content, an unrecognized stage, an unrecognized content kind, or an authentication or authorization refusal — must produce an audit record marked as a rejection, carrying the reason and correlation identifier. A rejection record must not carry the content that failed validation, and must not be required to carry a policy or an action. | [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default); [ADR-0014](adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) §1, §2 | MVP |
+| FR-104 | A client that produces a decision without reaching the runtime must record it locally and deliver it to the platform once the runtime is reachable. The local store must be bounded, must carry no evaluated content, and must report the number of records discarded on overflow rather than discarding silently. | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [AGR-014](../00-source-of-truth/AGREEMENTS.md#agr-014--no-raw-promptresponse-retention-by-default); [ADR-0014](adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) §3 | MVP |
+| FR-105 | Every audit record must identify whether it was produced by the runtime or self-reported by a client. Client-origin records must remain distinguishable in every downstream consumer, and no metric or report may aggregate the two without stating that it does. | [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); [ADR-0014](adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) §4 | MVP |
 
 ---
 
@@ -296,7 +325,65 @@ Policies must support controlled promotion, workload-scoped rollout, and immedia
 
 ---
 
-## 13. Future-scope functional requirements (not built in the MVP)
+## 13. Policy distribution and caching
+
+Policy state reaches a runtime asynchronously and is resolved from local state, so that control-plane availability never bounds evaluation availability in any deployment mode ([AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)). Implements [`CAPABILITIES.md` CAP-001](../20-product/CAPABILITIES.md#policy-governance) and [CAP-017](../20-product/CAPABILITIES.md#deployment); design record: [ADR-0011](adrs/ADR-0011-policy-distribution-and-caching.md).
+
+| ID | Requirement | Rationale / Source | Priority |
+|---|---|---|---|
+| FR-106 | Runtimes must obtain policy and binding state by initiating retrieval from the control plane on a recurring interval. The control plane must not require inbound connectivity to a runtime, in any deployment mode. | seed.md §10, §15; [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes); [ADR-0011](adrs/ADR-0011-policy-distribution-and-caching.md) §1 | MVP |
+| FR-107 | Evaluation must resolve policy and binding state from local state only. No evaluation, in any deployment mode, may make a synchronous control-plane call, and a refresh in progress or failing must never block an evaluation. | seed.md §15; [AGR-015](../00-source-of-truth/AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [ADR-0011](adrs/ADR-0011-policy-distribution-and-caching.md) §2 | MVP |
+| FR-108 | A runtime that cannot refresh must continue evaluating against its last successfully retrieved state, and the control-plane-unavailable condition must be handled by the workload's configured failure behavior rather than by an implicit fallback or an exception reaching the caller. | seed.md §5.7; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [ADR-0011](adrs/ADR-0011-policy-distribution-and-caching.md) §3 | MVP |
+| FR-109 | Every runtime must track and report the elapsed time since its last successful refresh, and a deployment must carry an explicit maximum tolerable staleness. Exceeding it must be reported and routed through the configured control-plane-unavailable behavior, never continued silently. Rollback and promotion take effect immediately at the control plane and converge at each runtime within its refresh interval; no material may describe them as instantaneous platform-wide. | seed.md §15 (Policy rollout, policy-cache hit rate); [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [ADR-0011](adrs/ADR-0011-policy-distribution-and-caching.md) §4, §5 | MVP |
+
+---
+
+## 14. Runtime capability manifest and bind-time compatibility
+
+Because a policy selects evaluators by capability rather than by implementation (FR-102), a policy bound to a runtime lacking one of its required capabilities would produce different decisions in different deployments — the outcome [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability) exists to prevent. This section activates the binding's "runtime compatibility requirements" attribute (FR-016). Design record: [ADR-0013](adrs/ADR-0013-runtime-capability-manifest.md).
+
+| ID | Requirement | Rationale / Source | Priority |
+|---|---|---|---|
+| FR-110 | Every runtime deployment must publish the set of detection capabilities it can serve, expressed in the same family-and-capability vocabulary policies select against. The manifest must state capabilities only — it must not disclose implementations, vendors, or engine names — and must be derived from the runtime's actual configuration rather than maintained separately. | seed.md §9, §15; [AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [CON-004](../00-source-of-truth/CONSTRAINTS.md#con-004--no-coupling-to-bedrock-guardrails-response-formats); [ADR-0013](adrs/ADR-0013-runtime-capability-manifest.md) §1 | MVP |
+| FR-111 | A runtime configured to serve a capability by an implementation that is unavailable, misconfigured, or unknown must fail to start, rather than starting with a silently reduced manifest. | [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [ADR-0013](adrs/ADR-0013-runtime-capability-manifest.md) §2 | MVP |
+| FR-112 | Binding creation must validate every capability the policy version requires against the manifest of the runtime that will serve the workload, and refuse an unsatisfiable binding with a message naming the missing capabilities. Removing a capability from a running deployment must produce a report identifying every binding that depended on it. Capability shortfall encountered at request time despite these checks remains governed by the workload's configured failure behavior. | seed.md §9, §15 (Compatibility validation); [AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [ADR-0013](adrs/ADR-0013-runtime-capability-manifest.md) §3–§5 | MVP |
+
+---
+
+## 15. Connector identity, installation verification, and liveness
+
+The connector is a cooperative component the platform does not operate ([AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model)). These requirements make the connector half of compatibility validation (FR-006, FR-016, FR-075) implementable, make an incomplete installation visible, and give the cooperative posture the detection capability it can honestly provide. Implements [`CAPABILITIES.md` CAP-039](../20-product/CAPABILITIES.md#connectors-and-apis); design record: [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md).
+
+| ID | Requirement | Rationale / Source | Priority |
+|---|---|---|---|
+| FR-113 | Compatibility validation must occur in two phases: declared compatibility at binding creation and policy promotion, validating the policy's requirements against the connector version range and runtime capabilities recorded for the workload; and observed compatibility at every evaluation, validating the identity the client actually presents. Neither phase alone satisfies FR-016 or FR-075. | seed.md §9, §15 (Compatibility validation); [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §1 | MVP |
+| FR-114 | An evaluation request must be able to carry the client's connector type, connector version, and the evaluation contract major version it speaks. The field is optional; a client not presenting identity must be recorded and reported as unknown, never treated as compatible. This identity is self-reported and must never be cited as evidence that a workload's guardrails cannot be bypassed. | seed.md §12; [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §2 | MVP |
+| FR-115 | A client presenting an evaluation contract major version the runtime does not serve must have its evaluation refused, and the client's configured failure behavior applies. A client whose connector version is outside the expected range but whose contract major is served must have its evaluation proceed, with the mismatch recorded on the workload and reported. | [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §3 | MVP |
+| FR-116 | A bound workload must remain in an explicit pending-verification state, distinct from observing, until the platform has observed at least one evaluation at every stage the bound policy declares. Verification status must be reported to the workload owner and must be a precondition for promotion out of Observe. Verification state must be able to regress if a previously verified stage stops being exercised. | seed.md §4; [AGR-011](../00-source-of-truth/AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §4 | MVP |
+| FR-117 | A workload with an active binding that has produced no evaluations for a configured per-workload interval must be reported as stale. The signal means only that no evaluations were observed; it must not be described as bypass detection or as evidence of enforcement, and it must not block, disable, or degrade anything. | seed.md §8; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [CON-012](../00-source-of-truth/CONSTRAINTS.md#con-012--no-exclusive-reliance-on-weak-security-proxies); [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §5 | MVP |
+| FR-118 | The platform must support explicitly decommissioning a workload, retiring its bindings and ending staleness reporting, while retaining the workload, its bindings, and its audit history as queryable records. | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model); [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §6 | MVP |
+
+---
+
+## 16. Client distribution, configuration, and conformance
+
+The artifacts consuming teams install, how those clients learn the configuration they are required to apply, and how a client this team did not write proves it behaves identically. Implements [`CAPABILITIES.md` CAP-040](../20-product/CAPABILITIES.md#connectors-and-apis) and [CAP-041](../20-product/CAPABILITIES.md#connectors-and-apis); design records: [ADR-0008](adrs/ADR-0008-connector-distribution-and-integrity.md), [ADR-0012](adrs/ADR-0012-client-bootstrap-configuration.md).
+
+| ID | Requirement | Rationale / Source | Priority |
+|---|---|---|---|
+| FR-119 | Every client the platform ships — the LiteLLM connector and the generic SDK — must be published to a named, documented distribution channel reachable by teams outside the provider's AWS account, with published release notes. Obtaining a client must not require privileged access in either direction. | seed.md §18; [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); [ADR-0008](adrs/ADR-0008-connector-distribution-and-integrity.md) §1 | MVP |
+| FR-120 | A client's version must be independent of the evaluation contract, policy, and product versions, and each client release must declare which evaluation contract major versions it speaks. That declaration is what FR-113's compatibility validation reads. | [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [ADR-0008](adrs/ADR-0008-connector-distribution-and-integrity.md) §2 | MVP |
+| FR-121 | Every published client artifact must carry an integrity mechanism a consuming team can verify before the artifact executes, and verification must be documented as a step in the installation instructions. The published documentation must state what the client does inside the consuming team's process, including that it observes prompt and response content on the request path. | seed.md §8, §13; [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model), [CON-009](../00-source-of-truth/CONSTRAINTS.md#con-009--kms-encryption-in-transit-and-at-rest); [ADR-0008](adrs/ADR-0008-connector-distribution-and-integrity.md) §3, §4 | MVP |
+| FR-122 | A published client artifact must contain no policy content, no detection logic, and no embedded credential — neither the platform's nor the consuming team's. | [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors), [CON-010](../00-source-of-truth/CONSTRAINTS.md#con-010--iam-based-authentication-and-least-privilege-roles); [ADR-0008](adrs/ADR-0008-connector-distribution-and-integrity.md) §5 | MVP |
+| FR-123 | A client must be able to retrieve its per-stage timeouts and client-side failure behavior from the platform, keyed by workload identity, on a path separate from evaluation. The integration manifest (FR-096) seeds these values at install time; the retrieval path keeps them current when an operator changes them. | seed.md §12, §14; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits); [ADR-0012](adrs/ADR-0012-client-bootstrap-configuration.md) §1, §5 | MVP |
+| FR-124 | A client that has never successfully retrieved its configuration, and was given none explicitly at construction, must refuse to evaluate. It must not proceed with a built-in default and must not allow. A client that has previously retrieved its configuration must continue applying it when refresh fails. | seed.md §5.7; [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); [ADR-0012](adrs/ADR-0012-client-bootstrap-configuration.md) §2, §3 | MVP |
+| FR-125 | Client configuration must carry timeouts and failure behavior only. It must not carry detection rules, thresholds, evaluator selection, or any policy content. | [AGR-007](../00-source-of-truth/AGREEMENTS.md#agr-007--policies-are-separate-from-connectors); [ADR-0012](adrs/ADR-0012-client-bootstrap-configuration.md) §4 | MVP |
+| FR-126 | The platform must publish a client conformance suite as a supported artifact, not an internal convenience, so that any client — including a consumer-operated custom gateway this team does not build — can demonstrate that it produces identical decisions and identical failure behavior. The suite must include, as mandatory cases: an unrecognized decision value, a never-configured client, concurrent interleaved requests, and a client-synthesized decision during runtime unavailability. | seed.md §12; [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [ADR-0005](adrs/ADR-0005-evaluation-contract-wire-format.md) §7, [ADR-0007](adrs/ADR-0007-connector-identity-verification-and-liveness.md) §4, [ADR-0012](adrs/ADR-0012-client-bootstrap-configuration.md) §2, [ADR-0014](adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) §3 | MVP |
+| FR-127 | The generic SDK must offer both a synchronous and an asynchronous calling surface, so that adopting guardrails does not require a consuming application to adopt an asynchronous runtime. The two surfaces must share one transport, one configuration source, and one failure-behavior path — they must not be independent implementations — and both must be registered in the conformance suite (FR-126) and produce identical decisions. | seed.md §7 (minimal application changes), §12; [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); [ADR-0012](adrs/ADR-0012-client-bootstrap-configuration.md) | MVP |
+
+---
+
+## 17. Future-scope functional requirements (not built in the MVP)
 
 `seed.md` §6.2 states the product architecture **should permit, but not initially require**, the capabilities below. Every requirement in this section carries `Priority = Future`: the architecture must not preclude them, but none may be scheduled, resourced, or silently built during Phases 1–2 ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)). This section maps one-to-one onto the Future capabilities already cataloged in [`CAPABILITIES.md`](../20-product/CAPABILITIES.md#later-phase-capabilities--committed-and-estimated-phases-35) (`CAP-018`–`CAP-034`); see that document for fuller descriptions and [`../10-charter/SCOPE.md` §4](../10-charter/SCOPE.md#4-later-phase-scope--committed-and-estimated-phases-35) for the scope boundary these requirements sit inside.
 
@@ -324,7 +411,7 @@ Each future requirement also names the guardrail categor(y/ies) of [`20-product/
 
 ---
 
-## 14. Traceability summary
+## 18. Traceability summary
 
 | FR range | Functional area | Primary capability IDs | Primary agreements / constraints |
 |---|---|---|---|
@@ -341,6 +428,13 @@ Each future requirement also names the guardrail categor(y/ies) of [`20-product/
 | FR-064–FR-070 | Evaluation latency and performance metrics | CAP-014 | — (no numeric target set; TBD) |
 | FR-071–FR-077 | Policy promotion and rollback | CAP-001, CAP-003 | AGR-011; 60-delivery/VALIDATION-PLAN.md |
 | FR-078–FR-094 | Future-scope functional requirements | CAP-018–CAP-034 | AGR-020, AGR-021; 10-charter/SCOPE.md |
+| FR-095–FR-100 | Integration manifest generation | CAP-038 | AGR-002, AGR-006, AGR-018, AGR-019, CON-010, CON-011, CON-016; ADR-0006 |
+| FR-101–FR-102 | Policy schema validation and capability-based evaluator selection | CAP-001 | AGR-005, AGR-012, AGR-017, CON-004; ADR-0009 |
+| FR-103–FR-105 | Audit coverage — rejections, client-synthesized decisions, record origin | CAP-015 | AGR-012, AGR-014, AGR-018, CON-012; ADR-0014 |
+| FR-106–FR-109 | Policy distribution and caching | CAP-001, CAP-017 | AGR-011, AGR-012, AGR-015; ADR-0011 |
+| FR-110–FR-112 | Runtime capability manifest and bind-time compatibility | CAP-003 | AGR-004, AGR-005, AGR-012, CON-004; ADR-0013 |
+| FR-113–FR-118 | Connector identity, installation verification, and liveness | CAP-039 | AGR-003, AGR-011, AGR-018, AGR-019, CON-012; ADR-0007 |
+| FR-119–FR-127 | Client distribution, configuration, and conformance | CAP-040, CAP-041 | AGR-003, AGR-006, AGR-007, AGR-012, CON-010, CON-016; ADR-0008, ADR-0012 |
 
 Guardrail-category traceability (GR-001–GR-018) for the future-scope requirements is carried in §13's `Guardrail category` column; the authoritative category definitions live in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md).
 
@@ -348,17 +442,17 @@ Guardrail-category traceability (GR-001–GR-018) for the future-scope requireme
 
 | Category | Count |
 |---|---|
-| MVP requirements (`FR-001`–`FR-077`, minus FR-028) | 76 |
+| MVP requirements (`FR-001`–`FR-077`, minus FR-028; plus `FR-095`–`FR-127`) | 109 |
 | Future requirements (`FR-028`, `FR-078`–`FR-094`) | 18 |
-| **Total** | **94** |
+| **Total** | **127** |
 
 ---
 
-## 15. Related documents
+## 19. Related documents
 
 - [`../00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) — authoritative agreements this requirements register operationalizes.
 - [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) — non-negotiable boundaries that bound how MVP requirements may be implemented.
-- [`../00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) — tracks unresolved timing/design decisions referenced by the Future-scope requirements in [Section 13](#13-future-scope-functional-requirements-not-built-in-the-mvp).
+- [`../00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) — tracks unresolved timing/design decisions referenced by the Future-scope requirements in [Section 17](#17-future-scope-functional-requirements-not-built-in-the-mvp).
 - [`../00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) — decision log recording why the MVP was bounded as it is.
 - [`../10-charter/SCOPE.md`](../10-charter/SCOPE.md) — the scope boundary (in-scope, future, out-of-scope, non-goals) this requirements register must not exceed.
 - [`../10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) — guiding principles these requirements operationalize.
