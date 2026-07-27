@@ -48,7 +48,7 @@ ROLES = [
 ROLE_KEYS = [key for key, _, _ in ROLES]
 
 # --- size vocabulary -------------------------------------------------------
-# key, label, what it means, placeholder person-days
+# key, label, what it means, placeholder person-days BEFORE any AI assistance
 SIZES = [
     ("S", "Small", "A bounded change inside one component.", 5),
     ("M", "Medium", "One component, built and tested.", 15),
@@ -56,6 +56,47 @@ SIZES = [
     ("XL", "Extra large", "A subsystem of a kind this platform has not built before.",
      80),
 ]
+
+# --- AI-assisted delivery --------------------------------------------------
+# ASSUMED HERE, and nowhere else. solution-docs describes what gets built and in
+# what order; it says nothing at all about how the work is carried out, and no
+# mention of AI-assisted development appears anywhere in it. So this factor is
+# an assumption this workbook introduces on its own authority, kept as a
+# separate, visible multiplier rather than folded into the sizes — so it can be
+# argued with, and so setting it to zero recovers the unassisted model exactly.
+#
+# It is per role because the gain is not uniform, and averaging it into one
+# number is the part that would mislead. It reduces EFFORT, not elapsed time:
+# the dependencies on the Dependencies sheet are approval- and calendar-bound
+# and do not move because the team has better tools.
+#
+# role key (same order as ROLES), effort reduction, why that figure
+AI_ASSIST = [
+    ("AIG", 0.30,
+     "Contracts, policy schemas, evaluator adapters, connectors, runtime, "
+     "deployment artifacts, tests and documentation — greenfield, well-specified, "
+     "code-shaped work, and by far the largest share of this model. This is where "
+     "an agentic coding tool earns most of what it is going to earn."),
+    ("OPS", 0.15,
+     "Infrastructure modules, dashboards and runbooks compress. Account "
+     "provisioning, managed-engine access in the target Regions, capacity and "
+     "incident response are approval-bound and wall-clock, and do not."),
+    ("SEC", 0.10,
+     "Drafting policy requirements and assembling review evidence compresses. "
+     "Judgement, approval and accountability do not — and the criteria that would "
+     "satisfy security sign-off are themselves undefined today."),
+    ("CONS", 0.10,
+     "Onboarding and connector installation compress a little. The validation "
+     "demonstration is gated by a second team's availability and willingness, "
+     "which no tool shortens."),
+]
+
+# Stated on the Assumptions sheet next to the factors above.
+AI_ASSIST_CAVEAT = (
+    "Planning assumptions, not measurements. Published results range from large "
+    "gains to none, and one controlled trial found experienced engineers slower. "
+    "Zero these four cells and the workbook recovers the unassisted model."
+)
 
 # --- milestones (MILESTONES.md §2–§7) --------------------------------------
 # key, name, phase, primary mode, objective, entry condition
@@ -408,18 +449,24 @@ RELEASE_GATES = [
      "known vulnerabilities before release.", "Security and governance lead", "M1"),
 ]
 
-# What the workbook must not imply, restated on the Read me sheet.
+# What the workbook must not imply. Rendered as a two-column table on the Read
+# me sheet, not as prose: a caveat a reader scans is a caveat a reader keeps,
+# and the argued-out long form belongs in the deck, not in a spreadsheet.
+# headline, one line
 STANDING_CAVEATS = [
-    "No calendar dates, quarters or durations appear anywhere in this workbook. "
-    "Milestone order is dependency sequencing, not scheduling — the source material "
-    "fixes the order and says nothing about when.",
-    "Nothing is built or piloted. Every work item is planned work, not work in "
-    "progress, and no percentage-complete column exists because there is nothing to "
-    "report against.",
-    "The effort model is an assumption you own, not an estimate the programme has "
-    "produced. The estimation over the full feature set is owed by delivery and "
-    "product leads and has not been supplied.",
-    "Phases 3, 4 and 5 must not be resourced ahead of the Phase 1–2 validation gate. "
-    "Their totals appear here because the feature set is defined and estimated over "
-    "all five phases — not because the work may start.",
+    ("No schedule",
+     "Milestone order is dependency sequencing. No dates, quarters or durations "
+     "exist upstream and none are invented here."),
+    ("Nothing is built",
+     "Every work item is planned work. There is no percent-complete column "
+     "because there is nothing to report against."),
+    ("The effort model is yours",
+     "Not an estimate the programme has produced. That estimation is owed by "
+     "delivery and product leads and has not been supplied."),
+    ("Phases 3–5 are not funded",
+     "They are estimated because the feature set is defined across all five "
+     "phases — not because the work may start before the gate."),
+    ("AI assistance is this workbook's own assumption",
+     "Stated in no source document. It reduces effort per role, never elapsed "
+     "time — the external dependencies are approval-bound."),
 ]
