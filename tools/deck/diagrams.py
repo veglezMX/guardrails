@@ -15,7 +15,8 @@ from pptx.util import Inches
 
 from lib import (
     ACCENT, ACCENT_DIM, ALLOW, BG, BLOCK, BODY_BOTTOM, BODY_Y, CONTENT_W, HAIRLINE,
-    MARGIN, MUTED, SURFACE, SURFACE_ALT, TEXT, arrow, box, bullets, caption, chevron,
+    LOG_ONLY, MARGIN, MUTED, SPLIT_L_W, SPLIT_L_X, SPLIT_R_W, SPLIT_R_X, SURFACE,
+    SURFACE_ALT, TEXT, WARN, arrow, bar_chart, box, bullets, caption, chevron,
     edge_label, panel, para, slide_base, textbox,
 )
 
@@ -217,6 +218,156 @@ def scope_columns(s, is_items, is_not_items):
     box(s, 7.13, BODY_Y + 0.05, 5.45, 0.55, "WHAT IT IS NOT", bold=True, size=12.5,
         fill=SURFACE, border=BLOCK)
     bullets(s, 7.41, BODY_Y + 0.85, 4.95, is_not_items, size=12.5, gap=0.62, dot=BLOCK)
+
+
+def context_diagram(s, consumers, dependencies, core, exclusions,
+                    exclusions_title="Outside the boundary, permanently",
+                    consumers_label="CONSUMERS", dependencies_label="DEPENDENCIES"):
+    """Consumers on the left, the platform in the middle, dependencies on the
+    right, over a red-bordered statement of what stays outside the boundary."""
+    panel(s, MARGIN, BODY_Y + 0.10, 3.55, 3.30, fill=SURFACE_ALT)
+    caption(s, MARGIN + 0.25, BODY_Y + 0.26, 3.1, consumers_label, size=10, color=MUTED)
+    for i, name in enumerate(consumers):
+        box(s, MARGIN + 0.28, BODY_Y + 0.66 + i * 0.86, 3.0, 0.70, name, size=11.5)
+
+    box(s, 4.75, BODY_Y + 0.72, 3.85, 2.10, core, bold=True, size=14, border=ACCENT)
+    arrow(s, 4.05, BODY_Y + 1.60, 4.72, BODY_Y + 1.60)
+    arrow(s, 8.62, BODY_Y + 1.35, 9.55, BODY_Y + 1.35)
+
+    panel(s, 9.58, BODY_Y + 0.10, 3.00, 3.30, fill=SURFACE_ALT)
+    caption(s, 9.80, BODY_Y + 0.26, 2.6, dependencies_label, size=10, color=MUTED)
+    for i, name in enumerate(dependencies):
+        box(s, 9.80, BODY_Y + 0.66 + i * 0.86, 2.55, 0.70, name, size=11.5,
+            fill=SURFACE_ALT)
+
+    panel(s, MARGIN, BODY_BOTTOM - 1.18, CONTENT_W, 1.08, fill=SURFACE_ALT,
+          border=BLOCK)
+    _, tf = textbox(s, MARGIN + 0.32, BODY_BOTTOM - 1.02, CONTENT_W - 0.64, 0.85)
+    para(tf, exclusions_title, size=11, color=BLOCK, bold=True, first=True,
+         space_after=4)
+    para(tf, exclusions, size=12, color=MUTED, space_after=0)
+
+
+def segmented_identifier(s, template, segments, x=MARGIN + 1.55, y=BODY_Y + 0.20,
+                         w=6.6, seg_w=2.2):
+    """One identifier format shown whole, with each segment annotated beneath."""
+    box(s, x, y, w, 0.82, template, bold=True, size=20, fill=ACCENT_DIM,
+        border=ACCENT)
+    for i, (head, sub) in enumerate(segments):
+        _, tf = textbox(s, x + i * seg_w, y + 0.92, seg_w, 0.9, align=PP_ALIGN.CENTER)
+        para(tf, head, size=11, color=ACCENT, bold=True, first=True, space_after=3,
+             align=PP_ALIGN.CENTER)
+        para(tf, sub, size=10, color=MUTED, space_after=0, align=PP_ALIGN.CENTER,
+             line=1.15)
+
+
+def seam_cards(s, seams, highlight=None, y=BODY_Y + 0.10, h=2.05, gap=0.19):
+    """A row of equal cards, one per extension seam. `highlight` accents one."""
+    n = len(seams)
+    cw = (CONTENT_W - gap * (n - 1)) / n
+    for i, (name, desc) in enumerate(seams):
+        x = MARGIN + i * (cw + gap)
+        hi = i == highlight
+        panel(s, x, y, cw, h)
+        box(s, x, y, cw, 0.86, name, bold=True, size=13,
+            fill=ACCENT_DIM if hi else SURFACE,
+            border=ACCENT if hi else HAIRLINE)
+        _, tf = textbox(s, x + 0.20, y + 0.98, cw - 0.40, h - 1.05)
+        para(tf, desc, size=11, color=MUTED, first=True, space_after=0, line=1.2)
+
+
+def store_split(s, left, right, y=BODY_Y + 0.10, h=0.90, tail=0.50):
+    """Two stores side by side, with a short stem down into whatever follows."""
+    box(s, SPLIT_L_X, y, SPLIT_L_W, h, left, size=12.5, bold=True)
+    box(s, SPLIT_R_X, y, SPLIT_R_W, h, right, size=12.5, bold=True)
+    mid = (SPLIT_L_X + SPLIT_L_W + SPLIT_R_X) / 2
+    arrow(s, mid, y + h + 0.15, mid, y + h + 0.15 + tail, color=HAIRLINE)
+
+
+def pull_model(s, left, right, rules, y=BODY_Y + 0.10):
+    """The two stores over the rules that govern how a runtime reads them."""
+    store_split(s, left, right, y=y, h=0.90, tail=0.42)
+    ry = y + 1.55
+    n = len(rules)
+    gap = 0.22
+    cw = (CONTENT_W - gap * (n - 1)) / n
+    for i, (head, sub) in enumerate(rules):
+        x = MARGIN + i * (cw + gap)
+        panel(s, x, ry, cw, 1.60)
+        _, tf = textbox(s, x + 0.22, ry + 0.20, cw - 0.44, 1.25)
+        para(tf, head, size=13, bold=True, first=True, space_after=6, line=1.15)
+        para(tf, sub, size=11, color=MUTED, space_after=0, line=1.2)
+
+
+def clamp_pipeline(s, stages, bypass_label, bypass_note, y=BODY_Y + 0.40, h=1.00,
+                   gap=0.34):
+    """The clamping path left to right, over the lane that bypasses it.
+
+    `stages` is a list of (name, note, accented) — the accented stage is the
+    clamp itself. The lane underneath carries everything the ceiling never
+    touches, which is the part most often misread as escalation.
+    """
+    n = len(stages)
+    bw = (CONTENT_W - gap * (n - 1)) / n
+    for i, (name, note, hi) in enumerate(stages):
+        x = MARGIN + i * (bw + gap)
+        box(s, x, y, bw, h, name, bold=True, size=13,
+            fill=ACCENT_DIM if hi else SURFACE,
+            border=ACCENT if hi else HAIRLINE)
+        _, tf = textbox(s, x + 0.06, y + h + 0.10, bw - 0.12, 0.70,
+                        align=PP_ALIGN.CENTER)
+        para(tf, note, size=10.5, color=MUTED, first=True, space_after=0,
+             align=PP_ALIGN.CENTER, line=1.15)
+        if i < n - 1:
+            arrow(s, x + bw + 0.02, y + h / 2, x + bw + gap - 0.02, y + h / 2,
+                  color=HAIRLINE, width=1.5)
+
+    lane_y = y + h + 0.90
+    panel(s, MARGIN, lane_y, CONTENT_W, 0.62, fill=SURFACE_ALT)
+    _, tf = textbox(s, MARGIN + 0.28, lane_y + 0.13, 4.4, 0.40)
+    para(tf, bypass_label, size=11.5, color=ALLOW, bold=True, first=True,
+         space_after=0)
+    arrow(s, MARGIN + 4.85, lane_y + 0.31, MARGIN + 6.55, lane_y + 0.31,
+          color=ALLOW, width=1.5, dashed=True)
+    _, tf = textbox(s, MARGIN + 6.75, lane_y + 0.13, CONTENT_W - 7.05, 0.40)
+    para(tf, bypass_note, size=11.5, color=MUTED, first=True, space_after=0)
+
+
+def ask_columns(s, headline, headline_sub, asking, not_asking,
+                asking_title="And, before this session closes",
+                not_asking_title="Not in scope for this session",
+                y=BODY_Y - 0.05):
+    """The closing ask: one banner statement over two contrasting lists."""
+    panel(s, MARGIN, y, CONTENT_W, 1.55, fill=SURFACE, border=ACCENT)
+    _, tf = textbox(s, MARGIN + 0.40, y + 0.25, CONTENT_W - 0.8, 1.05)
+    para(tf, headline, size=18, bold=True, first=True, space_after=6, line=1.2)
+    para(tf, headline_sub, size=12.5, color=MUTED, space_after=0)
+
+    _, tf = textbox(s, MARGIN, y + 1.67, SPLIT_L_W + 0.10, 0.4)
+    para(tf, asking_title, size=13, color=ACCENT, bold=True, first=True, space_after=0)
+    bullets(s, MARGIN, y + 2.10, SPLIT_L_W + 0.10, asking, size=12.5, gap=0.62,
+            dot=ALLOW)
+
+    _, tf = textbox(s, SPLIT_R_X - 0.10, y + 1.67, SPLIT_R_W + 0.10, 0.4)
+    para(tf, not_asking_title, size=13, color=MUTED, bold=True, first=True,
+         space_after=0)
+    bullets(s, SPLIT_R_X - 0.10, y + 2.10, SPLIT_R_W + 0.10, not_asking, size=12.5,
+            gap=0.62, dot=LOG_ONLY)
+
+
+def contract_change_classes(s, y=BODY_Y + 0.25, h=3.30):
+    """What each kind of contract change costs, counted from the ADR's own table.
+
+    The point of the chart is the shape, not the totals: five of the seven
+    change kinds force a new major, so the contract is deliberately expensive
+    to widen.
+    """
+    bar_chart(s, MARGIN, y, CONTENT_W, h,
+              categories=["Major — new prefix,\nplus bind-time refusal",
+                          "Major — new path prefix",
+                          "Minor — no client change"],
+              values=[1, 4, 2],
+              colors=[BLOCK, WARN, ALLOW])
 
 
 def entity_grid(s, entities):

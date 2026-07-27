@@ -5,9 +5,12 @@ placeholder values, pending a real brand kit). Every diagram built here is
 native editable PowerPoint geometry with real text frames, per §9.
 """
 
+from pptx.chart.data import CategoryChartData
 from pptx.dml.color import RGBColor
+from pptx.enum.chart import XL_CHART_TYPE, XL_LABEL_POSITION
 from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.oxml import parse_xml
 from pptx.oxml.ns import qn
 from pptx.util import Emu, Inches, Pt
 
@@ -43,6 +46,14 @@ KICKER_Y = 1.42
 BODY_Y = 1.95
 BODY_BOTTOM = 6.62
 FOOTER_Y = 6.80
+
+# The standard two-column split of the body area. Slightly asymmetric because
+# the left column almost always carries the longer text; both edges still land
+# on MARGIN. Use these rather than restating the literals per slide.
+SPLIT_L_X = MARGIN
+SPLIT_L_W = 5.95
+SPLIT_R_X = 7.13
+SPLIT_R_W = 5.45
 
 
 def _fmt(run, size=12, color=TEXT, bold=False, font=BODY_FONT, italic=False):
@@ -261,6 +272,68 @@ def table(slide, x, y, w, h, data, col_w=None, header=True, size=11,
             para(tf, str(text), size=header_size if (header and r == 0) else size,
                  color=color, bold=bold, first=True, space_after=0, line=1.05)
     return tbl
+
+
+_CHART_NS = ('xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" '
+             'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"')
+
+
+def _transparent(el):
+    """Drop the default white fill and border from a chart element."""
+    el.append(parse_xml(
+        f'<c:spPr {_CHART_NS}><a:noFill/><a:ln><a:noFill/></a:ln></c:spPr>'))
+
+
+def bar_chart(slide, x, y, w, h, categories, values, colors=None, cat_size=12,
+              label_size=13, gap_width=70):
+    """A native, editable horizontal bar chart on the deck's dark background.
+
+    A real chart part rather than drawn rectangles, so the numbers stay bound to
+    data a reviewer can open and check. The value axis is hidden — the bars are
+    labelled with their own counts, and an axis of small integers reads as
+    precision the underlying material does not have.
+    """
+    data = CategoryChartData()
+    data.categories = categories
+    data.add_series("count", values)
+    gf = slide.shapes.add_chart(XL_CHART_TYPE.BAR_CLUSTERED, Inches(x), Inches(y),
+                                Inches(w), Inches(h), data)
+    chart = gf.chart
+    chart.has_title = False
+    chart.has_legend = False
+
+    plot = chart.plots[0]
+    plot.gap_width = gap_width
+    plot.vary_by_categories = False
+    plot.has_data_labels = True
+    labels = plot.data_labels
+    labels.font.size = Pt(label_size)
+    labels.font.bold = True
+    labels.font.color.rgb = TEXT
+    labels.position = XL_LABEL_POSITION.OUTSIDE_END
+
+    series = plot.series[0]
+    for i, point in enumerate(series.points):
+        point.format.fill.solid()
+        point.format.fill.fore_color.rgb = (
+            colors[i] if colors else ACCENT)
+        point.format.line.fill.background()
+
+    cat_axis = chart.category_axis
+    cat_axis.has_major_gridlines = False
+    cat_axis.format.line.color.rgb = HAIRLINE
+    cat_axis.tick_labels.font.size = Pt(cat_size)
+    cat_axis.tick_labels.font.color.rgb = TEXT
+
+    val_axis = chart.value_axis
+    val_axis.visible = False
+    val_axis.has_major_gridlines = False
+
+    cs = chart._chartSpace
+    cs.find(qn("c:chart")).addnext(parse_xml(
+        f'<c:spPr {_CHART_NS}><a:noFill/><a:ln><a:noFill/></a:ln></c:spPr>'))
+    _transparent(cs.find(qn("c:chart")).find(qn("c:plotArea")))
+    return chart
 
 
 def caption(slide, x, y, w, text, size=11.5, color=MUTED, align=PP_ALIGN.LEFT):
