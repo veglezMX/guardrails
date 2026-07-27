@@ -140,6 +140,8 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`40-sales-deck/OBJECTION-HANDLING.md`](../40-sales-deck/OBJECTION-HANDLING.md) | L4 | Objection handling, including the [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) boundaries on what can be claimed. | Linked |
 | [`40-sales-deck/CALL-TO-ACTION.md`](../40-sales-deck/CALL-TO-ACTION.md) | L4 | The call to action closing the deck. | Linked |
 | [`40-sales-deck/VISUAL-DIRECTION.md`](../40-sales-deck/VISUAL-DIRECTION.md) | L4 | Visual and design direction for the deck. | Linked |
+| [`40-sales-deck/DECK-QA.md`](../40-sales-deck/DECK-QA.md) | L4 | Per-slide question and response preparation, plus the register of questions that have no answer in the source material today. | Linked |
+| [`40-sales-deck/DECK-VARIANTS.md`](../40-sales-deck/DECK-VARIANTS.md) | L4 | Governs the architecture-review, security-review, and team-enablement decks the same way DECK-BRIEF.md governs the internal pitch. | Linked |
 <!-- END GENERATED: references-index:40-sales-deck -->
 ---
 

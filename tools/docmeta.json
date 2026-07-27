@@ -628,6 +628,20 @@
       "role": "The start-here navigational document; introduces no new agreement, requirement, or claim.",
       "toc_depth": 2,
       "toc_style": "bullet"
+    },
+    "40-sales-deck/DECK-QA.md": {
+      "description": "Anticipated questions per deck slide, with responses that stay inside the claims boundary.",
+      "purpose": "Presenter Q&A preparation for the internal pitch deck.",
+      "authority_note": "L4",
+      "role": "Per-slide question and response preparation, plus the register of questions that have no answer in the source material today."
+    },
+    "40-sales-deck/DECK-VARIANTS.md": {
+      "description": "The audience, decision, outline, and claims boundary for the three non-investment-review decks.",
+      "purpose": "The operating brief for the architecture, security, and enablement decks.",
+      "authority_note": "L4",
+      "role": "Governs the architecture-review, security-review, and team-enablement decks the same way DECK-BRIEF.md governs the internal pitch.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
     }
   },
   "open_questions": {

@@ -272,6 +272,8 @@ solution-docs/
 | [`SALES-NARRATIVE.md`](40-sales-deck/SALES-NARRATIVE.md) | The narrative arc. |
 | [`SLIDE-OUTLINE.md`](40-sales-deck/SLIDE-OUTLINE.md) | Slide-by-slide structure. |
 | [`VISUAL-DIRECTION.md`](40-sales-deck/VISUAL-DIRECTION.md) | Visual and tone direction. |
+| [`DECK-QA.md`](40-sales-deck/DECK-QA.md) | Presenter Q&A preparation for the internal pitch deck. |
+| [`DECK-VARIANTS.md`](40-sales-deck/DECK-VARIANTS.md) | The operating brief for the architecture, security, and enablement decks. |
 <!-- END GENERATED: documentmap-index:40-sales-deck -->
 ### `50-architecture/` — L2 (`NON-FUNCTIONAL-REQUIREMENTS.md`, `REQUIREMENTS.md`) / L3 (remainder) / L1 (`adrs/*`, once accepted)
 

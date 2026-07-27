@@ -171,6 +171,8 @@ Each table lists the documents in one directory with the authority level declare
 | [`OBJECTION-HANDLING.md`](40-sales-deck/OBJECTION-HANDLING.md) | L4 | Anticipated objections and how to respond without overclaiming. |
 | [`CALL-TO-ACTION.md`](40-sales-deck/CALL-TO-ACTION.md) | L4 | The single, concrete ask the deck closes with. |
 | [`VISUAL-DIRECTION.md`](40-sales-deck/VISUAL-DIRECTION.md) | L4 | Visual and design direction for the rendered deck. |
+| [`DECK-QA.md`](40-sales-deck/DECK-QA.md) | L4 | Anticipated questions per deck slide, with responses that stay inside the claims boundary. |
+| [`DECK-VARIANTS.md`](40-sales-deck/DECK-VARIANTS.md) | L4 | The audience, decision, outline, and claims boundary for the three non-investment-review decks. |
 <!-- END GENERATED: readme-index:40-sales-deck -->
 ### [`50-architecture/`](50-architecture/) — L2 requirements, L3 analytical, L1 for Accepted ADRs
 

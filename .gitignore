@@ -3,3 +3,9 @@ result
 result-*
 __pycache__/
 *.pyc
+
+# built presentation and workbook artifacts — regenerate with `just deck-all` /
+# `just xlsx-all`
+/presentations/
+*.pptx
+*.xlsx
