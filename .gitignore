@@ -10,6 +10,8 @@ __pycache__/
 *.pptx
 *.xlsx
 
+!assets/*pptx
+!assets/*xlsx
 # stray Python packaging output — nix owns the toolchain, so a wheel or a venv
 # in the tree is always something that leaked out of an ad-hoc command
 *.whl
