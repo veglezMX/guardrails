@@ -11,6 +11,8 @@ changes it in every deck, which is the point — do not fork a fact to soften it
 for one audience.
 """
 
+import re
+
 from lib import ACCENT, ALLOW, BLOCK, LOG_ONLY, WARN
 
 # --- deployment modes (AGR-002) -------------------------------------------
@@ -100,6 +102,31 @@ IMPORT_EXCLUSIONS = (
     "credentials  ·  exposing gateway administration endpoints  ·  replacing "
     "model-routing configuration  ·  granting the guardrail provider "
     "administrative access to the team's gateway"
+)
+
+# --- who the pilot ask can land on (AGR-003, SCOPE, SUCCESS-CRITERIA §1.2) --
+# The connector is gateway-specific even though the contract is not. Stated as
+# a fact rather than left to "your gateway", which reads as gateway-agnostic and
+# is not what the validation demonstration is specified against.
+GATEWAY_PREREQ = (
+    "The first connector is the LiteLLM connector, and the validation "
+    "demonstration is specified as two independently deployed LiteLLM instances. "
+    "Workloads on any other gateway integrate through the generic HTTP Evaluation "
+    "API and SDK — the same contract, the same decisions — but that path is not "
+    "what the two-instance criterion is written against."
+)
+
+# --- who sees observe-mode findings (TEAM-AND-OWNERSHIP §3.4 RACI) ---------
+# The consuming team is accountable for the review; everyone else is consulted
+# or informed. Deliberately ends on what is undefined, because a pilot team asks
+# this and the source material does not answer the last part.
+FINDINGS_VISIBILITY = (
+    "The consuming team owns the review of its own observe-mode findings and is "
+    "accountable for it; the guardrail team and security and governance are "
+    "consulted, and platform operations are informed. Decision metadata also "
+    "lands in the provider-operated audit archive, scoped per tenant. What is not "
+    "defined anywhere yet: who else inside a consuming organization receives a "
+    "per-workload findings report, and what tooling produces one."
 )
 
 # --- trust and enforcement postures (AGR-018, SECURITY-ARCHITECTURE §3.1) --
@@ -289,14 +316,20 @@ OBJECTION_ROWS = [
      "Whatever the workload's policy configures. Failure behaviour — timeout, detector "
      "unavailability, unresolved policy, control-plane outage — is a mandatory part of "
      "every policy, and the path taken is captured in the audit record (AGR-012)."],
+    ["Who sees our observe-mode findings?",
+     "The consuming team owns the review and is accountable for it; the guardrail "
+     "team and security and governance are consulted. Decision metadata is stored "
+     "in the provider-operated audit archive, scoped per tenant. No routing of a "
+     "per-workload findings report to anyone else is defined, and no review "
+     "tooling is specified (TEAM-AND-OWNERSHIP.md §3.4)."],
 ]
 
-# The same five pairs with the trailing agreement IDs stripped, for decks that
-# must not show internal identifiers on a slide.
+# The same pairs with trailing internal citations stripped, for decks that must
+# not show internal identifiers on a slide. Matched by pattern rather than by an
+# enumerated list, so adding a row above cannot leak an identifier by omission.
+_CITATION = re.compile(
+    r"\s*\((?:[A-Z]{2,}-\d+|[A-Z][A-Z0-9-]{3,}\.md(?:\s*§\s?[\d.]+)?)\)")
+
 OBJECTION_ROWS_CLEAN = [
-    [cell.replace(" (AGR-009)", "").replace(" (AGR-014)", "")
-         .replace(" (AGR-018)", "").replace(" (AGR-010)", "")
-         .replace(" (AGR-012)", "")
-     for cell in row]
-    for row in OBJECTION_ROWS
+    [_CITATION.sub("", cell) for cell in row] for row in OBJECTION_ROWS
 ]

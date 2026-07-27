@@ -18,8 +18,84 @@ import facts as f
 from lib import (
     ACCENT, ACCENT_DIM, ALLOW, BLOCK, BODY_BOTTOM, BODY_Y, CONTENT_W, HAIRLINE,
     HEAD_FONT, LOG_ONLY, MARGIN, MUTED, SURFACE, SURFACE_ALT, TEXT, WARN, arrow, box,
-    bullets, caption, notes, panel, para, slide_base, table, textbox,
+    bullets, caption, hide, notes, panel, para, slide_base, table, textbox,
 )
+
+
+def presenter_brief(prs, ctx):
+    """Presenter-only leading slide, marked skipped so it is never projected.
+
+    The four-part speaker notes assume a presenter who already knows the room.
+    This deck is written to be delivered by someone who is neither its author nor
+    familiar with the team in front of them, so what that presenter has to find
+    out, route, and cut lives on one surface rather than scattered across notes.
+    """
+    s = hide(slide_base(
+        prs,
+        title="Presenter brief — hidden slide, not projected",
+        kicker="Marked skipped in slideshow. Fill in the blanks below before the "
+               "session; do not present this deck with them unfilled.",
+    ))
+    panel(s, MARGIN, BODY_Y + 0.02, 6.30, 4.30)
+    box(s, MARGIN, BODY_Y + 0.02, 6.30, 0.48, "ESTABLISH BEFORE THE ROOM", bold=True,
+        size=12, fill=ACCENT_DIM, border=ACCENT)
+    bullets(s, MARGIN + 0.26, BODY_Y + 0.74, 5.82, [
+        "Does this team run LiteLLM, and roughly which version|If not, they cannot be "
+        "the second instance and this is a different meeting.",
+        "Does their reporting line converge with the proposing team's|If it does above "
+        "the engineering-manager level, organizational independence is not satisfied. "
+        "Say so in the room.",
+        "Who is sponsoring the ask, and does their leadership already know|First "
+        "question an engineering manager asks. Arriving without the answer reads as "
+        "the ask being informal.",
+        "Which team is the other independent instance, and have they agreed|If nobody "
+        "has, say that rather than implying a peer is already committed.",
+        "Is there a candidate workload, and is it latency-sensitive|Determines how the "
+        "rough-edges slide lands.",
+    ], size=11.5, gap=0.52, dot=ACCENT)
+
+    panel(s, 7.13, BODY_Y + 0.02, 5.45, 2.05, fill=SURFACE)
+    box(s, 7.13, BODY_Y + 0.02, 5.45, 0.48, "WHERE UNANSWERED QUESTIONS GO", bold=True,
+        size=12, fill=SURFACE, border=HAIRLINE)
+    bullets(s, 7.39, BODY_Y + 0.74, 4.95, [
+        "Policy content, approval, exceptions → security and governance",
+        "Contract, connector, schemas → the guardrail team",
+        "Availability, capacity, incidents → platform operations",
+        "Anything with no owner → record it and say it is not decided",
+    ], size=11.5, gap=0.32, dot=LOG_ONLY)
+
+    panel(s, 7.13, BODY_Y + 2.27, 5.45, 2.05, fill=SURFACE_ALT, border=WARN)
+    box(s, 7.13, BODY_Y + 2.27, 5.45, 0.48, "IF YOU ARE RUNNING LONG", bold=True,
+        size=12, fill=SURFACE_ALT, border=WARN)
+    _, tf = textbox(s, 7.39, BODY_Y + 2.97, 4.95, 1.25)
+    para(tf, "Spine, in priority order: the four asks · what you get · what changes in "
+             "your request path · you are on Remote Evaluation · observe first · what "
+             "you own · the rough edges · what happens after yes · the ask.", size=11,
+         color=TEXT, first=True, space_after=5, line=1.18)
+    para(tf, "Drop first, in this order: what you install · what evaluation failure "
+             "does · reading a decision · what the pilot has to demonstrate. All four "
+             "are in the leave-behind and none of them changes the answer in the room.",
+         size=11, color=MUTED, space_after=0, line=1.18)
+    notes(
+        s,
+        "DECK-VARIANTS.md §5 (audience, decision, format, and the deck's careful "
+        "points); VISUAL-DIRECTION.md §8 speaker-note contract; the independence "
+        "requirement is MVP-01 in SUCCESS-CRITERIA.md §1.2 with VAL-002 in "
+        "VALIDATION-PLAN.md; the LiteLLM prerequisite is AGR-003; escalation targets "
+        "follow the ownership groups in TEAM-AND-OWNERSHIP.md §1.",
+        "Nothing on this slide is audience-facing and none of it is sourced from a "
+        "register — the blanks are engagement facts that only the person running the "
+        "session can fill. If they cannot be filled, the honest move is to postpone "
+        "rather than to improvise them live.",
+        "Read this before the meeting, not during it. It is marked skipped in "
+        "slideshow, so it will not appear when presenting, but check that before you "
+        "share the file.",
+        "n/a — presenter-only slide.",
+        prep="If more than two of the five items on the left are unknown at the time "
+             "of the session, the meeting is premature: the team will ask all five "
+             "within the first ten minutes and unanswered ones compound. Postponing "
+             "costs a week; an unconvincing first session costs the pilot.",
+    )
 
 
 def cover(prs, ctx):
@@ -68,14 +144,16 @@ def what_you_are_asked(prs, ctx):
         prs,
         title="What we are asking you to do",
         kicker="Four things. None of them involves giving us access to anything you own.",
-        footer=ctx.src("SUCCESS-CRITERIA.md §1.2 MVP-01, MVP-04 · VALIDATION-PLAN.md · "
-                       "AGR-011 · ASM-002, ASM-003"),
+        footer=ctx.src("SUCCESS-CRITERIA.md §1.2 MVP-01, MVP-04 · VALIDATION-PLAN.md "
+                       "VAL-002 · AGR-003 · AGR-011 · ASM-002, ASM-003"),
     )
     bullets(s, MARGIN, BODY_Y + 0.10, CONTENT_W, [
-        "Run your own gateway, exactly as you do now|The demonstration needs two "
-        "organizationally independent deployments consuming the same policy version. "
-        "Yours is the second. Independence is the point — one deployment exercised "
-        "twice under different labels does not satisfy it.",
+        "Run your own LiteLLM gateway, exactly as you do now|The demonstration needs "
+        "two organizationally independent LiteLLM deployments consuming the same "
+        "policy version. Yours is the second. Independence is the point — one "
+        "deployment exercised twice under different labels does not satisfy it. If "
+        "your gateway is something else, the generic evaluation API is the "
+        "integration path, but this particular ask is not the one that fits you.",
         "Install a connector into it|A published artifact you install and can verify "
         "before it runs. It calls an evaluation service before and after each model "
         "call and applies what comes back.",
@@ -94,9 +172,11 @@ def what_you_are_asked(prs, ctx):
     notes(
         s,
         "The two-instance requirement is MVP-01, observe mode is MVP-04, both in "
-        "SUCCESS-CRITERIA.md §1.2 and gated in VALIDATION-PLAN.md; observe-first is "
-        "AGR-011; the exclusions are AGR-019; the assumption that a second team "
-        "volunteers is ASM-002/ASM-003.",
+        "SUCCESS-CRITERIA.md §1.2 and gated as VAL-002 in VALIDATION-PLAN.md; the "
+        "LiteLLM connector as first gateway integration and the generic API for "
+        "everything else are AGR-003 with INTEGRATION-ARCHITECTURE.md §5; "
+        "observe-first is AGR-011; the exclusions are AGR-019; the assumption that a "
+        "second team volunteers is ASM-002/ASM-003.",
         "Independence is organizational, not just technical — two instances run by the "
         "same team would not demonstrate what the phase exists to prove. If this team "
         "is inside the same reporting line as the proposing team, that is worth "
@@ -105,6 +185,76 @@ def what_you_are_asked(prs, ctx):
         "room is actually listening for.",
         "'How long are we committing for?' — Through the observe-mode review. No "
         "calendar dates exist in the plan yet, and I will not invent one.",
+        prep="Establish before the session whether this team actually runs LiteLLM, "
+             "and roughly which version. The whole ask is written against MVP-01's "
+             "two-LiteLLM-instance wording; a team on another gateway can still "
+             "integrate via the generic API, but it cannot be the second instance and "
+             "the meeting becomes a different conversation. Also confirm the "
+             "reporting line — if it converges with the proposing team's above the "
+             "engineering-manager level, organizational independence is not satisfied "
+             "and that has to be said in the room, not discovered at validation.",
+    )
+
+
+def what_you_get(prs, ctx):
+    s = slide_base(
+        prs,
+        title="What you get for doing it",
+        kicker="Four returns, all of them available in observe mode. None of them is a "
+               "promise about what the platform becomes later.",
+        footer=ctx.src("TARGET-USERS.md §3 · INTEGRATION-ARCHITECTURE.md §3.6 · "
+                       "AGR-011 · OQ-014, OQ-022 · SUCCESS-CRITERIA.md §2.3"),
+    )
+    bullets(s, MARGIN, BODY_Y + 0.10, CONTENT_W, [
+        "A measured picture of what your own traffic actually trips|Observe records "
+        "the decision that would have been made on real requests — reason codes, "
+        "category, policy version. Nobody in your team has that today, and getting it "
+        "costs you no enforcement and no change to what your users receive.",
+        "Evaluation latency as a number you hold, not one you are quoted|Latency is a "
+        "field on every decision and is measured per stage and per detector. You would "
+        "be measuring the real cost on your own traffic rather than accepting someone "
+        "else's estimate of it later.",
+        "Influence over the parts that are still undecided|Promotion criteria, the "
+        "findings-review workflow, timeout defaults, and how long a connector version "
+        "stays supported are all open. A pilot team's constraints are the cheapest "
+        "input this design will ever take.",
+        "A defined onboarding path instead of a later mandate|The realistic "
+        "alternative is that guardrails arrive as a requirement designed without you. "
+        "Piloting is how your constraints get in first, while changing them is still "
+        "inexpensive.",
+    ], size=13, gap=0.68)
+    caption(s, MARGIN, BODY_BOTTOM - 0.40, CONTENT_W,
+            "What this is not: it is not a latency improvement, not a security "
+            "certification, not a reduction of anything you already operate, and not "
+            "an argument that your workload is unsafe today. It is measurement you do "
+            "not currently have, plus a say in what gets built on top of it.")
+    notes(
+        s,
+        "Application-team benefits per TARGET-USERS.md §3 ('what the product gives "
+        "them'); latency as a first-class decision field INTEGRATION-ARCHITECTURE.md "
+        "§3.6 and NFR-PERF-001 through NFR-PERF-006; observe-mode measurement AGR-011 "
+        "and FAQ.md; the undecided items are OQ-014 (promotion criteria) and OQ-022 "
+        "(connector support window); false-positive review as an ongoing metric with "
+        "no defined workflow SUCCESS-CRITERIA.md §2.3.",
+        "None of these benefits is measured or demonstrated — they are the designed "
+        "intent of observe mode, offered to a team that will be generating the first "
+        "evidence for them. Do not let 'you get a measured picture' harden into a "
+        "claim that the measurement pipeline exists today.",
+        "This is the only slide in the deck arguing for a yes, and it comes straight "
+        "after the cost. Deliver it as an exchange, not as a benefit pitch: they carry "
+        "two synchronous calls and a security review, and they get data and influence "
+        "in return. If the room does not accept that trade, the rest of the session "
+        "will not fix it.",
+        "'Could we get the same data by just logging our own prompts?' — Partly, and "
+        "honestly say so. What you would not get is normalized reason codes, a "
+        "category taxonomy that survives a change of detection engine, and a policy "
+        "version attached to every finding.",
+        prep="Find out beforehand whether this team has already had an AI-safety "
+             "incident, a red-team finding, or an awkward question from security about "
+             "their model traffic. If they have, that is the concrete version of the "
+             "first bullet and it should lead. If they have not, do not manufacture "
+             "one — lead with the third and fourth bullets instead, which are about "
+             "control rather than risk.",
     )
 
 
@@ -390,9 +540,9 @@ def reading_a_decision(prs, ctx):
         kicker="Every evaluation returns this, and records it. This is what you will be "
                "reviewing.",
         footer=ctx.src("INTEGRATION-ARCHITECTURE.md §3.3 · ADR-0003 · ADR-0004 · "
-                       "DATA-ARCHITECTURE.md §4"),
+                       "DATA-ARCHITECTURE.md §4 · TEAM-AND-OWNERSHIP.md §3.4"),
     )
-    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 3.55, [
+    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 3.20, [
         ["Field", "What you do with it"],
         ["action · allowed",
          "allow · block · redact · log_only. In observe every action arrives as "
@@ -411,18 +561,28 @@ def reading_a_decision(prs, ctx):
         ["correlation_id · audit_id · latency",
          "Join to your own request logs; find the durable record; see what the call "
          "cost you."],
-    ], col_w=[0.29, 0.71], size=11, first_col_bold=True,
-        row_h=[0.34, 0.55, 0.46, 0.68, 0.55, 0.30, 0.50])
-    caption(s, MARGIN, BODY_BOTTOM - 0.36, CONTENT_W,
+    ], col_w=[0.29, 0.71], size=10.5, first_col_bold=True,
+        row_h=[0.32, 0.50, 0.42, 0.60, 0.50, 0.28, 0.46])
+    caption(s, MARGIN, BODY_Y + 3.32, CONTENT_W,
             "A reason code looks like a category, then the evaluator family, then that "
             "evaluator's own code — so a finding from today's engine and the same "
             "finding from a future one group together rather than becoming two "
-            "different things you have to reconcile.")
+            "different things you have to reconcile.", size=11)
+
+    panel(s, MARGIN, BODY_Y + 3.78, CONTENT_W, 0.90, fill=SURFACE_ALT, border=HAIRLINE)
+    _, tf = textbox(s, MARGIN + 0.30, BODY_Y + 3.91, CONTENT_W - 0.6, 0.70)
+    para(tf, "Who else sees these findings", size=11, color=ACCENT, bold=True,
+         first=True, space_after=4)
+    para(tf, f.FINDINGS_VISIBILITY, size=11.5, color=TEXT, space_after=0, line=1.2)
     notes(
         s,
         "Decision structure INTEGRATION-ARCHITECTURE.md §3.3 and ADR-0005 §5; "
         "reason-code namespacing ADR-0003 and DEC-013; enforcement_state on the "
-        "decision ADR-0004 §3; the durable record fields DATA-ARCHITECTURE.md §4.",
+        "decision ADR-0004 §3; the durable record fields DATA-ARCHITECTURE.md §4; "
+        "review accountability and the consulted/informed split "
+        "TEAM-AND-OWNERSHIP.md §3.4; tenant isolation of stored records CON-011; the "
+        "absent review workflow SUCCESS-CRITERIA.md §2.3 (false-positive review rate, "
+        "TBD).",
         "In observe the clamping changes the action to log_only but leaves findings and "
         "reason codes untouched. That is what makes observe-mode review real "
         "measurement rather than a rehearsal — worth saying, because a team that thinks "
@@ -433,6 +593,13 @@ def reading_a_decision(prs, ctx):
         "'How do we know a finding is a false positive?' — You look at the reason code "
         "and the content it fired on. There is no tooling specified for that review "
         "yet, which is a gap we would want your help scoping.",
+        prep="The findings-visibility panel is the political question of the session, "
+             "and it usually arrives phrased as something else ('who gets the "
+             "report?'). Before the meeting, find out whether the sponsor intends any "
+             "cross-team or leadership reporting of pilot findings. If the answer is "
+             "yes, say so here rather than letting the panel imply otherwise; if "
+             "nobody has decided, say that, and record it as a question the team has "
+             "asked. Never answer it by guessing.",
     )
 
 
@@ -560,7 +727,16 @@ def what_success_means(prs, ctx):
         "One workload runs in observe while another runs in enforce|Against the same "
         "policy version. That is the property that makes one policy usable by teams at "
         "different maturity levels.",
-    ], size=13, gap=0.66, dot=ACCENT)
+    ], size=12.5, gap=0.60, dot=ACCENT)
+
+    panel(s, MARGIN, BODY_Y + 3.20, 7.15, 1.10, fill=SURFACE, border=ALLOW)
+    _, tf = textbox(s, MARGIN + 0.28, BODY_Y + 3.34, 6.60, 0.88)
+    para(tf, "And what a good outcome looks like for you", size=12, color=ALLOW,
+         bold=True, first=True, space_after=4)
+    para(tf, "You can state, from your own traffic, what your workload trips and what "
+             "acting on it would have cost — and you make the promotion decision on "
+             "that evidence. Deciding not to promote is a good outcome too.", size=11.5,
+         color=TEXT, space_after=0, line=1.2)
 
     panel(s, 8.35, BODY_Y + 0.05, 4.23, 3.95, fill=SURFACE_ALT, border=WARN)
     _, tf = textbox(s, 8.62, BODY_Y + 0.30, 3.70, 3.45)
@@ -587,6 +763,11 @@ def what_success_means(prs, ctx):
         "'What if the demonstration fails?' — Then the phase is not validated and the "
         "next one is not committed. That is the point of running it, and a negative "
         "result is a real outcome rather than an embarrassment.",
+        prep="The green panel is the half of this slide that belongs to them, and it "
+             "is the half a presenter who did not write the deck tends to skip. Read "
+             "it out. If the room hears only the four platform criteria, the slide "
+             "lands as 'here is the exam we are setting you' and the ask two slides "
+             "later gets harder, not easier.",
     )
 
 
@@ -594,17 +775,22 @@ def rough_edges(prs, ctx):
     s = slide_base(
         prs,
         title="The rough edges, before you find them",
-        kicker="Five things that are genuinely unresolved. None of them is a reason not "
+        kicker="Six things that are genuinely unresolved. None of them is a reason not "
                "to pilot; all of them are things you would hit.",
         footer=ctx.src("ASM-011, ASM-012 · OQ-014, OQ-022 · AGR-018 · ASM-005 · "
-                       "VALIDATION-PLAN.md"),
+                       "INTEGRATION-ARCHITECTURE.md §4.1 · VALIDATION-PLAN.md"),
     )
-    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 3.85, [
+    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 4.05, [
         ["What is unresolved", "What it means for you"],
         ["No latency target exists",
          "Two synchronous calls are added to your request path and nobody can tell you "
          "what they cost yet. Instrumentation lands with the first phase; your traffic "
          "is how the target gets set."],
+        ["Observe costs the full latency and returns nothing operational",
+         "Both calls are synchronous in observe exactly as in enforce — nothing is "
+         "blocked, so during the pilot you pay the whole cost for measurement alone. No "
+         "sampled, shadow, or asynchronous evaluation path is designed. If one is what "
+         "makes this affordable on your traffic, say so and it becomes a design input."],
         ["No availability objective exists",
          "The service you are calling has no published objective yet. Your policy's "
          "configured timeout behaviour is the thing that protects you in the meantime."],
@@ -618,15 +804,18 @@ def rough_edges(prs, ctx):
          "The cooperative posture means the connector can be disabled, removed or "
          "misconfigured by your team. That is accepted for this phase — but it also "
          "means coverage depends on you, not on a control."],
-    ], col_w=[0.30, 0.70], size=10.5, header_size=11, first_col_bold=True,
-        row_h=[0.36, 0.72, 0.62, 0.62, 0.62, 0.72])
-    caption(s, MARGIN, BODY_BOTTOM - 0.32, CONTENT_W,
+    ], col_w=[0.30, 0.70], size=10, header_size=10.5, first_col_bold=True,
+        row_h=[0.32, 0.62, 0.76, 0.56, 0.56, 0.56, 0.62])
+    caption(s, MARGIN, BODY_BOTTOM - 0.30, CONTENT_W,
             "These are on the register with owners where owners exist. They are stated "
             "here because a pilot team that meets them unannounced stops trusting "
-            "everything else on the slides.")
+            "everything else on the slides.", size=11)
     notes(
         s,
-        "The numeric gaps are ASM-011 (latency) and ASM-012 (availability); promotion "
+        "The numeric gaps are ASM-011 (latency) and ASM-012 (availability); the "
+        "synchronous pre- and post-call sequence with no sampling or shadow path is "
+        "INTEGRATION-ARCHITECTURE.md §4.1 and §4.4 — the absence is the source, no "
+        "asynchronous evaluation option appears anywhere in the material; promotion "
         "criteria OQ-014; connector support window OQ-022; the cooperative posture and "
         "its residual bypass risk are AGR-018 with ASM-005; verification ownership gaps "
         "in VALIDATION-PLAN.md.",
@@ -638,6 +827,69 @@ def rough_edges(prs, ctx):
         "'Why would we take this on?' — Because the alternative is that guardrails "
         "arrive as a mandate designed without you. Piloting is how the constraints that "
         "matter to your team get into the design while it is still cheap to change.",
+        prep="Row two is the one most likely to end the meeting, so know in advance "
+             "whether this team's workload is latency-sensitive — an interactive "
+             "assistant and a nightly batch job hear that row completely differently. "
+             "If they are latency-sensitive and push back, do not invent an "
+             "asynchronous option: none is designed. Take it away as a requirement "
+             "with their name on it.",
+    )
+
+
+def after_you_say_yes(prs, ctx):
+    s = slide_base(
+        prs,
+        title="What actually happens after you say yes",
+        kicker="Four steps, each triggered by the one before it. No dates exist in the "
+               "plan, so none are given here.",
+        footer=ctx.src("VALIDATION-PLAN.md VAL-002, Pilot gate · AGR-019 · ADR-0008 · "
+                       "AGR-011 · OQ-014"),
+    )
+    bullets(s, MARGIN, BODY_Y + 0.10, CONTENT_W, [
+        "The contract and the connector get shaken out without you|The two-instance "
+        "integration test can run first against a stand-in rig the guardrail team owns. "
+        "You are not the thing that finds the first defects, and your name is not on "
+        "that step.",
+        "The connector artifact is published, and your security review begins|Trigger: "
+        "the artifact existing. It runs on your timeline, and nothing is installed in "
+        "your environment before it concludes.",
+        "You register one workload and install into it|A non-production workload first "
+        "if that is what you prefer. Onboarding is not complete until evaluations appear "
+        "at every stage your policy declares.",
+        "Observe runs, you review it, and then you decide|Promotion to enforcement is a "
+        "separate decision, made on your own findings, with security and governance "
+        "consulted and you accepting it. There is no step after this one that happens "
+        "automatically.",
+    ], size=13, gap=0.68)
+    caption(s, MARGIN, BODY_BOTTOM - 0.40, CONTENT_W,
+            "Saying yes today commits you to this sequence, not to a quarter. If you "
+            "ask when step two happens, the honest answer is that the plan carries no "
+            "date for it — and if that makes a commitment impossible for you now, the "
+            "useful thing to say is what date-shaped certainty you would need.")
+    notes(
+        s,
+        "Step one is the 'important distinction' in VALIDATION-PLAN.md VAL-002 — the "
+        "engineering execution of the two-instance test is Guardrails-team-owned and "
+        "may use a simulated stand-in, separate from securing two real teams, which is "
+        "what retires ASM-002/ASM-003; steps two to four are the AGR-019 onboarding "
+        "flow with connector distribution and integrity per ADR-0008 §1 and §3; the "
+        "Pilot gate definition in VALIDATION-PLAN.md is the first real workload on a "
+        "hosted mode; promotion is AGR-011 with its criteria still open as OQ-014.",
+        "This sequence is the plan's shape, not a schedule anyone has committed to, and "
+        "the whole of it sits behind the Phase 1–2 approval gate. Do not let 'four "
+        "steps' be heard as 'four sprints'.",
+        "Put this immediately before the ask. The commitment they are being asked for "
+        "is only answerable once they can see what it triggers — an engineering manager "
+        "cannot say yes to an open-ended sequence, and until this slide existed the "
+        "deck was asking exactly that.",
+        "'When does step two happen?' — Unknown, and I will not invent it. What I can "
+        "tell you is the order and the trigger for each step, and that nothing lands in "
+        "your environment until your own review has finished.",
+        prep="Before the session, establish where step one actually stands — whether "
+             "the stand-in rig exists, is being built, or is unstarted — and say so "
+             "plainly. This is the slide where a presenter who does not know the "
+             "engineering state gets caught, and 'I do not know, I will find out' is a "
+             "far cheaper answer than an optimistic one that the team checks later.",
     )
 
 
@@ -648,43 +900,53 @@ def the_ask(prs, ctx):
         footer=ctx.src("DECK-VARIANTS.md §5 · AGR-011 · SUCCESS-CRITERIA.md §1.2 · "
                        "ASM-002, ASM-003"),
     )
-    panel(s, MARGIN, BODY_Y - 0.05, CONTENT_W, 1.50, fill=SURFACE, border=ACCENT)
-    _, tf = textbox(s, MARGIN + 0.40, BODY_Y + 0.20, CONTENT_W - 0.8, 1.05)
+    panel(s, MARGIN, BODY_Y - 0.05, CONTENT_W, 1.28, fill=SURFACE, border=ACCENT)
+    _, tf = textbox(s, MARGIN + 0.40, BODY_Y + 0.13, CONTENT_W - 0.8, 1.00)
     para(tf, "Agree to run your gateway as the second independent instance, with the "
-             "connector installed and the workload in observe mode.", size=19, bold=True,
-         first=True, space_after=6, line=1.2)
+             "connector installed and the workload in observe mode.", size=18, bold=True,
+         first=True, space_after=5, line=1.18)
     para(tf, "Nothing you own gets blocked, and no commitment to enforcement is implied "
-             "by saying yes to this.", size=12.5, color=MUTED, space_after=0)
+             "by saying yes to this.", size=12, color=MUTED, space_after=0)
 
-    _, tf = textbox(s, MARGIN, BODY_Y + 1.58, 6.05, 0.4)
-    para(tf, "Specifically, from you", size=13, color=ACCENT, bold=True, first=True,
+    _, tf = textbox(s, MARGIN, BODY_Y + 1.36, 6.05, 0.4)
+    para(tf, "Specifically, from you", size=12.5, color=ACCENT, bold=True, first=True,
          space_after=0)
-    bullets(s, MARGIN, BODY_Y + 2.00, 6.05, [
+    bullets(s, MARGIN, BODY_Y + 1.76, 6.05, [
         "A named engineering contact who owns the integration",
         "A workload you are willing to put on it, and its accurate registration details",
         "A security review of the connector artifact on your side, on your timeline",
         "The observe-mode review, once there is something to review",
-    ], size=12.5, gap=0.54, dot=ALLOW)
+    ], size=12, gap=0.50, dot=ALLOW)
 
-    _, tf = textbox(s, 7.03, BODY_Y + 1.58, 5.55, 0.4)
-    para(tf, "What you are not agreeing to", size=13, color=MUTED, bold=True,
+    _, tf = textbox(s, 7.03, BODY_Y + 1.36, 5.55, 0.4)
+    para(tf, "What you are not agreeing to", size=12.5, color=MUTED, bold=True,
          first=True, space_after=0)
-    bullets(s, 7.03, BODY_Y + 2.00, 5.55, [
+    bullets(s, 7.03, BODY_Y + 1.76, 5.55, [
         "Enforcement, on any timeline — that is a separate decision you make later",
         "Handing over credentials, gateway administration, or configuration",
         "A migration off your current gateway, now or ever",
         "A delivery date — none exists in the plan yet",
-    ], size=12.5, gap=0.54, dot=LOG_ONLY)
+    ], size=12, gap=0.50, dot=LOG_ONLY)
 
-    caption(s, MARGIN, BODY_BOTTOM - 0.20, CONTENT_W,
-            "If you would rather not commit today, the useful outcome is the list of "
-            "what would have to be true first — that becomes a delivery requirement "
-            "rather than an objection we work around.")
+    panel(s, MARGIN, BODY_Y + 3.78, CONTENT_W, 0.90, fill=SURFACE_ALT, border=ALLOW)
+    _, tf = textbox(s, MARGIN + 0.30, BODY_Y + 3.90, CONTENT_W - 0.6, 0.70)
+    para(tf, "And how you get out", size=11.5, color=ALLOW, bold=True, first=True,
+         space_after=3)
+    para(tf, "Removing the connector is a configuration change and a deploy you make "
+             "yourself — nothing on our side has to agree to it, and withdrawing is a "
+             "finding we record, not a breach. If you would rather not commit today, "
+             "the useful outcome is the list of what would have to be true first: that "
+             "becomes a delivery requirement rather than an objection we work around.",
+         size=11, color=TEXT, space_after=0, line=1.18)
     notes(
         s,
         "DECK-VARIANTS.md §5 (the decision this deck asks for); observe-first AGR-011; "
         "the two-instance criterion MVP-01 in SUCCESS-CRITERIA.md §1.2; the assumption "
-        "that a second team volunteers is ASM-002/ASM-003.",
+        "that a second team volunteers is ASM-002/ASM-003; the exit statement rests on "
+        "AGR-018 — under cooperative integration the consuming team can disable, "
+        "remove or misconfigure its own connector — and on OPERABILITY.md §6.4, where "
+        "connector-health telemetry stopping is read as a bypass signal rather than "
+        "treated as a control.",
         "This team declining is a legitimate outcome that invalidates a load-bearing "
         "assumption behind the first phase. Report it as a finding rather than "
         "renegotiating the ask downward in the room.",
@@ -693,6 +955,13 @@ def the_ask(prs, ctx):
         "'Can we decide after our security review?' — Yes, and that is the expected "
         "sequence. What we need today is whether you are willing to run the review at "
         "all.",
+        prep="Know before the room who the named contact on our side is, and who "
+             "answers each kind of follow-up: policy content and approval go to "
+             "security and governance, the contract and the connector to the guardrail "
+             "team, availability and infrastructure to platform operations. Leaving "
+             "with a question and no owner attached to it is how a pilot commitment "
+             "quietly decays. The exit panel is not a throwaway — read it, because a "
+             "team that can see the way out commits faster than one that cannot.",
     )
 
 
@@ -778,13 +1047,15 @@ def questions(prs, ctx):
         kicker="Pull only the pair that matches.",
         footer=ctx.src("FAQ.md · AGR-009, AGR-010, AGR-012, AGR-014, AGR-018"),
     )
-    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 4.05, f.OBJECTION_ROWS_CLEAN,
-          col_w=[0.28, 0.72], size=11.5, first_col_bold=True,
-          row_h=[0.40, 0.72, 0.72, 0.78, 0.72, 0.78])
+    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 4.52, f.OBJECTION_ROWS_CLEAN,
+          col_w=[0.28, 0.72], size=11, header_size=11, first_col_bold=True,
+          row_h=[0.34, 0.64, 0.64, 0.70, 0.64, 0.70, 0.86])
     notes(
         s,
-        "FAQ.md — the five pairs most likely to be raised; each answer traces to "
-        "AGR-009, AGR-014, AGR-018, AGR-010 and AGR-012 respectively.",
+        "FAQ.md — the pairs most likely to be raised; the first five trace to "
+        "AGR-009, AGR-014, AGR-018, AGR-010 and AGR-012 respectively, and the "
+        "findings-visibility pair to the TEAM-AND-OWNERSHIP.md §3.4 responsibility "
+        "matrix.",
         "Answer the one that was asked and stop. This audience reads a recited table as "
         "a prepared defence rather than an answer.",
         "Only surface this if something lands that the main sequence did not cover.",
@@ -795,8 +1066,10 @@ def questions(prs, ctx):
 
 
 SLIDES = [
+    presenter_brief,
     cover,
     what_you_are_asked,
+    what_you_get,
     what_it_is,
     request_path,
     your_mode,
@@ -808,6 +1081,7 @@ SLIDES = [
     what_you_own,
     what_success_means,
     rough_edges,
+    after_you_say_yes,
     the_ask,
     appendix_divider,
     three_modes,

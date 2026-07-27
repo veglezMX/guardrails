@@ -103,17 +103,31 @@ def slide_base(prs, title=None, kicker=None, footer=None):
     return s
 
 
-def notes(slide, sourcing, caveat, talk_track, question):
-    """Speaker notes carrying the four parts VISUAL-DIRECTION §8 requires."""
+def notes(slide, sourcing, caveat, talk_track, question, prep=None):
+    """Speaker notes carrying the four parts VISUAL-DIRECTION §8 requires.
+
+    ``prep`` adds the optional fifth part §8 allows: what a presenter who did not
+    write the deck has to establish or decide before this slide can be delivered
+    to a team they do not know.
+    """
     tf = slide.notes_slide.notes_text_frame
     tf.text = f"SOURCING — {sourcing}"
-    for label, body in (
+    parts = [
         ("CAVEAT NOT ON SLIDE", caveat),
         ("TALK TRACK", talk_track),
         ("IF ASKED", question),
-    ):
+    ]
+    if prep is not None:
+        parts.append(("PREP", prep))
+    for label, body in parts:
         p = tf.add_paragraph()
         p.text = f"{label} — {body}"
+
+
+def hide(slide):
+    """Mark a slide as skipped in slideshow — presenter-only, never projected."""
+    slide.element.set("show", "0")
+    return slide
 
 
 # --- shape primitives -----------------------------------------------------

@@ -181,6 +181,10 @@ Each slide's speaker notes must include:
 * **Talk track** — one or two sentences bridging from the previous slide and into the next, so the deck can be delivered by someone other than its author without losing the thread.
 * **Anticipated questions** — where the underlying material is qualified (e.g., "the initial phases do not include a full administration portal," [`SCOPE.md`](../10-charter/SCOPE.md)), a one-line pointer to how to answer if asked, without overclaiming beyond what the source supports.
 
+A fifth part, **preparation**, is **optional** and carries what a presenter who did not write the deck must establish, decide, or route *before* the slide can be delivered — a fact about the room that no register can supply (does this team run LiteLLM, who is sponsoring the ask, is the workload latency-sensitive), or the named owner a question has to be routed to when the answer is not in the material. Use it only where the slide genuinely fails without it; a preparation note on every slide is noise, and the build checker therefore requires the four parts above and never this one.
+
+**Presenter-only slides.** A deck may carry a leading slide that holds this preparation material in one place — the blanks to fill in, where unanswered questions go, and which slides to drop when the session runs long. Such a slide is marked skipped in slideshow so it is never projected, states that fact in its own title, and still carries the four required note parts like any other. It is presenter apparatus, not content: nothing on it may be the only place an audience-facing fact appears.
+
 ---
 
 ## 9. Diagram editability

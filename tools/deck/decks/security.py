@@ -913,14 +913,15 @@ def objection_handling(prs, ctx):
         kicker="Pull only the pair that matches the question raised.",
         footer=ctx.src("FAQ.md · AGR-009, AGR-010, AGR-012, AGR-014, AGR-018"),
     )
-    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 4.05, f.OBJECTION_ROWS_CLEAN,
-          col_w=[0.28, 0.72], size=11.5, first_col_bold=True,
-          row_h=[0.40, 0.72, 0.72, 0.78, 0.72, 0.78])
+    table(s, MARGIN, BODY_Y + 0.05, CONTENT_W, 4.52, f.OBJECTION_ROWS_CLEAN,
+          col_w=[0.28, 0.72], size=11, header_size=11, first_col_bold=True,
+          row_h=[0.34, 0.64, 0.64, 0.70, 0.64, 0.70, 0.86])
     notes(
         s,
-        "FAQ.md — the five pairs most likely to be raised by a security and compliance "
-        "audience; each answer traces to AGR-009, AGR-014, AGR-018, AGR-010 and "
-        "AGR-012 respectively.",
+        "FAQ.md — the pairs most likely to be raised by a security and compliance "
+        "audience; the first five trace to AGR-009, AGR-014, AGR-018, AGR-010 and "
+        "AGR-012 respectively, and the findings-visibility pair to the "
+        "TEAM-AND-OWNERSHIP.md §3.4 responsibility matrix.",
         "Answer the specific question and stop. Reading the table aloud signals "
         "defensiveness, and this audience reads that accurately.",
         "Only surface this if a question lands that the main sequence did not resolve.",
