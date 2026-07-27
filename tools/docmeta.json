@@ -1,0 +1,1710 @@
+{
+  "_comment": "Editorial prose that cannot be derived from the documents themselves. Generated tables read from here; see tools/docs/generate.py.",
+  "documents": {
+    "00-source-of-truth/AGREEMENTS.md": {
+      "description": "The 21 accepted agreements (`AGR-001`…`AGR-021`) that govern this entire solution.",
+      "purpose": "The 20 accepted agreements that no other document may contradict.",
+      "authority_note": "L1 (Authoritative)",
+      "role": "The 21 accepted agreements (AGR-001–AGR-021) that no derived document may contradict. The single most-cited document in this set.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "00-source-of-truth/ASSUMPTIONS.md": {
+      "description": "Register of load-bearing but not-yet-validated beliefs the charter and delivery sequencing depend on (`ASM-NNN`).",
+      "purpose": "Standing assumptions underlying the solution.",
+      "authority_note": "L1",
+      "role": "The register of unvalidated beliefs (demand/adoption, technical/infrastructure feasibility, security/governance, and other categories) underlying scope and delivery-dependency status.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "00-source-of-truth/CONSTRAINTS.md": {
+      "description": "Non-negotiable, checkable boundaries — cloud placement, security, data handling, resource limits (`CON-NNN`).",
+      "purpose": "Hard constraints on the solution.",
+      "authority_note": "L1",
+      "role": "Non-negotiable, checkable technical and security boundaries (CON-001–CON-016) — cloud placement, contract independence, transport/cryptographic security, identity, content handling, resource limits.",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "00-source-of-truth/DECISIONS.md": {
+      "description": "Chronological log of product, organizational, and delivery decisions (`DEC-NNN`), distinct from architecture-level ADRs.",
+      "purpose": "The decision log.",
+      "authority_note": "L1",
+      "role": "The product/organizational/delivery decision log, distinct from architecture-level ADRs."
+    },
+    "00-source-of-truth/OPEN-QUESTIONS.md": {
+      "description": "Decisions not yet made that could materially change scope, feasibility, cost, or architecture.",
+      "purpose": "Open questions awaiting resolution.",
+      "authority_note": "L1",
+      "role": "Open governance and design questions not yet resolved into an agreement or decision (e.g., promotion-governance process).",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "00-source-of-truth/PROVENANCE.md": {
+      "description": "Historical record of where the original solution charter's content now lives, and where later decisions supersede it. A map, not a source.",
+      "purpose": "Provenance of the original solution charter.",
+      "authority_note": "Provenance record",
+      "role": "Map of where the original solution charter's content now lives (purpose, vision, deployment modes, domain model, AWS direction, security and operational requirements, delivery phases, risks) that every derived document in this set traces back to.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "10-charter/CHARTER.md": {
+      "description": "The solution charter: purpose, vision, three-mode architectural decision, scope, and ownership boundaries.",
+      "purpose": "Purpose, vision, stakeholders, scope, principles, operating model, success criteria.",
+      "authority_note": "L2",
+      "role": "The solution charter: purpose, problem addressed, vision, the three-mode architectural decision, and pointers to every other layer."
+    },
+    "10-charter/PRINCIPLES.md": {
+      "description": "The product principles ([`PRINCIPLES.md`](10-charter/PRINCIPLES.md)) — policy portability, one contract, policy/connector separation, observe-before-enforce, and more.",
+      "purpose": "The product's guiding principles.",
+      "authority_note": "L2",
+      "role": "The product principles — policy portability, one contract across modes, policies separate from connectors, explicit content-exposure model, guardrails-are-not-authorization, observe-before-enforce, failure behavior as policy."
+    },
+    "10-charter/SCOPE.md": {
+      "description": "Expands the charter's in-scope/out-of-scope sections into full scope-boundary detail across the five delivery phases.",
+      "purpose": "In-scope, later-phase, and out-of-scope boundaries.",
+      "authority_note": "L2",
+      "role": "In-scope, later-phase, and out-of-scope boundaries for the full feature set (DEC-008).",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "10-charter/SUCCESS-CRITERIA.md": {
+      "description": "The measurable criteria the Phase 1–2 validation demonstration and adoption/reliability/effectiveness/portability goals are judged against.",
+      "purpose": "What counts as success.",
+      "authority_note": "L2",
+      "role": "Success criteria for the platform, grounded in adoption, reliability, effectiveness, and portability metrics named in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md).",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "20-product/CAPABILITIES.md": {
+      "description": "The traceable capability catalog (`CAP-NNN`) — what the product does or will do, by delivery status.",
+      "purpose": "The capability catalog, by delivery status.",
+      "authority_note": "L2",
+      "role": "The capability catalog describing what the platform does, mapped to the in-scope capability list.",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "20-product/DIFFERENTIATORS.md": {
+      "description": "What distinguishes AI Guardrails from an embedded gateway feature or a single-vendor moderation add-on.",
+      "purpose": "What distinguishes the product.",
+      "authority_note": "L4",
+      "role": "What distinguishes AI Guardrails from adjacent approaches."
+    },
+    "20-product/FAQ.md": {
+      "description": "Answers to the questions platform, application, and security-review teams most commonly ask.",
+      "purpose": "Frequently asked questions.",
+      "authority_note": "L4",
+      "role": "Frequently asked questions, including clarifications of \"import\" and deployment-mode data exposure.",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "20-product/GUARDRAIL-CATALOG.md": {
+      "description": "The guardrail-category taxonomy (`GR-001`–`GR-018`) — vision taxonomy with per-entry phase status and enforcement layer; classification, not commitment (AGR-021, DEC-009).",
+      "purpose": "The guardrail-category taxonomy (`GR-001`–`GR-018`) — vision taxonomy, classification not commitment (AGR-021).",
+      "authority_note": "L2",
+      "role": "The guardrail-category taxonomy (`GR-001`–`GR-018`, per AGR-021/DEC-009) — classification and directional vision, never scope commitment; each entry carries enforcement layer, control types, and phase status.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "20-product/PROBLEM-STATEMENT.md": {
+      "description": "States, without solutioning, the problem that justifies building AI Guardrails.",
+      "purpose": "The problem being solved.",
+      "authority_note": "L4",
+      "role": "The reuse/portability problem the product addresses."
+    },
+    "20-product/PRODUCT-OVERVIEW.md": {
+      "description": "The start-here explanation of what AI Guardrails is, for product, sales, and solution-engineering audiences.",
+      "purpose": "What AI Guardrails is, the three operating models, capability snapshot.",
+      "authority_note": "L4",
+      "role": "Narrative overview of the product for a product-facing audience."
+    },
+    "20-product/PRODUCT-ROADMAP.md": {
+      "description": "The five-phase delivery roadmap, product-facing.",
+      "purpose": "How capability grows across the five delivery phases.",
+      "authority_note": "L4",
+      "role": "The five-phase delivery roadmap ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) presented for a product audience."
+    },
+    "20-product/SERVING-MODEL.md": {
+      "description": "How AI Guardrails is served and consumed — the Mode A front door, the managed/self-serve split, the integration contract, and the policy governance classes.",
+      "purpose": "How AI Guardrails is served and consumed — the Mode A front door, the managed/self-serve split, the integration contract, and the policy governance classes.",
+      "authority_note": "L4",
+      "role": "How the product is served and consumed; the onboarding surface and governance classes.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "20-product/TARGET-USERS.md": {
+      "description": "The four stakeholder groups ([`TARGET-USERS.md`](20-product/TARGET-USERS.md)) and what each needs from the platform.",
+      "purpose": "Target users and stakeholders.",
+      "authority_note": "L4",
+      "role": "Platform teams, application teams, security/compliance teams, and product operators, per [`TARGET-USERS.md`](../20-product/TARGET-USERS.md)."
+    },
+    "20-product/USE-CASES.md": {
+      "description": "Concrete, actor-driven use cases illustrating the three deployment modes and the trust/enforcement model.",
+      "purpose": "Concrete use cases, including the meaning of \"import.\"",
+      "authority_note": "L4",
+      "role": "Representative use cases, including the canonical \"import\" onboarding flow ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import))."
+    },
+    "20-product/VALUE-PROPOSITION.md": {
+      "description": "Value proposition per stakeholder group — platform teams, application teams, security/compliance, product operators.",
+      "purpose": "The value case per audience.",
+      "authority_note": "L4",
+      "role": "The value proposition derived from the product vision."
+    },
+    "30-executive/BUSINESS-CASE.md": {
+      "description": "The analytical justification behind the executive brief's ask — costs of inaction, risk exposure, expected benefits.",
+      "purpose": "The business justification.",
+      "authority_note": "L3",
+      "role": "The business rationale for investment.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "30-executive/DECISION-REQUEST.md": {
+      "description": "The specific, actionable approvals leadership must grant, isolated from the fuller brief.",
+      "purpose": "The specific decision being asked for.",
+      "authority_note": "L4",
+      "role": "The decision(s) being asked of executive stakeholders."
+    },
+    "30-executive/EXECUTIVE-BRIEF.md": {
+      "description": "The primary executive-facing narrative and decision context.",
+      "purpose": "The executive-facing summary of the whole solution.",
+      "authority_note": "L4",
+      "role": "Condensed executive framing of the solution."
+    },
+    "30-executive/EXPECTED-OUTCOMES.md": {
+      "description": "What success looks like, tied to `SUCCESS-CRITERIA.md`.",
+      "purpose": "Outcomes expected across delivery phases.",
+      "authority_note": "L4",
+      "role": "Expected outcomes tied to the [Phase 1–2 validation demonstration](../60-delivery/VALIDATION-PLAN.md).",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "30-executive/INVESTMENT-SUMMARY.md": {
+      "description": "What investment is required, at what granularity, and in what sequence.",
+      "purpose": "Investment and organizational impact.",
+      "authority_note": "L3",
+      "role": "Investment framing (qualitative; no figures beyond what the L1 registers state)."
+    },
+    "30-executive/RISKS-AND-DEPENDENCIES.md": {
+      "description": "A single, decision-relevant view of principal risks and external dependencies for leadership.",
+      "purpose": "Executive-level risk and dependency view.",
+      "authority_note": "L3",
+      "role": "Executive-facing summary of principal risks and dependencies, expanded at delivery level in [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md)."
+    },
+    "40-sales-deck/AUDIENCE-AND-PERSONAS.md": {
+      "description": "Who the deck is written for and what each persona cares about.",
+      "purpose": "Who the deck is for.",
+      "authority_note": "L4",
+      "role": "Target sales audiences and personas."
+    },
+    "40-sales-deck/BENEFITS-AND-OUTCOMES.md": {
+      "description": "The benefits and outcomes claimed in the deck, traced to source.",
+      "purpose": "Benefit framing.",
+      "authority_note": "L4",
+      "role": "Benefits and outcomes messaging."
+    },
+    "40-sales-deck/CALL-TO-ACTION.md": {
+      "description": "The single, concrete ask the deck closes with.",
+      "purpose": "The close.",
+      "authority_note": "L4",
+      "role": "The call to action closing the deck.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "40-sales-deck/CUSTOMER-PAIN-POINTS.md": {
+      "description": "The pain points the deck opens with.",
+      "purpose": "The pain the narrative opens with.",
+      "authority_note": "L4",
+      "role": "Pain points the product addresses."
+    },
+    "40-sales-deck/DECK-BRIEF.md": {
+      "description": "The brief that frames the sales deck's purpose, audience, and constraints.",
+      "purpose": "The operating brief for deck generation.",
+      "authority_note": "L4",
+      "role": "The brief governing the sales deck's content and tone."
+    },
+    "40-sales-deck/OBJECTION-HANDLING.md": {
+      "description": "Anticipated objections and how to respond without overclaiming.",
+      "purpose": "Anticipated objections and responses.",
+      "authority_note": "L4",
+      "role": "Objection handling, including the [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) boundaries on what can be claimed."
+    },
+    "40-sales-deck/PROOF-POINTS.md": {
+      "description": "The evidence and demonstrations the deck may cite.",
+      "purpose": "Permitted evidence.",
+      "authority_note": "L4",
+      "role": "Proof points, constrained to what the Phase 1–2 validation demonstration and charter actually support."
+    },
+    "40-sales-deck/SALES-NARRATIVE.md": {
+      "description": "The connective narrative explaining why each slide follows the one before it.",
+      "purpose": "The narrative arc.",
+      "authority_note": "L4",
+      "role": "The narrative arc used in sales conversations.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "40-sales-deck/SLIDE-OUTLINE.md": {
+      "description": "The slide-by-slide structure of the deck.",
+      "purpose": "Slide-by-slide structure.",
+      "authority_note": "L4",
+      "role": "Slide-by-slide outline."
+    },
+    "40-sales-deck/VISUAL-DIRECTION.md": {
+      "description": "Visual and design direction for the rendered deck.",
+      "purpose": "Visual and tone direction.",
+      "authority_note": "L4",
+      "role": "Visual and design direction for the deck.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "50-architecture/ARCHITECTURE-REPORT.md": {
+      "description": "The consolidated architecture narrative tying together every architecture sub-document.",
+      "purpose": "Consolidated architecture report; the technical lead's start point.",
+      "authority_note": "L3",
+      "role": "Consolidated technical report tying the architecture set together.",
+      "toc_depth": 2,
+      "toc_style": "number"
+    },
+    "50-architecture/COMPONENT-ARCHITECTURE.md": {
+      "description": "C4 Level 3 — internal components (policy resolver, decision engine, evaluator adapters, audit producer).",
+      "purpose": "C4 Level 3 component view.",
+      "authority_note": "L3",
+      "role": "C4 Level 3 component architecture, including the Bedrock Guardrails adapter and evaluator-adapter pattern ([AGR-004](../00-source-of-truth/AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract)).",
+      "toc_depth": 3,
+      "toc_style": "number"
+    },
+    "50-architecture/CONTAINER-ARCHITECTURE.md": {
+      "description": "C4 Level 2 — the deployable containers (control plane, runtime, connectors).",
+      "purpose": "Container-level view.",
+      "authority_note": "L3",
+      "role": "Container-level architecture.",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "50-architecture/DATA-ARCHITECTURE.md": {
+      "description": "Data model, retention behavior, and the content-exposure statement per deployment mode.",
+      "purpose": "Domain model and data handling.",
+      "authority_note": "L3",
+      "role": "The domain entity model, storage architecture, data-handling policy, and audit metadata.",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "50-architecture/DEPLOYMENT-ARCHITECTURE.md": {
+      "description": "How the three deployment modes (Remote Evaluation, Guarded Gateway, Customer-Managed Runtime) are realized on AWS.",
+      "purpose": "The three deployment modes as infrastructure.",
+      "authority_note": "L3",
+      "role": "The three deployment-mode topologies, the AWS implementation direction, and the MVP account model — the primary document cited for the AWS service references below."
+    },
+    "50-architecture/EXTENSIBILITY-ARCHITECTURE.md": {
+      "description": "The growth model — four extension seams (stage, engine, action, connector) and the catalog graduation process behind incremental guardrail additions.",
+      "purpose": "The growth model — extension seams and catalog graduation process.",
+      "authority_note": "L3",
+      "role": "The growth model — four extension seams (stage, engine, action, connector), category attachment, and the catalog graduation process (AGR-021).",
+      "toc_depth": 2,
+      "toc_style": "number"
+    },
+    "50-architecture/FEASIBILITY-ASSESSMENT.md": {
+      "description": "Technical feasibility of the proposed architecture against the phased delivery scope.",
+      "purpose": "Build feasibility against the phased delivery boundary.",
+      "authority_note": "L3",
+      "role": "Technical feasibility assessment."
+    },
+    "50-architecture/INTEGRATION-ARCHITECTURE.md": {
+      "description": "The evaluation contract and how LiteLLM and other connectors invoke it.",
+      "purpose": "LiteLLM connector and Bedrock Guardrails adapter.",
+      "authority_note": "L3",
+      "role": "The evaluation contract, the LiteLLM connector, the generic HTTP Evaluation API/SDK, and the Bedrock Guardrails adapter — the primary document cited for the LiteLLM and Bedrock external references below."
+    },
+    "50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md": {
+      "description": "Availability, performance, security, and operability requirements the platform must meet.",
+      "purpose": "Non-functional requirement baseline.",
+      "authority_note": "L2",
+      "role": "Availability, performance, and security NFRs, including dependency/container-scanning requirements.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "50-architecture/OPERABILITY.md": {
+      "description": "Availability objectives, failure behavior, degraded modes, and policy rollout mechanics.",
+      "purpose": "Availability, failure behavior, rollout mechanics.",
+      "authority_note": "L3",
+      "role": "Operational requirements — failure behavior, policy rollout, auditing.",
+      "toc_depth": 3,
+      "toc_style": "number"
+    },
+    "50-architecture/REQUIREMENTS.md": {
+      "description": "Individually identified, testable functional requirements (`FR-NNN`), each mapped to a `CAP-` capability.",
+      "purpose": "Functional requirement baseline.",
+      "authority_note": "L2",
+      "role": "Functional requirements.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "50-architecture/SECURITY-ARCHITECTURE.md": {
+      "description": "Authentication, encryption, least-privilege, and the trust/enforcement postures.",
+      "purpose": "Security requirements and controls.",
+      "authority_note": "L3",
+      "role": "Security principles, the trust and enforcement model, the security control catalog, and the threat model.",
+      "toc_depth": 2,
+      "toc_style": "number"
+    },
+    "50-architecture/SYSTEM-CONTEXT.md": {
+      "description": "C4 Level 1 — the system in its environment.",
+      "purpose": "C4 Level 1 context view.",
+      "authority_note": "L3",
+      "role": "C4 Level 1 system context."
+    },
+    "50-architecture/TECHNICAL-RISKS.md": {
+      "description": "Architecture-level technical risks and mitigations.",
+      "purpose": "Engineering risk analysis.",
+      "authority_note": "L3",
+      "role": "Technical risks distinct from the product/business risks in [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md).",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "50-architecture/TRADE-OFFS.md": {
+      "description": "Named architectural trade-offs (hosted vs. customer-managed, DynamoDB vs. versioned S3, and others).",
+      "purpose": "Design trade-off analysis.",
+      "authority_note": "L3",
+      "role": "Architectural trade-offs considered across the three deployment modes.",
+      "toc_depth": 2,
+      "toc_style": "number"
+    },
+    "50-architecture/adrs/ADR-0001-example-decision.md": {
+      "description": "Records the decision to build AI Guardrails as a standalone platform, not embedded in the internal LiteLLM.",
+      "purpose": "Decision to build as a standalone platform.",
+      "authority_note": "L1 (Accepted)",
+      "role": "The worked-example ADR: standalone platform, not embedded in the internal LiteLLM instance ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm))."
+    },
+    "50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md": {
+      "description": "Records the design behind the guardrail-category catalog and the four-seam extension model (AGR-021, DEC-009).",
+      "purpose": "Guardrail-category catalog and extension model (Proposed).",
+      "authority_note": "Accepted, pending owner ratification (L1 on ratification)",
+      "role": "Records the taxonomy behind GUARDRAIL-CATALOG and the extension seams behind EXTENSIBILITY-ARCHITECTURE."
+    },
+    "50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md": {
+      "description": "Records the category-namespaced reason-code format (`GR-0NN:<evaluator-family>:<code>`) and the `guardrail_category` decision field.",
+      "purpose": "Reason-code taxonomy and guardrail category as an audit dimension.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Makes per-category metrics and traceability reachable from decision records without an external mapping table."
+    },
+    "50-architecture/adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md": {
+      "description": "Records how the five enforcement-ladder states relate to the four decision actions, resolving a vocabulary collision between two accepted requirements.",
+      "purpose": "Enforcement-ladder states and decision actions.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Makes the ladder state a ceiling held on the binding and reported as an additive `enforcement_state` field."
+    },
+    "50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md": {
+      "description": "Records the evaluation contract's wire format and versioning rules — JSON over HTTPS with SigV4, URI major versioning, and a generated OpenAPI document as the normative artifact.",
+      "purpose": "Evaluation contract wire format and versioning.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "The versionable artifact AGR-006's compatibility discipline operates on; cited wherever the contract's shape or stability is discussed."
+    },
+    "50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md": {
+      "description": "Records the integration manifest as a generated, schema-validated, secret-free file derived from a policy binding, with a prohibited-contents list that makes AGR-019's trust commitments mechanically checkable.",
+      "purpose": "Integration manifest format and contents.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Defines the artifact a consuming team actually receives at onboarding."
+    },
+    "50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md": {
+      "description": "Records two-phase connector compatibility validation, the installation-verification state, the reported staleness signal, and explicit workload decommissioning.",
+      "purpose": "Connector identity, installation verification, and liveness.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Makes a half-wired connector detectable; its staleness signal must never be described as evidence of bypass."
+    },
+    "50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md": {
+      "description": "Records how connectors are published — named channels, independent versioning that declares supported contract majors, verifiable integrity, and documented request-path privilege.",
+      "purpose": "Connector distribution and integrity.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Gives the connector the supply chain the Mode C runtime container already has."
+    },
+    "50-architecture/adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md": {
+      "description": "Records the policy document schema, requires every failure-behavior key with no defaults, and selects evaluators by capability rather than by vendor.",
+      "purpose": "Policy document schema and mandatory failure behavior.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "The record that makes AGR-012's no-undocumented-fallback rule and AGR-005's vendor neutrality checkable at publication."
+    },
+    "50-architecture/adrs/ADR-0010-policy-storage-split.md": {
+      "description": "Records the storage split between low-latency binding resolution and immutable versioned policy documents.",
+      "purpose": "Policy storage split — bindings and policy documents.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Ratifies the standing storage recommendation in TRADE-OFFS as an architectural decision."
+    },
+    "50-architecture/adrs/ADR-0011-policy-distribution-and-caching.md": {
+      "description": "Records that runtimes pull policy, that resolution reads local state only, that refresh failure never fails an evaluation, and that staleness is measured and bounded.",
+      "purpose": "Policy distribution and caching.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Chooses pull over push and defines what immediate rollback means in practice."
+    },
+    "50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md": {
+      "description": "Records how a client obtains its configuration, with a never-configured client refusing to evaluate rather than defaulting to allow.",
+      "purpose": "Client bootstrap configuration.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Closes the client-side half of the configuration-distribution gap ADR-0005 named in its own scope boundaries."
+    },
+    "50-architecture/adrs/ADR-0013-runtime-capability-manifest.md": {
+      "description": "Records that a runtime publishes what it can detect, fails to start when its configuration is unsatisfiable, and that an unsatisfiable binding is refused at bind time.",
+      "purpose": "Runtime capability manifest and bind-time compatibility.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Activates the binding's previously unused runtime-compatibility attribute."
+    },
+    "50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md": {
+      "description": "Records audit coverage for the two events that otherwise produce no record — requests declined before evaluation, and decisions a client produced alone during an outage.",
+      "purpose": "Audit coverage — rejections and client-synthesized decisions.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Keeps self-reported client records distinguishable from platform observations."
+    },
+    "50-architecture/adrs/ADR-0015-runtime-deployment-target.md": {
+      "description": "Records the compute and ingress choices every downstream document had been repeating without choosing.",
+      "purpose": "Runtime deployment target.",
+      "authority_note": "Proposed (L1 once Accepted)",
+      "role": "Argues a single packaging path from the Phase 4 requirement to ship this runtime into customer accounts."
+    },
+    "50-architecture/adrs/README.md": {
+      "description": "Index and process guide for Architecture Decision Records; an individual ADR is L1 only once `Accepted`.",
+      "purpose": "Architecture Decision Record index.",
+      "authority_note": "L1 (process doc)",
+      "role": "The ADR index: process, template, lifecycle, and the current ADR list.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "60-delivery/DEPENDENCIES.md": {
+      "description": "The dependency register gating each phase or milestone.",
+      "purpose": "Cross-phase and cross-team dependencies.",
+      "authority_note": "L3",
+      "role": "The delivery dependency register (AWS account provisioning, Bedrock Guardrails regional access, consuming-team LiteLLM cooperation, security review sign-off, KMS/Secrets Manager setup, CI scanning) — the most detailed cross-reference to the external AWS and Bedrock dependencies cataloged in Sections 8–9 below."
+    },
+    "60-delivery/FEATURE-BACKLOG.md": {
+      "description": "Twelve evolution ladders compiling how the solution grows beyond the MVP surface — a backlog classified by commitment status, cross-referenced to the registers; not itself scope.",
+      "purpose": "Twelve evolution ladders compiling how the solution grows beyond the MVP surface, classified by commitment status.",
+      "authority_note": "L3",
+      "role": "A backlog cross-referenced to the registers; explicitly not itself scope."
+    },
+    "60-delivery/IMPLEMENTATION-STRATEGY.md": {
+      "description": "How the five delivery phases are sequenced and staffed at a working level.",
+      "purpose": "Delivery phases, build sequence, phase boundaries, build-vs-buy, integration order.",
+      "authority_note": "L3",
+      "role": "How the five phases ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) will be executed.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "60-delivery/MILESTONES.md": {
+      "description": "Delivery milestones within and across phases.",
+      "purpose": "Milestone-level breakdown of delivery.",
+      "authority_note": "L3",
+      "role": "Delivery milestones organized by phase.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "60-delivery/RELEASE-CRITERIA.md": {
+      "description": "The Phase 1–2 exit gates — the conditions that must all hold before the Phase 1–2 core is declared done.",
+      "purpose": "Phase 1–2 exit gates.",
+      "authority_note": "L2",
+      "role": "Phase 1–2 exit gates, tied to the validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); DEC-008).",
+      "toc_depth": 3,
+      "toc_style": "bullet"
+    },
+    "60-delivery/TEAM-AND-OWNERSHIP.md": {
+      "description": "Who is responsible for what across the AI Guardrails team, platform operations, security and governance, and consuming teams — see [§6](#6-who-owns-what) below.",
+      "purpose": "Ownership across delivery.",
+      "authority_note": "L3",
+      "role": "Ownership boundaries across the AI Guardrails team, platform operations, security/governance, and consuming teams ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md))."
+    },
+    "60-delivery/VALIDATION-PLAN.md": {
+      "description": "How the Phase 1–2 validation demonstration (two independent LiteLLM instances, one policy) will be validated.",
+      "purpose": "How the Phase 1–2 validation demonstration is proven out.",
+      "authority_note": "L3",
+      "role": "How the Phase 1–2 validation demonstration is executed and validated.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "70-governance/CLAIMS-REGISTER.md": {
+      "description": "The single source of truth for how AI Guardrails may be described in sales, executive, and technical materials.",
+      "purpose": "Approved and rejected claim patterns.",
+      "authority_note": "L2",
+      "role": "What the product may and may not claim — the register this document defers to for anything resembling a marketing or capability claim about an external service.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "70-governance/DOCUMENT-GOVERNANCE.md": {
+      "description": "Defines the L1–L5 model, precedence rules, ownership per documentation area, and change control for this entire set.",
+      "purpose": "The L1–L5 authority model, precedence, and change control.",
+      "authority_note": "L2",
+      "role": "The governing document for this set; read before changing any file under solution-docs/.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "70-governance/GLOSSARY.md": {
+      "description": "Canonical terminology, including the precise meaning of \"import\" and the core domain-model terms.",
+      "purpose": "Canonical vocabulary.",
+      "authority_note": "L2",
+      "role": "Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, \"import\") consistently across this set."
+    },
+    "70-governance/REFERENCES.md": {
+      "description": "Navigational and citation register of every internal document and external framework this set cites.",
+      "purpose": "Source references.",
+      "authority_note": "L2",
+      "role": "This register itself; lists what the set cites and whether each link resolves.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "70-governance/RISK-REGISTER.md": {
+      "description": "The fuller, governance-owned risk register behind the executive and feasibility risk summaries.",
+      "purpose": "The consolidated risk register.",
+      "authority_note": "L2",
+      "role": "The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per [`RISK-REGISTER.md`](RISK-REGISTER.md)).",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md": {
+      "description": "Instructions for the agent that reviews architecture documents for drift.",
+      "purpose": "Instructions for an architecture-review generation agent.",
+      "authority_note": "L4",
+      "role": "Drives architecture drift review; may trigger ADRs but decides nothing itself.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "80-agent-inputs/CHARTER-AGENT.md": {
+      "description": "Instructions for the agent that maintains the charter.",
+      "purpose": "Instructions for a charter-maintenance generation agent.",
+      "authority_note": "L4",
+      "role": "Drives charter generation; bound by the registers it cites, never a source itself."
+    },
+    "80-agent-inputs/EXECUTIVE-BRIEF-AGENT.md": {
+      "description": "Instructions for the agent that generates the executive brief.",
+      "purpose": "Instructions for an executive-brief generation agent.",
+      "authority_note": "L4",
+      "role": "Drives executive-brief generation; bound by CLAIMS-REGISTER wording.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "80-agent-inputs/OUTPUT-CONTRACTS.md": {
+      "description": "What each generation agent must and must not produce, and which registers govern its output.",
+      "purpose": "Binding output contracts for every generation agent.",
+      "authority_note": "L4",
+      "role": "The binding output contract for every generation agent in this directory.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "80-agent-inputs/README.md": {
+      "description": "Explains what this directory is for and what it is not the place to define.",
+      "purpose": "Why this directory exists; reference-don't-duplicate rule.",
+      "authority_note": "L4",
+      "role": "Scope statement for the generation-agent instruction sets.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "80-agent-inputs/SALES-DECK-AGENT.md": {
+      "description": "Instructions for the agent that generates the sales deck.",
+      "purpose": "Instructions for a sales-deck generation agent.",
+      "authority_note": "L4",
+      "role": "Drives deck generation; must halt rather than ship unapproved claims.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "90-archive/README.md": {
+      "description": "Explains the archive's purpose and naming convention. The directory is currently empty — nothing has yet been superseded.",
+      "purpose": "Archive index; archived documents carry no authority.",
+      "authority_note": "L5",
+      "role": "Operationalizes the document lifecycle settled in DOCUMENT-GOVERNANCE §10.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "CHANGELOG.md": {
+      "description": "The chronological, additive-only ledger of meaningful changes to the solution definition.",
+      "purpose": "Change history for the solution definition.",
+      "authority_note": "L4",
+      "role": "Records when the documentation came to reflect a decision; never rewritten, only appended to.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    },
+    "DOCUMENT-MAP.md": {
+      "description": "Role-oriented reading paths through the set, plus the full repository index.",
+      "purpose": "Reader-to-document map and full repository index.",
+      "authority_note": "L4",
+      "role": "Navigational companion to README; routes each reader profile to its starting document."
+    },
+    "README.md": {
+      "description": "The entry point for humans and AI agents — what the product is, where ground truth lives, how the L1–L5 authority model works, and how the tree is organized.",
+      "purpose": "Entry point and orientation for the whole set.",
+      "authority_note": "L4",
+      "role": "The start-here navigational document; introduces no new agreement, requirement, or claim.",
+      "toc_depth": 2,
+      "toc_style": "bullet"
+    }
+  },
+  "open_questions": {
+    "OQ-001": "Which enforcement posture (cooperative, platform-managed, or network/IAM-enforced) is required for the first external customers?",
+    "OQ-002": "Is PrivateLink / private connectivity required for Mode A or Mode B, and by when?",
+    "OQ-003": "Which AWS Regions are supported at GA, and how are per-tenant residency commitments enforced?",
+    "OQ-004": "When does streaming output evaluation ship, and what applies to streaming workloads until then?",
+    "OQ-005": "When are retrieval-content evaluation and indirect prompt-injection detection introduced?",
+    "OQ-006": "What is the scope and timing of tool-call validation, tool-result evaluation, and MCP authorization?",
+    "OQ-007": "When are human approval workflows introduced, and who owns the approval UX?",
+    "OQ-008": "When are multilingual policy packs introduced, and which languages first?",
+    "OQ-009": "What measurable trigger moves the MVP from two AWS accounts to three-or-more?",
+    "OQ-010": "When (if ever) are dedicated tenant runtimes and air-gapped installation offered?",
+    "OQ-011": "Will commercial metering and a policy marketplace be pursued, and on what timeline?",
+    "OQ-012": "How will policy signing and policy inheritance work once introduced?",
+    "OQ-013": "What is the security and compatibility review model for customer-specific evaluator plugins?",
+    "OQ-014": "What are the objective go/no-go criteria to promote a workload from observe to enforce?",
+    "OQ-015": "Which compliance certifications (if any) are targeted, and for which phase?",
+    "OQ-016": "Is multi-region active-active availability ever required, independent of data residency?",
+    "OQ-017": "Do resource/cost guardrails (catalog GR-012) require extending the evaluation contract with token/cost metadata?",
+    "OQ-018": "Should the evaluation-stage vocabulary expand beyond the seven reserved stages (e.g. `retrieval_query`, `agent_plan`, `memory_read`, `tool_selection`)?",
+    "OQ-019": "What is the canonical reason-code taxonomy, and does guardrail category become a first-class audit/metric dimension?",
+    "OQ-020": "Who holds authority to mark a policy Mandatory, and can an app-team or tenant admin weaken or override a mandatory policy?",
+    "OQ-021": "Does \"select policy\" in the onboarding flow mean one policy version, or a set the consumer composes?",
+    "OQ-022": "How long is a connector version supported, and what happens to a workload that never upgrades?"
+  },
+  "constraints": {
+    "CON-001": {
+      "short": "AWS is the primary and initial cloud platform",
+      "category": "Cloud placement"
+    },
+    "CON-002": {
+      "short": "MVP account model: one non-prod account + one prod account",
+      "category": "Cloud placement"
+    },
+    "CON-003": {
+      "short": "Public contract must not couple to LiteLLM configuration structures",
+      "category": "Contract independence"
+    },
+    "CON-004": {
+      "short": "Public contract must not couple to Bedrock Guardrails response formats",
+      "category": "Contract independence"
+    },
+    "CON-005": {
+      "short": "One logical evaluation contract across Remote, Gateway, and Customer-Managed modes",
+      "category": "Contract independence"
+    },
+    "CON-006": {
+      "short": "Policies and connectors are mandatorily separate",
+      "category": "Contract independence"
+    },
+    "CON-007": {
+      "short": "Every deployment must document content exposure explicitly",
+      "category": "Contract independence"
+    },
+    "CON-008": {
+      "short": "TLS required for all runtime communication",
+      "category": "Transport & crypto"
+    },
+    "CON-009": {
+      "short": "KMS encryption in transit and at rest",
+      "category": "Transport & crypto"
+    },
+    "CON-010": {
+      "short": "IAM-based authentication; least-privilege, short-lived roles",
+      "category": "Identity & auth"
+    },
+    "CON-011": {
+      "short": "Per-tenant workload identities; no cross-tenant sharing",
+      "category": "Identity & auth"
+    },
+    "CON-012": {
+      "short": "No exclusive reliance on API keys, unauthenticated identifiers, unauthenticated policy versions, or telemetry as security",
+      "category": "Identity & auth"
+    },
+    "CON-013": {
+      "short": "Raw content must not leave a customer-managed runtime unless explicitly configured",
+      "category": "Content handling"
+    },
+    "CON-014": {
+      "short": "No raw-content retention by default in the hosted runtime",
+      "category": "Content handling"
+    },
+    "CON-015": {
+      "short": "Input-size limits enforced on all evaluated content",
+      "category": "Resource limits"
+    },
+    "CON-016": {
+      "short": "Timeout limits enforced on every evaluation stage",
+      "category": "Resource limits"
+    }
+  },
+  "nfr": {
+    "NFR-AVAIL-001": {
+      "short": "Evaluation API availability objective",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); AGR-002"
+    },
+    "NFR-AVAIL-002": {
+      "short": "Degraded-mode continuity declared per policy",
+      "target": "100% of promoted policies",
+      "source": "[AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-012/015"
+    },
+    "NFR-REL-001": {
+      "short": "Evaluation timeout rate ceiling",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); CON-016"
+    },
+    "NFR-REL-002": {
+      "short": "Policy-resolution failure rate ceiling",
+      "target": "TBD",
+      "source": "[`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); AGR-006/015"
+    },
+    "NFR-REL-003": {
+      "short": "Audit delivery success rate",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); AGR-012"
+    },
+    "NFR-REC-001": {
+      "short": "Policy rollback time",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); 60-delivery/VALIDATION-PLAN.md"
+    },
+    "NFR-REC-002": {
+      "short": "Control-plane reconnection recovery",
+      "target": "No downtime / no audit loss",
+      "source": "[AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes); AGR-015"
+    },
+    "NFR-REC-003": {
+      "short": "Circuit-breaker auto-reset",
+      "target": "TBD interval",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-012"
+    },
+    "NFR-PERF-001": {
+      "short": "P50 evaluation latency",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)"
+    },
+    "NFR-PERF-002": {
+      "short": "P95 evaluation latency",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)"
+    },
+    "NFR-PERF-003": {
+      "short": "P99 evaluation latency",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)"
+    },
+    "NFR-PERF-004": {
+      "short": "Evaluation throughput",
+      "target": "TBD, per workload",
+      "source": "[AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)"
+    },
+    "NFR-PERF-005": {
+      "short": "Timeout rate (performance signal)",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)"
+    },
+    "NFR-PERF-006": {
+      "short": "Detector-specific latency",
+      "target": "Measured per evaluator",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md)"
+    },
+    "NFR-PERF-007": {
+      "short": "Policy-cache hit rate",
+      "target": "TBD",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-015"
+    },
+    "NFR-SCALE-001": {
+      "short": "Horizontal scaling of evaluation runtime",
+      "target": "TBD capacity ceiling",
+      "source": "[`TARGET-USERS.md`](../20-product/TARGET-USERS.md), [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)"
+    },
+    "NFR-SCALE-002": {
+      "short": "High-volume support in Customer-Managed Runtime",
+      "target": "Qualitative",
+      "source": "[AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)"
+    },
+    "NFR-SEC-001": {
+      "short": "TLS coverage",
+      "target": "100%",
+      "source": "[`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); CON-008"
+    },
+    "NFR-SEC-002": {
+      "short": "IAM-based, short-lived, least-privilege auth",
+      "target": "100%",
+      "source": "[`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); CON-010"
+    },
+    "NFR-SEC-003": {
+      "short": "Rate limiting per workload identity",
+      "target": "TBD",
+      "source": "[`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); CON-011"
+    },
+    "NFR-SEC-004": {
+      "short": "Input-size limits per stage",
+      "target": "TBD",
+      "source": "[`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); CON-015"
+    },
+    "NFR-SEC-005": {
+      "short": "Audit-event integrity",
+      "target": "100% of records",
+      "source": "[`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)"
+    },
+    "NFR-SEC-006": {
+      "short": "Dependency/container scanning",
+      "target": "100% of builds",
+      "source": "[`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)"
+    },
+    "NFR-PRIV-001": {
+      "short": "No raw content retention by default",
+      "target": "0% by default",
+      "source": "[`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md); AGR-014/CON-014"
+    },
+    "NFR-PRIV-002": {
+      "short": "Identifier hashing",
+      "target": "100% where feasible",
+      "source": "[`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md); AGR-014"
+    },
+    "NFR-PRIV-003": {
+      "short": "Secret removal from telemetry",
+      "target": "100%",
+      "source": "[`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md); CON-009"
+    },
+    "NFR-PRIV-004": {
+      "short": "Configurable telemetry down to none (Mode C)",
+      "target": "Full range supported",
+      "source": "[`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md); AGR-016/CON-013"
+    },
+    "NFR-AUDIT-001": {
+      "short": "Audit record field completeness",
+      "target": "100%",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-006/017"
+    },
+    "NFR-AUDIT-002": {
+      "short": "Defined behavior on audit-delivery failure",
+      "target": "100% of workloads",
+      "source": "[AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy), [original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-012"
+    },
+    "NFR-MAINT-001": {
+      "short": "Vendor/framework isolation behind adapters",
+      "target": "100%",
+      "source": "[AGR-005](../00-source-of-truth/AGREEMENTS.md#agr-005--policy-portability), [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary); AGR-003/004/005"
+    },
+    "NFR-MAINT-002": {
+      "short": "Immutable policy versions",
+      "target": "100%",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map)"
+    },
+    "NFR-MAINT-003": {
+      "short": "Bounded evaluator and category sprawl",
+      "target": "100% adapter/category conformance; ceilings TBD",
+      "source": "AGR-004/006/021; TECHNICAL-RISKS §4.9"
+    },
+    "NFR-PORT-001": {
+      "short": "Deployment-mode-independent policy definitions",
+      "target": "TBD %, goal ~100%",
+      "source": "[`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); AGR-006"
+    },
+    "NFR-PORT-002": {
+      "short": "Shared runtime code across modes",
+      "target": "TBD %",
+      "source": "[`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); AGR-015"
+    },
+    "NFR-PORT-003": {
+      "short": "Time to deploy customer-managed runtime",
+      "target": "TBD",
+      "source": "[`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md)"
+    },
+    "NFR-OPS-001": {
+      "short": "Explicit, enforced timeout behavior",
+      "target": "100% of stages",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [AGR-012](../00-source-of-truth/AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy); CON-016/AGR-012"
+    },
+    "NFR-OPS-002": {
+      "short": "Bounded retry behavior",
+      "target": "100% of stages",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-012"
+    },
+    "NFR-OPS-003": {
+      "short": "Cached-policy behavior",
+      "target": "Continues serving on outage",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes); AGR-015/012"
+    },
+    "NFR-OPS-004": {
+      "short": "Documented degraded operating mode",
+      "target": "100% of workloads",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map); AGR-012"
+    },
+    "NFR-OPS-005": {
+      "short": "Circuit-breaker behavior",
+      "target": "Trips + reports on failure",
+      "source": "[original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [AGR-003](../00-source-of-truth/AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary)"
+    },
+    "NFR-COST-001": {
+      "short": "Cost model before Guarded Gateway GA",
+      "target": "TBD figures",
+      "source": "[AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes)"
+    },
+    "NFR-COST-002": {
+      "short": "Usage quotas / rate controls bound cost",
+      "target": "Enforced per tenant",
+      "source": "[AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery), [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), [`TARGET-USERS.md`](../20-product/TARGET-USERS.md)"
+    },
+    "NFR-COMPL-001": {
+      "short": "Tenant-specific retention configuration",
+      "target": "100% of tenants",
+      "source": "[AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md); AGR-014"
+    },
+    "NFR-COMPL-002": {
+      "short": "Full compliance certification",
+      "target": "Out of scope",
+      "source": "[`SCOPE.md`](../10-charter/SCOPE.md); 10-charter/SCOPE.md"
+    },
+    "NFR-COMPL-003": {
+      "short": "Regional processing boundary documented/enforced",
+      "target": "100% of tenants",
+      "source": "[AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns); AGR-008/CON-007"
+    }
+  },
+  "guardrail_categories": {
+    "GR-001": {
+      "category": "Prompt and Instruction Security",
+      "layer": "evaluator",
+      "dominant_status": "Core (mixed)",
+      "external_mapping": "OWASP LLM01; NIST AI RMF Measure/Manage"
+    },
+    "GR-002": {
+      "category": "Harmful Content and Acceptable Use",
+      "layer": "evaluator",
+      "dominant_status": "Core",
+      "external_mapping": "OWASP LLM05/LLM09 adjacent; NIST Manage"
+    },
+    "GR-003": {
+      "category": "Sensitive Data and Privacy",
+      "layer": "evaluator",
+      "dominant_status": "Core (mixed)",
+      "external_mapping": "OWASP LLM02; NIST Map/Manage"
+    },
+    "GR-004": {
+      "category": "System Prompt and Configuration Protection",
+      "layer": "evaluator + control-plane",
+      "dominant_status": "Core/Later (mixed)",
+      "external_mapping": "OWASP LLM07; NIST Manage"
+    },
+    "GR-005": {
+      "category": "RAG and Knowledge-Source Security",
+      "layer": "evaluator (`retrieval`)",
+      "dominant_status": "Later phase — committed (Phase 5)",
+      "external_mapping": "OWASP LLM08/LLM04; NIST Map/Measure"
+    },
+    "GR-006": {
+      "category": "Output Accuracy, Grounding and Information Integrity",
+      "layer": "evaluator",
+      "dominant_status": "Later/Vision (mixed)",
+      "external_mapping": "OWASP LLM09; NIST Measure"
+    },
+    "GR-007": {
+      "category": "Structured Output and Generated-Artifact Safety",
+      "layer": "evaluator",
+      "dominant_status": "Core (mixed)",
+      "external_mapping": "OWASP LLM05; NIST Manage"
+    },
+    "GR-008": {
+      "category": "Model and Provider Governance",
+      "layer": "control-plane",
+      "dominant_status": "Vision — uncommitted",
+      "external_mapping": "OWASP LLM03 adjacent; NIST Govern"
+    },
+    "GR-009": {
+      "category": "Agent, Tool and Action Safety",
+      "layer": "evaluator (`tool_call`/`tool_result`)",
+      "dominant_status": "Later phase — committed (Phase 5)",
+      "external_mapping": "OWASP LLM06; NIST Manage"
+    },
+    "GR-010": {
+      "category": "Identity, Authorization and Tenant Isolation",
+      "layer": "out-of-boundary",
+      "dominant_status": "Out-of-boundary → consuming application / IdP",
+      "external_mapping": "OWASP LLM06 adjacent; NIST Govern"
+    },
+    "GR-011": {
+      "category": "Memory and State Safety",
+      "layer": "evaluator (`memory_write`)",
+      "dominant_status": "Later phase — committed (Phase 5)",
+      "external_mapping": "OWASP LLM04 adjacent (memory poisoning); NIST Manage"
+    },
+    "GR-012": {
+      "category": "Resource, Cost and Availability Protection",
+      "layer": "connector-gateway / control-plane",
+      "dominant_status": "Vision — uncommitted",
+      "external_mapping": "OWASP LLM10; NIST Manage"
+    },
+    "GR-013": {
+      "category": "Human Oversight and User Interaction",
+      "layer": "control-plane + `require_approval`",
+      "dominant_status": "Later phase — committed (Phase 5)",
+      "external_mapping": "NIST Govern/Manage"
+    },
+    "GR-014": {
+      "category": "Data Lifecycle, Audit and Provenance",
+      "layer": "control-plane",
+      "dominant_status": "Core (mixed)",
+      "external_mapping": "NIST Govern/Map"
+    },
+    "GR-015": {
+      "category": "Policy Lifecycle and Governance",
+      "layer": "control-plane",
+      "dominant_status": "Core",
+      "external_mapping": "NIST Govern"
+    },
+    "GR-016": {
+      "category": "Supply-Chain and Deployment Security",
+      "layer": "out-of-boundary / platform property",
+      "dominant_status": "Out-of-boundary (mostly)",
+      "external_mapping": "OWASP LLM03; NIST Govern/Map"
+    },
+    "GR-017": {
+      "category": "Monitoring, Evaluation and Incident Response",
+      "layer": "control-plane",
+      "dominant_status": "Core (mixed)",
+      "external_mapping": "NIST Measure/Manage"
+    },
+    "GR-018": {
+      "category": "Business and Domain-Specific Controls",
+      "layer": "evaluator",
+      "dominant_status": "Core/Later (mixed)",
+      "external_mapping": "NIST Govern/Manage"
+    }
+  },
+  "requirement_areas": [
+    {
+      "range": "FR-001–FR-006",
+      "area": "Policy definition and versioning",
+      "capabilities": "CAP-001",
+      "anchors": "AGR-005, AGR-006, AGR-017"
+    },
+    {
+      "range": "FR-007–FR-011",
+      "area": "Tenant and workload registration",
+      "capabilities": "CAP-002",
+      "anchors": "AGR-017, AGR-019, CON-011"
+    },
+    {
+      "range": "FR-012–FR-017",
+      "area": "Policy-to-workload binding",
+      "capabilities": "CAP-003",
+      "anchors": "AGR-011, AGR-017"
+    },
+    {
+      "range": "FR-018–FR-024",
+      "area": "Evaluation stages: input and output",
+      "capabilities": "CAP-004, CAP-005",
+      "anchors": "AGR-006, CON-015, CON-016; stage scope per 10-charter/SCOPE.md"
+    },
+    {
+      "range": "FR-025–FR-030",
+      "area": "Decision normalization",
+      "capabilities": "CAP-012",
+      "anchors": "AGR-004, AGR-006, AGR-017"
+    },
+    {
+      "range": "FR-031–FR-038",
+      "area": "LiteLLM pre-call and post-call connectors",
+      "capabilities": "CAP-006, CAP-007",
+      "anchors": "AGR-003, AGR-007, AGR-012"
+    },
+    {
+      "range": "FR-039–FR-042",
+      "area": "Generic HTTP Evaluation API",
+      "capabilities": "CAP-008",
+      "anchors": "AGR-003, AGR-006, CON-010"
+    },
+    {
+      "range": "FR-043–FR-050",
+      "area": "Evaluator adapters (Bedrock, deterministic, PII)",
+      "capabilities": "CAP-009, CAP-010, CAP-011",
+      "anchors": "AGR-004, AGR-005, AGR-014"
+    },
+    {
+      "range": "FR-051–FR-056",
+      "area": "Observe and enforce modes",
+      "capabilities": "CAP-013",
+      "anchors": "AGR-011; 60-delivery/VALIDATION-PLAN.md"
+    },
+    {
+      "range": "FR-057–FR-063",
+      "area": "Decision-metadata audit",
+      "capabilities": "CAP-015",
+      "anchors": "AGR-012, AGR-014, AGR-016, CON-013, CON-014"
+    },
+    {
+      "range": "FR-064–FR-070",
+      "area": "Evaluation latency and performance metrics",
+      "capabilities": "CAP-014",
+      "anchors": "— (no numeric target set; TBD)"
+    },
+    {
+      "range": "FR-071–FR-077",
+      "area": "Policy promotion and rollback",
+      "capabilities": "CAP-001, CAP-003",
+      "anchors": "AGR-011; 60-delivery/VALIDATION-PLAN.md"
+    },
+    {
+      "range": "FR-078–FR-094",
+      "area": "Future-scope functional requirements",
+      "capabilities": "CAP-018–CAP-034",
+      "anchors": "AGR-020, AGR-021; 10-charter/SCOPE.md"
+    },
+    {
+      "range": "FR-095–FR-100",
+      "area": "Integration manifest generation",
+      "capabilities": "CAP-038",
+      "anchors": "AGR-002, AGR-006, AGR-018, AGR-019, CON-010, CON-011, CON-016; ADR-0006"
+    },
+    {
+      "range": "FR-101–FR-102",
+      "area": "Policy schema validation and capability-based evaluator selection",
+      "capabilities": "CAP-001",
+      "anchors": "AGR-005, AGR-012, AGR-017, CON-004; ADR-0009"
+    },
+    {
+      "range": "FR-103–FR-105",
+      "area": "Audit coverage — rejections, client-synthesized decisions, record origin",
+      "capabilities": "CAP-015",
+      "anchors": "AGR-012, AGR-014, AGR-018, CON-012; ADR-0014"
+    },
+    {
+      "range": "FR-106–FR-109",
+      "area": "Policy distribution and caching",
+      "capabilities": "CAP-001, CAP-017",
+      "anchors": "AGR-011, AGR-012, AGR-015; ADR-0011"
+    },
+    {
+      "range": "FR-110–FR-112",
+      "area": "Runtime capability manifest and bind-time compatibility",
+      "capabilities": "CAP-003",
+      "anchors": "AGR-004, AGR-005, AGR-012, CON-004; ADR-0013"
+    },
+    {
+      "range": "FR-113–FR-118",
+      "area": "Connector identity, installation verification, and liveness",
+      "capabilities": "CAP-039",
+      "anchors": "AGR-003, AGR-011, AGR-018, AGR-019, CON-012; ADR-0007"
+    },
+    {
+      "range": "FR-119–FR-127",
+      "area": "Client distribution, configuration, and conformance",
+      "capabilities": "CAP-040, CAP-041",
+      "anchors": "AGR-003, AGR-006, AGR-007, AGR-012, CON-010, CON-016; ADR-0008, ADR-0012"
+    }
+  ],
+  "order": {
+    "readme": [
+      "00-source-of-truth/AGREEMENTS.md",
+      "00-source-of-truth/CONSTRAINTS.md",
+      "00-source-of-truth/DECISIONS.md",
+      "00-source-of-truth/ASSUMPTIONS.md",
+      "00-source-of-truth/OPEN-QUESTIONS.md",
+      "00-source-of-truth/PROVENANCE.md",
+      "10-charter/CHARTER.md",
+      "10-charter/PRINCIPLES.md",
+      "10-charter/SCOPE.md",
+      "10-charter/SUCCESS-CRITERIA.md",
+      "20-product/CAPABILITIES.md",
+      "20-product/GUARDRAIL-CATALOG.md",
+      "20-product/PRODUCT-OVERVIEW.md",
+      "20-product/SERVING-MODEL.md",
+      "20-product/PROBLEM-STATEMENT.md",
+      "20-product/VALUE-PROPOSITION.md",
+      "20-product/DIFFERENTIATORS.md",
+      "20-product/TARGET-USERS.md",
+      "20-product/USE-CASES.md",
+      "20-product/PRODUCT-ROADMAP.md",
+      "20-product/FAQ.md",
+      "30-executive/EXECUTIVE-BRIEF.md",
+      "30-executive/EXPECTED-OUTCOMES.md",
+      "30-executive/DECISION-REQUEST.md",
+      "30-executive/BUSINESS-CASE.md",
+      "30-executive/INVESTMENT-SUMMARY.md",
+      "30-executive/RISKS-AND-DEPENDENCIES.md",
+      "40-sales-deck/DECK-BRIEF.md",
+      "40-sales-deck/SLIDE-OUTLINE.md",
+      "40-sales-deck/SALES-NARRATIVE.md",
+      "40-sales-deck/AUDIENCE-AND-PERSONAS.md",
+      "40-sales-deck/CUSTOMER-PAIN-POINTS.md",
+      "40-sales-deck/BENEFITS-AND-OUTCOMES.md",
+      "40-sales-deck/PROOF-POINTS.md",
+      "40-sales-deck/OBJECTION-HANDLING.md",
+      "40-sales-deck/CALL-TO-ACTION.md",
+      "40-sales-deck/VISUAL-DIRECTION.md",
+      "50-architecture/REQUIREMENTS.md",
+      "50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md",
+      "50-architecture/ARCHITECTURE-REPORT.md",
+      "50-architecture/SYSTEM-CONTEXT.md",
+      "50-architecture/CONTAINER-ARCHITECTURE.md",
+      "50-architecture/COMPONENT-ARCHITECTURE.md",
+      "50-architecture/DATA-ARCHITECTURE.md",
+      "50-architecture/DEPLOYMENT-ARCHITECTURE.md",
+      "50-architecture/INTEGRATION-ARCHITECTURE.md",
+      "50-architecture/EXTENSIBILITY-ARCHITECTURE.md",
+      "50-architecture/SECURITY-ARCHITECTURE.md",
+      "50-architecture/OPERABILITY.md",
+      "50-architecture/FEASIBILITY-ASSESSMENT.md",
+      "50-architecture/TECHNICAL-RISKS.md",
+      "50-architecture/TRADE-OFFS.md",
+      "50-architecture/adrs/README.md",
+      "50-architecture/adrs/ADR-0001-example-decision.md",
+      "50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md",
+      "60-delivery/IMPLEMENTATION-STRATEGY.md",
+      "60-delivery/MILESTONES.md",
+      "60-delivery/RELEASE-CRITERIA.md",
+      "60-delivery/VALIDATION-PLAN.md",
+      "60-delivery/DEPENDENCIES.md",
+      "60-delivery/TEAM-AND-OWNERSHIP.md",
+      "60-delivery/FEATURE-BACKLOG.md",
+      "70-governance/DOCUMENT-GOVERNANCE.md",
+      "70-governance/CLAIMS-REGISTER.md",
+      "70-governance/RISK-REGISTER.md",
+      "70-governance/GLOSSARY.md",
+      "70-governance/REFERENCES.md",
+      "80-agent-inputs/README.md",
+      "80-agent-inputs/CHARTER-AGENT.md",
+      "80-agent-inputs/EXECUTIVE-BRIEF-AGENT.md",
+      "80-agent-inputs/SALES-DECK-AGENT.md",
+      "80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md",
+      "80-agent-inputs/OUTPUT-CONTRACTS.md",
+      "90-archive/README.md"
+    ],
+    "documentmap": [
+      "00-source-of-truth/AGREEMENTS.md",
+      "00-source-of-truth/ASSUMPTIONS.md",
+      "00-source-of-truth/CONSTRAINTS.md",
+      "00-source-of-truth/DECISIONS.md",
+      "00-source-of-truth/OPEN-QUESTIONS.md",
+      "00-source-of-truth/PROVENANCE.md",
+      "10-charter/CHARTER.md",
+      "10-charter/PRINCIPLES.md",
+      "10-charter/SCOPE.md",
+      "10-charter/SUCCESS-CRITERIA.md",
+      "20-product/CAPABILITIES.md",
+      "20-product/GUARDRAIL-CATALOG.md",
+      "20-product/DIFFERENTIATORS.md",
+      "20-product/FAQ.md",
+      "20-product/PROBLEM-STATEMENT.md",
+      "20-product/PRODUCT-OVERVIEW.md",
+      "20-product/PRODUCT-ROADMAP.md",
+      "20-product/TARGET-USERS.md",
+      "20-product/USE-CASES.md",
+      "20-product/VALUE-PROPOSITION.md",
+      "30-executive/BUSINESS-CASE.md",
+      "30-executive/DECISION-REQUEST.md",
+      "30-executive/EXECUTIVE-BRIEF.md",
+      "30-executive/EXPECTED-OUTCOMES.md",
+      "30-executive/INVESTMENT-SUMMARY.md",
+      "30-executive/RISKS-AND-DEPENDENCIES.md",
+      "40-sales-deck/AUDIENCE-AND-PERSONAS.md",
+      "40-sales-deck/BENEFITS-AND-OUTCOMES.md",
+      "40-sales-deck/CALL-TO-ACTION.md",
+      "40-sales-deck/CUSTOMER-PAIN-POINTS.md",
+      "40-sales-deck/DECK-BRIEF.md",
+      "40-sales-deck/OBJECTION-HANDLING.md",
+      "40-sales-deck/PROOF-POINTS.md",
+      "40-sales-deck/SALES-NARRATIVE.md",
+      "40-sales-deck/SLIDE-OUTLINE.md",
+      "40-sales-deck/VISUAL-DIRECTION.md",
+      "50-architecture/ARCHITECTURE-REPORT.md",
+      "50-architecture/COMPONENT-ARCHITECTURE.md",
+      "50-architecture/CONTAINER-ARCHITECTURE.md",
+      "50-architecture/DATA-ARCHITECTURE.md",
+      "50-architecture/DEPLOYMENT-ARCHITECTURE.md",
+      "50-architecture/FEASIBILITY-ASSESSMENT.md",
+      "50-architecture/EXTENSIBILITY-ARCHITECTURE.md",
+      "50-architecture/INTEGRATION-ARCHITECTURE.md",
+      "50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md",
+      "50-architecture/OPERABILITY.md",
+      "50-architecture/REQUIREMENTS.md",
+      "50-architecture/SECURITY-ARCHITECTURE.md",
+      "50-architecture/SYSTEM-CONTEXT.md",
+      "50-architecture/TECHNICAL-RISKS.md",
+      "50-architecture/TRADE-OFFS.md",
+      "50-architecture/adrs/README.md",
+      "50-architecture/adrs/ADR-0001-example-decision.md",
+      "50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md",
+      "60-delivery/DEPENDENCIES.md",
+      "60-delivery/IMPLEMENTATION-STRATEGY.md",
+      "60-delivery/MILESTONES.md",
+      "60-delivery/RELEASE-CRITERIA.md",
+      "60-delivery/TEAM-AND-OWNERSHIP.md",
+      "60-delivery/VALIDATION-PLAN.md",
+      "70-governance/CLAIMS-REGISTER.md",
+      "70-governance/DOCUMENT-GOVERNANCE.md",
+      "70-governance/GLOSSARY.md",
+      "70-governance/REFERENCES.md",
+      "70-governance/RISK-REGISTER.md",
+      "80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md",
+      "80-agent-inputs/CHARTER-AGENT.md",
+      "80-agent-inputs/EXECUTIVE-BRIEF-AGENT.md",
+      "80-agent-inputs/OUTPUT-CONTRACTS.md",
+      "80-agent-inputs/README.md",
+      "80-agent-inputs/SALES-DECK-AGENT.md",
+      "90-archive/README.md"
+    ],
+    "references": [
+      "00-source-of-truth/PROVENANCE.md",
+      "00-source-of-truth/AGREEMENTS.md",
+      "00-source-of-truth/CONSTRAINTS.md",
+      "00-source-of-truth/DECISIONS.md",
+      "00-source-of-truth/ASSUMPTIONS.md",
+      "00-source-of-truth/OPEN-QUESTIONS.md",
+      "10-charter/CHARTER.md",
+      "10-charter/PRINCIPLES.md",
+      "10-charter/SCOPE.md",
+      "10-charter/SUCCESS-CRITERIA.md",
+      "20-product/CAPABILITIES.md",
+      "20-product/GUARDRAIL-CATALOG.md",
+      "20-product/PRODUCT-OVERVIEW.md",
+      "20-product/PRODUCT-ROADMAP.md",
+      "20-product/PROBLEM-STATEMENT.md",
+      "20-product/VALUE-PROPOSITION.md",
+      "20-product/DIFFERENTIATORS.md",
+      "20-product/TARGET-USERS.md",
+      "20-product/USE-CASES.md",
+      "20-product/FAQ.md",
+      "30-executive/EXECUTIVE-BRIEF.md",
+      "30-executive/BUSINESS-CASE.md",
+      "30-executive/INVESTMENT-SUMMARY.md",
+      "30-executive/EXPECTED-OUTCOMES.md",
+      "30-executive/DECISION-REQUEST.md",
+      "30-executive/RISKS-AND-DEPENDENCIES.md",
+      "40-sales-deck/DECK-BRIEF.md",
+      "40-sales-deck/SALES-NARRATIVE.md",
+      "40-sales-deck/SLIDE-OUTLINE.md",
+      "40-sales-deck/AUDIENCE-AND-PERSONAS.md",
+      "40-sales-deck/CUSTOMER-PAIN-POINTS.md",
+      "40-sales-deck/BENEFITS-AND-OUTCOMES.md",
+      "40-sales-deck/PROOF-POINTS.md",
+      "40-sales-deck/OBJECTION-HANDLING.md",
+      "40-sales-deck/CALL-TO-ACTION.md",
+      "40-sales-deck/VISUAL-DIRECTION.md",
+      "50-architecture/ARCHITECTURE-REPORT.md",
+      "50-architecture/SYSTEM-CONTEXT.md",
+      "50-architecture/CONTAINER-ARCHITECTURE.md",
+      "50-architecture/COMPONENT-ARCHITECTURE.md",
+      "50-architecture/INTEGRATION-ARCHITECTURE.md",
+      "50-architecture/DEPLOYMENT-ARCHITECTURE.md",
+      "50-architecture/DATA-ARCHITECTURE.md",
+      "50-architecture/SECURITY-ARCHITECTURE.md",
+      "50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md",
+      "50-architecture/REQUIREMENTS.md",
+      "50-architecture/OPERABILITY.md",
+      "50-architecture/EXTENSIBILITY-ARCHITECTURE.md",
+      "50-architecture/FEASIBILITY-ASSESSMENT.md",
+      "50-architecture/TECHNICAL-RISKS.md",
+      "50-architecture/TRADE-OFFS.md",
+      "50-architecture/adrs/README.md",
+      "50-architecture/adrs/ADR-0001-example-decision.md",
+      "60-delivery/IMPLEMENTATION-STRATEGY.md",
+      "60-delivery/MILESTONES.md",
+      "60-delivery/DEPENDENCIES.md",
+      "60-delivery/RELEASE-CRITERIA.md",
+      "60-delivery/VALIDATION-PLAN.md",
+      "60-delivery/TEAM-AND-OWNERSHIP.md",
+      "70-governance/CLAIMS-REGISTER.md",
+      "70-governance/RISK-REGISTER.md",
+      "70-governance/GLOSSARY.md"
+    ]
+  },
+  "index_tables": {
+    "README.md": [
+      {
+        "heading": "Root-level documents",
+        "anchor": "root-level-documents",
+        "level": 3,
+        "dirs": [
+          "."
+        ]
+      },
+      {
+        "heading": "[`00-source-of-truth/`](00-source-of-truth/) — L1, authoritative",
+        "anchor": "00-source-of-truth--l1-authoritative",
+        "level": 3,
+        "dirs": [
+          "00-source-of-truth"
+        ]
+      },
+      {
+        "heading": "[`10-charter/`](10-charter/) — L2, defining",
+        "anchor": "10-charter--l2-defining",
+        "level": 3,
+        "dirs": [
+          "10-charter"
+        ]
+      },
+      {
+        "heading": "[`20-product/`](20-product/) — mostly L4, `CAPABILITIES.md` is L2",
+        "anchor": "20-product--mostly-l4-capabilitiesmd-is-l2",
+        "level": 3,
+        "dirs": [
+          "20-product"
+        ]
+      },
+      {
+        "heading": "[`30-executive/`](30-executive/) — L3 analytical, L4 communicative",
+        "anchor": "30-executive--l3-analytical-l4-communicative",
+        "level": 3,
+        "dirs": [
+          "30-executive"
+        ]
+      },
+      {
+        "heading": "[`40-sales-deck/`](40-sales-deck/) — L4, communicative",
+        "anchor": "40-sales-deck--l4-communicative",
+        "level": 3,
+        "dirs": [
+          "40-sales-deck"
+        ]
+      },
+      {
+        "heading": "[`50-architecture/`](50-architecture/) — L2 requirements, L3 analytical, L1 for Accepted ADRs",
+        "anchor": "50-architecture--l2-requirements-l3-analytical-l1-for-accepted-adrs",
+        "level": 3,
+        "dirs": [
+          "50-architecture"
+        ]
+      },
+      {
+        "heading": "[`60-delivery/`](60-delivery/) — L2/L3",
+        "anchor": "60-delivery--l2l3",
+        "level": 3,
+        "dirs": [
+          "60-delivery"
+        ]
+      },
+      {
+        "heading": "[`70-governance/`](70-governance/) — L2",
+        "anchor": "70-governance--l2",
+        "level": 3,
+        "dirs": [
+          "70-governance"
+        ]
+      },
+      {
+        "heading": "[`80-agent-inputs/`](80-agent-inputs/) — L4",
+        "anchor": "80-agent-inputs--l4",
+        "level": 3,
+        "dirs": [
+          "80-agent-inputs"
+        ]
+      },
+      {
+        "heading": "[`90-archive/`](90-archive/) — L5",
+        "anchor": "90-archive--l5",
+        "level": 3,
+        "dirs": [
+          "90-archive"
+        ]
+      }
+    ],
+    "DOCUMENT-MAP.md": [
+      {
+        "heading": "Root-level documents",
+        "anchor": "root-level-documents",
+        "level": 3,
+        "dirs": [
+          "."
+        ]
+      },
+      {
+        "heading": "`00-source-of-truth/` — L1, authoritative",
+        "anchor": "00-source-of-truth--l1-authoritative",
+        "level": 3,
+        "dirs": [
+          "00-source-of-truth"
+        ]
+      },
+      {
+        "heading": "`10-charter/` — L2, defining",
+        "anchor": "10-charter--l2-defining",
+        "level": 3,
+        "dirs": [
+          "10-charter"
+        ]
+      },
+      {
+        "heading": "`20-product/` — L2 (`CAPABILITIES.md`) / L4 (remainder)",
+        "anchor": "20-product--l2-capabilitiesmd--l4-remainder",
+        "level": 3,
+        "dirs": [
+          "20-product"
+        ]
+      },
+      {
+        "heading": "`30-executive/` — L3 (`BUSINESS-CASE.md`, `INVESTMENT-SUMMARY.md`, `RISKS-AND-DEPENDENCIES.md`) / L4 (remainder)",
+        "anchor": "30-executive--l3-business-casemd-investment-summarymd-risks-and-dependenciesmd--l4-remainder",
+        "level": 3,
+        "dirs": [
+          "30-executive"
+        ]
+      },
+      {
+        "heading": "`40-sales-deck/` — L4",
+        "anchor": "40-sales-deck--l4",
+        "level": 3,
+        "dirs": [
+          "40-sales-deck"
+        ]
+      },
+      {
+        "heading": "`50-architecture/` — L2 (`NON-FUNCTIONAL-REQUIREMENTS.md`, `REQUIREMENTS.md`) / L3 (remainder) / L1 (`adrs/*`, once accepted)",
+        "anchor": "50-architecture--l2-non-functional-requirementsmd-requirementsmd--l3-remainder--l1-adrs-once-accepted",
+        "level": 3,
+        "dirs": [
+          "50-architecture"
+        ]
+      },
+      {
+        "heading": "`60-delivery/` — L2 (`RELEASE-CRITERIA.md`) / L3 (remainder)",
+        "anchor": "60-delivery--l2-release-criteriamd--l3-remainder",
+        "level": 3,
+        "dirs": [
+          "60-delivery"
+        ]
+      },
+      {
+        "heading": "`70-governance/` — L2 (`CLAIMS-REGISTER.md`, `DOCUMENT-GOVERNANCE.md`, `GLOSSARY.md`, `REFERENCES.md`, `RISK-REGISTER.md`)",
+        "anchor": "70-governance--l2-claims-registermd-document-governancemd-glossarymd-referencesmd-risk-registermd",
+        "level": 3,
+        "dirs": [
+          "70-governance"
+        ]
+      },
+      {
+        "heading": "`80-agent-inputs/` — L4",
+        "anchor": "80-agent-inputs--l4",
+        "level": 3,
+        "dirs": [
+          "80-agent-inputs"
+        ]
+      },
+      {
+        "heading": "`90-archive/` — L5, non-authoritative",
+        "anchor": "90-archive--l5-non-authoritative",
+        "level": 3,
+        "dirs": [
+          "90-archive"
+        ]
+      }
+    ],
+    "70-governance/REFERENCES.md": [
+      {
+        "heading": "3. Internal references: source-of-truth register (L1)",
+        "anchor": "3-internal-references-source-of-truth-register-l1",
+        "level": 2,
+        "dirs": [
+          "00-source-of-truth"
+        ]
+      },
+      {
+        "heading": "4. Internal references: charter and principles (L2)",
+        "anchor": "4-internal-references-charter-and-principles-l2",
+        "level": 2,
+        "dirs": [
+          "10-charter"
+        ]
+      },
+      {
+        "heading": "5.1 Product (`20-product/`)",
+        "anchor": "51-product-20-product",
+        "level": 3,
+        "dirs": [
+          "20-product"
+        ]
+      },
+      {
+        "heading": "5.2 Executive (`30-executive/`)",
+        "anchor": "52-executive-30-executive",
+        "level": 3,
+        "dirs": [
+          "30-executive"
+        ]
+      },
+      {
+        "heading": "5.3 Sales deck (`40-sales-deck/`)",
+        "anchor": "53-sales-deck-40-sales-deck",
+        "level": 3,
+        "dirs": [
+          "40-sales-deck"
+        ]
+      },
+      {
+        "heading": "6. Internal references: architecture set",
+        "anchor": "6-internal-references-architecture-set",
+        "level": 2,
+        "dirs": [
+          "50-architecture"
+        ]
+      },
+      {
+        "heading": "7.1 Delivery (`60-delivery/`)",
+        "anchor": "71-delivery-60-delivery",
+        "level": 3,
+        "dirs": [
+          "60-delivery"
+        ]
+      },
+      {
+        "heading": "7.2 Governance (`70-governance/`, this document's own folder)",
+        "anchor": "72-governance-70-governance-this-documents-own-folder",
+        "level": 3,
+        "dirs": [
+          "70-governance"
+        ]
+      },
+      {
+        "heading": "7.3 Agent inputs (`80-agent-inputs/`)",
+        "anchor": "",
+        "level": 3,
+        "dirs": [
+          "80-agent-inputs"
+        ]
+      },
+      {
+        "heading": "7.4 Archive (`90-archive/`)",
+        "anchor": "",
+        "level": 3,
+        "dirs": [
+          "90-archive"
+        ]
+      },
+      {
+        "heading": "7.5 Root-level navigation (repository root)",
+        "anchor": "",
+        "level": 3,
+        "dirs": [
+          "."
+        ]
+      }
+    ]
+  },
+  "capability_counts": [
+    {
+      "label": "Core capabilities — Phases 1–2 (`CAP-001`–`CAP-017`, `CAP-038`–`CAP-041`)"
+    },
+    {
+      "label": "Later-phase capabilities — committed and estimated, Phases 3–5 (`CAP-018`–`CAP-037`)"
+    },
+    {
+      "label": "**Total cataloged capabilities — the defined-and-estimated full solution**"
+    },
+    {
+      "label": "Explicitly excluded items ([`SCOPE.md`](../10-charter/SCOPE.md), not cataloged with an ID and not part of the full feature set)"
+    }
+  ],
+  "guardrail_counts": [
+    {
+      "label": "Core (Phases 1–2), wholly or predominantly",
+      "members": "GR-002, GR-015"
+    },
+    {
+      "label": "Core (mixed with Later/Vision items)",
+      "members": "GR-001, GR-003, GR-004, GR-007, GR-014, GR-017, GR-018"
+    },
+    {
+      "label": "Later phase — committed (Phase 5 predominantly)",
+      "members": "GR-005, GR-006, GR-009, GR-011, GR-013"
+    },
+    {
+      "label": "Vision — uncommitted",
+      "members": "GR-008, GR-012"
+    },
+    {
+      "label": "Out-of-boundary",
+      "members": "GR-010, GR-016 (mostly)"
+    },
+    {
+      "label": "**Total categories**",
+      "members": "**18**"
+    }
+  ]
+}

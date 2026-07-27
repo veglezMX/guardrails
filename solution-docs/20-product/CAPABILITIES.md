@@ -19,6 +19,8 @@ Each capability is assigned a stable identifier (`CAP-001` …) so that later do
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [How to read this catalog](#how-to-read-this-catalog)
 - [Capability lifecycle diagram](#capability-lifecycle-diagram)
 - [Core capabilities — Phases 1–2](#core-capabilities--phases-12)
@@ -29,10 +31,14 @@ Each capability is assigned a stable identifier (`CAP-001` …) so that later do
   - [Decisions, audit, and observability](#decisions-audit-and-observability)
   - [Deployment](#deployment)
 - [Later-phase capabilities — committed and estimated (Phases 3–5)](#later-phase-capabilities--committed-and-estimated-phases-35)
+  - [Extended evaluation scope](#extended-evaluation-scope)
+  - [Extended governance and workflow](#extended-governance-and-workflow)
+  - [Extended deployment and commercial](#extended-deployment-and-commercial)
 - [A third category: explicitly excluded from the full feature set](#a-third-category-explicitly-excluded-from-the-full-feature-set)
 - [Capability count summary](#capability-count-summary)
+- [Guardrail-category cross-reference](#guardrail-category-cross-reference)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## How to read this catalog
@@ -163,7 +169,7 @@ Phases 1–2 deliver the core platform, whose purpose is to prove that one reusa
 | **CAP-034 — Commercial metering** | Usage-based metering suitable for commercial billing of evaluation volume. | **Later phase — not available today** | [`SCOPE.md`](../10-charter/SCOPE.md) | `50-architecture/OPERABILITY.md` (planned) |
 | **CAP-035 — Multi-region availability & per-tenant residency enforcement** | The platform offers multi-region availability, with each tenant's evaluation traffic pinned to a single processing region (not active-active — see CAP-036). Per-tenant data-residency requirements are enforced so that a given tenant's content is processed and stored only within its assigned region. | Core (Phases 1–2) — availability; **Later phase — committed** — per-tenant residency enforcement | [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-013](../00-source-of-truth/AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model) (amended), [DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (regionality), `50-architecture/DATA-ARCHITECTURE.md` (residency enforcement, planned) |
 | **CAP-036 — Multi-region active-active availability** | Live cross-region failover and replication providing continuous availability across regions, beyond the single-region-per-tenant model of CAP-035. | **Later phase — committed** | [AGR-002](../00-source-of-truth/AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (supersedes [`SCOPE.md`](../10-charter/SCOPE.md) exclusion) | `50-architecture/DEPLOYMENT-ARCHITECTURE.md` (planned) |
-| **CAP-037 — Per-category decision metrics** | Block/redact/allow rates and counts aggregated by guardrail category, enabled by the category-namespaced reason codes and `guardrail_category` decision field ([DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension)/[ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md)). | **Later phase — committed (proposed, DEC-020)** | [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension), [DEC-020](../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | `50-architecture/OPERABILITY.md` (planned) |
+| **CAP-037 — Per-category decision metrics** | Block/redact/allow rates and counts aggregated by guardrail category, enabled by the category-namespaced reason codes and `guardrail_category` decision field ([DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension)/[ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md)). | **Later phase — committed (DEC-020)** | [AGR-021](../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model), [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension), [DEC-020](../00-source-of-truth/DECISIONS.md#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | `50-architecture/OPERABILITY.md` (planned) |
 
 ---
 
@@ -191,13 +197,14 @@ Per [`SCOPE.md`](../10-charter/SCOPE.md), these capabilities "may be introduced 
 
 ## Capability count summary
 
+<!-- BEGIN GENERATED: cap-counts -->
 | Category | Count |
 |---|---|
 | Core capabilities — Phases 1–2 (`CAP-001`–`CAP-017`, `CAP-038`–`CAP-041`) | 21 |
 | Later-phase capabilities — committed and estimated, Phases 3–5 (`CAP-018`–`CAP-037`) | 20 |
 | **Total cataloged capabilities — the defined-and-estimated full solution** | **41** |
-| Explicitly excluded items ([`SCOPE.md`](../10-charter/SCOPE.md), not cataloged with an ID and not part of the full feature set) | 13 |
-
+| Explicitly excluded items ([`SCOPE.md`](../10-charter/SCOPE.md), not cataloged with an ID and not part of the full feature set) |  |
+<!-- END GENERATED: cap-counts -->
 ---
 
 ## Guardrail-category cross-reference
@@ -237,4 +244,4 @@ The guardrail-category catalog ([`GUARDRAIL-CATALOG.md`](GUARDRAIL-CATALOG.md), 
 - [`GUARDRAIL-CATALOG.md`](GUARDRAIL-CATALOG.md) — the guardrail-category taxonomy (`GR-001`–`GR-018`) that classifies these capabilities; classification only, never commitment (AGR-021, DEC-009).
 - [`../50-architecture/COMPONENT-ARCHITECTURE.md`](../50-architecture/COMPONENT-ARCHITECTURE.md), [`../50-architecture/INTEGRATION-ARCHITECTURE.md`](../50-architecture/INTEGRATION-ARCHITECTURE.md), [`../50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md), [`../50-architecture/SECURITY-ARCHITECTURE.md`](../50-architecture/SECURITY-ARCHITECTURE.md), [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [`../50-architecture/OPERABILITY.md`](../50-architecture/OPERABILITY.md) — architecture documents that specify the design behind each capability.
 - [`../60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) — must gate the Phase 1–2 (core platform) release on all `Core`-status capabilities in this catalog, and on none of the `Later phase` ones.
-- [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) — cross-references each `CAP-` ID to its implementing architecture and test artifacts.
+- `just trace` — generates the reverse index from each agreement to the `CAP-` IDs, requirements, ADRs, and architecture documents that implement it, replacing the retired traceability matrix ([DEC-021](../00-source-of-truth/DECISIONS.md#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability)). Formerly cross-referenced each `CAP-` ID to its implementing architecture and test artifacts.

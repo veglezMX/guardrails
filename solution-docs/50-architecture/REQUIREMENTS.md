@@ -32,6 +32,7 @@ This document is deliberately more granular than [`../20-product/CAPABILITIES.md
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [Purpose and authority](#purpose-and-authority)
 - [How to read this document](#how-to-read-this-document)
 - [Functional area map](#functional-area-map)
@@ -54,7 +55,7 @@ This document is deliberately more granular than [`../20-product/CAPABILITIES.md
 - [17. Future-scope functional requirements (not built in the MVP)](#17-future-scope-functional-requirements-not-built-in-the-mvp)
 - [18. Traceability summary](#18-traceability-summary)
 - [19. Related documents](#19-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## Functional area map
@@ -413,6 +414,7 @@ Each future requirement also names the guardrail categor(y/ies) of [`20-product/
 
 ## 18. Traceability summary
 
+<!-- BEGIN GENERATED: fr-traceability -->
 | FR range | Functional area | Primary capability IDs | Primary agreements / constraints |
 |---|---|---|---|
 | FR-001–FR-006 | Policy definition and versioning | CAP-001 | AGR-005, AGR-006, AGR-017 |
@@ -435,7 +437,7 @@ Each future requirement also names the guardrail categor(y/ies) of [`20-product/
 | FR-110–FR-112 | Runtime capability manifest and bind-time compatibility | CAP-003 | AGR-004, AGR-005, AGR-012, CON-004; ADR-0013 |
 | FR-113–FR-118 | Connector identity, installation verification, and liveness | CAP-039 | AGR-003, AGR-011, AGR-018, AGR-019, CON-012; ADR-0007 |
 | FR-119–FR-127 | Client distribution, configuration, and conformance | CAP-040, CAP-041 | AGR-003, AGR-006, AGR-007, AGR-012, CON-010, CON-016; ADR-0008, ADR-0012 |
-
+<!-- END GENERATED: fr-traceability -->
 Guardrail-category traceability (GR-001–GR-018) for the future-scope requirements is carried in §13's `Guardrail category` column; the authoritative category definitions live in [`20-product/GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md).
 
 **Requirement count summary**
@@ -464,4 +466,4 @@ Guardrail-category traceability (GR-001–GR-018) for the future-scope requireme
 - [`DEPLOYMENT-ARCHITECTURE.md`](DEPLOYMENT-ARCHITECTURE.md) — the hosted and customer-managed deployment design referenced in Sections 10 and 13.
 - [`OPERABILITY.md`](OPERABILITY.md) — the availability, timeout, and performance-metric design that satisfies Section 11 of this document.
 - [`../60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) — gates MVP release on every `MVP`-priority requirement in this document, and on none of the `Future`-priority ones.
-- [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) — cross-references each `FR-` ID to its implementing architecture section and test artifact.
+- `just trace` — generates the reverse index from each agreement to the `FR-` IDs, capabilities, ADRs, and architecture documents that implement it, replacing the retired traceability matrix ([DEC-021](../00-source-of-truth/DECISIONS.md#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability)). Formerly cross-referenced each `FR-` ID to its implementing architecture section and test artifact.

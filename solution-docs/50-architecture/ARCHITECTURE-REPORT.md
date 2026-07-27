@@ -11,6 +11,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 1. [Executive technical summary](#1-executive-technical-summary)
 2. [Architecture objectives](#2-architecture-objectives)
 3. [Scope and system boundaries](#3-scope-and-system-boundaries)
@@ -36,7 +37,7 @@
 23. [Open technical questions](#23-open-technical-questions)
 24. [Proofs of concept required](#24-proofs-of-concept-required)
 25. [Recommendation](#25-recommendation)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Executive technical summary

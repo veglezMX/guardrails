@@ -36,6 +36,7 @@ flowchart TB
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [Purpose and authority](#purpose-and-authority)
 - [1. Role and goal](#1-role-and-goal)
 - [2. Operating principles](#2-operating-principles)
@@ -47,7 +48,7 @@ flowchart TB
 - [8. Warning conditions](#8-warning-conditions)
 - [9. Review procedure](#9-review-procedure)
 - [10. Related documents](#10-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Role and goal
@@ -82,7 +83,7 @@ The agent may read **only** the files below. It must not read, cite, or draw con
 
 | Document | What it provides to the review |
 | --- | --- |
-| [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | `AGR-001`–`AGR-020`: the accepted agreements every other permitted document must not contradict. |
+| [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | `AGR-001`–`AGR-021`: the accepted agreements every other permitted document must not contradict. |
 | [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | `CON-001`–`CON-016`: checkable boundary conditions (cloud placement, contract independence, transport/crypto, identity, content handling, resource limits). |
 | [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | `ASM-001`–`ASM-018`: unvalidated beliefs the feasibility verdict and PoC recommendations depend on. |
 | [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | `DEC-001`– : the product/organizational/delivery decision log, each entry traced to an `AGR-`. |
@@ -92,7 +93,7 @@ The agent may read **only** the files below. It must not read, cite, or draw con
 
 | Document | What it provides to the review |
 | --- | --- |
-| [`REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md) | `FR-001`–`FR-094`, each with a `Priority` of `MVP` or `Future` — the functional baseline the architecture must satisfy for `MVP`-priority items only. |
+| [`REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md) | `FR-001`–`FR-127`, each with a `Priority` of `MVP` or `Future` — the functional baseline the architecture must satisfy for `MVP`-priority items only. |
 | [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) | `NFR-AVAIL-`, `NFR-REL-`, `NFR-REC-`, `NFR-PERF-`, `NFR-SCALE-`, `NFR-SEC-`, `NFR-PRIV-`, `NFR-AUDIT-`, `NFR-MAINT-`, `NFR-PORT-`, `NFR-OPS-`, `NFR-COST-`, `NFR-COMPL-` — measurable non-functional targets, most currently `TBD`. |
 | [`ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md) | The consolidated 25-section technical report; the single broadest cross-check surface for internal consistency. |
 | [`SYSTEM-CONTEXT.md`](../50-architecture/SYSTEM-CONTEXT.md) | C4 Level 1 — platform boundary, actors, external systems. |
@@ -173,7 +174,7 @@ Every non-blocking observation is reported as a finding with a severity, in desc
 
 ### 5.4 Contradictions between requirements and architecture
 
-Specifically cross-check every `Priority = MVP` entry in [`REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md) and [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) against the architecture documents in [§3.2](#32-50-architectureslash---l2-requirements-and-l3-architecture) that claim to implement it. Report a contradiction entry wherever:
+Specifically cross-check every `Priority = MVP` entry in [`REQUIREMENTS.md`](../50-architecture/REQUIREMENTS.md) and [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md) against the architecture documents in [§3.2](#32-50-architecture--l2-requirements-and-l3-architecture) that claim to implement it. Report a contradiction entry wherever:
 
 * An `MVP`-priority `FR-`/`NFR-` has **no** architecture document claiming to implement it.
 * An architecture document describes a design that is **incompatible** with the `FR-`/`NFR-` text it claims to implement (for example, an architecture description that would require Bedrock Guardrails' native response format to cross the contract boundary, contradicting `FR-044`).
@@ -183,7 +184,7 @@ Each entry cites both the `FR-`/`NFR-` ID and the architecture document/section 
 
 ### 5.5 Required ADRs
 
-Cross-check the **suggested backlog of future ADRs** table in [`adrs/README.md`](../50-architecture/adrs/README.md#suggested-backlog-of-future-adrs) against the current state of the architecture documents in [§3.2](#32-50-architectureslash---l2-requirements-and-l3-architecture). Report a required-ADR entry wherever:
+Cross-check the **suggested backlog of future ADRs** table in [`adrs/README.md`](../50-architecture/adrs/README.md#suggested-backlog-of-future-adrs) against the current state of the architecture documents in [§3.2](#32-50-architecture--l2-requirements-and-l3-architecture). Report a required-ADR entry wherever:
 
 * A design decision meeting the ["when to write an ADR" bar](../50-architecture/adrs/README.md#when-to-write-an-adr) has already been made in an architecture document (for example, a specific policy-distribution mechanism described in `COMPONENT-ARCHITECTURE.md` or `DEPLOYMENT-ARCHITECTURE.md`) with **no** corresponding `Proposed` or `Accepted` ADR backing it.
 * An architecture document's stated design **conflicts** with what an already-`Accepted` ADR says — the ADR wins, and the architecture document is the one flagged for correction, per the ADR index's own precedence rule.
@@ -193,7 +194,7 @@ Each entry names the candidate topic (using the backlog's own naming, e.g. "Even
 
 ### 5.6 Recommended proofs of concept
 
-Start from the five proofs of concept already defined in [`FEASIBILITY-ASSESSMENT.md` §4](../50-architecture/FEASIBILITY-ASSESSMENT.md#4-required-proofs-of-concept) (PoC 1 through PoC 5) and report their current status as reflected in the permitted sources (not executed / executed, per any evidence recorded in `RELEASE-CRITERIA.md §5` or elsewhere in the permitted set). Recommend an **additional** PoC only when a specific new risk or design element in the current architecture ([§3.2](#32-50-architectureslash---l2-requirements-and-l3-architecture)) is not already covered by one of the five, and only in the same card format used by `FEASIBILITY-ASSESSMENT.md §4`:
+Start from the five proofs of concept already defined in [`FEASIBILITY-ASSESSMENT.md` §4](../50-architecture/FEASIBILITY-ASSESSMENT.md#4-required-proofs-of-concept) (PoC 1 through PoC 5) and report their current status as reflected in the permitted sources (not executed / executed, per any evidence recorded in `RELEASE-CRITERIA.md §5` or elsewhere in the permitted set). Recommend an **additional** PoC only when a specific new risk or design element in the current architecture ([§3.2](#32-50-architecture--l2-requirements-and-l3-architecture)) is not already covered by one of the five, and only in the same card format used by `FEASIBILITY-ASSESSMENT.md §4`:
 
 | Field | Required content |
 | --- | --- |

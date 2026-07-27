@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. The ask, in one sentence](#1-the-ask-in-one-sentence)
 - [2. Why a pilot, and why this shape](#2-why-a-pilot-and-why-this-shape)
 - [3. Pilot design](#3-pilot-design)
@@ -22,7 +23,7 @@
 - [7. What this ask does not commit to](#7-what-this-ask-does-not-commit-to)
 - [8. Decision requested](#8-decision-requested)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. The ask, in one sentence

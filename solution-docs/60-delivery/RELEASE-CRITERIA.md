@@ -48,6 +48,9 @@ Three gate categories are defined:
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
+- [How to read a gate](#how-to-read-a-gate)
 - [1. Phase 1–2 validation demonstration gates](#1-phase-12-validation-demonstration-gates)
   - [1.1 Demonstration topology](#11-demonstration-topology)
   - [1.2 Gate table](#12-gate-table)
@@ -57,7 +60,7 @@ Three gate categories are defined:
 - [4. Release gating rule](#4-release-gating-rule)
 - [5. Verification evidence and sign-off](#5-verification-evidence-and-sign-off)
 - [6. Related documents](#6-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Phase 1–2 validation demonstration gates

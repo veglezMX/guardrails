@@ -24,13 +24,15 @@ No dollar figures, probabilities, dates, or SLA numbers are stated for any risk 
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and scope](#purpose-and-scope)
 - [1. How to read this register](#1-how-to-read-this-register)
 - [2. Risk register](#2-risk-register)
 - [3. Risk detail](#3-risk-detail)
 - [4. Where each risk bites hardest](#4-where-each-risk-bites-hardest)
 - [5. Review cadence and lifecycle](#5-review-cadence-and-lifecycle)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. How to read this register

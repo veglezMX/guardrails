@@ -11,29 +11,37 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 1. [Purpose and scope](#1-purpose-and-scope)
 2. [Where this document sits (C4 recap)](#2-where-this-document-sits-c4-recap)
 3. [Component inventory](#3-component-inventory)
+  3. [1 Guardrails Runtime](#31-guardrails-runtime)
+  3. [2 Guardrails Control Plane](#32-guardrails-control-plane)
 4. [Guardrails Runtime — components](#4-guardrails-runtime--components)
-   - [RT-1 — Request intake / validation](#rt-1--request-intake--validation)
-   - [RT-2 — Policy resolver (with local policy cache)](#rt-2--policy-resolver-with-local-policy-cache)
-   - [RT-3 — Decision engine / decision normalization](#rt-3--decision-engine--decision-normalization)
-   - [RT-4 — Evaluator adapter layer](#rt-4--evaluator-adapter-layer)
-   - [RT-5 — Audit producer](#rt-5--audit-producer)
-   - [RT-6 — Failure-behavior handler](#rt-6--failure-behavior-handler)
-   - [RT-7 — Correlation propagation](#rt-7--correlation-propagation)
+  - [RT-1 — Request intake / validation](#rt-1--request-intake--validation)
+  - [RT-2 — Policy resolver (with local policy cache)](#rt-2--policy-resolver-with-local-policy-cache)
+  - [RT-3 — Decision engine / decision normalization](#rt-3--decision-engine--decision-normalization)
+  - [RT-4 — Evaluator adapter layer](#rt-4--evaluator-adapter-layer)
+  - [RT-5 — Audit producer](#rt-5--audit-producer)
+  - [RT-6 — Failure-behavior handler](#rt-6--failure-behavior-handler)
+  - [RT-7 — Correlation propagation](#rt-7--correlation-propagation)
 5. [Guardrails Control Plane — components](#5-guardrails-control-plane--components)
-   - [CP-1 — Tenant / workload registry](#cp-1--tenant--workload-registry)
-   - [CP-2 — Policy store (immutable versions)](#cp-2--policy-store-immutable-versions)
-   - [CP-3 — Binding manager](#cp-3--binding-manager)
-   - [CP-4 — Rollout controller](#cp-4--rollout-controller)
+  - [CP-1 — Tenant / workload registry](#cp-1--tenant--workload-registry)
+  - [CP-2 — Policy store (immutable versions)](#cp-2--policy-store-immutable-versions)
+  - [CP-3 — Binding manager](#cp-3--binding-manager)
+  - [CP-4 — Rollout controller](#cp-4--rollout-controller)
 6. [Cross-cutting contracts](#6-cross-cutting-contracts)
+  6. [1 Normalized decision contract](#61-normalized-decision-contract)
+  6. [2 Reason-code contract](#62-reason-code-contract)
+  6. [3 Correlation identifier contract](#63-correlation-identifier-contract)
 7. [Component interaction diagrams](#7-component-interaction-diagrams)
+  7. [1 Component diagram](#71-component-diagram)
+  7. [2 Input-evaluation sequence, including a failure path](#72-input-evaluation-sequence-including-a-failure-path)
 8. [Component placement across deployment modes](#8-component-placement-across-deployment-modes)
 9. [Design rules this architecture enforces](#9-design-rules-this-architecture-enforces)
 10. [Open items and TBDs](#10-open-items-and-tbds)
 11. [Related documents](#11-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and scope

@@ -23,6 +23,8 @@ This is an **L4** document: a derived presentation-guidance artifact. It must no
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and scope](#purpose-and-scope)
 - [1. Brand and design tokens](#1-brand-and-design-tokens)
 - [2. Diagram style](#2-diagram-style)
 - [3. Preferred chart types](#3-preferred-chart-types)
@@ -35,7 +37,7 @@ This is an **L4** document: a derived presentation-guidance artifact. It must no
 - [10. Diagram source map](#10-diagram-source-map)
 - [11. Open items before external use](#11-open-items-before-external-use)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Brand and design tokens

@@ -13,7 +13,7 @@
 
 **Proposed**
 
-This ADR records the design behind [DEC-013](../../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension). Until this ADR's status reads `Accepted`, it does not itself carry L1 authority — DEC-013 does. Per [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../../00-source-of-truth/TRACEABILITY-MATRIX.md), the [AGR-021](../../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) traceability row stays open on the ADR-track (currently held by [ADR-0002](./ADR-0002-guardrail-category-catalog-and-extension-model.md)) until the referenced ADR reads Accepted; this ADR does not itself close that row.
+This ADR records the design behind [DEC-013](../../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension). Until this ADR's status reads `Accepted`, it does not itself carry L1 authority — DEC-013 does. As `just trace` reports, the [AGR-021](../../00-source-of-truth/AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) traceability row stays open on the ADR-track (currently held by [ADR-0002](./ADR-0002-guardrail-category-catalog-and-extension-model.md)) until the referenced ADR reads Accepted; this ADR does not itself close that row.
 
 ## Context
 
@@ -112,4 +112,3 @@ This ADR is validated when:
 - [Extensibility Architecture](../EXTENSIBILITY-ARCHITECTURE.md)
 - [ADR-0002 — Guardrail-Category Catalog and Four-Seam Extension Model](./ADR-0002-guardrail-category-catalog-and-extension-model.md)
 - [Decision Log](../../00-source-of-truth/DECISIONS.md)
-- [Traceability Matrix](../../00-source-of-truth/TRACEABILITY-MATRIX.md)

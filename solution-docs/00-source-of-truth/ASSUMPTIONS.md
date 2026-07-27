@@ -36,14 +36,17 @@ All entries are currently **Unvalidated** unless a later revision of this docume
 
 ## Table of contents
 
-- [A. Demand, adoption, and trust assumptions](#a-demand-adoption-and-trust-assumptions) — ASM-001 to ASM-005
-- [B. Technical and infrastructure feasibility](#b-technical-and-infrastructure-feasibility) — ASM-006 to ASM-010
-- [C. Performance and operational NFR assumptions](#c-performance-and-operational-nfr-assumptions) — ASM-011 to ASM-013
-- [D. Budget and delivery-sequencing assumptions](#d-budget-and-delivery-sequencing-assumptions) — ASM-014 to ASM-015
-- [E. Security, compliance, and policy-governance assumptions](#e-security-compliance-and-policy-governance-assumptions) — ASM-016 to ASM-018
+<!-- BEGIN GENERATED: toc -->
+- [Purpose](#purpose)
+- [How to read this register](#how-to-read-this-register)
+- [A. Demand, adoption, and trust assumptions](#a-demand-adoption-and-trust-assumptions)
+- [B. Technical and infrastructure feasibility](#b-technical-and-infrastructure-feasibility)
+- [C. Performance and operational NFR assumptions](#c-performance-and-operational-nfr-assumptions)
+- [D. Budget and delivery-sequencing assumptions](#d-budget-and-delivery-sequencing-assumptions)
+- [E. Security, compliance, and policy-governance assumptions](#e-security-compliance-and-policy-governance-assumptions)
 - [Validation lifecycle](#validation-lifecycle)
 - [Relationship to other source-of-truth documents](#relationship-to-other-source-of-truth-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## A. Demand, adoption, and trust assumptions
@@ -126,7 +129,7 @@ Ownership of moving an assumption through this lifecycle sits with the **Owner**
 | `../60-delivery/VALIDATION-PLAN.md` | Owns the concrete validation activities referenced in the "Validation needed" column. |
 | `../60-delivery/RELEASE-CRITERIA.md` | Phase-gate criteria should require that assumptions linked to a given phase are no longer "Unvalidated" before that phase is declared complete. |
 | `../50-architecture/DEPLOYMENT-ARCHITECTURE.md` | Consumes ASM-001, ASM-006, ASM-009, ASM-010, and ASM-013 as sizing and topology inputs. |
-| `../00-source-of-truth/TRACEABILITY-MATRIX.md` | Should trace each ASM ID to the AGR ID(s) and register entries(s) noted above, so that a refuted assumption can be traced to every downstream document it affects. |
+| `just trace` | Generates the reverse index from each AGR to its implementing artifacts, so that a refuted assumption can be traced to every downstream document it affects. |
 
 ---
 

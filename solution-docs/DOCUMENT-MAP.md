@@ -198,8 +198,17 @@ solution-docs/
 └── 90-archive/           L5 — superseded, non-authoritative copies
 ```
 
+### Root-level documents
+
+<!-- BEGIN GENERATED: documentmap-index:. -->
+| Document | Purpose |
+| --- | --- |
+| [`CHANGELOG.md`](CHANGELOG.md) | Change history for the solution definition. |
+| [`README.md`](README.md) | Entry point and orientation for the whole set. |
+<!-- END GENERATED: documentmap-index:. -->
 ### `00-source-of-truth/` — L1, authoritative
 
+<!-- BEGIN GENERATED: documentmap-index:00-source-of-truth -->
 | Document | Purpose |
 | --- | --- |
 | [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 20 accepted agreements that no other document may contradict. |
@@ -208,19 +217,20 @@ solution-docs/
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log. |
 | [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) | Open questions awaiting resolution. |
 | [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) | Provenance of the original solution charter. |
-| [`TRACEABILITY-MATRIX.md`](00-source-of-truth/TRACEABILITY-MATRIX.md) | Maps each agreement to the capability, architecture section, ADR, and executive/sales claim that realize it; the drift-prevention backbone of the set. |
-
+<!-- END GENERATED: documentmap-index:00-source-of-truth -->
 ### `10-charter/` — L2, defining
 
+<!-- BEGIN GENERATED: documentmap-index:10-charter -->
 | Document | Purpose |
 | --- | --- |
 | [`CHARTER.md`](10-charter/CHARTER.md) | Purpose, vision, stakeholders, scope, principles, operating model, success criteria. |
 | [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) | The product's guiding principles. |
 | [`SCOPE.md`](10-charter/SCOPE.md) | In-scope, later-phase, and out-of-scope boundaries. |
 | [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) | What counts as success. |
-
+<!-- END GENERATED: documentmap-index:10-charter -->
 ### `20-product/` — L2 (`CAPABILITIES.md`) / L4 (remainder)
 
+<!-- BEGIN GENERATED: documentmap-index:20-product -->
 | Document | Purpose |
 | --- | --- |
 | [`CAPABILITIES.md`](20-product/CAPABILITIES.md) | The capability catalog, by delivery status. |
@@ -233,9 +243,11 @@ solution-docs/
 | [`TARGET-USERS.md`](20-product/TARGET-USERS.md) | Target users and stakeholders. |
 | [`USE-CASES.md`](20-product/USE-CASES.md) | Concrete use cases, including the meaning of "import." |
 | [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md) | The value case per audience. |
-
+| [`SERVING-MODEL.md`](20-product/SERVING-MODEL.md) | How AI Guardrails is served and consumed — the Mode A front door, the managed/self-serve split, the integration contract, and the policy governance classes. |
+<!-- END GENERATED: documentmap-index:20-product -->
 ### `30-executive/` — L3 (`BUSINESS-CASE.md`, `INVESTMENT-SUMMARY.md`, `RISKS-AND-DEPENDENCIES.md`) / L4 (remainder)
 
+<!-- BEGIN GENERATED: documentmap-index:30-executive -->
 | Document | Purpose |
 | --- | --- |
 | [`BUSINESS-CASE.md`](30-executive/BUSINESS-CASE.md) | The business justification. |
@@ -244,9 +256,10 @@ solution-docs/
 | [`EXPECTED-OUTCOMES.md`](30-executive/EXPECTED-OUTCOMES.md) | Outcomes expected across delivery phases. |
 | [`INVESTMENT-SUMMARY.md`](30-executive/INVESTMENT-SUMMARY.md) | Investment and organizational impact. |
 | [`RISKS-AND-DEPENDENCIES.md`](30-executive/RISKS-AND-DEPENDENCIES.md) | Executive-level risk and dependency view. |
-
+<!-- END GENERATED: documentmap-index:30-executive -->
 ### `40-sales-deck/` — L4
 
+<!-- BEGIN GENERATED: documentmap-index:40-sales-deck -->
 | Document | Purpose |
 | --- | --- |
 | [`AUDIENCE-AND-PERSONAS.md`](40-sales-deck/AUDIENCE-AND-PERSONAS.md) | Who the deck is for. |
@@ -259,9 +272,10 @@ solution-docs/
 | [`SALES-NARRATIVE.md`](40-sales-deck/SALES-NARRATIVE.md) | The narrative arc. |
 | [`SLIDE-OUTLINE.md`](40-sales-deck/SLIDE-OUTLINE.md) | Slide-by-slide structure. |
 | [`VISUAL-DIRECTION.md`](40-sales-deck/VISUAL-DIRECTION.md) | Visual and tone direction. |
-
+<!-- END GENERATED: documentmap-index:40-sales-deck -->
 ### `50-architecture/` — L2 (`NON-FUNCTIONAL-REQUIREMENTS.md`, `REQUIREMENTS.md`) / L3 (remainder) / L1 (`adrs/*`, once accepted)
 
+<!-- BEGIN GENERATED: documentmap-index:50-architecture -->
 | Document | Purpose |
 | --- | --- |
 | [`ARCHITECTURE-REPORT.md`](50-architecture/ARCHITECTURE-REPORT.md) | Consolidated architecture report; the technical lead's start point. |
@@ -282,9 +296,23 @@ solution-docs/
 | [`adrs/README.md`](50-architecture/adrs/README.md) | Architecture Decision Record index. |
 | [`adrs/ADR-0001-example-decision.md`](50-architecture/adrs/ADR-0001-example-decision.md) | Decision to build as a standalone platform. |
 | [`adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) | Guardrail-category catalog and extension model (Proposed). |
-
+| [`adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md`](50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) | Reason-code taxonomy and guardrail category as an audit dimension. |
+| [`adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md`](50-architecture/adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) | Enforcement-ladder states and decision actions. |
+| [`adrs/ADR-0005-evaluation-contract-wire-format.md`](50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md) | Evaluation contract wire format and versioning. |
+| [`adrs/ADR-0006-integration-manifest-format-and-contents.md`](50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md) | Integration manifest format and contents. |
+| [`adrs/ADR-0007-connector-identity-verification-and-liveness.md`](50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md) | Connector identity, installation verification, and liveness. |
+| [`adrs/ADR-0008-connector-distribution-and-integrity.md`](50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md) | Connector distribution and integrity. |
+| [`adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md`](50-architecture/adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md) | Policy document schema and mandatory failure behavior. |
+| [`adrs/ADR-0010-policy-storage-split.md`](50-architecture/adrs/ADR-0010-policy-storage-split.md) | Policy storage split — bindings and policy documents. |
+| [`adrs/ADR-0011-policy-distribution-and-caching.md`](50-architecture/adrs/ADR-0011-policy-distribution-and-caching.md) | Policy distribution and caching. |
+| [`adrs/ADR-0012-client-bootstrap-configuration.md`](50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md) | Client bootstrap configuration. |
+| [`adrs/ADR-0013-runtime-capability-manifest.md`](50-architecture/adrs/ADR-0013-runtime-capability-manifest.md) | Runtime capability manifest and bind-time compatibility. |
+| [`adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md`](50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) | Audit coverage — rejections and client-synthesized decisions. |
+| [`adrs/ADR-0015-runtime-deployment-target.md`](50-architecture/adrs/ADR-0015-runtime-deployment-target.md) | Runtime deployment target. |
+<!-- END GENERATED: documentmap-index:50-architecture -->
 ### `60-delivery/` — L2 (`RELEASE-CRITERIA.md`) / L3 (remainder)
 
+<!-- BEGIN GENERATED: documentmap-index:60-delivery -->
 | Document | Purpose |
 | --- | --- |
 | [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) | Cross-phase and cross-team dependencies. |
@@ -293,9 +321,11 @@ solution-docs/
 | [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | Phase 1–2 exit gates. |
 | [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) | Ownership across delivery. |
 | [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | How the Phase 1–2 validation demonstration is proven out. |
-
+| [`FEATURE-BACKLOG.md`](60-delivery/FEATURE-BACKLOG.md) | Twelve evolution ladders compiling how the solution grows beyond the MVP surface, classified by commitment status. |
+<!-- END GENERATED: documentmap-index:60-delivery -->
 ### `70-governance/` — L2 (`CLAIMS-REGISTER.md`, `DOCUMENT-GOVERNANCE.md`, `GLOSSARY.md`, `REFERENCES.md`, `RISK-REGISTER.md`)
 
+<!-- BEGIN GENERATED: documentmap-index:70-governance -->
 | Document | Purpose |
 | --- | --- |
 | [`CLAIMS-REGISTER.md`](70-governance/CLAIMS-REGISTER.md) | Approved and rejected claim patterns. |
@@ -303,9 +333,10 @@ solution-docs/
 | [`GLOSSARY.md`](70-governance/GLOSSARY.md) | Canonical vocabulary. |
 | [`REFERENCES.md`](70-governance/REFERENCES.md) | Source references. |
 | [`RISK-REGISTER.md`](70-governance/RISK-REGISTER.md) | The consolidated risk register. |
-
+<!-- END GENERATED: documentmap-index:70-governance -->
 ### `80-agent-inputs/` — L4
 
+<!-- BEGIN GENERATED: documentmap-index:80-agent-inputs -->
 | Document | Purpose |
 | --- | --- |
 | [`ARCHITECTURE-REVIEW-AGENT.md`](80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md) | Instructions for an architecture-review generation agent. |
@@ -314,13 +345,15 @@ solution-docs/
 | [`OUTPUT-CONTRACTS.md`](80-agent-inputs/OUTPUT-CONTRACTS.md) | Binding output contracts for every generation agent. |
 | [`README.md`](80-agent-inputs/README.md) | Why this directory exists; reference-don't-duplicate rule. |
 | [`SALES-DECK-AGENT.md`](80-agent-inputs/SALES-DECK-AGENT.md) | Instructions for a sales-deck generation agent. |
-
+<!-- END GENERATED: documentmap-index:80-agent-inputs -->
 ### `90-archive/` — L5, non-authoritative
 
+<!-- BEGIN GENERATED: documentmap-index:90-archive -->
 | Document | Purpose |
 | --- | --- |
 | [`README.md`](90-archive/README.md) | Archive index; archived documents carry no authority. |
-
+| [`00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md`](90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md) |  |
+<!-- END GENERATED: documentmap-index:90-archive -->
 ---
 
 ## Relationship to other navigational documents

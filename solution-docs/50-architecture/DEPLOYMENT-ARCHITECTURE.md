@@ -310,7 +310,7 @@ flowchart TB
 
 ### 7.4 Multi-region availability and per-tenant residency pinning (DEC-018 / CAP-035)
 
-Per [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) (Status: Proposed — register-level, owner ratification required) and [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md#extended-deployment-and-commercial), the **hosted** side of the platform — the accounts and Regions behind Modes A and B, and the control plane Mode C's policy synchronization talks to — offers **multi-region availability from GA**. This supersedes any single-Region reading of §7.1–§7.3 above: those sections describe the hosted account/service topology, not a claim that it runs in one AWS Region only.
+Per [`DECISIONS.md` DEC-018](../00-source-of-truth/DECISIONS.md#dec-018--multi-region-availability-at-ga) (Status: Accepted) and [`CAPABILITIES.md` CAP-035](../20-product/CAPABILITIES.md#extended-deployment-and-commercial), the **hosted** side of the platform — the accounts and Regions behind Modes A and B, and the control plane Mode C's policy synchronization talks to — offers **multi-region availability from GA**. This supersedes any single-Region reading of §7.1–§7.3 above: those sections describe the hosted account/service topology, not a claim that it runs in one AWS Region only.
 
 The model is **tenant-pinned single-Region processing, not active-active**:
 
@@ -333,7 +333,7 @@ Until the residency-enforcement mechanism ships, Region assignment is a placemen
 
 ### 7.5 Multi-region active-active — later phase (DEC-019 / CAP-036)
 
-[`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Proposed — register-level, owner ratification required) commits **multi-region active-active availability** — live cross-Region failover and replication providing continuous availability across Regions — as a **later phase, committed** capability, [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md#extended-deployment-and-commercial). This supersedes the prior [`SCOPE.md`](../10-charter/SCOPE.md) listing of active-active as an out-of-scope exclusion.
+[`DECISIONS.md` DEC-019](../00-source-of-truth/DECISIONS.md#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) (Status: Accepted) commits **multi-region active-active availability** — live cross-Region failover and replication providing continuous availability across Regions — as a **later phase, committed** capability, [`CAPABILITIES.md` CAP-036](../20-product/CAPABILITIES.md#extended-deployment-and-commercial). This supersedes the prior [`SCOPE.md`](../10-charter/SCOPE.md) listing of active-active as an out-of-scope exclusion.
 
 **Explicitly distinct from §7.4.** DEC-018/CAP-035 is region *availability* with a tenant *pinned* to a single processing Region; DEC-019/CAP-036 is live cross-Region *high availability* on top of that — replication and failover so that a Region-level event does not interrupt an in-flight tenant's evaluation traffic. CAP-036 layers onto the CAP-035 multi-Region footprint; it is not a prerequisite for CAP-035, and CAP-035 does not imply it. Until CAP-036 ships, a Region-level outage affecting a tenant's assigned Region is an availability event for that tenant, handled per the failure-behavior requirements of §1 above (AGR-012) — it is not masked by cross-Region failover.
 

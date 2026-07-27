@@ -34,23 +34,29 @@ This document governs the container catalog and inter-container communication; i
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
+  - [Relationship to other architecture documents](#relationship-to-other-architecture-documents)
 - [1. Container map (logical architecture)](#1-container-map-logical-architecture)
 - [2. Container catalog](#2-container-catalog)
 - [3. Guardrails Control Plane](#3-guardrails-control-plane)
 - [4. Guardrails Runtime](#4-guardrails-runtime)
 - [5. Evaluation engines](#5-evaluation-engines)
 - [6. Entry points — connectors, SDK, Guarded Gateway](#6-entry-points--connectors-sdk-guarded-gateway)
+  - [6.1 LiteLLM Connector](#61-litellm-connector)
+  - [6.2 Generic SDK](#62-generic-sdk)
+  - [6.3 Guarded Gateway](#63-guarded-gateway)
 - [7. Inter-container communication](#7-inter-container-communication)
-  - [7.1 Policy distribution](#71-policy-distribution-control-plane--runtime)
-  - [7.2 Evaluation calls](#72-evaluation-calls-entry-points--evaluation-api)
-  - [7.3 Evaluator invocation](#73-evaluator-invocation-runtime--evaluation-engines)
-  - [7.4 Audit events](#74-audit-events-runtime--audit-pipeline)
+  - [7.1 Policy distribution (Control Plane → Runtime)](#71-policy-distribution-control-plane--runtime)
+  - [7.2 Evaluation calls (entry points → Evaluation API)](#72-evaluation-calls-entry-points--evaluation-api)
+  - [7.3 Evaluator invocation (Runtime → Evaluation engines)](#73-evaluator-invocation-runtime--evaluation-engines)
+  - [7.4 Audit events (Runtime → audit pipeline)](#74-audit-events-runtime--audit-pipeline)
 - [8. Technology mapping](#8-technology-mapping)
 - [9. Containers across the three deployment modes](#9-containers-across-the-three-deployment-modes)
 - [10. Domain-model alignment](#10-domain-model-alignment)
 - [11. Constraints and agreements applied in this view](#11-constraints-and-agreements-applied-in-this-view)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Container map (logical architecture)

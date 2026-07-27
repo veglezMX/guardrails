@@ -10,6 +10,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [AGR-001 — Standalone platform, not embedded in the internal LiteLLM](#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)
 - [AGR-002 — Three deployment modes](#agr-002--three-deployment-modes)
 - [AGR-003 — LiteLLM as first connector, not the product boundary](#agr-003--litellm-as-first-connector-not-the-product-boundary)
@@ -31,7 +32,7 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - [AGR-019 — Meaning of "import"](#agr-019--meaning-of-import)
 - [AGR-020 — Five-phase delivery](#agr-020--five-phase-delivery)
 - [AGR-021 — Guardrail-category taxonomy and extension model](#agr-021--guardrail-category-taxonomy-and-extension-model)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## AGR-001 — Standalone platform, not embedded in the internal LiteLLM
@@ -140,7 +141,6 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 **Affected documents:**
 - `50-architecture/INTEGRATION-ARCHITECTURE.md`
 - `50-architecture/ARCHITECTURE-REPORT.md`
-- `00-source-of-truth/TRACEABILITY-MATRIX.md`
 
 ---
 
@@ -344,7 +344,6 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - `50-architecture/COMPONENT-ARCHITECTURE.md`
 - `50-architecture/REQUIREMENTS.md`
 - `70-governance/GLOSSARY.md`
-- `00-source-of-truth/TRACEABILITY-MATRIX.md`
 
 ---
 
@@ -422,6 +421,5 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - `20-product/GUARDRAIL-CATALOG.md`
 - `50-architecture/EXTENSIBILITY-ARCHITECTURE.md`
 - `50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`
-- `00-source-of-truth/TRACEABILITY-MATRIX.md`
 - `70-governance/GLOSSARY.md`
 - `70-governance/CLAIMS-REGISTER.md`

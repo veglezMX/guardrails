@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. How to read this document](#1-how-to-read-this-document)
 - [2. Scope boundary map](#2-scope-boundary-map)
 - [3. Core scope — Phases 1–2](#3-core-scope--phases-12)
@@ -22,7 +23,7 @@
 - [7. Why these boundaries matter to each stakeholder group](#7-why-these-boundaries-matter-to-each-stakeholder-group)
 - [8. Scope-change governance rule](#8-scope-change-governance-rule)
 - [9. Related documents](#9-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. How to read this document

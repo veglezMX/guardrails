@@ -14,13 +14,14 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Why this document exists](#1-why-this-document-exists)
 - [2. How to read an "original charter §N" citation](#2-how-to-read-an-original-charter-n-citation)
 - [3. Section-by-section map](#3-section-by-section-map)
 - [4. Where the current registers supersede the original charter](#4-where-the-current-registers-supersede-the-original-charter)
 - [5. Rules for using this document](#5-rules-for-using-this-document)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Why this document exists

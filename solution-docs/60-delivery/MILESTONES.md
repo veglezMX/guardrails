@@ -26,6 +26,8 @@ The relationship between this document and its neighbors:
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [1. How to read this document — the spec pattern](#1-how-to-read-this-document--the-spec-pattern)
 - [2. Milestone sequence overview](#2-milestone-sequence-overview)
 - [3. M1 — Integration proof](#3-m1--integration-proof)
@@ -36,7 +38,7 @@ The relationship between this document and its neighbors:
 - [8. Milestone-to-validation-demonstration traceability](#8-milestone-to-validation-demonstration-traceability)
 - [9. What this document deliberately does not say](#9-what-this-document-deliberately-does-not-say)
 - [10. Related documents](#10-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. How to read this document — the spec pattern

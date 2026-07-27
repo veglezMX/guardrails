@@ -15,6 +15,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Purpose of this document](#1-purpose-of-this-document)
 - [2. Current-state costs and inefficiencies](#2-current-state-costs-and-inefficiencies)
 - [3. Risk exposure under the current state](#3-risk-exposure-under-the-current-state)
@@ -26,7 +27,7 @@
 - [9. What would change this case](#9-what-would-change-this-case)
 - [10. Summary position](#10-summary-position)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose of this document

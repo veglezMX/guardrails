@@ -13,7 +13,7 @@ This document describes how AI Guardrails is **served to, and consumed by**, the
 
 It is a **derived, L4** view. It must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), both L1-authoritative, or an `Accepted` entry in [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md), which is also L1. **If a conflict is ever found between this document and an L1 register, the L1 register wins and this document must be corrected — never the reverse.**
 
-Two of the decisions this document is derived from — [`DECISIONS.md` DEC-010](../00-source-of-truth/DECISIONS.md#dec-010--serve-ai-guardrails-as-a-developer-service-with-mode-a-as-the-front-door) (serving model / front door) and [`DECISIONS.md` DEC-011](../00-source-of-truth/DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority) (policy governance classes) — currently carry **Status: Proposed** in the decision log, not yet `Accepted`. This document describes that proposed shape; if either decision is revised or rejected at ratification, this document must be corrected to match.
+Two of the decisions this document is derived from — [`DECISIONS.md` DEC-010](../00-source-of-truth/DECISIONS.md#dec-010--serve-ai-guardrails-as-a-developer-service-with-mode-a-as-the-front-door) (serving model / front door) and [`DECISIONS.md` DEC-011](../00-source-of-truth/DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority) (policy governance classes) — carry **Status: Accepted** in the decision log. This document describes the shape they settle; if either decision is later revised or superseded, this document must be corrected to match.
 
 This document does not restate the three deployment modes from first principles — see [`20-product/PRODUCT-OVERVIEW.md`](PRODUCT-OVERVIEW.md) §4 for that, and [`50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md) for the full per-mode ownership breakdown. This document instead answers a narrower question those documents leave open: of the three modes, which one is the default path a new consumer is guided through, and what exactly does adopting it commit each side to.
 
@@ -21,6 +21,8 @@ This document does not restate the three deployment modes from first principles 
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [About this document](#about-this-document)
 - [1. Product identity](#1-product-identity)
 - [2. The front door: Mode A as a developer service](#2-the-front-door-mode-a-as-a-developer-service)
 - [3. The managed / self-serve split](#3-the-managed--self-serve-split)
@@ -28,7 +30,7 @@ This document does not restate the three deployment modes from first principles 
 - [5. Policy governance classes](#5-policy-governance-classes)
 - [6. Graduation paths: Mode B and Mode C](#6-graduation-paths-mode-b-and-mode-c)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Product identity

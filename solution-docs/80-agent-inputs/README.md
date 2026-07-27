@@ -26,6 +26,7 @@ Every instruction file in this directory must point *at* those documents. It mus
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [Purpose and authority](#purpose-and-authority)
 - [Why this directory exists](#why-this-directory-exists)
 - [The governing rule: reference, don't duplicate](#the-governing-rule-reference-dont-duplicate)
@@ -33,7 +34,7 @@ Every instruction file in this directory must point *at* those documents. It mus
 - [Output contract](#output-contract)
 - [Authority model reminder for generation agents](#authority-model-reminder-for-generation-agents)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## Why this directory exists

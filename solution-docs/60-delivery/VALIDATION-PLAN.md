@@ -19,6 +19,8 @@ Per source-of-truth policy, no validation activity below is paired with an inven
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [How to read this plan](#how-to-read-this-plan)
 - [Gate definitions](#gate-definitions)
 - [Owner-role mapping](#owner-role-mapping)
@@ -33,7 +35,7 @@ Per source-of-truth policy, no validation activity below is paired with an inven
 - [Assumptions-register coverage crosswalk](#assumptions-register-coverage-crosswalk)
 - [Lifecycle and status](#lifecycle-and-status)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## How to read this plan

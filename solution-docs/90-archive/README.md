@@ -15,6 +15,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Purpose and authority](#1-purpose-and-authority)
 - [2. What belongs in this archive](#2-what-belongs-in-this-archive)
 - [3. What does not belong in this archive](#3-what-does-not-belong-in-this-archive)
@@ -24,7 +25,7 @@
 - [7. CHANGELOG requirement](#7-changelog-requirement)
 - [8. Current archive contents](#8-current-archive-contents)
 - [9. Related documents](#9-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and authority
@@ -47,7 +48,7 @@ A file belongs in `90-archive/` when a whole document under `solution-docs/` —
 
 * it was **replaced end-to-end** by a newer edition of the same document (a full rewrite, not an incremental edit), or
 * it was **replaced by a different document** taking over its role in the active tree, or
-* its role was **retired** from the active information architecture altogether (for example, if a directory or document type described in `folder-spectation.md` is later dropped from the set).
+* its role was **retired** from the active information architecture altogether (for example, if a directory or document type described in the original documentation-set proposal is later dropped from the set).
 
 Illustrative examples of the *kind* of document this covers — none of these have actually been archived as of this date:
 
@@ -117,7 +118,7 @@ A few points that keep this consistent with `DOCUMENT-GOVERNANCE.md` §10:
 
 * The archived copy is **frozen** — once placed in `90-archive/`, it is never edited again. A later correction to history is not possible by design; only a new archival event (a new file, a new date suffix) can add to the record.
 * The live path in the active tree is the only one change control (`DOCUMENT-GOVERNANCE.md` §6) continues to apply to. Once a document is archived, `90-archive/` is out of scope for the ongoing Path A / Path B process.
-* This archival step is usually the direct consequence of a Path A amendment or a Path B correction that already required updating [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and logging a `CHANGELOG.md` entry — archiving does not introduce a third, separate approval process on top of those.
+* This archival step is usually the direct consequence of a Path A amendment or a Path B correction that already required logging a `CHANGELOG.md` entry — archiving does not introduce a third, separate approval process on top of those.
 
 ---
 
@@ -138,17 +139,17 @@ Moving a document out of the active tree and into `90-archive/` is a change to t
 
 The `CHANGELOG.md` entry that records the archival should name **both** the active-tree document that changed (or was removed) and the resulting archived filename, so a reader can find one from the other without consulting this index separately. In the ordinary case, the archival is the direct outcome of a Path A amendment or a Path B correction that already required a `CHANGELOG.md` entry — the archival does not need a second, independent entry, but that entry must not omit the archived filename.
 
-[`../CHANGELOG.md`](../CHANGELOG.md) is referenced by `DOCUMENT-GOVERNANCE.md` and by `folder-spectation.md` as the intended root-level ledger of documentation-set changes, and it exists in this document set at `solution-docs/CHANGELOG.md`. Every future archival event must be logged there under this rule.
+[`../CHANGELOG.md`](../CHANGELOG.md) is referenced by `DOCUMENT-GOVERNANCE.md` as the intended root-level ledger of documentation-set changes, and it exists in this document set at `solution-docs/CHANGELOG.md`. Every future archival event must be logged there under this rule.
 
 ---
 
 ## 8. Current archive contents
 
-| Archived filename | Original path | Date archived | Reason | Superseded by | CHANGELOG entry |
-| --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — |
+| Archived file | Original path | Archived | Superseded by |
+| --- | --- | --- | --- |
+| [`00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md`](00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md) | `00-source-of-truth/TRACEABILITY-MATRIX.md` | 2026-07-26 | Generated traceability — `just trace` and `just check` ([DEC-021](../00-source-of-truth/DECISIONS.md#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability)) |
 
-No document has been archived yet. This table is updated as the final step of the workflow in [§5](#5-archival-workflow), one row per archived file, in the order files are added.
+This is a role retirement under [§2](#2-what-belongs-in-this-archive): the register was not rewritten or replaced by another document, its function was taken over by tooling.
 
 ---
 
@@ -160,4 +161,3 @@ No document has been archived yet. This table is updated as the final step of th
 - [`../50-architecture/adrs/README.md`](../50-architecture/adrs/README.md) — the sibling lifecycle for Architecture Decision Records, which are never relocated to this archive.
 - [`../CHANGELOG.md`](../CHANGELOG.md) — the chronological ledger every archival must be recorded in.
 - [`../70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) — must never cite an archived document as evidence for a live external-facing claim.
-- [`../../folder-spectation.md`](../../folder-spectation.md) — the original documentation-set proposal that reserved this directory and first described `CHANGELOG.md`'s purpose.

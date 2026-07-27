@@ -19,6 +19,8 @@ No metric, dollar figure, SLA, retention period, or performance number is assert
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [1. Domain entity model](#1-domain-entity-model)
   - [1.1 Entity summary](#11-entity-summary)
   - [1.2 Tenant](#12-tenant)
@@ -45,7 +47,7 @@ No metric, dollar figure, SLA, retention period, or performance number is assert
 - [5. Open items and TBDs](#5-open-items-and-tbds)
 - [6. Traceability](#6-traceability)
 - [7. Related documents](#7-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Domain entity model

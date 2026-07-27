@@ -27,6 +27,8 @@ This document does not restate the phase-by-phase objectives and deliverables al
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [1. Relationship to the roadmap and scope](#1-relationship-to-the-roadmap-and-scope)
 - [2. Delivery phases and build sequence](#2-delivery-phases-and-build-sequence)
 - [3. The Phase 1–2 core boundary](#3-the-phase-12-core-boundary)
@@ -38,7 +40,7 @@ This document does not restate the phase-by-phase objectives and deliverables al
 - [9. Sequencing risks and mitigations](#9-sequencing-risks-and-mitigations)
 - [10. Summary](#10-summary)
 - [11. Related documents](#11-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Relationship to the roadmap and scope

@@ -15,23 +15,29 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 1. [Purpose and scope](#1-purpose-and-scope)
 2. [Availability](#2-availability)
-   - 2.1 [Availability objective](#21-availability-objective)
-   - 2.2 [Timeout behavior](#22-timeout-behavior)
-   - 2.3 [Retry behavior](#23-retry-behavior)
-   - 2.4 [Cached-policy behavior](#24-cached-policy-behavior)
-   - 2.5 [Degraded operating mode](#25-degraded-operating-mode)
-   - 2.6 [Circuit-breaker behavior](#26-circuit-breaker-behavior)
+  2. [1 Availability objective](#21-availability-objective)
+  2. [2 Timeout behavior](#22-timeout-behavior)
+  2. [3 Retry behavior](#23-retry-behavior)
+  2. [4 Cached-policy behavior](#24-cached-policy-behavior)
+  2. [5 Degraded operating mode](#25-degraded-operating-mode)
+  2. [6 Circuit-breaker behavior](#26-circuit-breaker-behavior)
 3. [Performance metrics](#3-performance-metrics)
 4. [Policy rollout](#4-policy-rollout)
 5. [Auditing metadata](#5-auditing-metadata)
 6. [Observability signals and health checks](#6-observability-signals-and-health-checks)
+  6. [1 Metrics](#61-metrics)
+  6. [2 Logs and correlation](#62-logs-and-correlation)
+  6. [3 Health checks](#63-health-checks)
+  6. [4 Connector-health telemetry](#64-connector-health-telemetry)
+  6. [5 Customer-managed telemetry categories](#65-customer-managed-telemetry-categories)
 7. [Failure behavior is explicit — no undocumented fallback](#7-failure-behavior-is-explicit--no-undocumented-fallback)
 8. [Operator runbook](#8-operator-runbook)
 9. [Operability across deployment modes](#9-operability-across-deployment-modes)
 10. [Related documents](#10-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and scope

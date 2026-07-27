@@ -22,6 +22,8 @@ No claim in sales, executive, or governance materials may assert that a success 
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [1. Phase 1–2 validation demonstration criteria](#1-phase-12-validation-demonstration-criteria)
   - [1.1 Demonstration architecture](#11-demonstration-architecture)
   - [1.2 Criteria table](#12-criteria-table)
@@ -33,7 +35,7 @@ No claim in sales, executive, or governance materials may assert that a success 
   - [2.4 Product portability](#24-product-portability)
 - [3. Relationship between the validation demonstration and ongoing metrics](#3-relationship-between-the-validation-demonstration-and-ongoing-metrics)
 - [4. Related documents](#4-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Phase 1–2 validation demonstration criteria

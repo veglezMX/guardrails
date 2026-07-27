@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Role](#1-role)
 - [2. Goal](#2-goal)
 - [3. Permitted source files](#3-permitted-source-files)
@@ -23,7 +24,7 @@
 - [8. Traceability expectations](#8-traceability-expectations)
 - [9. Generation/refresh pipeline](#9-generationrefresh-pipeline)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Role

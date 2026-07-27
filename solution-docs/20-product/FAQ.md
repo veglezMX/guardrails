@@ -17,6 +17,8 @@ If an answer here ever appears to conflict with `AGREEMENTS.md` or `CONSTRAINTS.
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [Data, privacy, and content exposure](#data-privacy-and-content-exposure)
   - [Does my prompt/response data get stored?](#does-my-promptresponse-data-get-stored)
   - [Is Remote Evaluation data-local?](#is-remote-evaluation-data-local)
@@ -31,7 +33,7 @@ If an answer here ever appears to conflict with `AGREEMENTS.md` or `CONSTRAINTS.
   - [Is the connector a hard security boundary?](#is-the-connector-a-hard-security-boundary)
   - [Does it do user authorization?](#does-it-do-user-authorization)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## Data, privacy, and content exposure

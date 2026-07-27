@@ -19,6 +19,8 @@ This is an **L4** document: a derived, audience-specific artifact aimed at an ag
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and scope](#purpose-and-scope)
 - [Role](#role)
 - [Goal](#goal)
 - [Operating principles](#operating-principles)
@@ -32,7 +34,7 @@ This is an **L4** document: a derived, audience-specific artifact aimed at an ag
 - [Example slide-to-source map](#example-slide-to-source-map)
 - [Relationship to other agent-input documents](#relationship-to-other-agent-input-documents)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## Role
@@ -169,7 +171,7 @@ flowchart TD
 For every statement the deck makes that is more than a direct architectural fact (i.e., anything that reads as a benefit, a differentiator, or a capability claim), the agent must:
 
 1. **Find the row.** Locate the matching row in [`CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) (Sections 1–10). If no row exists, do not draft wording for the claim — record it in the [missing-information list](#output-format) instead.
-2. **Check the status.** Apply the [status-handling table](#status-handling) below.
+2. **Check the status.** Apply the [status-handling table](#status-handling-table) below.
 3. **Use only the Approved wording.** The slide may restate, compress, or adapt the register's *Approved wording* field, but must not introduce a phrase from the corresponding *Restricted wording* field, even partially or by paraphrase.
 4. **Cross-check against `PROOF-POINTS.md`.** Where a `PROOF-POINTS.md` (PP-001…PP-008) entry exists for the same underlying claim, its **Restrictions** field applies as an additional, non-relaxing constraint — `PROOF-POINTS.md` never grants more latitude than `CLAIMS-REGISTER.md`, only narrows further where its evidence-status framing (Confirmed design vs. Architectural hypothesis) is more specific about mechanism-vs-outcome, per PP-005 and PP-006.
 5. **Cross-check against `RISK-REGISTER.md`.** Where a claim touches connector bypass, false confidence, or hosted data exposure (RSK-001, RSK-002, RSK-004), confirm the slide's wording does not read as resolving that risk — a mitigated risk is not the same as an eliminated one.
@@ -279,7 +281,7 @@ The agent must surface an explicit warning — in the claims-validation report a
 - **Every speaker-notes block** must cite the `AGR-xxx`/`CON-xxx` anchor backing that slide's content, per [`DECK-BRIEF.md`](../40-sales-deck/DECK-BRIEF.md) Output requirement 2.
 - **Every diagram** must trace to the [`VISUAL-DIRECTION.md`](../40-sales-deck/VISUAL-DIRECTION.md) §10 diagram source map, or to an equivalent citation if the requested deck instantiation calls for a diagram not already listed there.
 - **No orphaned content.** If a slide's content cannot be traced to a permitted source (including this specification's own tiering), it must not appear in the deck — it belongs in the missing-information list instead.
-- This traceability chain (`AGREEMENTS.md`/`CONSTRAINTS.md` → `CLAIMS-REGISTER.md` → sales-deck package → generated deck) mirrors the intended purpose of [`../00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md); the slide-to-source map produced under this specification should be reconcilable against it.
+- This traceability chain (`AGREEMENTS.md`/`CONSTRAINTS.md` → `CLAIMS-REGISTER.md` → sales-deck package → generated deck) mirrors what `just trace` reports; the slide-to-source map produced under this specification should be reconcilable against it.
 
 ---
 

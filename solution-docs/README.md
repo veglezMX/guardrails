@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. What is AI Guardrails](#1-what-is-ai-guardrails)
 - [2. Where the ground truth lives](#2-where-the-ground-truth-lives)
 - [3. The authority model — L1 to L5](#3-the-authority-model--l1-to-l5)
@@ -22,7 +23,7 @@
 - [7. Start here by role](#7-start-here-by-role)
 - [8. Conventions used throughout this set](#8-conventions-used-throughout-this-set)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. What is AI Guardrails
@@ -96,28 +97,39 @@ solution-docs/
 
 Each table lists the documents in one directory with the authority level declared in that document's own header and a one-line description of its purpose. For the authoritative statement of which level governs each area (including cases where a document's own header and the governance model's directory table might drift over time), see [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §4.
 
-### [`00-source-of-truth/`](00-source-of-truth/) — L1, authoritative
+### Root-level documents
 
+<!-- BEGIN GENERATED: readme-index:. -->
 | Document | Level | Description |
 | --- | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 | The 21 accepted agreements (`AGR-001`…`AGR-021`) that govern this entire solution. |
+| [`CHANGELOG.md`](CHANGELOG.md) | L4 | The chronological, additive-only ledger of meaningful changes to the solution definition. |
+| [`DOCUMENT-MAP.md`](DOCUMENT-MAP.md) | L4 | Role-oriented reading paths through the set, plus the full repository index. |
+<!-- END GENERATED: readme-index:. -->
+### [`00-source-of-truth/`](00-source-of-truth/) — L1, authoritative
+
+<!-- BEGIN GENERATED: readme-index:00-source-of-truth -->
+| Document | Level | Description |
+| --- | --- | --- |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 21 accepted agreements (`AGR-001`…`AGR-021`) that govern this entire solution. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable boundaries — cloud placement, security, data handling, resource limits (`CON-NNN`). |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | L1 | Chronological log of product, organizational, and delivery decisions (`DEC-NNN`), distinct from architecture-level ADRs. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | L1 | Register of load-bearing but not-yet-validated beliefs the charter and delivery sequencing depend on (`ASM-NNN`). |
 | [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) | L1 | Decisions not yet made that could materially change scope, feasibility, cost, or architecture. |
 | [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md) | — | Historical record of where the original solution charter's content now lives, and where later decisions supersede it. A map, not a source. |
-
+<!-- END GENERATED: readme-index:00-source-of-truth -->
 ### [`10-charter/`](10-charter/) — L2, defining
 
+<!-- BEGIN GENERATED: readme-index:10-charter -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`CHARTER.md`](10-charter/CHARTER.md) | L2 | The solution charter: purpose, vision, three-mode architectural decision, scope, and ownership boundaries. |
 | [`PRINCIPLES.md`](10-charter/PRINCIPLES.md) | L2 | The product principles ([`PRINCIPLES.md`](10-charter/PRINCIPLES.md)) — policy portability, one contract, policy/connector separation, observe-before-enforce, and more. |
 | [`SCOPE.md`](10-charter/SCOPE.md) | L2 | Expands the charter's in-scope/out-of-scope sections into full scope-boundary detail across the five delivery phases. |
 | [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md) | L2 | The measurable criteria the Phase 1–2 validation demonstration and adoption/reliability/effectiveness/portability goals are judged against. |
-
+<!-- END GENERATED: readme-index:10-charter -->
 ### [`20-product/`](20-product/) — mostly L4, `CAPABILITIES.md` is L2
 
+<!-- BEGIN GENERATED: readme-index:20-product -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`CAPABILITIES.md`](20-product/CAPABILITIES.md) | L2 | The traceable capability catalog (`CAP-NNN`) — what the product does or will do, by delivery status. |
@@ -131,9 +143,10 @@ Each table lists the documents in one directory with the authority level declare
 | [`USE-CASES.md`](20-product/USE-CASES.md) | L4 | Concrete, actor-driven use cases illustrating the three deployment modes and the trust/enforcement model. |
 | [`PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) | L4 | The five-phase delivery roadmap, product-facing. |
 | [`FAQ.md`](20-product/FAQ.md) | L4 | Answers to the questions platform, application, and security-review teams most commonly ask. |
-
+<!-- END GENERATED: readme-index:20-product -->
 ### [`30-executive/`](30-executive/) — L3 analytical, L4 communicative
 
+<!-- BEGIN GENERATED: readme-index:30-executive -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`EXECUTIVE-BRIEF.md`](30-executive/EXECUTIVE-BRIEF.md) | L4 | The primary executive-facing narrative and decision context. |
@@ -142,9 +155,10 @@ Each table lists the documents in one directory with the authority level declare
 | [`BUSINESS-CASE.md`](30-executive/BUSINESS-CASE.md) | L3 | The analytical justification behind the executive brief's ask — costs of inaction, risk exposure, expected benefits. |
 | [`INVESTMENT-SUMMARY.md`](30-executive/INVESTMENT-SUMMARY.md) | L3 | What investment is required, at what granularity, and in what sequence. |
 | [`RISKS-AND-DEPENDENCIES.md`](30-executive/RISKS-AND-DEPENDENCIES.md) | L3 | A single, decision-relevant view of principal risks and external dependencies for leadership. |
-
+<!-- END GENERATED: readme-index:30-executive -->
 ### [`40-sales-deck/`](40-sales-deck/) — L4, communicative
 
+<!-- BEGIN GENERATED: readme-index:40-sales-deck -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`DECK-BRIEF.md`](40-sales-deck/DECK-BRIEF.md) | L4 | The brief that frames the sales deck's purpose, audience, and constraints. |
@@ -157,9 +171,10 @@ Each table lists the documents in one directory with the authority level declare
 | [`OBJECTION-HANDLING.md`](40-sales-deck/OBJECTION-HANDLING.md) | L4 | Anticipated objections and how to respond without overclaiming. |
 | [`CALL-TO-ACTION.md`](40-sales-deck/CALL-TO-ACTION.md) | L4 | The single, concrete ask the deck closes with. |
 | [`VISUAL-DIRECTION.md`](40-sales-deck/VISUAL-DIRECTION.md) | L4 | Visual and design direction for the rendered deck. |
-
+<!-- END GENERATED: readme-index:40-sales-deck -->
 ### [`50-architecture/`](50-architecture/) — L2 requirements, L3 analytical, L1 for Accepted ADRs
 
+<!-- BEGIN GENERATED: readme-index:50-architecture -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) | L2 | Individually identified, testable functional requirements (`FR-NNN`), each mapped to a `CAP-` capability. |
@@ -179,10 +194,24 @@ Each table lists the documents in one directory with the authority level declare
 | [`TRADE-OFFS.md`](50-architecture/TRADE-OFFS.md) | L3 | Named architectural trade-offs (hosted vs. customer-managed, DynamoDB vs. versioned S3, and others). |
 | [`adrs/README.md`](50-architecture/adrs/README.md) | L1 | Index and process guide for Architecture Decision Records; an individual ADR is L1 only once `Accepted`. |
 | [`adrs/ADR-0001-example-decision.md`](50-architecture/adrs/ADR-0001-example-decision.md) | L1 | Records the decision to build AI Guardrails as a standalone platform, not embedded in the internal LiteLLM. |
-| [`adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) | Proposed (L1 once Accepted) | Records the design behind the guardrail-category catalog and the four-seam extension model (AGR-021, DEC-009). |
-
+| [`adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) | L1 | Records the design behind the guardrail-category catalog and the four-seam extension model (AGR-021, DEC-009). |
+| [`adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md`](50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) | L1 (once Accepted) | Records the category-namespaced reason-code format (`GR-0NN:<evaluator-family>:<code>`) and the `guardrail_category` decision field. |
+| [`adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md`](50-architecture/adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) | L1 (once Accepted) | Records how the five enforcement-ladder states relate to the four decision actions, resolving a vocabulary collision between two accepted requirements. |
+| [`adrs/ADR-0005-evaluation-contract-wire-format.md`](50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md) | L1 (once Accepted) | Records the evaluation contract's wire format and versioning rules — JSON over HTTPS with SigV4, URI major versioning, and a generated OpenAPI document as the normative artifact. |
+| [`adrs/ADR-0006-integration-manifest-format-and-contents.md`](50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md) | L1 (once Accepted) | Records the integration manifest as a generated, schema-validated, secret-free file derived from a policy binding, with a prohibited-contents list that makes AGR-019's trust commitments mechanically checkable. |
+| [`adrs/ADR-0007-connector-identity-verification-and-liveness.md`](50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md) | L1 (once Accepted) | Records two-phase connector compatibility validation, the installation-verification state, the reported staleness signal, and explicit workload decommissioning. |
+| [`adrs/ADR-0008-connector-distribution-and-integrity.md`](50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md) | L1 (once Accepted) | Records how connectors are published — named channels, independent versioning that declares supported contract majors, verifiable integrity, and documented request-path privilege. |
+| [`adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md`](50-architecture/adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md) | L1 (once Accepted) | Records the policy document schema, requires every failure-behavior key with no defaults, and selects evaluators by capability rather than by vendor. |
+| [`adrs/ADR-0010-policy-storage-split.md`](50-architecture/adrs/ADR-0010-policy-storage-split.md) | L1 (once Accepted) | Records the storage split between low-latency binding resolution and immutable versioned policy documents. |
+| [`adrs/ADR-0011-policy-distribution-and-caching.md`](50-architecture/adrs/ADR-0011-policy-distribution-and-caching.md) | L1 (once Accepted) | Records that runtimes pull policy, that resolution reads local state only, that refresh failure never fails an evaluation, and that staleness is measured and bounded. |
+| [`adrs/ADR-0012-client-bootstrap-configuration.md`](50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md) | L1 (once Accepted) | Records how a client obtains its configuration, with a never-configured client refusing to evaluate rather than defaulting to allow. |
+| [`adrs/ADR-0013-runtime-capability-manifest.md`](50-architecture/adrs/ADR-0013-runtime-capability-manifest.md) | L1 (once Accepted) | Records that a runtime publishes what it can detect, fails to start when its configuration is unsatisfiable, and that an unsatisfiable binding is refused at bind time. |
+| [`adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md`](50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) | L1 (once Accepted) | Records audit coverage for the two events that otherwise produce no record — requests declined before evaluation, and decisions a client produced alone during an outage. |
+| [`adrs/ADR-0015-runtime-deployment-target.md`](50-architecture/adrs/ADR-0015-runtime-deployment-target.md) | L1 (once Accepted) | Records the compute and ingress choices every downstream document had been repeating without choosing. |
+<!-- END GENERATED: readme-index:50-architecture -->
 ### [`60-delivery/`](60-delivery/) — L2/L3
 
+<!-- BEGIN GENERATED: readme-index:60-delivery -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five delivery phases are sequenced and staffed at a working level. |
@@ -192,9 +221,10 @@ Each table lists the documents in one directory with the authority level declare
 | [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) | L3 | The dependency register gating each phase or milestone. |
 | [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) | L3 | Who is responsible for what across the AI Guardrails team, platform operations, security and governance, and consuming teams — see [§6](#6-who-owns-what) below. |
 | [`FEATURE-BACKLOG.md`](60-delivery/FEATURE-BACKLOG.md) | L3 | Twelve evolution ladders compiling how the solution grows beyond the MVP surface — a backlog classified by commitment status, cross-referenced to the registers; not itself scope. |
-
+<!-- END GENERATED: readme-index:60-delivery -->
 ### [`70-governance/`](70-governance/) — L2
 
+<!-- BEGIN GENERATED: readme-index:70-governance -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) | L2 | Defines the L1–L5 model, precedence rules, ownership per documentation area, and change control for this entire set. |
@@ -202,9 +232,10 @@ Each table lists the documents in one directory with the authority level declare
 | [`RISK-REGISTER.md`](70-governance/RISK-REGISTER.md) | L2 | The fuller, governance-owned risk register behind the executive and feasibility risk summaries. |
 | [`GLOSSARY.md`](70-governance/GLOSSARY.md) | L2 | Canonical terminology, including the precise meaning of "import" and the core domain-model terms. |
 | [`REFERENCES.md`](70-governance/REFERENCES.md) | L2 | Navigational and citation register of every internal document and external framework this set cites. |
-
+<!-- END GENERATED: readme-index:70-governance -->
 ### [`80-agent-inputs/`](80-agent-inputs/) — L4
 
+<!-- BEGIN GENERATED: readme-index:80-agent-inputs -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`README.md`](80-agent-inputs/README.md) | L4 | Explains what this directory is for and what it is not the place to define. |
@@ -213,13 +244,15 @@ Each table lists the documents in one directory with the authority level declare
 | [`SALES-DECK-AGENT.md`](80-agent-inputs/SALES-DECK-AGENT.md) | L4 | Instructions for the agent that generates the sales deck. |
 | [`ARCHITECTURE-REVIEW-AGENT.md`](80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md) | L4 | Instructions for the agent that reviews architecture documents for drift. |
 | [`OUTPUT-CONTRACTS.md`](80-agent-inputs/OUTPUT-CONTRACTS.md) | L4 | What each generation agent must and must not produce, and which registers govern its output. |
-
+<!-- END GENERATED: readme-index:80-agent-inputs -->
 ### [`90-archive/`](90-archive/) — L5
 
+<!-- BEGIN GENERATED: readme-index:90-archive -->
 | Document | Level | Description |
 | --- | --- | --- |
 | [`README.md`](90-archive/README.md) | L5 | Explains the archive's purpose and naming convention. The directory is currently empty — nothing has yet been superseded. |
-
+| [`00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md`](90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md) | L1 |  |
+<!-- END GENERATED: readme-index:90-archive -->
 ---
 
 ## 6. Who owns what

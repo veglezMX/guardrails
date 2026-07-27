@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Purpose and scope](#1-purpose-and-scope)
 - [2. How to read this register](#2-how-to-read-this-register)
 - [3. Internal references: source-of-truth register (L1)](#3-internal-references-source-of-truth-register-l1)
@@ -24,9 +25,10 @@
 - [9. External references: Amazon Bedrock Guardrails](#9-external-references-amazon-bedrock-guardrails)
 - [10. External references: LiteLLM and the OpenAI-compatible API concept](#10-external-references-litellm-and-the-openai-compatible-api-concept)
 - [11. External references: OWASP LLM risk categories and NIST AI RMF (conceptual references)](#11-external-references-owasp-llm-risk-categories-and-nist-ai-rmf-conceptual-references)
+- [Reference map](#reference-map)
 - [12. Reference maintenance](#12-reference-maintenance)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and scope
@@ -64,29 +66,30 @@ External references are additionally marked with a **canonical URL** cell readin
 
 The root source material and the authoritative agreements/constraints/decisions register. Every other document in this set, including this one, is a derived view of these.
 
+<!-- BEGIN GENERATED: references-index:00-source-of-truth -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`00-source-of-truth/PROVENANCE.md`](../00-source-of-truth/PROVENANCE.md) | Provenance record | Map of where the original solution charter's content now lives (purpose, vision, deployment modes, domain model, AWS direction, security and operational requirements, delivery phases, risks) that every derived document in this set traces back to. | Linked |
-| [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 20 accepted agreements (AGR-001–AGR-020) that no derived document may contradict. The single most-cited document in this set. | Linked |
+| [`00-source-of-truth/AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 21 accepted agreements (AGR-001–AGR-021) that no derived document may contradict. The single most-cited document in this set. | Linked |
 | [`00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable technical and security boundaries (CON-001–CON-016) — cloud placement, contract independence, transport/cryptographic security, identity, content handling, resource limits. | Linked |
 | [`00-source-of-truth/DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | L1 | The product/organizational/delivery decision log, distinct from architecture-level ADRs. | Linked |
 | [`00-source-of-truth/ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | L1 | The register of unvalidated beliefs (demand/adoption, technical/infrastructure feasibility, security/governance, and other categories) underlying scope and delivery-dependency status. | Linked |
 | [`00-source-of-truth/OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | L1 | Open governance and design questions not yet resolved into an agreement or decision (e.g., promotion-governance process). | Linked |
-| [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) | L1 | Named as an affected document under [AGR-006](../00-source-of-truth/AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) and [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model); intended to trace agreements/constraints through to their implementing architecture and delivery artifacts. | Linked |
-
+<!-- END GENERATED: references-index:00-source-of-truth -->
 ---
 
 ## 4. Internal references: charter and principles (L2)
 
 The durable, boundary-setting layer derived directly from `AGREEMENTS.md` and `CONSTRAINTS.md`.
 
+<!-- BEGIN GENERATED: references-index:10-charter -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) | L2 | The solution charter: purpose, problem addressed, vision, the three-mode architectural decision, and pointers to every other layer. | Linked |
 | [`10-charter/PRINCIPLES.md`](../10-charter/PRINCIPLES.md) | L2 | The product principles — policy portability, one contract across modes, policies separate from connectors, explicit content-exposure model, guardrails-are-not-authorization, observe-before-enforce, failure behavior as policy. | Linked |
 | [`10-charter/SCOPE.md`](../10-charter/SCOPE.md) | L2 | In-scope, later-phase, and out-of-scope boundaries for the full feature set (DEC-008). | Linked |
 | [`10-charter/SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md) | L2 | Success criteria for the platform, grounded in adoption, reliability, effectiveness, and portability metrics named in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md). | Linked |
-
+<!-- END GENERATED: references-index:10-charter -->
 ---
 
 ## 5. Internal references: product, executive, and sales-deck materials
@@ -95,6 +98,7 @@ Audience-specific derived views. These must not contradict the charter, principl
 
 ### 5.1 Product (`20-product/`)
 
+<!-- BEGIN GENERATED: references-index:20-product -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`20-product/CAPABILITIES.md`](../20-product/CAPABILITIES.md) | L2 | The capability catalog describing what the platform does, mapped to the in-scope capability list. | Linked |
@@ -107,9 +111,11 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`20-product/TARGET-USERS.md`](../20-product/TARGET-USERS.md) | L4 | Platform teams, application teams, security/compliance teams, and product operators, per [`TARGET-USERS.md`](../20-product/TARGET-USERS.md). | Linked |
 | [`20-product/USE-CASES.md`](../20-product/USE-CASES.md) | L4 | Representative use cases, including the canonical "import" onboarding flow ([AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import)). | Linked |
 | [`20-product/FAQ.md`](../20-product/FAQ.md) | L4 | Frequently asked questions, including clarifications of "import" and deployment-mode data exposure. | Linked |
-
+| [`20-product/SERVING-MODEL.md`](../20-product/SERVING-MODEL.md) | L4 | How the product is served and consumed; the onboarding surface and governance classes. | Linked |
+<!-- END GENERATED: references-index:20-product -->
 ### 5.2 Executive (`30-executive/`)
 
+<!-- BEGIN GENERATED: references-index:30-executive -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`30-executive/EXECUTIVE-BRIEF.md`](../30-executive/EXECUTIVE-BRIEF.md) | L4 | Condensed executive framing of the solution. | Linked |
@@ -118,9 +124,10 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`30-executive/EXPECTED-OUTCOMES.md`](../30-executive/EXPECTED-OUTCOMES.md) | L4 | Expected outcomes tied to the [Phase 1–2 validation demonstration](../60-delivery/VALIDATION-PLAN.md). | Linked |
 | [`30-executive/DECISION-REQUEST.md`](../30-executive/DECISION-REQUEST.md) | L4 | The decision(s) being asked of executive stakeholders. | Linked |
 | [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) | L3 | Executive-facing summary of principal risks and dependencies, expanded at delivery level in [`60-delivery/DEPENDENCIES.md`](../60-delivery/DEPENDENCIES.md). | Linked |
-
+<!-- END GENERATED: references-index:30-executive -->
 ### 5.3 Sales deck (`40-sales-deck/`)
 
+<!-- BEGIN GENERATED: references-index:40-sales-deck -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`40-sales-deck/DECK-BRIEF.md`](../40-sales-deck/DECK-BRIEF.md) | L4 | The brief governing the sales deck's content and tone. | Linked |
@@ -133,13 +140,14 @@ Audience-specific derived views. These must not contradict the charter, principl
 | [`40-sales-deck/OBJECTION-HANDLING.md`](../40-sales-deck/OBJECTION-HANDLING.md) | L4 | Objection handling, including the [AGR-009](../00-source-of-truth/AGREEMENTS.md#agr-009--remote-evaluation-is-not-a-private-data-or-data-local-model) and [AGR-018](../00-source-of-truth/AGREEMENTS.md#agr-018--trust-and-enforcement-model) boundaries on what can be claimed. | Linked |
 | [`40-sales-deck/CALL-TO-ACTION.md`](../40-sales-deck/CALL-TO-ACTION.md) | L4 | The call to action closing the deck. | Linked |
 | [`40-sales-deck/VISUAL-DIRECTION.md`](../40-sales-deck/VISUAL-DIRECTION.md) | L4 | Visual and design direction for the deck. | Linked |
-
+<!-- END GENERATED: references-index:40-sales-deck -->
 ---
 
 ## 6. Internal references: architecture set
 
 The `50-architecture/` set, including its Architecture Decision Records subfolder. These are the primary technical grounding for the external references cataloged in Sections 8–11.
 
+<!-- BEGIN GENERATED: references-index:50-architecture -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`50-architecture/ARCHITECTURE-REPORT.md`](../50-architecture/ARCHITECTURE-REPORT.md) | L3 | Consolidated technical report tying the architecture set together. | Linked |
@@ -159,13 +167,28 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 | [`50-architecture/TRADE-OFFS.md`](../50-architecture/TRADE-OFFS.md) | L3 | Architectural trade-offs considered across the three deployment modes. | Linked |
 | [`50-architecture/adrs/README.md`](../50-architecture/adrs/README.md) | L1 (process doc) | The ADR index: process, template, lifecycle, and the current ADR list. | Linked |
 | [`50-architecture/adrs/ADR-0001-example-decision.md`](../50-architecture/adrs/ADR-0001-example-decision.md) | L1 (Accepted) | The worked-example ADR: standalone platform, not embedded in the internal LiteLLM instance ([AGR-001](../00-source-of-truth/AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm)). | Linked |
-
+| [`50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`](../50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md) | Accepted, pending owner ratification (L1 on ratification) | Records the taxonomy behind GUARDRAIL-CATALOG and the extension seams behind EXTENSIBILITY-ARCHITECTURE. | Linked |
+| [`50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md`](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) | Proposed (L1 once Accepted) | Makes per-category metrics and traceability reachable from decision records without an external mapping table. | Linked |
+| [`50-architecture/adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md`](../50-architecture/adrs/ADR-0004-enforcement-ladder-states-and-decision-actions.md) | Proposed (L1 once Accepted) | Makes the ladder state a ceiling held on the binding and reported as an additive `enforcement_state` field. | Linked |
+| [`50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md`](../50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md) | Proposed (L1 once Accepted) | The versionable artifact AGR-006's compatibility discipline operates on; cited wherever the contract's shape or stability is discussed. | Linked |
+| [`50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md`](../50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md) | Proposed (L1 once Accepted) | Defines the artifact a consuming team actually receives at onboarding. | Linked |
+| [`50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md`](../50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md) | Proposed (L1 once Accepted) | Makes a half-wired connector detectable; its staleness signal must never be described as evidence of bypass. | Linked |
+| [`50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md`](../50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md) | Proposed (L1 once Accepted) | Gives the connector the supply chain the Mode C runtime container already has. | Linked |
+| [`50-architecture/adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md`](../50-architecture/adrs/ADR-0009-policy-document-schema-and-mandatory-failure-behavior.md) | Proposed (L1 once Accepted) | The record that makes AGR-012's no-undocumented-fallback rule and AGR-005's vendor neutrality checkable at publication. | Linked |
+| [`50-architecture/adrs/ADR-0010-policy-storage-split.md`](../50-architecture/adrs/ADR-0010-policy-storage-split.md) | Proposed (L1 once Accepted) | Ratifies the standing storage recommendation in TRADE-OFFS as an architectural decision. | Linked |
+| [`50-architecture/adrs/ADR-0011-policy-distribution-and-caching.md`](../50-architecture/adrs/ADR-0011-policy-distribution-and-caching.md) | Proposed (L1 once Accepted) | Chooses pull over push and defines what immediate rollback means in practice. | Linked |
+| [`50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md`](../50-architecture/adrs/ADR-0012-client-bootstrap-configuration.md) | Proposed (L1 once Accepted) | Closes the client-side half of the configuration-distribution gap ADR-0005 named in its own scope boundaries. | Linked |
+| [`50-architecture/adrs/ADR-0013-runtime-capability-manifest.md`](../50-architecture/adrs/ADR-0013-runtime-capability-manifest.md) | Proposed (L1 once Accepted) | Activates the binding's previously unused runtime-compatibility attribute. | Linked |
+| [`50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md`](../50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md) | Proposed (L1 once Accepted) | Keeps self-reported client records distinguishable from platform observations. | Linked |
+| [`50-architecture/adrs/ADR-0015-runtime-deployment-target.md`](../50-architecture/adrs/ADR-0015-runtime-deployment-target.md) | Proposed (L1 once Accepted) | Argues a single packaging path from the Phase 4 requirement to ship this runtime into customer accounts. | Linked |
+<!-- END GENERATED: references-index:50-architecture -->
 ---
 
 ## 7. Internal references: delivery and governance sets
 
 ### 7.1 Delivery (`60-delivery/`)
 
+<!-- BEGIN GENERATED: references-index:60-delivery -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
 | [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five phases ([AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery)) will be executed. | Linked |
@@ -174,16 +197,57 @@ The `50-architecture/` set, including its Architecture Decision Records subfolde
 | [`60-delivery/RELEASE-CRITERIA.md`](../60-delivery/RELEASE-CRITERIA.md) | L2 | Phase 1–2 exit gates, tied to the validation demonstration ([`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); DEC-008). | Linked |
 | [`60-delivery/VALIDATION-PLAN.md`](../60-delivery/VALIDATION-PLAN.md) | L3 | How the Phase 1–2 validation demonstration is executed and validated. | Linked |
 | [`60-delivery/TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md) | L3 | Ownership boundaries across the AI Guardrails team, platform operations, security/governance, and consuming teams ([`TEAM-AND-OWNERSHIP.md`](../60-delivery/TEAM-AND-OWNERSHIP.md)). | Linked |
-
+| [`60-delivery/FEATURE-BACKLOG.md`](../60-delivery/FEATURE-BACKLOG.md) | L3 | A backlog cross-referenced to the registers; explicitly not itself scope. | Linked |
+<!-- END GENERATED: references-index:60-delivery -->
 ### 7.2 Governance (`70-governance/`, this document's own folder)
 
+<!-- BEGIN GENERATED: references-index:70-governance -->
 | Document / Reference | Authority | Role / Description | Link status |
 | --- | --- | --- | --- |
-| [`70-governance/CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | L2 | What the product may and may not claim — the register this document defers to for anything resembling a marketing or capability claim about an external service. | Linked |
-| [`70-governance/RISK-REGISTER.md`](RISK-REGISTER.md) | L2 | The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per [`RISK-REGISTER.md`](RISK-REGISTER.md)). | Linked |
-| `70-governance/REFERENCES.md` | L2 | This document. | Linked (self) |
-| [`70-governance/GLOSSARY.md`](GLOSSARY.md) | L2 | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Linked |
+| [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md) | L2 | What the product may and may not claim — the register this document defers to for anything resembling a marketing or capability claim about an external service. | Linked |
+| [`70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) | L2 | The consolidated risk register (connector bypass, false confidence, latency, hosted data exposure, policy fragmentation, product over-expansion, per [`RISK-REGISTER.md`](RISK-REGISTER.md)). | Linked |
+| [`70-governance/GLOSSARY.md`](../70-governance/GLOSSARY.md) | L2 | Named as an affected document under [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model) and [AGR-019](../00-source-of-truth/AGREEMENTS.md#agr-019--meaning-of-import); intended to define domain-model and product terminology (tenant, workload, policy, binding, evaluation, decision, "import") consistently across this set. | Linked |
+| [`70-governance/DOCUMENT-GOVERNANCE.md`](../70-governance/DOCUMENT-GOVERNANCE.md) | L2 | The governing document for this set; read before changing any file under solution-docs/. | Linked |
+<!-- END GENERATED: references-index:70-governance -->
+---
 
+### 7.3 Agent inputs (`80-agent-inputs/`)
+
+The instruction sets that drive documentation-generation agents. Each is bound by the registers it cites and introduces no ground truth of its own.
+
+<!-- BEGIN GENERATED: references-index:80-agent-inputs -->
+| Document / Reference | Authority | Role / Description | Link status |
+| --- | --- | --- | --- |
+| [`80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md`](../80-agent-inputs/ARCHITECTURE-REVIEW-AGENT.md) | L4 | Drives architecture drift review; may trigger ADRs but decides nothing itself. | Linked |
+| [`80-agent-inputs/CHARTER-AGENT.md`](../80-agent-inputs/CHARTER-AGENT.md) | L4 | Drives charter generation; bound by the registers it cites, never a source itself. | Linked |
+| [`80-agent-inputs/EXECUTIVE-BRIEF-AGENT.md`](../80-agent-inputs/EXECUTIVE-BRIEF-AGENT.md) | L4 | Drives executive-brief generation; bound by CLAIMS-REGISTER wording. | Linked |
+| [`80-agent-inputs/OUTPUT-CONTRACTS.md`](../80-agent-inputs/OUTPUT-CONTRACTS.md) | L4 | The binding output contract for every generation agent in this directory. | Linked |
+| [`80-agent-inputs/README.md`](../80-agent-inputs/README.md) | L4 | Scope statement for the generation-agent instruction sets. | Linked |
+| [`80-agent-inputs/SALES-DECK-AGENT.md`](../80-agent-inputs/SALES-DECK-AGENT.md) | L4 | Drives deck generation; must halt rather than ship unapproved claims. | Linked |
+<!-- END GENERATED: references-index:80-agent-inputs -->
+### 7.4 Archive (`90-archive/`)
+
+Superseded documents, retained for audit trail and never citable as current fact.
+
+<!-- BEGIN GENERATED: references-index:90-archive -->
+| Document / Reference | Authority | Role / Description | Link status |
+| --- | --- | --- | --- |
+| [`90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md`](../90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md) | L1 |  | Linked |
+| [`90-archive/README.md`](../90-archive/README.md) | L5 | Operationalizes the document lifecycle settled in DOCUMENT-GOVERNANCE §10. | Linked |
+<!-- END GENERATED: references-index:90-archive -->
+---
+
+### 7.5 Root-level navigation (repository root)
+
+The entry points and change history that sit above the numbered directories.
+
+<!-- BEGIN GENERATED: references-index:. -->
+| Document / Reference | Authority | Role / Description | Link status |
+| --- | --- | --- | --- |
+| [`CHANGELOG.md`](../CHANGELOG.md) | L4 | Records when the documentation came to reflect a decision; never rewritten, only appended to. | Linked |
+| [`DOCUMENT-MAP.md`](../DOCUMENT-MAP.md) | L4 | Navigational companion to README; routes each reader profile to its starting document. | Linked |
+| [`README.md`](../README.md) | L4 | The start-here navigational document; introduces no new agreement, requirement, or claim. | Linked |
+<!-- END GENERATED: references-index:. -->
 ---
 
 ## 8. External references: AWS cloud platform and services
@@ -280,7 +344,7 @@ flowchart TB
 
 * **Adding an internal document.** When a new file is added anywhere under `solution-docs/`, add one row to the relevant table in Sections 3–7, using the authority level stated in that document's own header. Do not mark it `Linked` until the file exists in the repository.
 * **Adding an external reference.** When a new external product, AWS service, or framework is introduced into any document in this set, add a row to the appropriate table in Sections 8–11 (or a new subsection if it does not fit an existing category), and mark its canonical URL `TBD — add canonical URL` until a reviewer has verified and inserted the real link. Do not insert a URL from memory.
-* **Previously-planned documents.** [`00-source-of-truth/TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`70-governance/GLOSSARY.md`](GLOSSARY.md) were named as affected documents in `AGREEMENTS.md` ahead of being authored. Both now exist; their rows in Sections 3 and 7.2 are marked **Linked**, with markdown links in place of the earlier plain code paths.
+* **Previously-planned documents.** [`70-governance/GLOSSARY.md`](GLOSSARY.md) was named as an affected document in `AGREEMENTS.md` ahead of being authored. Both now exist; their rows in Sections 3 and 7.2 are marked **Linked**, with markdown links in place of the earlier plain code paths.
 * **Conflicts.** If any row in this register appears to imply something [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) does not support — for example, a claim of data-locality for Mode A, or a description of a cooperative connector as a hard security boundary — the agreement or constraint wins, and this register (and the offending source document) must be corrected.
 
 ---

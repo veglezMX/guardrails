@@ -7,12 +7,13 @@
 
 ---
 
-> This document governs the `solution-docs/` set itself — not the AI Guardrails product. It defines the L1–L5 authority model, the non-contradiction rule and how conflicts resolve, ownership per documentation area, the change-control process, review cadence, and how [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](../CHANGELOG.md) keep the set from drifting away from [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md). It is itself an **L2 — Defining** document: durable and structural, like the [charter](../10-charter/CHARTER.md), but subordinate to [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md). Where this document and either L1 register could be read as conflicting, the L1 register wins and this document must be corrected.
+> This document governs the `solution-docs/` set itself — not the AI Guardrails product. It defines the L1–L5 authority model, the non-contradiction rule and how conflicts resolve, ownership per documentation area, the change-control process, review cadence, and how `just check`, `just trace` and [`CHANGELOG.md`](../CHANGELOG.md) keep the set from drifting away from [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md). It is itself an **L2 — Defining** document: durable and structural, like the [charter](../10-charter/CHARTER.md), but subordinate to [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md). Where this document and either L1 register could be read as conflicting, the L1 register wins and this document must be corrected.
 
 ---
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Purpose and scope](#1-purpose-and-scope)
 - [2. The L1–L5 authority model](#2-the-l1l5-authority-model)
 - [3. Precedence and conflict resolution](#3-precedence-and-conflict-resolution)
@@ -24,7 +25,7 @@
 - [9. Change history — CHANGELOG.md](#9-change-history--changelogmd)
 - [10. Document lifecycle and archival](#10-document-lifecycle-and-archival)
 - [11. Related documents](#11-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and scope
@@ -38,7 +39,7 @@ This document exists to prevent that by defining, once, for the whole set:
 * **Ownership** of each documentation area, so that every change has an accountable owner.
 * The **change-control process** used to propose, review, and land a change — including the distinction between amending an L1 register and editing a derived view.
 * The **review cadence** appropriate to each level.
-* How [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) and [`CHANGELOG.md`](../CHANGELOG.md) are used together to detect and correct drift.
+* How `just check`, `just trace` and [`CHANGELOG.md`](../CHANGELOG.md) are used together to detect and correct drift.
 
 **Scope.** This document governs every file under `solution-docs/`. It does not govern the AI Guardrails product itself — that is what the rest of the set describes.
 
@@ -100,7 +101,7 @@ flowchart TD
     B -- Yes --> D{Does an L1/L2/L3 basis<br/>already settle it?}
     D -- Yes --> E[Document that drifted from that basis is corrected.]
     D -- No --> F[Raise as a proposed amendment<br/>to AGREEMENTS.md / CONSTRAINTS.md<br/>via change control - Section 6]
-    F --> G[Once accepted, cascade the<br/>resulting correction to every<br/>affected document per<br/>TRACEABILITY-MATRIX.md]
+    F --> G[Once accepted, cascade the<br/>resulting correction to every<br/>affected document, using<br/>just trace and just check]
 ```
 
 ---
@@ -111,7 +112,7 @@ The table below maps every directory in `solution-docs/` to the authority level(
 
 | Directory | Levels present | Representative documents | Owning role(s) (§5) |
 | --- | --- | --- | --- |
-| [`00-source-of-truth/`](../00-source-of-truth/) | **L1** | `AGREEMENTS.md`, `CONSTRAINTS.md`, `DECISIONS.md`, `ASSUMPTIONS.md`, `PROVENANCE.md` (provenance record, outside the hierarchy), `OPEN-QUESTIONS.md`, `TRACEABILITY-MATRIX.md` | Product lead + Technical lead + Security and governance lead (joint) |
+| [`00-source-of-truth/`](../00-source-of-truth/) | **L1** | `AGREEMENTS.md`, `CONSTRAINTS.md`, `DECISIONS.md`, `ASSUMPTIONS.md`, `PROVENANCE.md` (provenance record, outside the hierarchy), `OPEN-QUESTIONS.md` | Product lead + Technical lead + Security and governance lead (joint) |
 | [`10-charter/`](../10-charter/) | **L2** | `CHARTER.md`, `PRINCIPLES.md`, `SCOPE.md`, `SUCCESS-CRITERIA.md` | Product lead + Technical lead |
 | [`20-product/`](../20-product/) | **L2** (`CAPABILITIES.md`, `GUARDRAIL-CATALOG.md`) / **L4** (all others) | `PRODUCT-OVERVIEW.md`, `USE-CASES.md`, `TARGET-USERS.md`, `VALUE-PROPOSITION.md`, `DIFFERENTIATORS.md`, `PROBLEM-STATEMENT.md`, `PRODUCT-ROADMAP.md`, `FAQ.md`, `GUARDRAIL-CATALOG.md` (guardrail-category taxonomy per AGR-021 — category IDs are change-controlled via Path A; item rows are Path B) | Product lead (+ Security and governance lead co-approval for `GUARDRAIL-CATALOG.md` status changes) |
 | [`30-executive/`](../30-executive/) | **L3** (`BUSINESS-CASE.md`, `INVESTMENT-SUMMARY.md`, `RISKS-AND-DEPENDENCIES.md`) / **L4** (`EXECUTIVE-BRIEF.md`, `EXPECTED-OUTCOMES.md`, `DECISION-REQUEST.md`) | as listed | Product lead, with Technical lead review on L3 items |
@@ -162,7 +163,7 @@ Used whenever a change would alter the substance of an existing agreement or con
 1. **Propose.** The change is written up as a proposed new or amended `AGR-NNN` (in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md)) or `CON-NNN` (in [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md)), following the existing entry shape (Status, Date, Owners, Agreement, Rationale, Implications, Affected documents).
 2. **Review and accept.** The role(s) named as `Owners:` on the entry sign off. An amendment to an existing, already-Accepted agreement is a new act of acceptance, not a silent overwrite — the entry's `Status`/`Date` reflects this.
 3. **Update the L1 register.** The entry lands in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), including its `Affected documents` list.
-4. **Cascade via the matrix.** [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) is updated so every affected document is flagged for review (§8).
+4. **Cascade via the tooling.** `just trace` reports every affected document and `just check` fails on any statement the amendment invalidated (§8).
 5. **Correct affected documents.** Each affected document's owner (§5) updates their document to reflect the new or amended agreement, and must not reintroduce the prior, now-superseded position.
 6. **Log it.** An entry is added to [`CHANGELOG.md`](../CHANGELOG.md) (§9) recording the amendment and which documents were cascaded.
 
@@ -173,7 +174,7 @@ An **Accepted** ADR follows the same path: it is drafted by Technical lead/Archi
 Used for the overwhelming majority of day-to-day documentation work: clarifying language, adding a cross-link, expanding a rationale, refreshing a roadmap date, tailoring a sales narrative.
 
 1. The document's owner (§5) makes the edit directly.
-2. The owner self-checks the edit against every L1 entry and, where relevant, the L2 documents above it in the hierarchy — using [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) to find which agreements/constraints govern that section.
+2. The owner self-checks the edit against every L1 entry and, where relevant, the L2 documents above it in the hierarchy — using `just trace` to find which agreements/constraints govern that section.
 3. If the edit is purely additive and non-contradictory, it merges directly.
 4. If the edit turns out to require saying something L1 does not currently support, it is **not** made — it is redirected to Path A.
 5. The change is logged in [`CHANGELOG.md`](../CHANGELOG.md).
@@ -184,7 +185,7 @@ flowchart TD
     Q -- Yes --> A1[Path A: propose AGR-/CON- entry]
     A1 --> A2[Owners named on the entry accept it]
     A2 --> A3[Update AGREEMENTS.md / CONSTRAINTS.md]
-    A3 --> A4[Update TRACEABILITY-MATRIX.md]
+    A3 --> A4[Run just gen and just check]
     A4 --> A5[Cascade corrections to every<br/>affected document, owner by owner]
     A5 --> Log[Record in CHANGELOG.md]
 
@@ -218,26 +219,37 @@ A fixed periodic cadence (for example, a mandatory quarterly pass over all L3/L4
 
 ## 8. Traceability and drift prevention
 
-[`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) is the mechanism that keeps §3's precedence rule enforceable in practice rather than aspirational. It formalizes, in one place, the `Affected documents` lists already attached to every entry in [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), and extends the same tracking to open questions ([`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) already references it for this purpose).
+Drift prevention is **executed, not documented**. Two commands keep §3's precedence rule enforceable in practice rather than aspirational:
 
-**What it contains.** One row per `AGR-NNN` / `CON-NNN` / accepted-ADR entry, cross-referenced against every document (down to a section anchor where practical) that is expected to reflect it, with a status per row:
-
-| Status | Meaning |
+| Command | What it does |
 | --- | --- |
-| `Reflected` | The affected document currently states something consistent with the L1 entry. |
-| `Pending` | The L1 entry is new or recently amended; the affected document has not yet been updated (§6.1, step 5). |
-| `Stale` | An audit found the affected document no longer matches the L1 entry — drift has occurred and a correction is owed. |
+| `just check` | Validates the whole set — link and anchor integrity, identifier references, header blocks, ADR status coherence, declared identifier ranges and counts, index completeness, that every core capability traces to a governing agreement, and that a `Resolved` open question cites an `Accepted` decision. Non-zero exit on any finding. |
+| `just trace [AGR-0NN]` | Generates the reverse index on demand: from each agreement to the capabilities, requirements, ADRs, architecture documents, and approved claims that implement it. |
 
-**How it prevents drift, specifically:**
+This replaces the hand-maintained `TRACEABILITY-MATRIX.md`, retired by [DEC-021](../00-source-of-truth/DECISIONS.md#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability). That register duplicated, in reverse, relationships already recorded beside the things they describe — `CAPABILITIES.md` carries each capability's governing agreements, `adrs/README.md` carries each ADR's, the architecture set cites agreements inline, and `CLAIMS-REGISTER.md` names the agreement governing each restricted claim. Forward citations sit next to the entry an author is editing and get updated naturally; a reverse index lives in a file nobody opens while authoring, so it rots by default rather than by neglect — which is exactly what happened.
 
-* **On amendment (Path A, §6.1).** Every affected document for a new or changed `AGR-NNN`/`CON-NNN` is added to the matrix as `Pending` the moment the entry is accepted. Nothing is "cascaded" from memory — the matrix is the checklist.
-* **On routine edits (Path B, §6.2).** Before editing any L2–L5 document, its owner consults the matrix to see which L1 entries govern the section being changed, so a well-intentioned wording tweak does not accidentally reintroduce a rejected claim (e.g., re-describing Mode A as data-local).
-* **On periodic audit.** Independent of any specific change, the matrix can be walked row by row to verify each `Reflected` status is still true. Rows found to have silently drifted are flagged `Stale` and routed back through Path B (or Path A, if the drift reveals a genuine gap in L1).
-* **Complementary registers.** [`CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) and [`RISK-REGISTER.md`](RISK-REGISTER.md) both depend on the matrix's linkage to stay current: the claims register cannot certify an external-facing statement as approved unless the matrix shows the L1 basis for it is still `Reflected` wherever that statement appears.
+**How drift is prevented, specifically:**
 
-Without the matrix, "derived documents must not contradict agreements" is a principle with no enforcement path. With it, every L1 entry has a known, checkable blast radius, and every derived document has a known, checkable set of obligations.
+* **On amendment (Path A, §6.1).** When an `AGR-NNN`/`CON-NNN` entry is accepted or changed, `just trace` reports its current blast radius, and `just check` fails on any statement the amendment has invalidated — a stale identifier range, a superseded count, an orphaned capability. Nothing is cascaded from memory.
+* **On routine edits (Path B, §6.2).** Before editing any L2–L5 document, its owner runs `just trace` for the agreements governing the section being changed, so a well-intentioned wording tweak cannot silently contradict an L1 entry.
+* **On periodic audit.** `just check` is the audit. It is cheap enough to run on every edit, so drift is caught at authoring time rather than discovered later.
+* **Complementary registers.** [`CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) and [`RISK-REGISTER.md`](RISK-REGISTER.md) still depend on this linkage to stay current; `just trace` reports each agreement's claims alongside its implementing artifacts.
 
----
+### 8.1 Machine-owned regions
+
+Derived content that can be computed is generated rather than maintained. A generated region is delimited by markers and **must never be hand-edited** — the next `just gen` overwrites anything typed inside it:
+
+```text
+<!-- BEGIN GENERATED: toc -->
+…machine-owned…
+<!-- END GENERATED: toc -->
+```
+
+This covers every table of contents, the register summary and count tables, the guardrail category index, the glossary quick index, the ADR index, and the document indexes in `README.md`, `DOCUMENT-MAP.md` and `REFERENCES.md`.
+
+To change generated content, change its source: the documents themselves for anything derivable (headings, statuses, identifiers, authority levels), or `tools/docmeta.json` for editorial prose that has no derivable source — condensed questions, short forms, categories, targets, external mappings, per-document descriptions, and each index's curated ordering. `tools/docmeta.json` sits outside `solution-docs/` but is load-bearing for it, and is owned jointly by the same owners as the documents it describes.
+
+`just verify` runs `just check`, regenerates, and fails if the result differs from what is committed — so a stale generated region cannot survive review.
 
 ## 9. Change history — CHANGELOG.md
 
@@ -290,8 +302,8 @@ Accepted ADRs follow this same lifecycle at L1 rigor: an ADR can itself be super
 | [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | Authoritative (L1) boundary conditions; governed by the same non-contradiction rule. |
 | [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | Chronological log of product/delivery decisions — distinct from `CHANGELOG.md` (§9). |
 | [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | Register of load-bearing assumptions; subject to the same L1 discipline. |
-| [`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | Tracks undecided items and already references `TRACEABILITY-MATRIX.md` for status tracking. |
-| [`TRACEABILITY-MATRIX.md`](../00-source-of-truth/TRACEABILITY-MATRIX.md) | The drift-prevention mechanism described in §8. |
+| [`OPEN-QUESTIONS.md`](../00-source-of-truth/OPEN-QUESTIONS.md) | Tracks undecided items; its summary table is generated from the per-entry bodies. |
+| `just check` / `just trace` | The drift-prevention mechanism described in §8. |
 | [`CHANGELOG.md`](../CHANGELOG.md) | Chronological ledger of documentation-set edits, described in §9. |
 | [`CLAIMS-REGISTER.md`](CLAIMS-REGISTER.md) | Approved/rejected external-facing claim patterns; enforces §3's claims discipline. |
 | [`RISK-REGISTER.md`](RISK-REGISTER.md) | Actively tracked product risk register (L3); referenced in §4/§5. |

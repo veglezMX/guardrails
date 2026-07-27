@@ -15,6 +15,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [Slide sequence](#slide-sequence)
 - [How to read this narrative](#how-to-read-this-narrative)
 - [Act I — The problem (Slides 1–4)](#act-i--the-problem-slides-14)
@@ -24,7 +25,7 @@
 - [Trust-builders used throughout the deck](#trust-builders-used-throughout-the-deck)
 - [What this narrative deliberately does not do](#what-this-narrative-deliberately-does-not-do)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## Slide sequence

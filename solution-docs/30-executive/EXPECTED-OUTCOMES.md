@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Purpose of this document](#1-purpose-of-this-document)
 - [2. Definitions: output, outcome, metric, business effect](#2-definitions-output-outcome-metric-business-effect)
 - [3. Logic model](#3-logic-model)
@@ -21,7 +22,7 @@
 - [6. On numeric targets](#6-on-numeric-targets)
 - [7. What this document does not claim](#7-what-this-document-does-not-claim)
 - [8. Related documents](#8-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose of this document

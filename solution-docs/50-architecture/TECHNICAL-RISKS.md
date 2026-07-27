@@ -13,6 +13,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 - [1. Purpose and scope](#1-purpose-and-scope)
 - [2. How to read this register](#2-how-to-read-this-register)
 - [3. Risk summary table](#3-risk-summary-table)
@@ -30,7 +31,7 @@
 - [6. Risk exposure by deployment mode](#6-risk-exposure-by-deployment-mode)
 - [7. Traceability](#7-traceability)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and scope

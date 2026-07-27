@@ -17,6 +17,8 @@ This is a derived (L3) analytical document. It introduces **no new commitments**
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 1. [Design stance](#1-design-stance)
 2. [The four extension seams — overview](#2-the-four-extension-seams--overview)
 3. [Seam 1 — New evaluation stage](#3-seam-1--new-evaluation-stage)
@@ -30,7 +32,7 @@ This is a derived (L3) analytical document. It introduces **no new commitments**
 11. [Policy-pack mechanics (vision)](#11-policy-pack-mechanics-vision)
 12. [Constraints and agreements applied in this view](#12-constraints-and-agreements-applied-in-this-view)
 13. [Related documents](#13-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Design stance
@@ -249,7 +251,7 @@ Open question resolved
    │     this IS the explicit scope-change decision SCOPE.md §8 requires
    ▼
 Committed scope
-   │  3. Add/activate the CAP and FR entries; add the TRACEABILITY-MATRIX row;
+   │  3. Add/activate the CAP and FR entries; run `just gen`;
    │     update the catalog entry's status to "Later phase — committed"
    ▼
 Phased delivery

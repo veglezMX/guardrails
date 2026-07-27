@@ -25,14 +25,14 @@ The arc below covers the twelve narrative beats requested for this deck. "How it
 | 2 | [The current problem](#slide-2--the-current-problem) | Establish that guardrails today are fragmented, bespoke, and unauditable across heterogeneous stacks. |
 | 3 | [Why existing approaches fall short](#slide-3--why-existing-approaches-fall-short) | Show why "no guardrails," "bespoke guardrails," and "embed it in one gateway/vendor" all fail to scale. |
 | 4 | [The proposed solution](#slide-4--the-proposed-solution) | Introduce AI Guardrails as a standalone platform separating policy from connectors. |
-| 5 | [How it works — three deployment modes](#slide-5--how-it-works--three-deployment-modes) | Show the three ways a team can adopt the same policy. |
-| 6 | [How it works — evaluate before and after inference](#slide-6--how-it-works--evaluate-before-and-after-inference) | Explain the evaluation lifecycle: input/output stages, decisions, and the authorization boundary. |
+| 5 | [How it works — three deployment modes](#slide-5--how-it-works-three-deployment-modes) | Show the three ways a team can adopt the same policy. |
+| 6 | [How it works — evaluate before and after inference](#slide-6--how-it-works-evaluate-before-and-after-inference) | Explain the evaluation lifecycle: input/output stages, decisions, and the authorization boundary. |
 | 7 | [Core capabilities](#slide-7--core-capabilities) | Summarize the concrete Phase 1–2 core capability set. |
-| 8 | [Customer journey — onboard, observe, enforce](#slide-8--customer-journey--onboard-observe-enforce) | Walk through onboarding ("import") and the graduated enforcement ladder. |
+| 8 | [Customer journey — onboard, observe, enforce](#slide-8--customer-journey-onboard-observe-enforce) | Walk through onboarding ("import") and the graduated enforcement ladder. |
 | 9 | [Business outcomes](#slide-9--business-outcomes) | State the qualitative value delivered to each stakeholder group. |
 | 10 | [Differentiation](#slide-10--differentiation) | State what is structurally different about this platform, without overclaiming. |
 | 11 | [Adoption and deployment model](#slide-11--adoption-and-deployment-model) | Show how enforcement posture and AWS footprint mature over time. |
-| 12 | [Roadmap — five phases](#slide-12--roadmap--five-phases) | Show the sequencing discipline from integration proof to advanced agent protection. |
+| 12 | [Roadmap — five phases](#slide-12--roadmap-five-phases) | Show the sequencing discipline from integration proof to advanced agent protection. |
 | 13 | [Call to action](#slide-13--call-to-action) | Close with a grounded, phase-appropriate ask. |
 
 ```mermaid

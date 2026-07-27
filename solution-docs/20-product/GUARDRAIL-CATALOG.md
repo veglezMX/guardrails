@@ -13,7 +13,7 @@ This catalog is the product's **directional vision taxonomy** for guardrail cont
 
 Three sentences govern how every entry below must be read:
 
-1. **The catalog is classification, not commitment.** It does not add anything to the defined-and-estimated full feature set (`CAP-001`–`CAP-034`, [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), and listing an item here does not schedule, resource, or promise it. Delivered and committed coverage is defined by [`CAPABILITIES.md`](CAPABILITIES.md) alone.
+1. **The catalog is classification, not commitment.** It does not add anything to the defined-and-estimated full feature set (`CAP-001`–`CAP-041`, [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)), and listing an item here does not schedule, resource, or promise it. Delivered and committed coverage is defined by [`CAPABILITIES.md`](CAPABILITIES.md) alone.
 2. **The architecture permits — but does not yet deliver — extension into most categories.** That is the only approved forward-looking framing for this catalog (see [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md)); any wording implying delivered or complete coverage of these categories is not approved.
 3. **Out-of-boundary entries are excluded, not deferred.** Where an entry's subject matter falls under a standing exclusion ([`SCOPE.md`](../10-charter/SCOPE.md)) or under [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization), it is classified `Out-of-boundary` with a named external owner, and must never be phrased as future work.
 
@@ -23,6 +23,8 @@ This is a derived L2 document: it must not contradict [`AGREEMENTS.md`](../00-so
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [How to read this catalog](#how-to-read-this-catalog)
 - [Category status lifecycle](#category-status-lifecycle)
 - [Category index](#category-index)
@@ -48,7 +50,7 @@ This is a derived L2 document: it must not contradict [`AGREEMENTS.md`](../00-so
 - [Policy packs (vision)](#policy-packs-vision)
 - [Category count summary](#category-count-summary)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## How to read this catalog
@@ -64,7 +66,7 @@ Every category (and, where statuses differ within a category, every item) carrie
 
 | Status | Meaning |
 |---|---|
-| **Core (Phases 1–2)** | Delivered by the Phase 1–2 core platform; maps to a `CAP-001`–`CAP-017` capability. Same semantics as in [`CAPABILITIES.md`](CAPABILITIES.md). |
+| **Core (Phases 1–2)** | Delivered by the Phase 1–2 core platform; maps to a `CAP-001`–`CAP-017`, `CAP-038`–`CAP-041` capability. Same semantics as in [`CAPABILITIES.md`](CAPABILITIES.md). |
 | **Later phase — committed** | Part of the defined-and-estimated full solution (DEC-008), delivered in Phases 3–5; maps to a `CAP-018`–`CAP-034` capability or an `FR-078`–`FR-094` requirement. **Not available today.** |
 | **Vision — uncommitted** | Direction only. Outside the DEC-008 estimated feature set; not scheduled, not resourced, not estimated. May enter committed scope only via the graduation process ([`EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10). |
 | **Out-of-boundary → \<owner\>** | Excluded per [`SCOPE.md`](../10-charter/SCOPE.md) or [AGR-010](../00-source-of-truth/AGREEMENTS.md#agr-010--guardrails-are-not-authorization). Owned by the named external party. **Never a future deliverable of this product.** |
@@ -92,7 +94,11 @@ The `Stages used` field draws on the reserved stage vocabulary of [AGR-017](../0
 
 ### Reason codes
 
-Per [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) / [ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md) (Proposed), every reason code is namespaced by category — `GR-0NN:<evaluator-family>:<code>` — making guardrail category a first-class audit/metric dimension of the decision record, not just a classification label on this catalog.
+Per [DEC-013](../00-source-of-truth/DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) / [ADR-0003](../50-architecture/adrs/ADR-0003-reason-code-taxonomy-and-category-audit-dimension.md), every reason code is namespaced by category — `GR-0NN:<evaluator-family>:<code>` — making guardrail category a first-class audit/metric dimension of the decision record, not just a classification label on this catalog.
+
+**`GR-000` — reserved platform namespace.** Not every reason code describes a guardrail finding. A request the runtime declined before evaluating — oversize input ([CON-015](../00-source-of-truth/CONSTRAINTS.md#con-015--input-size-limits)), a stage timeout ([CON-016](../00-source-of-truth/CONSTRAINTS.md#con-016--timeout-limits)), an unsatisfiable binding ([ADR-0013](../50-architecture/adrs/ADR-0013-runtime-capability-manifest.md)), or a decision a client synthesized during an outage ([ADR-0014](../50-architecture/adrs/ADR-0014-audit-coverage-rejections-and-client-synthesized-decisions.md)) — still produces an audit record, and ADR-0003 requires every reason code to carry a category segment. Those codes use the reserved prefix `GR-000:platform:<code>`.
+
+`GR-000` is **a namespace, not a category.** It is deliberately excluded from the eighteen change-controlled categories below: it has no detection scope, no evaluator family, no enforcement layer, and no graduation path, and it must never be counted as guardrail coverage or cited as evidence of it. It exists so that a platform-level condition is distinguishable from a guardrail finding in the same audit stream rather than being forced into a category that does not describe it.
 
 ---
 
@@ -114,6 +120,7 @@ The process detail — who raises what, which registers change, and how the four
 
 ## Category index
 
+<!-- BEGIN GENERATED: gr-index -->
 | ID | Category | Enforcement layer | Dominant status | External mapping (orientation only) |
 |---|---|---|---|---|
 | [GR-001](#gr-001--prompt-and-instruction-security) | Prompt and Instruction Security | evaluator | Core (mixed) | OWASP LLM01; NIST AI RMF Measure/Manage |
@@ -134,7 +141,7 @@ The process detail — who raises what, which registers change, and how the four
 | [GR-016](#gr-016--supply-chain-and-deployment-security) | Supply-Chain and Deployment Security | out-of-boundary / platform property | Out-of-boundary (mostly) | OWASP LLM03; NIST Govern/Map |
 | [GR-017](#gr-017--monitoring-evaluation-and-incident-response) | Monitoring, Evaluation and Incident Response | control-plane | Core (mixed) | NIST Measure/Manage |
 | [GR-018](#gr-018--business-and-domain-specific-controls) | Business and Domain-Specific Controls | evaluator | Core/Later (mixed) | NIST Govern/Manage |
-
+<!-- END GENERATED: gr-index -->
 ---
 
 ## GR-001 — Prompt and Instruction Security
@@ -696,7 +703,7 @@ Measure whether guardrails work and respond when they do not: latency and decisi
 | Decision-distribution monitoring | Allow/block/redact/log_only rates per tenant, workload, policy version, stage. | Core (Phases 1–2) |
 | Connector-health telemetry | Reachability, timeout rate, error rate — distinct from decisions; never proof of enforcement (AGR-018). | Core (Phases 1–2) |
 | Observe-mode false-positive measurement | The measurement loop behind observe-before-enforce (AGR-011). | Core (Phases 1–2) |
-| Per-category decision metrics | Block/redact rates by guardrail category. | Later phase — committed (proposed, DEC-020) |
+| Per-category decision metrics | Block/redact rates by guardrail category. | Later phase — committed (DEC-020) |
 | Detector-disagreement and threshold-drift monitoring | Comparing evaluator verdicts over time. | Vision — uncommitted |
 | Adversarial regression suites, scheduled red-teaming | Ongoing attack-simulation programs against policies. | Vision — uncommitted |
 | Gateway-bypass detection | Detecting traffic that never reached evaluation; posture-dependent (AGR-018). | Vision — uncommitted |
@@ -781,6 +788,7 @@ A pack can only select from capabilities that exist at its release time; a pack 
 
 Counts derive from the category index above — dominant status per category:
 
+<!-- BEGIN GENERATED: gr-counts -->
 | Dominant status | Categories |
 |---|---|
 | Core (Phases 1–2), wholly or predominantly | GR-002, GR-015 |
@@ -789,7 +797,7 @@ Counts derive from the category index above — dominant status per category:
 | Vision — uncommitted | GR-008, GR-012 |
 | Out-of-boundary | GR-010, GR-016 (mostly) |
 | **Total categories** | **18** |
-
+<!-- END GENERATED: gr-counts -->
 Item-level statuses vary within nearly every category; the per-category item tables are authoritative over this summary.
 
 ---

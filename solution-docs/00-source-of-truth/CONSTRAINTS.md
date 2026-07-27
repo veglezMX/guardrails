@@ -24,6 +24,8 @@ Constraints not yet backed by a concrete figure (SLA numbers, capacity limits, d
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [Cloud placement and account model](#cloud-placement-and-account-model)
   - [CON-001 — AWS as primary cloud](#con-001--aws-as-primary-cloud)
   - [CON-002 — Minimal MVP account model](#con-002--minimal-mvp-account-model)
@@ -48,7 +50,8 @@ Constraints not yet backed by a concrete figure (SLA numbers, capacity limits, d
   - [CON-016 — Timeout limits](#con-016--timeout-limits)
 - [Summary table](#summary-table)
 - [Constraint interaction diagram](#constraint-interaction-diagram)
-
+- [Related documents](#related-documents)
+<!-- END GENERATED: toc -->
 ---
 
 ## Cloud placement and account model
@@ -207,6 +210,7 @@ These constraints operationalize product principles 5.1 ("Policy portability"), 
 
 ## Summary table
 
+<!-- BEGIN GENERATED: con-summary -->
 | ID | Constraint (short form) | Category |
 |---|---|---|
 | CON-001 | AWS is the primary and initial cloud platform | Cloud placement |
@@ -225,7 +229,7 @@ These constraints operationalize product principles 5.1 ("Policy portability"), 
 | CON-014 | No raw-content retention by default in the hosted runtime | Content handling |
 | CON-015 | Input-size limits enforced on all evaluated content | Resource limits |
 | CON-016 | Timeout limits enforced on every evaluation stage | Resource limits |
-
+<!-- END GENERATED: con-summary -->
 ---
 
 ## Constraint interaction diagram

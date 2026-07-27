@@ -17,14 +17,17 @@
 
 ## Table of contents
 
-- [Unreleased](#unreleased)
-- [2026-07-26c — Documentation set made self-contained; original charter absorbed](#2026-07-26c--documentation-set-made-self-contained-original-charter-absorbed)
-- [2026-07-26b — Connector lifecycle and the pre-implementation decision backlog](#2026-07-26b--connector-lifecycle-and-the-pre-implementation-decision-backlog)
-- [2026-07-26 — Integration manifest defined](#2026-07-26--integration-manifest-defined)
-- [2026-07-25 — Evaluation contract wire format and enforcement-ladder reconciliation](#2026-07-25--evaluation-contract-wire-format-and-enforcement-ladder-reconciliation)
-- [2026-07-24 — Guardrail-category catalog and extensibility architecture](#2026-07-24--guardrail-category-catalog-and-extensibility-architecture)
-- [2026-07-24 — Initial documentation set](#2026-07-24--initial-documentation-set)
-
+<!-- BEGIN GENERATED: toc -->
+- [[Unreleased]](#unreleased)
+- [[2026-07-26d] — Traceability generated; hand-maintained indexes retired](#2026-07-26d--traceability-generated-hand-maintained-indexes-retired)
+- [[2026-07-26c] — Documentation set made self-contained; original charter absorbed](#2026-07-26c--documentation-set-made-self-contained-original-charter-absorbed)
+- [[2026-07-26b] — Connector lifecycle and the pre-implementation decision backlog](#2026-07-26b--connector-lifecycle-and-the-pre-implementation-decision-backlog)
+- [[2026-07-26] — Integration manifest defined](#2026-07-26--integration-manifest-defined)
+- [[2026-07-25] — Evaluation contract wire format and enforcement-ladder reconciliation](#2026-07-25--evaluation-contract-wire-format-and-enforcement-ladder-reconciliation)
+- [[2026-07-24] — Guardrail-category catalog and extensibility architecture](#2026-07-24--guardrail-category-catalog-and-extensibility-architecture)
+- [[2026-07-24] — Initial documentation set](#2026-07-24--initial-documentation-set)
+- [Related documents](#related-documents)
+<!-- END GENERATED: toc -->
 ---
 
 ## [Unreleased]
@@ -51,6 +54,45 @@
 
 ### Fixed
 - _Nothing._
+
+### Security
+- _Nothing._
+
+---
+
+## [2026-07-26d] — Traceability generated; hand-maintained indexes retired
+
+**Change type:** Path A (amendment of the L1 register, propagated to every derived layer)
+**Trigger:** [DEC-021](00-source-of-truth/DECISIONS.md#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability) — four hand-maintained indexes had drifted simultaneously; a reverse index derivable from forward citations should not be maintained by hand.
+**Owner:** Product lead, Technical lead (joint)
+
+### Added
+- `flake.nix`, `.envrc`, `justfile`, and `tools/docs/` — a nix devShell plus `just check`, `just gen`, `just toc`, `just trace`, and `just verify`.
+- `tools/docmeta.json` — editorial prose with no derivable source: condensed questions, short forms, categories, targets, external mappings, per-document descriptions, and each index's curated ordering.
+- [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) **DEC-021** — retires the traceability matrix in favour of generated traceability.
+- [`DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §8.1 — machine-owned regions are delimited by BEGIN/END GENERATED comment markers and never hand-edited.
+- `GR-000` — a reserved platform namespace for reason codes that are not guardrail findings ([`GUARDRAIL-CATALOG.md`](20-product/GUARDRAIL-CATALOG.md) § Reason codes). Deliberately not a nineteenth category.
+- New index sections: root-level document tables in [`README.md`](README.md) and [`DOCUMENT-MAP.md`](DOCUMENT-MAP.md); [`REFERENCES.md`](70-governance/REFERENCES.md) §§7.3–7.5 for `80-agent-inputs/`, `90-archive/`, and the repository root, none of which previously had one.
+
+### Changed
+- DEC-010 through DEC-020 ratified from `Proposed` to **`Accepted`**, resolving 21 open questions that cited them; dependent wording updated in `SERVING-MODEL.md`, `DEPLOYMENT-ARCHITECTURE.md`, `CAPABILITIES.md`, and `GUARDRAIL-CATALOG.md`.
+- The defined-and-estimated feature set re-baselined from `CAP-001`–`CAP-034` to **`CAP-001`–`CAP-041`**; core is now `CAP-001`–`CAP-017` plus `CAP-038`–`CAP-041`. Corrected in `DECISIONS.md`, `GUARDRAIL-CATALOG.md`, `ADR-0002`, and `CLAIMS-REGISTER.md`.
+- 87 regions across 48 documents became generated: every table of contents, the register summary and count tables, the guardrail category index, the glossary quick index, the ADR index, and the document indexes in `README.md`, `DOCUMENT-MAP.md`, and `REFERENCES.md`.
+- [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) — the matrix removed from three **Affected documents** lists.
+- [`DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md) §8 rewritten around `just check` and `just trace`; change-control steps and both process diagrams updated.
+- [`OUTPUT-CONTRACTS.md`](80-agent-inputs/OUTPUT-CONTRACTS.md) — generation agents now cite `just trace` as their traceability guardrail.
+
+### Deprecated
+- _Nothing._
+
+### Removed
+- `00-source-of-truth/TRACEABILITY-MATRIX.md` — archived as [`90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md`](90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md). First entry in the archive.
+
+### Fixed
+- 9 broken heading anchors (`SLIDE-OUTLINE.md`, `OBJECTION-HANDLING.md`, `ARCHITECTURE-REVIEW-AGENT.md`, `SALES-DECK-AGENT.md`) — headings had been reworded without updating their cross-references.
+- 1 dead link to the removed `folder-spectation.md` in [`90-archive/README.md`](90-archive/README.md).
+- Stale identifier ranges: `AGR-001`–`AGR-020` → `AGR-021`, `FR-001`–`FR-094` → `FR-127`, and a reference to an agreement number the register has never held.
+- Missing index entries: 24 documents absent from `REFERENCES.md`, 16 from `DOCUMENT-MAP.md`, 13 from `README.md`.
 
 ### Security
 - _Nothing._
@@ -230,7 +272,7 @@
 - [`70-governance/GLOSSARY.md`](70-governance/GLOSSARY.md) — new terms: guardrail category, guardrail item, control type, enforcement layer, extension seam, graduation, policy pack, Vision — uncommitted.
 
 ### Changed
-- [`TRACEABILITY-MATRIX.md`](00-source-of-truth/TRACEABILITY-MATRIX.md) — AGR-021 row, ADR-0002 backlog row, coverage-check row for the new Not-approved claim; register-range text updated to AGR-001–AGR-021 (also in [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) and [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md)).
+- [`TRACEABILITY-MATRIX.md`](90-archive/00-source-of-truth--TRACEABILITY-MATRIX--archived-2026-07-26.md) — AGR-021 row, ADR-0002 backlog row, coverage-check row for the new Not-approved claim; register-range text updated to AGR-001–AGR-021 (also in [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) and [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md)).
 - [`20-product/CAPABILITIES.md`](20-product/CAPABILITIES.md) — new "Guardrail-category cross-reference" section (GR→CAP mapping; "the catalog classifies, CAPABILITIES commits").
 - [`20-product/PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md) — new "Guardrail-category coverage by phase" view; Vision/Out-of-boundary categories appear in no phase row.
 - [`50-architecture/CONTAINER-ARCHITECTURE.md`](50-architecture/CONTAINER-ARCHITECTURE.md) §5, [`REQUIREMENTS.md`](50-architecture/REQUIREMENTS.md) §13–§14 (new `Guardrail category` column on FR-078–FR-094), [`SECURITY-ARCHITECTURE.md`](50-architecture/SECURITY-ARCHITECTURE.md) §10–§11 (GR-009/GR-010 boundary reconciliation), [`DEPLOYMENT-ARCHITECTURE.md`](50-architecture/DEPLOYMENT-ARCHITECTURE.md) §5 (catalog owns the category×mode statement), [`OPERABILITY.md`](50-architecture/OPERABILITY.md) §3/§6.1 (category as planned metric dimension, gated on OQ-019), [`ARCHITECTURE-REPORT.md`](50-architecture/ARCHITECTURE-REPORT.md) §3.3/§7.2, and [`TECHNICAL-RISKS.md`](50-architecture/TECHNICAL-RISKS.md) §4.5/§4.8 — cross-references to the catalog and extension model added.
@@ -261,7 +303,7 @@
 
 Generated the complete initial `solution-docs/` documentation set from the original solution charter (see [`PROVENANCE.md`](00-source-of-truth/PROVENANCE.md)), distilled first into the authoritative agreements register and then derived outward into every downstream layer. This is the founding entry of the changelog: it establishes the baseline against which all future changes are tracked.
 
-- **Source-of-truth agreements (`00-source-of-truth/`)** — [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) (AGR-001 through AGR-022, the authoritative L1 register), [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md), [`DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md).
+- **Source-of-truth agreements (`00-source-of-truth/`)** — [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) (AGR-001 through AGR-021, the authoritative L1 register), [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md), [`DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md).
 - **Charter (`10-charter/`)** — [`CHARTER.md`](10-charter/CHARTER.md), [`PRINCIPLES.md`](10-charter/PRINCIPLES.md), [`SCOPE.md`](10-charter/SCOPE.md), and [`SUCCESS-CRITERIA.md`](10-charter/SUCCESS-CRITERIA.md).
 - **Product materials (`20-product/`)** — [`CAPABILITIES.md`](20-product/CAPABILITIES.md), [`PRODUCT-OVERVIEW.md`](20-product/PRODUCT-OVERVIEW.md), [`USE-CASES.md`](20-product/USE-CASES.md), [`TARGET-USERS.md`](20-product/TARGET-USERS.md), [`VALUE-PROPOSITION.md`](20-product/VALUE-PROPOSITION.md), [`DIFFERENTIATORS.md`](20-product/DIFFERENTIATORS.md), [`PROBLEM-STATEMENT.md`](20-product/PROBLEM-STATEMENT.md), [`PRODUCT-ROADMAP.md`](20-product/PRODUCT-ROADMAP.md), and [`FAQ.md`](20-product/FAQ.md).
 - **Executive materials (`30-executive/`)** — [`EXECUTIVE-BRIEF.md`](30-executive/EXECUTIVE-BRIEF.md), [`EXPECTED-OUTCOMES.md`](30-executive/EXPECTED-OUTCOMES.md), [`DECISION-REQUEST.md`](30-executive/DECISION-REQUEST.md), [`BUSINESS-CASE.md`](30-executive/BUSINESS-CASE.md), [`INVESTMENT-SUMMARY.md`](30-executive/INVESTMENT-SUMMARY.md), and [`RISKS-AND-DEPENDENCIES.md`](30-executive/RISKS-AND-DEPENDENCIES.md).

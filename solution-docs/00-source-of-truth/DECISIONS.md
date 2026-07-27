@@ -30,29 +30,31 @@ Each entry uses a fixed shape:
 
 ## Decision log summary
 
+<!-- BEGIN GENERATED: decision-log -->
 | ID | Date | Decision | Status | Related agreements |
 | --- | --- | --- | --- | --- |
-| [DEC-001](#dec-001--build-as-a-standalone-platform-not-embedded-in-the-internal-litellm) | 2026-07-24 | Build AI Guardrails as a standalone platform, not embedded in the internal LiteLLM | Accepted | AGR-001 |
+| [DEC-001](#dec-001--build-as-a-standalone-platform-not-embedded-in-the-internal-litellm) | 2026-07-24 | Build as a standalone platform, not embedded in the internal LiteLLM | Accepted | AGR-001 |
 | [DEC-002](#dec-002--adopt-litellm-as-the-first-connector-not-the-product-boundary) | 2026-07-24 | Adopt LiteLLM as the first connector, not the product boundary | Accepted | AGR-003, AGR-007 |
 | [DEC-003](#dec-003--adopt-amazon-bedrock-guardrails-as-the-initial-evaluation-engine-behind-a-vendor-independent-contract) | 2026-07-24 | Adopt Amazon Bedrock Guardrails as the initial evaluation engine behind a vendor-independent contract | Accepted | AGR-004, AGR-005 |
 | [DEC-004](#dec-004--support-three-deployment-modes-as-the-primary-deployment-framework) | 2026-07-24 | Support three deployment modes as the primary deployment framework | Accepted | AGR-002, AGR-006, AGR-008, AGR-009 |
-| [DEC-005](#dec-005--bound-the-mvp-to-reusable-policy-import-inputoutput-evaluation-litellm-integration-observeenforce-and-normalized-audit-decisions) | 2026-07-24 | Bound the MVP to reusable policy import, input/output evaluation, LiteLLM integration, observe/enforce, and normalized audit decisions | Superseded by DEC-008 | Former AGR-019/AGR-020 (removed), AGR-019 |
-| [DEC-006](#dec-006--sequence-delivery-into-five-phases) | 2026-07-24 | Sequence delivery into five phases, from integration proof to advanced agent protection | Accepted | AGR-020 |
-| [DEC-007](#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement) | 2026-07-24 | Defer advanced infrastructure isolation, policy-distribution security, agent authorization, and organization-wide enforcement until justified by adoption, compliance, or commercial need | Accepted | AGR-020 |
+| [DEC-005](#dec-005--bound-the-mvp-to-reusable-policy-import-inputoutput-evaluation-litellm-integration-observeenforce-and-normalized-audit-decisions) | 2026-07-24 | Bound the MVP to reusable policy import, input/output evaluation, LiteLLM integration, observe/enforce, and normalized audit decisions | Superseded by [DEC-008](#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) | AGR-019, AGR-020, AGR-021 |
+| [DEC-006](#dec-006--sequence-delivery-into-five-phases) | 2026-07-24 | Sequence delivery into five phases | Accepted | AGR-020 |
+| [DEC-007](#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement) | 2026-07-24 | Defer advanced isolation, distribution security, agent authorization, and org-wide enforcement | Accepted | AGR-019, AGR-020 |
 | [DEC-008](#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases) | 2026-07-24 | Supersede the MVP-bounded scope; define and estimate the full feature set across five phases | Accepted | AGR-019, AGR-020 |
-| [DEC-009](#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision) | 2026-07-24 | Adopt the guardrail-category catalog (GR-001 through GR-018) as directional vision, without altering the estimated feature set | Accepted | AGR-021, AGR-017, AGR-020 |
-| [DEC-010](#dec-010--serve-ai-guardrails-as-a-developer-service-with-mode-a-as-the-front-door) | 2026-07-24 | Serve AI Guardrails as a developer service with Mode A as the front door | Proposed | AGR-001, AGR-002, AGR-003, AGR-006, AGR-007, AGR-018, AGR-020 |
-| [DEC-011](#dec-011--policy-governance-classes-and-mandatory-policy-authority) | 2026-07-24 | Policy governance classes and mandatory-policy authority | Proposed | AGR-005, AGR-011, AGR-017, AGR-018, AGR-019 |
-| [DEC-012](#dec-012--observe-to-enforce-promotion-criteria) | 2026-07-24 | Observe-to-enforce promotion criteria | Proposed | AGR-011, AGR-012 |
-| [DEC-013](#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) | 2026-07-24 | Reason-code taxonomy and guardrail-category audit dimension | Proposed | AGR-006, AGR-017, AGR-021 |
-| [DEC-014](#dec-014--evaluation-contract-stability) | 2026-07-24 | Evaluation-contract stability | Proposed | AGR-006, AGR-017 |
-| [DEC-015](#dec-015--evaluator-plugin-and-policy-signing-governance) | 2026-07-24 | Evaluator-plugin and policy-signing governance | Proposed | AGR-004, AGR-005, AGR-006, AGR-015 |
-| [DEC-016](#dec-016--phase-5-agentic-scope-timing) | 2026-07-24 | Phase-5 agentic scope timing | Proposed | AGR-010, AGR-020 |
-| [DEC-017](#dec-017--deployment-and-commercial-posture) | 2026-07-24 | Deployment and commercial posture | Proposed | AGR-013, AGR-018, AGR-020 |
-| [DEC-018](#dec-018--multi-region-availability-at-ga) | 2026-07-24 | Multi-region availability at GA | Proposed | AGR-006, AGR-008, AGR-013 |
-| [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) | 2026-07-24 | Multi-region active-active availability committed as a later phase | Proposed | AGR-002, AGR-006 |
-| [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | 2026-07-24 | Graduate the GR-017 "per-category decision metrics" catalog entry from Vision — uncommitted to Later phase — committed (ADR-0002 §2 validation exercise) | Proposed | AGR-021, AGR-017, AGR-006 |
-
+| [DEC-009](#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision) | 2026-07-24 | Adopt the guardrail-category catalog as directional vision | Accepted | AGR-017, AGR-020, AGR-021 |
+| [DEC-010](#dec-010--serve-ai-guardrails-as-a-developer-service-with-mode-a-as-the-front-door) | 2026-07-24 | Serve AI Guardrails as a developer service with Mode A as the front door | Accepted | AGR-001, AGR-002, AGR-003, AGR-006, AGR-007, AGR-018, AGR-020 |
+| [DEC-011](#dec-011--policy-governance-classes-and-mandatory-policy-authority) | 2026-07-24 | Policy governance classes and mandatory-policy authority | Accepted | AGR-005, AGR-011, AGR-017, AGR-018, AGR-019 |
+| [DEC-012](#dec-012--observe-to-enforce-promotion-criteria) | 2026-07-24 | Observe-to-enforce promotion criteria | Accepted | AGR-011, AGR-012 |
+| [DEC-013](#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) | 2026-07-24 | Reason-code taxonomy and guardrail-category audit dimension | Accepted | AGR-006, AGR-017, AGR-021 |
+| [DEC-014](#dec-014--evaluation-contract-stability) | 2026-07-24 | Evaluation-contract stability | Accepted | AGR-006, AGR-017 |
+| [DEC-015](#dec-015--evaluator-plugin-and-policy-signing-governance) | 2026-07-24 | Evaluator-plugin and policy-signing governance | Accepted | AGR-004, AGR-005, AGR-006, AGR-015 |
+| [DEC-016](#dec-016--phase-5-agentic-scope-timing) | 2026-07-24 | Phase-5 agentic scope timing | Accepted | AGR-010, AGR-020 |
+| [DEC-017](#dec-017--deployment-and-commercial-posture) | 2026-07-24 | Deployment and commercial posture | Accepted | AGR-013, AGR-018, AGR-020 |
+| [DEC-018](#dec-018--multi-region-availability-at-ga) | 2026-07-24 | Multi-region availability at GA | Accepted | AGR-006, AGR-008, AGR-013 |
+| [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) | 2026-07-24 | Multi-region active-active availability committed as a later phase | Accepted | AGR-002, AGR-006 |
+| [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | 2026-07-24 | Graduate GR-017 per-category decision metrics from vision to committed scope | Accepted | AGR-006, AGR-017, AGR-021 |
+| [DEC-021](#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability) | 2026-07-26 | Retire the traceability matrix in favour of generated traceability | Accepted | AGR-006, AGR-017, AGR-021 |
+<!-- END GENERATED: decision-log -->
 ---
 
 ## DEC-001 — Build as a standalone platform, not embedded in the internal LiteLLM
@@ -172,7 +174,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 **Related agreements:** [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import), [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery)
 **Related ADRs:** See [`50-architecture/adrs/README.md`](../50-architecture/adrs/README.md).
 
-**Later amendment (Proposed):** [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) expands the defined-and-estimated feature set fixed by this decision — CAP-035 (multi-region availability, [DEC-018](#dec-018--multi-region-availability-at-ga)), CAP-036 (multi-region active-active availability, DEC-019), and CAP-037 (per-category decision metrics, [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope)) are added, bringing the estimated set to CAP-001–CAP-037. DEC-019 explicitly supersedes the multi-region active-active exclusion listed in this entry's Context above (originally a [`SCOPE.md`](../10-charter/SCOPE.md) product-category exclusion). Pending owner ratification of DEC-018/019/020.
+**Later amendment (Accepted):** [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) expands the defined-and-estimated feature set fixed by this decision — CAP-035 (multi-region availability, [DEC-018](#dec-018--multi-region-availability-at-ga)), CAP-036 (multi-region active-active availability, DEC-019), and CAP-037 (per-category decision metrics, [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope)) are added, bringing the estimated set to CAP-001–CAP-041 (CAP-038–CAP-041 added with the connector-lifecycle records ADR-0006 through ADR-0008). DEC-019 explicitly supersedes the multi-region active-active exclusion listed in this entry's Context above (originally a [`SCOPE.md`](../10-charter/SCOPE.md) product-category exclusion). Pending owner ratification of DEC-018/019/020.
 
 ---
 
@@ -190,7 +192,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-010 — Serve AI Guardrails as a developer service with Mode A as the front door
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** AI Guardrails is served as a developer service whose front door is Mode A (Remote Evaluation): the consumer keeps their gateway, model provider, and data path, installs a cooperative connector or calls the hosted HTTP Evaluation API, and imports a policy; the platform hosts evaluation, the policy store, and the audited decision. Modes B and C are graduation paths that answer specific buyer objections, not competing front doors.
 **Context:** Resolves OQ-001 for the front door; grounded in AGR-001/002/003/006/007, DEC-004, AGR-020, UC-001; enforcement is cooperative-only at the front door (never a hard boundary, AGR-018), hard-enforcement seekers routed to Mode B / network-IAM posture.
 **Related agreements:** [AGR-001](AGREEMENTS.md#agr-001--standalone-platform-not-embedded-in-the-internal-litellm), [AGR-002](AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-003](AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-007](AGREEMENTS.md#agr-007--policies-are-separate-from-connectors), [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model), [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery)
@@ -202,7 +204,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-011 — Policy governance classes and mandatory-policy authority
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** Curated policy packs ship with three governance classes — Mandatory (pinned), Recommended/overridable, and consumer-authored (Own). The effective policy for a workload = the mandatory base (locked) layered with consumer overrides/additions (inheritance v0). Authority to mark a policy Mandatory rests with the security/governance role at org/tenant scope; application/workload owners may strengthen a mandatory policy (earlier enforcement, tighter thresholds) but may never disable, unbind, downgrade below the pinned version floor, or weaken it, and a tenant admin cannot override an org-mandatory policy. Cross-posture semantics: in cooperative posture "mandatory" means the platform records the binding as required and refuses to attest compliance when absent (a governance guarantee, not a physical one); platform-managed posture enforces at the provider path; network/IAM posture physically prevents bypass.
 **Context:** Closes the mandatory-policy-authority question (see [`SERVING-MODEL.md`](../20-product/SERVING-MODEL.md) §5) and the inheritance half of OQ-012; grounded in AGR-005, AGR-011, AGR-017, AGR-018, AGR-019; authority split mirrors TARGET-USERS §4. Note: candidate for elevation to an Agreement (L1) at ratification.
 **Related agreements:** [AGR-005](AGREEMENTS.md#agr-005--policy-portability), [AGR-011](AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model), [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import)
@@ -214,7 +216,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-012 — Observe-to-enforce promotion criteria
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** Promotion of a workload binding from Observe to an enforcing state (Warn/Redact/Block) requires an objective, auditable go/no-go gate with these dimensions: (1) a minimum observation window — TBD — owner to set at ratification (e.g. calendar days AND/OR a minimum evaluation count); (2) a false-positive rate at or below a threshold — TBD — owner to set; (3) measured evaluation latency within the workload's configured budget; (4) explicit recorded sign-off by both the workload owner and the security/governance role. Promotion is an explicit, auditable action (AGR-011), never an implicit side effect.
 **Context:** Closes OQ-014; needed before Phase 2 onboarding scales; framework is fixed, numeric thresholds are the owner's to set (no invented numbers).
 **Related agreements:** [AGR-011](AGREEMENTS.md#agr-011--observe-before-enforce-progression), [AGR-012](AGREEMENTS.md#agr-012--failure-behavior-is-part-of-policy)
@@ -226,7 +228,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-013 — Reason-code taxonomy and guardrail-category audit dimension
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** The canonical reason-code taxonomy is category-namespaced: every reason code is emitted as `GR-0NN:<evaluator-family>:<code>`, and the decision record gains `guardrail_category` as a first-class field. Guardrail category thereby becomes a first-class audit/metric dimension, making per-category reporting and catalog→decision traceability implementable without forking the decision structure (AGR-017) or the one logical contract (AGR-006). Design detail and alternatives are recorded in ADR-0003.
 **Context:** Closes OQ-019 — the highest-leverage question; also supplies the catalog→decision traceability AGR-021 needs.
 **Related agreements:** [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)
@@ -239,7 +241,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-014 — Evaluation-contract stability
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** The logical evaluation contract stays lean for the committed feature set: (a) it is NOT extended with token/cost metadata — resource/cost controls (catalog GR-012) remain gateway-native and control-plane-side; this reopens only when a GR-012 catalog entry graduates. (b) The evaluation-stage vocabulary stays the seven reserved stages; no new stage is added until a graduated category requires one, and then only via the evaluation-stage extension seam under AGR-006 backward-compatibility.
 **Context:** Closes OQ-017 and OQ-018; keeps the contract stable across all three modes.
 **Related agreements:** [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model)
@@ -252,7 +254,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-015 — Evaluator-plugin and policy-signing governance
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** (a) No third-party or customer-supplied evaluator code runs in-process in the MVP or the committed phases; "new engine" means a provider-authored adapter behind the standard evaluator contract. Customer-specific evaluator plugins are a Phase-5 vision, admissible only behind a mandatory security + compatibility review gate (isolation/sandboxing, signed artifacts, contract-conformance tests). (b) Policy signing is deferred to Phase 4, gated by the first Mode C (customer-managed runtime) deployment that distributes policy artifacts outside the hosted control plane.
 **Context:** Closes OQ-013 and the signing half of OQ-012; preserves the adapter discipline (evaluator-sprawl risk) and AGR-005 portability.
 **Related agreements:** [AGR-004](AGREEMENTS.md#agr-004--bedrock-guardrails-as-first-engine-vendor-independent-contract), [AGR-005](AGREEMENTS.md#agr-005--policy-portability), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-015](AGREEMENTS.md#agr-015--customer-managed-runtime-executes-without-a-synchronous-control-plane-connection)
@@ -264,7 +266,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-016 — Phase-5 agentic scope timing
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** Streaming output evaluation (OQ-004), retrieval-content evaluation and indirect-prompt-injection detection (OQ-005), tool-call/tool-result validation and MCP authorization scope (OQ-006), and human-approval workflows (OQ-007) are deferred to Phase 5 and scoped only when Phase 5 is separately approved (AGR-020, DEC-006/007). Until then, the corresponding workload attributes exist but carry a documented "not yet covered" limitation, and no collateral may imply coverage.
 **Context:** Closes OQ-004/005/006/007 as governed deferrals; Phase 5 remains a separate expansion, not MVP scope.
 **Related agreements:** [AGR-010](AGREEMENTS.md#agr-010--guardrails-are-not-authorization), [AGR-020](AGREEMENTS.md#agr-020--five-phase-delivery)
@@ -276,7 +278,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-017 — Deployment and commercial posture
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:**
 * **OQ-002 PrivateLink:** public TLS+IAM endpoint at GA; PrivateLink added on-demand, trigger = first signed customer with a network-egress restriction.
 * **OQ-008 Languages:** English only at launch; multilingual deferred with a documented non-English limitation; trigger = first committed non-English workload.
@@ -295,7 +297,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-018 — Multi-region availability at GA
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** The platform offers multi-region availability from GA, with each tenant pinned to a single processing region (not active-active — see DEC-019). This supersedes the single-region reading of the minimal-MVP posture and pulls per-tenant data-residency enforcement into the committed core (new CAP-035). The two-account model is retained (DEC-017/OQ-009); regionality is expressed through regional resources, not additional accounts, until an OQ-009 trigger fires. AGR-013 is amended to record this.
 **Context:** Owner chose multi-region-from-GA over the minimal single-region default; this is a deliberate scope expansion with an AGR-013 implication and a residency-enforcement dependency (formerly OQ-003's unresolved backstop).
 **Related agreements:** [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-008](AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns), [AGR-013](AGREEMENTS.md#agr-013--aws-as-primary-cloud-minimal-mvp-account-model)
@@ -307,7 +309,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-019 — Multi-region active-active availability committed as a later phase
 
 **Date:** 2026-07-24
-**Status:** Proposed
+**Status:** Accepted
 **Decision:** Multi-region active-active availability (live cross-region failover / replication) is brought into committed scope as a later-phase capability (new CAP-036). This explicitly supersedes its listing as a [`SCOPE.md`](../10-charter/SCOPE.md)` exclusion and, per DEC-008, expands the defined-and-estimated feature set; the estimation basis and the exclusion lists in DEC-008, SCOPE.md, and CLAIMS-REGISTER.md are updated accordingly. This is distinct from DEC-018: DEC-018 is region availability with tenant pinning; DEC-019 is live cross-region high availability.
 **Context:** Owner chose to commit active-active as a later phase, accepting the estimation change; recorded as a deliberate expansion, the inverse of the risk-register "product over-expansion" caution, legitimate because explicitly chosen.
 **Related agreements:** [AGR-002](AGREEMENTS.md#agr-002--three-deployment-modes), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes); supersedes [`SCOPE.md`](../10-charter/SCOPE.md) (active-active exclusion)
@@ -320,8 +322,8 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 ## DEC-020 — Graduate GR-017 per-category decision metrics from vision to committed scope
 
 **Date:** 2026-07-24
-**Status:** Proposed
-**Decision:** This is the ADR-0002 Validation Required §2 graduation exercise — the first real, end-to-end run of the catalog graduation pipeline ([`EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10), executed to demonstrate that the pipeline produces a recorded scope-change decision rather than a silent promotion. The single catalog item graduated is [`GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) GR-017's "Per-category decision metrics" (block/redact rates by guardrail category). Its status moves from `Vision — uncommitted` to `Later phase — committed`, **pending owner ratification**. Committed scope is a new later-phase capability, **new CAP-037 — Per-category decision metrics**: extending the existing decision-distribution metric (`OPERABILITY.md` §3) with a `guardrail_category` dimension over data the decision record already carries. No evaluation-contract field, stage, or action changes (AGR-006 unaffected) — this is a reporting/aggregation capability, not a new domain concept (AGR-017). Formal registration of CAP-037 in `CAPABILITIES.md` and the corresponding `TRACEABILITY-MATRIX.md` row (graduation-pipeline step 3) follow at owner ratification; until then, `GUARDRAIL-CATALOG.md` records the item's status as "Later phase — committed (proposed, DEC-020)".
+**Status:** Accepted
+**Decision:** This is the ADR-0002 Validation Required §2 graduation exercise — the first real, end-to-end run of the catalog graduation pipeline ([`EXTENSIBILITY-ARCHITECTURE.md`](../50-architecture/EXTENSIBILITY-ARCHITECTURE.md) §10), executed to demonstrate that the pipeline produces a recorded scope-change decision rather than a silent promotion. The single catalog item graduated is [`GUARDRAIL-CATALOG.md`](../20-product/GUARDRAIL-CATALOG.md) GR-017's "Per-category decision metrics" (block/redact rates by guardrail category). Its status moves from `Vision — uncommitted` to `Later phase — committed`, **pending owner ratification**. Committed scope is a new later-phase capability, **new CAP-037 — Per-category decision metrics**: extending the existing decision-distribution metric (`OPERABILITY.md` §3) with a `guardrail_category` dimension over data the decision record already carries. No evaluation-contract field, stage, or action changes (AGR-006 unaffected) — this is a reporting/aggregation capability, not a new domain concept (AGR-017). CAP-037 is registered in `CAPABILITIES.md` (graduation-pipeline step 3); `GUARDRAIL-CATALOG.md` records the item's status as "Later phase — committed (proposed, DEC-020)".
 **Context:** The item was blocked on [OQ-019](OPEN-QUESTIONS.md#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) ("gated on OQ-019" in the catalog; "not committed" per `OPERABILITY.md` §3/§6.1, pending the reason-code taxonomy). [DEC-013](#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) resolved OQ-019 by adopting the category-namespaced reason-code taxonomy (`GR-0NN:<evaluator-family>:<code>`) and adding `guardrail_category` as a first-class decision field (design in ADR-0003, Proposed). With that dependency resolved, per-category decision metrics need no new contract surface — only an aggregation capability over a field the decision record already gains once DEC-013/ADR-0003 ratify. That makes it a low-scope, representative first exercise of the graduation pipeline: the gating OQ was already raised and resolved, so this decision exercises precisely the "record the decision → commit the scope" half of `EXTENSIBILITY-ARCHITECTURE.md` §10 that ADR-0002 §2 requires be demonstrated.
 **Related agreements:** [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model) (the graduation pipeline this decision exercises), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model) (extend-don't-fork — a metric dimension, not a new entity), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes) (contract unaffected)
 **Related decisions:** [DEC-013](#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension) (resolves OQ-019; supplies the `guardrail_category` field this graduation depends on), [DEC-009](#dec-009--adopt-the-guardrail-category-catalog-as-directional-vision) (adopts the catalog this entry graduates within)
@@ -339,3 +341,16 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 * [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) — implementation approach per phase.
 * [`20-product/PRODUCT-ROADMAP.md`](../20-product/PRODUCT-ROADMAP.md) — product-facing view of the phased roadmap.
 * [`10-charter/CHARTER.md`](../10-charter/CHARTER.md) — charter document reflecting DEC-001 through DEC-004.
+
+---
+
+## DEC-021 — Retire the traceability matrix in favour of generated traceability
+
+**Date:** 2026-07-26
+**Status:** Accepted
+**Decision:** `00-source-of-truth/TRACEABILITY-MATRIX.md` is retired from the active information architecture and archived. The reverse index it maintained by hand — agreement to capability, requirement, ADR, architecture document, and approved claim — is generated on demand by `just trace`, and its one non-duplicated assertion (no core capability is orphaned from an agreement) is enforced by `just check`. Every hand-maintained derived region in the set — tables of contents, register summary tables, count tables, and the document indexes in `README.md`, `DOCUMENT-MAP.md` and `REFERENCES.md` — becomes a machine-owned region delimited by BEGIN/END GENERATED comment markers and rebuilt by `just gen`.
+**Context:** The matrix duplicated, in reverse, relationships already recorded beside the things they describe: `CAPABILITIES.md` carries each capability's governing agreements, `adrs/README.md` carries each ADR's, the architecture set cites agreements inline, and `CLAIMS-REGISTER.md` names the agreement governing each restricted claim. Forward citations sit next to the entry an author is editing and are updated naturally; a reverse index lives in a file nobody opens while authoring, so it rots by default rather than by neglect. The matrix had drifted thirteen ADRs and seven capabilities behind within two days of ADR work, while its own maintenance rule — "updated in the same change set, not left to drift" — went unmet. Three sibling indexes had drifted the same way for the same structural reason. Deleting the file outright was rejected: `README.md`, `DOCUMENT-MAP.md` and `REFERENCES.md` are entry points for four distinct audiences, and replacing a readable table with "run a script" would have been a real loss. Generating them keeps the artifact and removes the maintenance.
+**Consequences:** `DOCUMENT-GOVERNANCE.md` §7 gains the rule that a marked region is machine-owned and never hand-edited; its change-control steps now cite `just check` and `just trace` where they cited the matrix. `AGREEMENTS.md` drops the matrix from three **Affected documents** lists — a Path A amendment, which is why this decision exists rather than an in-place edit. Editorial prose that has no derivable source (condensed questions, short forms, categories, targets, external mappings, per-document descriptions) moves to `tools/docmeta.json`; that file is now load-bearing for the governed set even though it sits outside it. Reverse traceability is reported at file granularity rather than by section, because section anchors are not machine-derivable from the current inline citations; for change control, opening the file and searching for the agreement ID is sufficient.
+**Related agreements:** [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)
+**Owners:** Product lead, Technical lead
+**Closes:** the four stale hand-maintained indexes; supersedes the matrix's maintenance rules

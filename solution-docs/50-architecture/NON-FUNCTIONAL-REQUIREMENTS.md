@@ -29,6 +29,8 @@ Categories are ordered: Availability, Reliability, Recovery, Performance, Scalab
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
+- [Purpose and authority](#purpose-and-authority)
 - [Availability](#availability)
 - [Reliability](#reliability)
 - [Recovery](#recovery)
@@ -45,7 +47,7 @@ Categories are ordered: Availability, Reliability, Recovery, Performance, Scalab
 - [Summary table](#summary-table)
 - [Operability failure-path diagram](#operability-failure-path-diagram)
 - [Related documents](#related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## Availability
@@ -488,6 +490,7 @@ Requirement: For every tenant, the AWS accounts and Regions that process that te
 
 ## Summary table
 
+<!-- BEGIN GENERATED: nfr-summary -->
 | ID | Requirement (short form) | Target | Source |
 |---|---|---|---|
 | NFR-AVAIL-001 | Evaluation API availability objective | TBD | [original charter §15](../00-source-of-truth/PROVENANCE.md#3-section-by-section-map), [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md); AGR-002 |
@@ -535,7 +538,7 @@ Requirement: For every tenant, the AWS accounts and Regions that process that te
 | NFR-COMPL-001 | Tenant-specific retention configuration | 100% of tenants | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [`DATA-ARCHITECTURE.md`](DATA-ARCHITECTURE.md); AGR-014 |
 | NFR-COMPL-002 | Full compliance certification | Out of scope | [`SCOPE.md`](../10-charter/SCOPE.md); 10-charter/SCOPE.md |
 | NFR-COMPL-003 | Regional processing boundary documented/enforced | 100% of tenants | [AGR-017](../00-source-of-truth/AGREEMENTS.md#agr-017--core-domain-model), [AGR-008](../00-source-of-truth/AGREEMENTS.md#agr-008--explicit-content-exposure-model-ownership-vs-exposure-are-separate-concerns); AGR-008/CON-007 |
-
+<!-- END GENERATED: nfr-summary -->
 ---
 
 ## Operability failure-path diagram

@@ -11,6 +11,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 1. [Purpose and how to read this document](#1-purpose-and-how-to-read-this-document)
 2. [Trade-off framework](#2-trade-off-framework)
 3. [Hosted runtime vs. customer-managed runtime](#3-hosted-runtime-vs-customer-managed-runtime)
@@ -23,7 +24,7 @@
 10. [Guardrail-coverage breadth vs. contract surface and evaluation latency](#10-guardrail-coverage-breadth-vs-contract-surface-and-evaluation-latency)
 11. [Summary table of decisions](#11-summary-table-of-decisions)
 12. [Related documents](#12-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and how to read this document

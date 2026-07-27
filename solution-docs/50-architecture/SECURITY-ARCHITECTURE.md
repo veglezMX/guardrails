@@ -15,6 +15,7 @@
 
 ## Table of contents
 
+<!-- BEGIN GENERATED: toc -->
 1. [Purpose and relationship to other documents](#1-purpose-and-relationship-to-other-documents)
 2. [Security principles](#2-security-principles)
 3. [Trust and enforcement model](#3-trust-and-enforcement-model)
@@ -29,7 +30,7 @@
 12. [Security boundaries explicitly out of MVP scope](#12-security-boundaries-explicitly-out-of-mvp-scope)
 13. [Traceability summary](#13-traceability-summary)
 14. [Related documents](#14-related-documents)
-
+<!-- END GENERATED: toc -->
 ---
 
 ## 1. Purpose and relationship to other documents
