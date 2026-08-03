@@ -1,0 +1,64 @@
+{
+  "name": "pii-baseline",
+  "version": 1,
+  "stages": ["input", "output"],
+  "evaluators": [
+    {
+      "family": "sensitive_data",
+      "capability": "email",
+      "stages": ["input", "output"],
+      "threshold": 0.5,
+      "action": "redact"
+    },
+    {
+      "family": "sensitive_data",
+      "capability": "credit_card",
+      "stages": ["input", "output"],
+      "threshold": 0.5,
+      "action": "block"
+    },
+    {
+      "family": "prompt_security",
+      "capability": "injection",
+      "stages": ["input"],
+      "threshold": 0.5,
+      "action": "block",
+      "params": {
+        "patterns": [
+          "ignore (?:all )?previous instructions",
+          "disregard your system prompt"
+        ]
+      }
+    },
+    {
+      "family": "organization_rules",
+      "capability": "blocked_terms",
+      "stages": ["input", "output"],
+      "threshold": 0.5,
+      "action": "block",
+      "params": {
+        "phrases": ["project halcyon"]
+      }
+    }
+  ],
+  "failure_behavior": {
+    "evaluation_timeout": "allow_and_log",
+    "detector_unavailable": "degrade_and_log",
+    "policy_unresolved": "block",
+    "control_plane_unavailable": "use_cached_policy",
+    "audit_delivery_failed": "allow_and_log",
+    "transform_failed": "safe_fallback"
+  },
+  "audit_behavior": {
+    "retain_content": false
+  },
+  "compatibility": {
+    "contract_version": "v1",
+    "required_capabilities": [
+      "sensitive_data/email",
+      "sensitive_data/credit_card",
+      "prompt_security/injection",
+      "organization_rules/blocked_terms"
+    ]
+  }
+}

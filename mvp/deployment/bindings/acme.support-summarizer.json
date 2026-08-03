@@ -1,0 +1,8 @@
+{
+  "tenant_id": "acme",
+  "workload_id": "support-summarizer",
+  "policy_name": "pii-baseline",
+  "policy_version": 1,
+  "enforcement_state": "block",
+  "rollback_version": null
+}

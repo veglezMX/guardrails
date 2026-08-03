@@ -1,0 +1,8 @@
+{
+  "tenant_id": "acme",
+  "workload_id": "observe-pilot",
+  "policy_name": "pii-baseline",
+  "policy_version": 1,
+  "enforcement_state": "observe",
+  "rollback_version": null
+}

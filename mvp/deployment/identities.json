@@ -1,0 +1,10 @@
+{
+  "local-dev-credential-acme-support-summarizer": {
+    "tenant_id": "acme",
+    "workload_id": "support-summarizer"
+  },
+  "local-dev-credential-acme-observe-pilot": {
+    "tenant_id": "acme",
+    "workload_id": "observe-pilot"
+  }
+}

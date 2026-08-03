@@ -1,0 +1,5 @@
+{
+  "unresolved_policy_behavior": "block",
+  "max_content_bytes": 1048576,
+  "audit_path": "mvp/deployment/audit.jsonl"
+}
