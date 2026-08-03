@@ -93,6 +93,25 @@ def stamp_xlsx(wb, title, subject):
     pr.modified = when
 
 
+def stamp_docx(doc, title, subject):
+    """Honest core properties on a python-docx document, before saving."""
+    cp = doc.core_properties
+    when = _naive(build_date())
+    cp.title = title
+    cp.subject = subject
+    cp.author = AUTHOR
+    cp.last_modified_by = AUTHOR
+    cp.comments = ("Generated from the solution-docs set. Rebuild rather than "
+                   "edit — hand edits are overwritten.")
+    cp.category = CATEGORY
+    cp.content_status = STATUS
+    cp.keywords = ""
+    cp.language = "en"
+    cp.revision = 1
+    cp.created = when
+    cp.modified = when
+
+
 def _app_xml(application, extra=""):
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
@@ -109,6 +128,7 @@ def _app_xml(application, extra=""):
 PPTX_APP = _app_xml("AI Guardrails deck generator",
                     "<PresentationFormat>Widescreen</PresentationFormat>")
 XLSX_APP = _app_xml("AI Guardrails workbook generator")
+DOCX_APP = _app_xml("AI Guardrails document generator")
 
 
 def scrub(path, app_xml):
@@ -163,7 +183,8 @@ def audit(path):
 
     # Anything that would identify the machine or the person who ran the build.
     identity = [r"/home/[a-z0-9_.-]+", r"/Users/[A-Za-z0-9_.-]+", r"[A-Z]:\\\\Users",
-                r"\bpython-pptx\b", r"\bopenpyxl\b", r"Steve Canny"]
+                r"\bpython-pptx\b", r"\bopenpyxl\b", r"\bpython-docx\b",
+                r"Steve Canny"]
     for var in ("USER", "USERNAME", "LOGNAME", "HOSTNAME"):
         value = os.environ.get(var, "").strip()
         if len(value) > 2:

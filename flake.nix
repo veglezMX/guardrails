@@ -12,10 +12,15 @@
     {
       devShells = forAllSystems (pkgs:
         let
-          # tools/deck builds the audience decks with python-pptx and
-          # tools/xlsx builds the delivery workbook with openpyxl; the docs
-          # validators need nothing beyond the standard library.
-          python = pkgs.python3.withPackages (ps: [ ps.python-pptx ps.openpyxl ]);
+          # tools/deck builds the audience decks with python-pptx, tools/xlsx
+          # builds the delivery workbook with openpyxl and tools/docx builds the
+          # stakeholder documents with python-docx; the docs validators need
+          # nothing beyond the standard library.
+          python = pkgs.python3.withPackages (ps: [
+            ps.python-pptx
+            ps.openpyxl
+            ps.python-docx
+          ]);
         in
         {
           default = pkgs.mkShell {

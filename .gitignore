@@ -4,14 +4,19 @@ result-*
 __pycache__/
 *.pyc
 
-# built presentation and workbook artifacts — regenerate with `just deck-all` /
-# `just xlsx-all`
+# audit stream written by the local runtime — regenerate with `just demo`
+mvp/deployment/audit.jsonl
+
+# built presentation, workbook and document artifacts — regenerate with
+# `just deck-all` / `just xlsx-all` / `just docx-all`
 /presentations/
 *.pptx
 *.xlsx
+*.docx
 
 !assets/*pptx
 !assets/*xlsx
+!assets/*docx
 # stray Python packaging output — nix owns the toolchain, so a wheel or a venv
 # in the tree is always something that leaked out of an ad-hoc command
 *.whl
