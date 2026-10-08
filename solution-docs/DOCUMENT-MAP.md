@@ -211,7 +211,7 @@ solution-docs/
 <!-- BEGIN GENERATED: documentmap-index:00-source-of-truth -->
 | Document | Purpose |
 | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 20 accepted agreements that no other document may contradict. |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 30 accepted agreements that no other document may contradict. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | Standing assumptions underlying the solution. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | Hard constraints on the solution. |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log. |
@@ -320,6 +320,7 @@ solution-docs/
 | [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) | Cross-phase and cross-team dependencies. |
 | [`IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | Delivery phases, build sequence, phase boundaries, build-vs-buy, integration order. |
 | [`MILESTONES.md`](60-delivery/MILESTONES.md) | Milestone-level breakdown of delivery. |
+| [`RELEASE-DEFINITION.md`](60-delivery/RELEASE-DEFINITION.md) | Current-release scope and its separation from later cloud and service delivery. |
 | [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | Phase 1–2 exit gates. |
 | [`TEAM-AND-OWNERSHIP.md`](60-delivery/TEAM-AND-OWNERSHIP.md) | Ownership across delivery. |
 | [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | How the Phase 1–2 validation demonstration is proven out. |

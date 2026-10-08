@@ -54,6 +54,9 @@ Each entry uses a fixed shape:
 | [DEC-019](#dec-019--multi-region-active-active-availability-committed-as-a-later-phase) | 2026-07-24 | Multi-region active-active availability committed as a later phase | Accepted | AGR-002, AGR-006 |
 | [DEC-020](#dec-020--graduate-gr-017-per-category-decision-metrics-from-vision-to-committed-scope) | 2026-07-24 | Graduate GR-017 per-category decision metrics from vision to committed scope | Accepted | AGR-006, AGR-017, AGR-021 |
 | [DEC-021](#dec-021--retire-the-traceability-matrix-in-favour-of-generated-traceability) | 2026-07-26 | Retire the traceability matrix in favour of generated traceability | Accepted | AGR-006, AGR-017, AGR-021 |
+| [DEC-022](#dec-022--define-a-separately-accepted-local-technical-proof) | 2026-10-08 | Define a separately accepted local technical proof | Accepted | AGR-022, AGR-023, AGR-024 |
+| [DEC-023](#dec-023--establish-the-local-proof-topology-and-guardrail-scenario) | 2026-10-08 | Establish the local proof topology and guardrail scenario | Accepted | AGR-022, AGR-025, AGR-026, AGR-027 |
+| [DEC-024](#dec-024--close-the-local-release-definition-and-acceptance-workflow) | 2026-10-08 | Close the local release definition and acceptance workflow | Accepted | AGR-022, AGR-023, AGR-024, AGR-025, AGR-026, AGR-027, AGR-028, AGR-029, AGR-030 |
 <!-- END GENERATED: decision-log -->
 ---
 
@@ -335,7 +338,7 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 
 ## Cross-references
 
-* [AGREEMENTS.md](AGREEMENTS.md) — authoritative agreements (AGR-001 through AGR-021) that this log derives from.
+* [AGREEMENTS.md](AGREEMENTS.md) — authoritative agreements (AGR-001 through AGR-030) that this log derives from.
 * [`50-architecture/adrs/README.md`](../50-architecture/adrs/README.md) — index of Architecture Decision Records for deep technical/design decisions.
 * [`60-delivery/MILESTONES.md`](../60-delivery/MILESTONES.md) — phase-level delivery milestones corresponding to DEC-006.
 * [`60-delivery/IMPLEMENTATION-STRATEGY.md`](../60-delivery/IMPLEMENTATION-STRATEGY.md) — implementation approach per phase.
@@ -354,3 +357,41 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 **Related agreements:** [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-021](AGREEMENTS.md#agr-021--guardrail-category-taxonomy-and-extension-model)
 **Owners:** Product lead, Technical lead
 **Closes:** the four stale hand-maintained indexes; supersedes the matrix's maintenance rules
+
+---
+
+## DEC-022 — Define a separately accepted local technical proof
+
+**Date:** 2026-10-08
+**Status:** Accepted
+**Decision:** The current release is a local technical proof for internal application teams, with an API and CLI as its release-day experience. AWS integration and exposing the solution as a service to other teams are subsequent milestones. The local release is accepted independently of later cloud integration.
+**Context:** The release-definition interview separates the currently planned delivery outcome from the hosted Phase 1–2 demonstration, GA, and the full five-phase programme. Previously the local-first plan allowed local demonstration but made release sign-off wait for cloud landing; that sign-off dependency does not apply to the newly selected local release.
+**Consequences:** The current boundary is derived in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md). Existing phase, cloud and GA criteria retain their later applicability. At this interview round, local proof topology, model dependencies and working detector coverage remained open; DEC-023 subsequently records their resolution. AWS deferral alone did not answer them. The circulated local-first document and task survey require rebaselining after the release interview closes.
+**Related agreements:** [AGR-022](AGREEMENTS.md#agr-022--current-release-is-a-local-technical-proof-aws-integration-is-deferred), [AGR-023](AGREEMENTS.md#agr-023--internal-application-teams-first-service-adoption-by-other-teams-later), [AGR-024](AGREEMENTS.md#agr-024--api-and-cli-are-the-release-day-experience)
+**Owners:** Product lead, technical lead
+**Supersedes:** The cloud-dependent sign-off assumption for the current release in the earlier local-first delivery proposal; does not supersede DEC-008 or the five-phase product scope.
+
+---
+
+## DEC-023 — Establish the local proof topology and guardrail scenario
+
+**Date:** 2026-10-08
+**Status:** Accepted
+**Decision:** Acceptance exercises two independently configured local LiteLLM instances. The default proof runs offline after dependency installation and uses a mock model. Sensitive-data detection and redaction is the required locally working guardrail scenario, selected under the user's delegated choice.
+**Context:** These choices distinguish real gateway integration from model simulation and distinguish local detection from the deferred Bedrock adapter. They make the technical proof repeatable while avoiding claims about real inference or managed-engine detection quality.
+**Related agreements:** AGR-025, AGR-026, AGR-027; AGR-022
+**Owners:** Product lead, technical lead
+**Closes:** OQ-023 and OQ-024 for the proof topology, default inference dependency and initial working guardrail scenario. DEC-024 subsequently closes the local acceptance workflow and records the delegated entity baseline.
+
+---
+
+## DEC-024 — Close the local release definition and acceptance workflow
+
+**Date:** 2026-10-08
+**Status:** Accepted
+**Decision:** The local release provides the full policy lifecycle through both API and CLI. Each workload binds one configurable, immutable policy version. A repeatable automated demonstration through two real local LiteLLM instances is sufficient release evidence; recruitment and sign-off by two actual teams is not required for this milestone.
+**Context:** The third interview round closes the release-day workflow, policy cardinality and evidence threshold. Earlier rounds established local-only delivery with AWS deferred, internal consumers, offline operation with a mock model, and sensitive-data detection/redaction as the working guardrail scenario.
+**Consequences:** [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md) now contains the settled current-release boundary and a derived acceptance matrix. Implementation, concrete interface design, supported-version compatibility and passing evidence remain work to deliver; agreeing the definition is not proof of completion. Existing five-phase commitments and hosted/cloud criteria retain their later applicability. DEC-011's mandatory-policy governance still applies to the single effective policy version. The assistant selects email addresses and international-format phone numbers as the documented PII fixture baseline under AGR-027's delegated choice; wider PII coverage is not implied.
+**Related agreements:** AGR-028, AGR-029, AGR-030; AGR-022, AGR-023, AGR-024, AGR-025, AGR-026, AGR-027
+**Owners:** Product lead, technical lead
+**Closes:** OQ-021 for this release; the local release-definition interview. A later request for multi-policy composition must record a new scope decision.

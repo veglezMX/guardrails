@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This document translates the Phase 1–2 validation demonstration described in [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md), and recorded as a delivery-plan validation milestone by [`DECISIONS.md` DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), into **pass/fail release gates**: checkable statements, each with a defined verification method and a single accountable owner. It also gates the release against the non-functional and security boundaries recorded in [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) and operationalized in [`NON-FUNCTIONAL-REQUIREMENTS.md`](../50-architecture/NON-FUNCTIONAL-REQUIREMENTS.md).

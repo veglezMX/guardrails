@@ -18,6 +18,7 @@
 ## Table of contents
 
 <!-- BEGIN GENERATED: toc -->
+- [[2026-10-08] — Local technical proof release defined](#2026-10-08--local-technical-proof-release-defined)
 - [[Unreleased]](#unreleased)
 - [[2026-07-26d] — Traceability generated; hand-maintained indexes retired](#2026-07-26d--traceability-generated-hand-maintained-indexes-retired)
 - [[2026-07-26c] — Documentation set made self-contained; original charter absorbed](#2026-07-26c--documentation-set-made-self-contained-original-charter-absorbed)
@@ -28,6 +29,34 @@
 - [[2026-07-24] — Initial documentation set](#2026-07-24--initial-documentation-set)
 - [Related documents](#related-documents)
 <!-- END GENERATED: toc -->
+---
+
+## [2026-10-08] — Local technical proof release defined
+
+**Change type:** Path A — release-boundary agreements recorded; derived scope views annotated.
+**Trigger:** DEC-022 and the user's release-definition interview answers.
+
+### Added
+
+- AGR-022 through AGR-024: local technical proof with AWS deferred, internal application teams before later service adoption, and API/CLI release-day experience.
+- DEC-022 and `60-delivery/RELEASE-DEFINITION.md`: a separate local acceptance boundary, completed through the three interview rounds.
+- OQ-023 and OQ-024: local gateway/model proof setup and working guardrail coverage, subsequently resolved by DEC-023.
+- AGR-025 through AGR-027: two real LiteLLM instances, an offline-capable default proof with a mock model, and locally working sensitive-data detection/redaction selected under the user's delegated choice.
+
+- AGR-028 through AGR-030 and DEC-024: full API/CLI lifecycle, one configurable published policy version per workload, and automated demonstration as sufficient local acceptance evidence. OQ-021 resolved for this release.
+- A derived local acceptance matrix and workflow in `RELEASE-DEFINITION.md`; implementation acceptance remains unverified.
+
+- AGR-028 through AGR-030 and DEC-024: full API/CLI lifecycle, one configurable published policy version per workload, and automated demonstration as sufficient local acceptance evidence. OQ-021 resolved for this release.
+- A derived local acceptance matrix and workflow in `RELEASE-DEFINITION.md`; implementation acceptance remains unverified.
+
+- AGR-028 through AGR-030 and DEC-024: full API/CLI lifecycle, one configurable published policy version per workload, and automated demonstration as sufficient local acceptance evidence. OQ-021 resolved for this release.
+- A derived local acceptance matrix and workflow in `RELEASE-DEFINITION.md`; implementation acceptance remains unverified.
+
+### Changed
+
+- Charter, scope, constraints and delivery entry points identify the current local milestone separately from existing hosted Phase 1–2 and GA obligations.
+- The MVP README and task survey point to the current interview definition. Existing estimates and the circulated delivery proposal require rebaselining after the interview closes.
+
 ---
 
 ## [Unreleased]

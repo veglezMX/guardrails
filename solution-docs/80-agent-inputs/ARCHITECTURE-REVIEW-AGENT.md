@@ -83,7 +83,7 @@ The agent may read **only** the files below. It must not read, cite, or draw con
 
 | Document | What it provides to the review |
 | --- | --- |
-| [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | `AGR-001`–`AGR-021`: the accepted agreements every other permitted document must not contradict. |
+| [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) | `AGR-001`–`AGR-030`: the accepted agreements every other permitted document must not contradict. |
 | [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) | `CON-001`–`CON-016`: checkable boundary conditions (cloud placement, contract independence, transport/crypto, identity, content handling, resource limits). |
 | [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) | `ASM-001`–`ASM-018`: unvalidated beliefs the feasibility verdict and PoC recommendations depend on. |
 | [`DECISIONS.md`](../00-source-of-truth/DECISIONS.md) | `DEC-001`– : the product/organizational/delivery decision log, each entry traced to an `AGR-`. |

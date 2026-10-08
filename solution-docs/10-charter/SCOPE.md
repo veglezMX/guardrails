@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md).
+
 > This document expands [`CHARTER.md`](CHARTER.md) [Section 6](CHARTER.md#6-in-scope-capabilities) (in-scope capabilities) and [Section 7](CHARTER.md#7-out-of-scope-capabilities) (out-of-scope capabilities) into the full detail needed for delivery planning: the core scope built in Phases 1–2, the later-phase scope committed and estimated for Phases 3–5, what the solution explicitly will not attempt, and the specific technical/operational items not required for core (Phase 1–2) delivery. Where this document and [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) could be read as conflicting, those L1 registers are authoritative and win; this document must be corrected.
 
 ---

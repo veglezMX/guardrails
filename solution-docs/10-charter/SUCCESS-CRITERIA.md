@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This document defines what "success" measurably means for the AI Guardrails solution. Overall solution success is the delivery of the **full feature set** across the five delivery phases, each phase's completion criteria validated before the next phase's scope is committed ([`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery); [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases)). Within that frame, this document covers two parts:

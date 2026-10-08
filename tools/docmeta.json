@@ -2,10 +2,10 @@
   "_comment": "Editorial prose that cannot be derived from the documents themselves. Generated tables read from here; see tools/docs/generate.py.",
   "documents": {
     "00-source-of-truth/AGREEMENTS.md": {
-      "description": "The 21 accepted agreements (`AGR-001`…`AGR-021`) that govern this entire solution.",
-      "purpose": "The 20 accepted agreements that no other document may contradict.",
+      "description": "The 30 accepted agreements (`AGR-001`…`AGR-030`) that govern the solution and its current local release.",
+      "purpose": "The 30 accepted agreements that no other document may contradict.",
       "authority_note": "L1 (Authoritative)",
-      "role": "The 21 accepted agreements (AGR-001–AGR-021) that no derived document may contradict. The single most-cited document in this set.",
+      "role": "The 30 accepted agreements (AGR-001–AGR-030) that no derived document may contradict. The single most-cited document in this set.",
       "toc_depth": 2,
       "toc_style": "bullet"
     },
@@ -642,6 +642,12 @@
       "role": "Governs the architecture-review, security-review, and team-enablement decks the same way DECK-BRIEF.md governs the internal pitch.",
       "toc_depth": 2,
       "toc_style": "bullet"
+    },
+    "60-delivery/RELEASE-DEFINITION.md": {
+      "description": "The defined local technical proof: accepted scope, complete API/CLI workflow, two-gateway offline demonstration and acceptance matrix.",
+      "purpose": "Current-release scope and its separation from later cloud and service delivery.",
+      "authority_note": "L2",
+      "role": "The current local-release definition and acceptance matrix derived from AGR-022 through AGR-030 and DEC-022 through DEC-024; implementation acceptance remains unverified."
     }
   },
   "open_questions": {
@@ -1252,6 +1258,7 @@
       "50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md",
       "60-delivery/IMPLEMENTATION-STRATEGY.md",
       "60-delivery/MILESTONES.md",
+      "60-delivery/RELEASE-DEFINITION.md",
       "60-delivery/RELEASE-CRITERIA.md",
       "60-delivery/VALIDATION-PLAN.md",
       "60-delivery/DEPENDENCIES.md",
@@ -1328,6 +1335,7 @@
       "60-delivery/DEPENDENCIES.md",
       "60-delivery/IMPLEMENTATION-STRATEGY.md",
       "60-delivery/MILESTONES.md",
+      "60-delivery/RELEASE-DEFINITION.md",
       "60-delivery/RELEASE-CRITERIA.md",
       "60-delivery/TEAM-AND-OWNERSHIP.md",
       "60-delivery/VALIDATION-PLAN.md",
@@ -1401,6 +1409,7 @@
       "60-delivery/IMPLEMENTATION-STRATEGY.md",
       "60-delivery/MILESTONES.md",
       "60-delivery/DEPENDENCIES.md",
+      "60-delivery/RELEASE-DEFINITION.md",
       "60-delivery/RELEASE-CRITERIA.md",
       "60-delivery/VALIDATION-PLAN.md",
       "60-delivery/TEAM-AND-OWNERSHIP.md",

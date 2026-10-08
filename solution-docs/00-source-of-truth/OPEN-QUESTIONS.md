@@ -9,7 +9,7 @@
 
 ## Purpose and how this register is used
 
-This register is authoritative about **which decisions remain open** — it is not authoritative about their answers. Where [AGREEMENTS.md](AGREEMENTS.md) records what has been decided (AGR-001 through AGR-021), this document records what has **not** been decided but could materially change scope, feasibility, cost, or architecture if resolved differently than the current working assumption.
+This register is authoritative about **which decisions remain open** — it is not authoritative about their answers. Where [AGREEMENTS.md](AGREEMENTS.md) records what has been decided (AGR-001 through AGR-030), this document records what has **not** been decided but could materially change scope, feasibility, cost, or architecture if resolved differently than the current working assumption.
 
 Rules for using this register:
 
@@ -72,6 +72,9 @@ stateDiagram-v2
   - [OQ-021 — Policy-selection cardinality in the onboarding flow](#oq-021--policy-selection-cardinality-in-the-onboarding-flow)
 - [K. Client lifecycle](#k-client-lifecycle)
   - [OQ-022 — Connector version support window and deprecation policy](#oq-022--connector-version-support-window-and-deprecation-policy)
+- [L. Current local release definition](#l-current-local-release-definition)
+  - [OQ-023 — Local proof gateway topology and model dependencies](#oq-023--local-proof-gateway-topology-and-model-dependencies)
+  - [OQ-024 — Working guardrail coverage in the local proof](#oq-024--working-guardrail-coverage-in-the-local-proof)
 - [Change control](#change-control)
 <!-- END GENERATED: toc -->
 ---
@@ -101,8 +104,10 @@ stateDiagram-v2
 | [OQ-018](#oq-018--evaluation-stage-vocabulary-expansion-beyond-the-reserved-seven) | Should the evaluation-stage vocabulary expand beyond the seven reserved stages (e.g. `retrieval_query`, `agent_plan`, `memory_read`, `tool_selection`)? | Technical lead, Architecture lead | TBD — evaluate at Phase 5 (Advanced agent protection) scoping, when the reserved agentic stages are themselves designed. | Resolved by [DEC-014](DECISIONS.md#dec-014--evaluation-contract-stability). |
 | [OQ-019](#oq-019--reason-code-taxonomy-and-guardrail-category-as-an-auditmetric-dimension) | What is the canonical reason-code taxonomy, and does guardrail category become a first-class audit/metric dimension? | Technical lead, Security and governance lead | TBD — needed before Phase 2 onboarding scales, since reason codes are part of the evaluation contract ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)) and retrofitting a namespace over live codes would be a breaking change. | Resolved by [DEC-013](DECISIONS.md#dec-013--reason-code-taxonomy-and-guardrail-category-audit-dimension). |
 | [OQ-020](#oq-020--mandatory-policy-authority-who-may-pin-a-policy-as-mandatory) | Who holds authority to mark a policy Mandatory, and can an app-team or tenant admin weaken or override a mandatory policy? | Security and governance lead, Product lead | Raised and resolved 2026-07-24, alongside the OQ-012 inheritance resolution. | Resolved by [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority). |
-| [OQ-021](#oq-021--policy-selection-cardinality-in-the-onboarding-flow) | Does "select policy" in the onboarding flow mean one policy version, or a set the consumer composes? | Product lead, Technical lead | TBD — required before any policy-selection surface (catalog, self-service onboarding UI, or manifest-generation API accepting multiple policies) is designed. Naturally sequenced with the inheritance half of [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design). | Open |
+| [OQ-021](#oq-021--policy-selection-cardinality-in-the-onboarding-flow) | Does "select policy" in the onboarding flow mean one policy version, or a set the consumer composes? | Product lead, Technical lead | TBD — required before any policy-selection surface (catalog, self-service onboarding UI, or manifest-generation API accepting multiple policies) is designed. Naturally sequenced with the inheritance half of [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design). | [AGR-029](AGREEMENTS.md#agr-029--one-configurable-published-policy-version-per-local-workload), recorded by [DEC-024](DECISIONS.md#dec-024--close-the-local-release-definition-and-acceptance-workflow): one configurable published policy version per workload; no multi-pack selection or request-time composition in the local proof. Future composition requires a new scope decision. |
 | [OQ-022](#oq-022--connector-version-support-window-and-deprecation-policy) | How long is a connector version supported, and what happens to a workload that never upgrades? | Product lead, Technical lead | TBD — required before the first evaluation-contract major version migration, and before any external-customer commitment that implies a supported-version guarantee. | Open |
+| [OQ-023](#oq-023--local-proof-gateway-topology-and-model-dependencies) | Local proof gateway topology and model dependencies | Product lead, technical lead | During the release-definition interview, before local acceptance criteria are finalized. | AGR-025 and AGR-026, recorded by [DEC-023](DECISIONS.md#dec-023--establish-the-local-proof-topology-and-guardrail-scenario). Two real local LiteLLM instances; offline-capable default proof with a mock model after installation. |
+| [OQ-024](#oq-024--working-guardrail-coverage-in-the-local-proof) | Working guardrail coverage in the local proof | Product lead, technical lead, security and governance lead | During the release-definition interview, before the local capability list and evidence are finalized. | AGR-027, recorded by [DEC-023](DECISIONS.md#dec-023--establish-the-local-proof-topology-and-guardrail-scenario). Sensitive-data detection/redaction is the locally working scenario selected under the user's delegated choice. |
 <!-- END GENERATED: oq-summary -->
 ---
 
@@ -423,12 +428,13 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 
 ### OQ-021 — Policy-selection cardinality in the onboarding flow
 
-**Status:** Open
+**Status:** Resolved for the current local release
+**Resolution:** [AGR-029](AGREEMENTS.md#agr-029--one-configurable-published-policy-version-per-local-workload), recorded by [DEC-024](DECISIONS.md#dec-024--close-the-local-release-definition-and-acceptance-workflow): one configurable published policy version per workload; no multi-pack selection or request-time composition in the local proof. Future composition requires a new scope decision.
 **Question:** The canonical onboarding flow ([AGR-019](AGREEMENTS.md#agr-019--meaning-of-import)) has a "select policy" step, and the curated policy packs the platform ships are organised by guardrail category — which invites a consumer to select several (PII *and* prompt-injection *and* toxicity) rather than one. But a policy binding associates exactly one workload with exactly one immutable policy version ([FR-012](../50-architecture/REQUIREMENTS.md), [`50-architecture/DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) §1). Does "select policy" mean **choosing one published policy version**, or **composing a set** that the platform resolves into an effective policy — and if the latter, is the composition resolved at bind time into one addressable version, or evaluated as a set at request time?
 **Owner:** Product lead, Technical lead
 **Target decision date:** TBD — required before any policy-selection surface (catalog, self-service onboarding UI, or manifest-generation API accepting multiple policies) is designed. Naturally sequenced with the inheritance half of [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design).
 **Impact if unresolved:** A selection surface built on the one-policy assumption cannot later accept multiple without changing the binding model, the integration manifest ([ADR-0006](../50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md)), and the audit record's `policy_name`/`policy_version` fields — a change that would ripple across all three deployment modes ([AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes)). Conversely, allowing multi-select before the composition semantics are settled reopens the policy-fragmentation risk that [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) and OQ-012 exist to contain: every workload accumulating a bespoke policy combination that no one governs, with no single version to promote, roll back, or compare across workloads — which would defeat the core policy-reuse hypothesis the Phase 1–2 demonstration tests.
-**Current working assumption:** One binding, one immutable policy version. A curated policy pack is a *single published policy* whose evaluator set spans several guardrail categories, not a bundle assembled at selection time. Multi-policy composition is not offered, and no product or sales material may describe policy selection as combining multiple policies until this is resolved and [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) §1 is formally extended.
+**Pre-resolution working assumption (historical):** One binding, one immutable policy version. A curated policy pack is a *single published policy* whose evaluator set spans several guardrail categories, not a bundle assembled at selection time. Multi-policy composition is not offered, and no product or sales material may describe policy selection as combining multiple policies until this is resolved and [`DATA-ARCHITECTURE.md`](../50-architecture/DATA-ARCHITECTURE.md) §1 is formally extended.
 **Related:** [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import) (onboarding flow), [`RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) (policy fragmentation); [AGR-005](AGREEMENTS.md#agr-005--policy-portability), [AGR-017](AGREEMENTS.md#agr-017--core-domain-model), [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import); [OQ-012](#oq-012--policy-signing-and-policy-inheritance-design), [OQ-011](#oq-011--commercial-metering-and-policy-marketplace); [DEC-011](DECISIONS.md#dec-011--policy-governance-classes-and-mandatory-policy-authority) (layering of a mandatory base with consumer overrides — the nearest existing precedent for composition); [ADR-0006](../50-architecture/adrs/ADR-0006-integration-manifest-format-and-contents.md) (scope boundary defers to this question); CAP-038.
 
 ---
@@ -444,6 +450,36 @@ OQ-015 (compliance certification) and OQ-016 (multi-region active-active) are cr
 **Impact if unresolved:** Under the cooperative posture ([AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model)) the platform cannot force an upgrade, so a workload can run an arbitrarily old connector indefinitely. Without a stated window the platform must either serve every version ever published — an unbounded compatibility obligation that grows with every release and makes the [ADR-0005](../50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md) §2 migration model meaningless — or withdraw support ad hoc, which breaks a workload without notice and contradicts a maintenance obligation already stated in external material. [ADR-0007](../50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md) §3 can report an out-of-range connector version but has no policy to report it *against*.
 **Current working assumption:** No support window is defined. Every published connector version is served for as long as its declared evaluation-contract major is served, and no version is withdrawn without an explicit decision. No product, sales, or contractual material may state or imply a supported-version guarantee, a deprecation timeline, or a maintenance window until this is resolved.
 **Related:** [ADR-0005](../50-architecture/adrs/ADR-0005-evaluation-contract-wire-format.md) §2 (concurrent majors and the migration window); [ADR-0007](../50-architecture/adrs/ADR-0007-connector-identity-verification-and-liveness.md) §3 (version-mismatch reporting); [ADR-0008](../50-architecture/adrs/ADR-0008-connector-distribution-and-integrity.md) §2 (independent connector versioning); [AGR-003](AGREEMENTS.md#agr-003--litellm-as-first-connector-not-the-product-boundary), [AGR-006](AGREEMENTS.md#agr-006--one-logical-evaluation-contract-across-all-modes), [AGR-018](AGREEMENTS.md#agr-018--trust-and-enforcement-model), [AGR-019](AGREEMENTS.md#agr-019--meaning-of-import); [`40-sales-deck/PROOF-POINTS.md`](../40-sales-deck/PROOF-POINTS.md), [`70-governance/CLAIMS-REGISTER.md`](../70-governance/CLAIMS-REGISTER.md).
+
+---
+
+## L. Current local release definition
+
+### OQ-023 — Local proof gateway topology and model dependencies
+
+**Status:** Resolved
+**Resolution:** AGR-025 and AGR-026, recorded by [DEC-023](DECISIONS.md#dec-023--establish-the-local-proof-topology-and-guardrail-scenario). Two real local LiteLLM instances; offline-capable default proof with a mock model after installation.
+**Question:** What real gateway topology must the local release demonstrate, and what model inference must it require after dependencies are installed?
+**Owner:** Product lead, technical lead
+**Target decision date:** During the release-definition interview, before local acceptance criteria are finalized.
+**Impact if unresolved:** A simulated gateway, two real LiteLLM instances, a mock model, and real inference establish different claims; treating them as interchangeable makes the release gate ambiguous.
+**Options:** Gateway topology — two independently configured local LiteLLM instances (recommended, preserves the reuse demonstration; more setup), one real instance (less setup; no cross-gateway proof), or a gateway simulation (simpler harness; does not prove LiteLLM compatibility). Model dependency — offline-capable with a mock by default (recommended for repeatability; no proof of real inference), required non-AWS provider calls (real provider behavior; network and credentials required), or a required local model (real local inference; hardware and model setup required).
+**Pre-resolution working assumption (historical):** No topology or inference option is accepted. The original two-gateway requirement remains programme context, but the current local acceptance setup is under interview. AGR-022 defers AWS without requiring offline-only execution or choosing model mocks. Recommendations above are non-binding.
+**Related:** AGR-003, AGR-006, AGR-022; [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md); [VALIDATION-PLAN.md](../60-delivery/VALIDATION-PLAN.md).
+
+---
+
+### OQ-024 — Working guardrail coverage in the local proof
+
+**Status:** Resolved
+**Resolution:** AGR-027, recorded by [DEC-023](DECISIONS.md#dec-023--establish-the-local-proof-topology-and-guardrail-scenario). Sensitive-data detection/redaction is the locally working scenario selected under the user's delegated choice.
+**Question:** Which checks must actually detect and enforce in the local release, and which adapter behavior may be represented only by a stub?
+**Owner:** Product lead, technical lead, security and governance lead
+**Target decision date:** During the release-definition interview, before the local capability list and evidence are finalized.
+**Impact if unresolved:** Deferring Bedrock could be misread as either deferring all detection or promising local replacements for every managed feature. Neither follows from AGR-022.
+**Options:** Configurable rules, sensitive-data detection/redaction and JSON structure validation are a starting proposal (concrete local capabilities; does not establish semantic attack or harmful-content detection). Add locally working prompt-injection or harmful-content detection where required (broader demonstrated coverage; requires a selected evaluator and suitable validation evidence). The user may specify other required checks.
+**Pre-resolution working assumption (historical):** The starting proposal is non-binding. No detector category has been added to or removed from current-release scope by AWS deferral alone. A Bedrock stub cannot establish live managed-engine detection quality or compatibility.
+**Related:** AGR-004, AGR-005, AGR-021, AGR-022; [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md); [GUARDRAIL-CATALOG.md](../20-product/GUARDRAIL-CATALOG.md).
 
 ---
 

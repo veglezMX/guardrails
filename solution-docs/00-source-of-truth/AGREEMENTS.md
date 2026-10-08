@@ -32,6 +32,15 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - [AGR-019 — Meaning of "import"](#agr-019--meaning-of-import)
 - [AGR-020 — Five-phase delivery](#agr-020--five-phase-delivery)
 - [AGR-021 — Guardrail-category taxonomy and extension model](#agr-021--guardrail-category-taxonomy-and-extension-model)
+- [AGR-022 — Current release is a local technical proof; AWS integration is deferred](#agr-022--current-release-is-a-local-technical-proof-aws-integration-is-deferred)
+- [AGR-023 — Internal application teams first; service adoption by other teams later](#agr-023--internal-application-teams-first-service-adoption-by-other-teams-later)
+- [AGR-024 — API and CLI are the release-day experience](#agr-024--api-and-cli-are-the-release-day-experience)
+- [AGR-025 — Two real local LiteLLM instances form the proof topology](#agr-025--two-real-local-litellm-instances-form-the-proof-topology)
+- [AGR-026 — Offline-capable proof with a mock model by default](#agr-026--offline-capable-proof-with-a-mock-model-by-default)
+- [AGR-027 — Sensitive-data detection and redaction is the required local guardrail scenario](#agr-027--sensitive-data-detection-and-redaction-is-the-required-local-guardrail-scenario)
+- [AGR-028 — The local API and CLI cover the full policy lifecycle](#agr-028--the-local-api-and-cli-cover-the-full-policy-lifecycle)
+- [AGR-029 — One configurable published policy version per local workload](#agr-029--one-configurable-published-policy-version-per-local-workload)
+- [AGR-030 — Repeatable automated demonstration is the local acceptance evidence](#agr-030--repeatable-automated-demonstration-is-the-local-acceptance-evidence)
 <!-- END GENERATED: toc -->
 ---
 
@@ -423,3 +432,169 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - `50-architecture/adrs/ADR-0002-guardrail-category-catalog-and-extension-model.md`
 - `70-governance/GLOSSARY.md`
 - `70-governance/CLAIMS-REGISTER.md`
+
+---
+
+## AGR-022 — Current release is a local technical proof; AWS integration is deferred
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead
+**Agreement:** The release currently being defined is a local technical proof. AWS integration is deferred to a subsequent delivery milestone and is not a condition for accepting this local release.
+**User statement:** "delivery outcome is local technical prood. Integration with AWS is deferred"
+**Rationale:** The release interview explicitly selects a local outcome so the current release and later cloud delivery have separate acceptance boundaries.
+**Alternatives rejected for this release:** Hosted pilot, general availability, and completion of the full five-phase programme as the current release outcome.
+**Implications:**
+- Live Bedrock integration, AWS deployment, and AWS-specific security evidence belong to later delivery; local substitutes do not prove those controls or real Bedrock compatibility.
+- AGR-002, AGR-004, AGR-013 and AGR-020 continue to govern the eventual product. Accepting the local proof does not complete the existing hosted Phase 1–2 gates, the Customer-Managed Runtime mode, or GA.
+- Local operation does not by itself decide offline operation, model-provider access, gateway topology, detector coverage, or which dependencies may be simulated. These questions were subsequently resolved for the local proof by AGR-025 through AGR-027 and DEC-023.
+- Contract independence, workload identity boundaries, declared failure behavior and retention protections still apply to the local implementation.
+**Affected documents:**
+- `00-source-of-truth/CONSTRAINTS.md`
+- `10-charter/CHARTER.md`
+- `10-charter/SCOPE.md`
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/MILESTONES.md`
+- `60-delivery/RELEASE-CRITERIA.md`
+
+---
+
+## AGR-023 — Internal application teams first; service adoption by other teams later
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead
+**Agreement:** The local technical proof serves internal application teams only. Exposing the solution as a service to other teams is a subsequent milestone.
+**User statement:** "Use by internal application teams only for now, then this should be exposed as service to other teams"
+**Rationale:** Initial consumers and later service adoption must be distinguished when defining onboarding, operational responsibility and acceptance evidence.
+**Alternatives rejected for this release:** A release offered to external customers or a general service launch as its acceptance boundary.
+**Implications:**
+- Current-release workflows and evidence are designed for internal application teams.
+- The later service direction preserves the standalone-platform commitment in AGR-001 and the developer-service direction in DEC-010.
+- "Other teams" does not establish a commitment to external customers, commercial availability, a launch date, or a service-level agreement.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/MILESTONES.md`
+- `20-product/TARGET-USERS.md`
+
+---
+
+## AGR-024 — API and CLI are the release-day experience
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead
+**Agreement:** The local technical proof is delivered through an API and a command-line interface. A browser interface or self-service portal is not required for this release.
+**User statement:** "on release day experience should be API and CLI"
+**Rationale:** The release interview selects the interaction surfaces explicitly, allowing the local workflow to be defined without an assumed web application.
+**Alternatives rejected for this release:** A basic browser interface or a self-service portal as a release-day requirement.
+**Implications:**
+- Local setup, onboarding and policy-operation documentation must describe the API and CLI workflows once their operation set is closed.
+- This choice does not itself settle endpoint schemas, command names, API/CLI parity, or the complete operation set.
+- Later service or interface decisions do not expand this local release implicitly.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/RELEASE-CRITERIA.md`
+- `20-product/SERVING-MODEL.md`
+
+---
+
+## AGR-025 — Two real local LiteLLM instances form the proof topology
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead
+**Agreement:** The local proof's acceptance tests must exercise two independently configured local LiteLLM instances.
+**User statement:** "Two independently configured local LiteLLM instances (Recommended)"
+**Rationale:** This proves connector operation and policy reuse through two real gateway configurations.
+**Alternatives rejected:** One gateway or a simulated gateway as the complete acceptance topology.
+**Implications:** The mock model selected by AGR-026 does not replace either gateway. Whether two actual application teams must independently execute the proof is a separate acceptance-evidence decision.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/VALIDATION-PLAN.md`
+
+---
+
+## AGR-026 — Offline-capable proof with a mock model by default
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead
+**Agreement:** After its dependencies are installed, the local proof must run without internet access, using a mock model by default.
+**User statement:** "Offline-capable, using a mock model by default (Recommended)"
+**Rationale:** The default acceptance run must be repeatable without live inference services or provider credentials.
+**Alternatives rejected:** Required live non-AWS model-provider calls or a required real local model as the default acceptance dependency.
+**Implications:** Local communication among gateways, runtime and mock model is permitted. Dependency acquisition may require internet access. The mock demonstrates request/response integration and enforcement; it does not establish model quality or live model-provider compatibility. Detector dependencies needed at runtime must also be installed before the offline run.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/DEPENDENCIES.md`
+- `60-delivery/VALIDATION-PLAN.md`
+
+---
+
+## AGR-027 — Sensitive-data detection and redaction is the required local guardrail scenario
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead, security and governance lead
+**Agreement:** Sensitive-data detection and redaction is the required working guardrail scenario for the local proof, evaluated on input prompts and model responses. Detector behavior must run locally; a Bedrock stub does not satisfy this requirement.
+**User statement:** "Use the most common one"
+**Decision basis:** The user delegated the initial guardrail selection. The assistant selected sensitive-data/PII detection and redaction as the concrete baseline and communicated it during the interview. This is a release-scenario selection, not a measured popularity ranking or a claim of complete PII coverage.
+**Rationale:** A sensitive-data example gives the local proof an observable detection and transformation result on both sides of the model call. Email detection and masking is an illustrative case. Sensitive-information filtering is an established guardrail category; see [the official Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-sensitive-filters.html). This reference does not add an AWS runtime dependency.
+**Alternatives rejected for the proof scenario:** A managed-engine stub standing in for working detection, or an implicit promise to demonstrate every managed-engine category.
+**Implications:** The broader guardrail catalog and future programme commitments remain intact. Existing rule and JSON validation implementations need not be removed, but their presence does not expand the accepted local scenario. Exact supported entities and limitations must be documented alongside the acceptance examples; the scenario does not imply arbitrary sensitive-data detection.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/VALIDATION-PLAN.md`
+
+---
+
+## AGR-028 — The local API and CLI cover the full policy lifecycle
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead
+**Agreement:** The local API and CLI support workload registration, policy publication and binding, result inspection, enforcement promotion, and rollback. Teams must be able to complete this lifecycle without editing internal deployment state by hand.
+**User statement:** "Full lifecycle: register workloads, publish and bind policies, inspect results, promote enforcement, and roll back (Recommended)"
+**Rationale:** Internal application teams need a complete operational workflow to evaluate the service concept, including changes after initial onboarding.
+**Alternatives rejected:** Evaluation-only interfaces with manually edited workload and policy deployment state.
+**Implications:** Both interfaces cover the lifecycle, use the same validation and governance rules, and report the effective policy version and enforcement state. Policy authors may submit policy documents; that is distinct from editing the service's internal bindings or registry files. Exact commands and endpoint schemas remain implementation design.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/RELEASE-CRITERIA.md`
+- `20-product/SERVING-MODEL.md`
+
+---
+
+## AGR-029 — One configurable published policy version per local workload
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead, security and governance lead
+**Agreement:** Each local-proof workload binds to one configurable, immutable published policy version containing its checks. The release does not offer user selection of multiple policy packs for composition or request-time policy-set evaluation.
+**User statement:** "Bind one configurable, versioned policy containing its checks (Recommended)"
+**Rationale:** A single addressable policy version makes reuse, audit attribution, promotion and rollback explicit.
+**Alternatives rejected for this release:** Selecting several policy packs and composing them into an effective policy.
+**Implications:** Configuration changes create a new policy version. A policy may contain multiple checks within its declared capabilities. DEC-011's mandatory-policy minimums continue to apply: choosing one effective published policy version does not authorize weakening required controls. Future multi-policy composition requires a separate scope decision.
+**Resolves:** OQ-021 for the current local release; no permanent exclusion of a future composition feature is inferred.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `50-architecture/DATA-ARCHITECTURE.md`
+- `20-product/SERVING-MODEL.md`
+
+---
+
+## AGR-030 — Repeatable automated demonstration is the local acceptance evidence
+
+**Status:** Accepted
+**Date:** 2026-10-08
+**Owners:** Product lead, technical lead
+**Agreement:** A repeatable automated demonstration using the two real local gateways is sufficient acceptance evidence for the local proof. Internal application teams must be able to run it; acceptance does not require two named teams to independently adopt or sign off the release.
+**User statement:** "A repeatable automated demonstration with two gateways that internal teams can run (Recommended)"
+**Rationale:** The local milestone proves the complete technical workflow. Organizational adoption and later hosted readiness have separate evidence requirements.
+**Alternatives rejected for this release:** Requiring two actual application teams to execute and approve the proof before it can be accepted.
+**Implications:** The harness runs the accepted API/CLI lifecycle and reports each acceptance condition independently, failing when any required condition fails. Synthetic fixtures verify known outcomes, including clean content, detection, redaction, block behavior and configured failure paths. Results do not establish production SLAs, population-level detection accuracy or real model-provider compatibility.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- `60-delivery/VALIDATION-PLAN.md`
+- `10-charter/SUCCESS-CRITERIA.md`

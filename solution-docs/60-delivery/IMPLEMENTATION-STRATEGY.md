@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This document defines **how** the AI Guardrails solution is built, in what order, and by whom — as distinct from **what** it is (the charter and scope) and **why phases are sequenced the way they are at a product level** (the roadmap). Specifically, it covers:

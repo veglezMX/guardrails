@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This document registers the dependencies that gate AI Guardrails delivery — the things that must exist, be granted, or be confirmed before a given phase or milestone can start or complete. It is a **derived (L3)** document: it must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (both L1 — authoritative), and it operationalizes, for delivery planning, dependencies already named qualitatively in [`../50-architecture/DEPLOYMENT-ARCHITECTURE.md`](../50-architecture/DEPLOYMENT-ARCHITECTURE.md), [`../00-source-of-truth/CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), [`../70-governance/RISK-REGISTER.md`](../70-governance/RISK-REGISTER.md) and in [`30-executive/RISKS-AND-DEPENDENCIES.md`](../30-executive/RISKS-AND-DEPENDENCIES.md) §4. Where a figure (a date, a duration, a percentage) would normally accompany a dependency, none exists in the source material, and this document says **TBD** rather than inventing one.

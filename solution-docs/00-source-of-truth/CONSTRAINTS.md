@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This register enumerates the **non-negotiable boundaries** for the AI Guardrails solution: cloud placement, product-contract independence, transport and cryptographic security, identity and authentication, content handling, and resource limits. Each entry has an ID (`CON-001` …), a precise constraint statement, the source material it is derived from, and the rationale for why the boundary exists.

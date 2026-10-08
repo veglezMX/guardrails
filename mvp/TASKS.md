@@ -1,5 +1,7 @@
 # Task definitions — companion to section 4 of the delivery plan
 
+> **Current release definition:** [RELEASE-DEFINITION.md](../solution-docs/60-delivery/RELEASE-DEFINITION.md) records the accepted local-proof boundary and acceptance matrix (AGR-022 through AGR-030, DEC-022 through DEC-024): internal teams, full API/CLI lifecycle, two real LiteLLM instances, offline mock inference, working local PII handling, and AWS deferred. This document predates that boundary; its implementation survey and estimates are not acceptance evidence.
+
 Section 4 of `assets/AI-Guardrails-Local-First-MVP-Plan.docx` lists twenty-six
 tasks with a size and a wave. It is deliberately terse: it exists so a
 stakeholder can decide how many engineers to allocate, not so an engineer can

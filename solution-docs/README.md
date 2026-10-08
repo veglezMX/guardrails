@@ -38,7 +38,7 @@ In practice, this means a single guardrail policy — what to detect, what to do
 
 ## 2. Where the ground truth lives
 
-[`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) is the **authoritative (L1)** register for this entire solution. It records twenty-one accepted agreements (`AGR-001`…`AGR-021`) — the standalone-platform decision, the three deployment modes, policy portability, the one-contract rule, the guardrails-are-not-authorization boundary, the observe-before-enforce progression, the five-phase delivery plan, the guardrail-category taxonomy, and more. Alongside it, [`00-source-of-truth/CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) restates the checkable, non-negotiable boundaries (cloud placement, security, data handling, resource limits) at L1 rigor, and [`00-source-of-truth/DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`00-source-of-truth/ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) round out the L1 tier.
+[`00-source-of-truth/AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) is the **authoritative (L1)** register for this entire solution. It records thirty accepted agreements (`AGR-001`…`AGR-030`) — the standalone-platform decision, the three deployment modes, policy portability, the one-contract rule, the guardrails-are-not-authorization boundary, the observe-before-enforce progression, the five-phase delivery plan, the guardrail-category taxonomy, and more. Alongside it, [`00-source-of-truth/CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) restates the checkable, non-negotiable boundaries (cloud placement, security, data handling, resource limits) at L1 rigor, and [`00-source-of-truth/DECISIONS.md`](00-source-of-truth/DECISIONS.md), [`00-source-of-truth/ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md), and [`00-source-of-truth/OPEN-QUESTIONS.md`](00-source-of-truth/OPEN-QUESTIONS.md) round out the L1 tier.
 
 Every other document in `solution-docs/` — the charter, product materials, executive brief, sales deck, architecture set, and delivery plan — is a **derived view** produced for a specific audience or purpose. Derived documents must never contradict `AGREEMENTS.md` or `CONSTRAINTS.md`. When a conflict is discovered, the L1 register wins and the derived document is corrected — never the reverse. This rule, and the full change-control process behind it, is defined in [`70-governance/DOCUMENT-GOVERNANCE.md`](70-governance/DOCUMENT-GOVERNANCE.md).
 
@@ -110,7 +110,7 @@ Each table lists the documents in one directory with the authority level declare
 <!-- BEGIN GENERATED: readme-index:00-source-of-truth -->
 | Document | Level | Description |
 | --- | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 21 accepted agreements (`AGR-001`…`AGR-021`) that govern this entire solution. |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 30 accepted agreements (`AGR-001`…`AGR-030`) that govern the solution and its current local release. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable boundaries — cloud placement, security, data handling, resource limits (`CON-NNN`). |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | L1 | Chronological log of product, organizational, and delivery decisions (`DEC-NNN`), distinct from architecture-level ADRs. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | L1 | Register of load-bearing but not-yet-validated beliefs the charter and delivery sequencing depend on (`ASM-NNN`). |
@@ -218,6 +218,7 @@ Each table lists the documents in one directory with the authority level declare
 | --- | --- | --- |
 | [`IMPLEMENTATION-STRATEGY.md`](60-delivery/IMPLEMENTATION-STRATEGY.md) | L3 | How the five delivery phases are sequenced and staffed at a working level. |
 | [`MILESTONES.md`](60-delivery/MILESTONES.md) | L3 | Delivery milestones within and across phases. |
+| [`RELEASE-DEFINITION.md`](60-delivery/RELEASE-DEFINITION.md) | L2 | The defined local technical proof: accepted scope, complete API/CLI workflow, two-gateway offline demonstration and acceptance matrix. |
 | [`RELEASE-CRITERIA.md`](60-delivery/RELEASE-CRITERIA.md) | L2 | The Phase 1–2 exit gates — the conditions that must all hold before the Phase 1–2 core is declared done. |
 | [`VALIDATION-PLAN.md`](60-delivery/VALIDATION-PLAN.md) | L3 | How the Phase 1–2 validation demonstration (two independent LiteLLM instances, one policy) will be validated. |
 | [`DEPENDENCIES.md`](60-delivery/DEPENDENCIES.md) | L3 | The dependency register gating each phase or milestone. |

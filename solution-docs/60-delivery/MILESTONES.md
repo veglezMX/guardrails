@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This document translates the five-phase delivery structure agreed in [`AGREEMENTS.md` AGR-020](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) into **outcome-based milestones**: for each phase, a named milestone (M1–M5) paired with a checklist of completion criteria that must be independently verifiable — not a calendar plan. This is a delivery-facing (**L3**) document. It operationalizes, but must never contradict, the L1-authoritative [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) and [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md), and it must stay consistent with the L2 [`SCOPE.md`](../10-charter/SCOPE.md) and [`SUCCESS-CRITERIA.md`](../10-charter/SUCCESS-CRITERIA.md). Where a conflict is ever found, those documents win and this one must be corrected.

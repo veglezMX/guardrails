@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](RELEASE-DEFINITION.md).
+
 ## Purpose and authority
 
 This document is the **spec-level validation plan** for the AI Guardrails program: it maps the platform's load-bearing claims and unvalidated assumptions to concrete validation activities, each with a named owner and a required completion gate. It exists so that no claim in [`PROOF-POINTS.md`](../40-sales-deck/PROOF-POINTS.md) and no assumption in [`ASSUMPTIONS.md`](../00-source-of-truth/ASSUMPTIONS.md) advances toward a delivery gate — Phase 1–2 approval, a pilot, Phase 4, or production — without an explicit, falsifiable check attached to it.

@@ -7,6 +7,8 @@
 
 ---
 
+> **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md).
+
 > This charter is a durable, boundary-setting reference. It states what the AI Guardrails solution is, why it exists, and where its edges are. It intentionally does not contain component diagrams, API shapes, or implementation instructions — those live in the architecture and delivery layers linked from [Section 17](#17-related-documents). Where this charter and [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) could be read as conflicting, `AGREEMENTS.md` is authoritative (L1) and wins.
 
 ---
