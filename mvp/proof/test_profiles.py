@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -42,6 +44,13 @@ class GatePlugin:
         if missing:
             import pytest
             raise pytest.UsageError("Required gate files collected no tests: " + ", ".join(sorted(missing)))
+        inventory = json.loads((ROOT / 'mvp/proof/management-cases.json').read_text())
+        required = {name: count for name, count in inventory.items() if name.split('::')[0] in self.required_files}
+        management_files = {name.split('::')[0] for name in required}
+        actual = Counter(item.nodeid.split('[', 1)[0] for item in items if item.nodeid.split('::')[0] in management_files)
+        if actual != required:
+            import pytest
+            raise pytest.UsageError('Management gate case inventory changed; restore missing cases or explicitly update the reviewed inventory')
 
     def pytest_runtest_logreport(self, report):
         if report.skipped or hasattr(report, "wasxfail"):

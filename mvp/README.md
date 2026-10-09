@@ -2,6 +2,8 @@
 
 > **Current release definition:** [RELEASE-DEFINITION.md](../solution-docs/60-delivery/RELEASE-DEFINITION.md) records the accepted local-proof boundary and acceptance matrix (AGR-022 through AGR-030, DEC-022 through DEC-024): internal teams, full API/CLI lifecycle, two real LiteLLM instances, offline mock inference, working local PII handling, and AWS deferred. This document predates that boundary; its implementation survey and estimates are not acceptance evidence.
 
+The implemented local-proof profiles and durable management API are documented in [proof/README.md](proof/README.md). Current phase status is in the [implementation tracker](../plans/local-technical-proof/progress.md). The commands below describe the retained prototype; they are not management lifecycle shortcuts.
+
 A working implementation of the Guardrails Runtime and one entry point, built
 directly from the specifications in `solution-docs/`. Standard library only —
 no AWS, no third-party packages, no gateway required to run it.

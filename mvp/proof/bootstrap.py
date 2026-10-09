@@ -8,6 +8,7 @@ import os
 import platform
 import secrets
 import subprocess
+from uuid import uuid4
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -64,6 +65,7 @@ def prepare_credentials() -> None:
         name: secret(name) for name in (
             "gateway-a.workload", "gateway-b.workload",
             "gateway-a.client", "gateway-b.client", "control", "mock",
+            "management-admin", "runtime-service", "management-service", "tenant-operator",
         )
     }
     if len(set(credentials.values())) != len(credentials):
@@ -97,6 +99,24 @@ def prepare_credentials() -> None:
     }
     write_json(PROOF / "smoke-runtime.json", fixture)
     (PROOF / "smoke-runtime.json").chmod(0o600)
+    config_path = PROOF / 'management.json'
+    prior = json.loads(config_path.read_text()) if config_path.exists() else {'credentials': []}
+    existing = {item['token_sha256']: item for item in prior['credentials']}
+    actors = []
+    for name, role, tenant, service, capabilities in (
+        ('management-admin', 'security_admin', None, None, []),
+        ('tenant-operator', 'tenant_operator', 'local-proof', None, []),
+        ('runtime-service', 'runtime_service', None, 'runtime', ['snapshot', 'applied']),
+        ('management-service', 'management_service', None, 'management', ['audit', 'schema', 'readiness']),
+    ):
+        digest = token_hash(credentials[name])
+        actors.append(existing.get(digest) or dict(
+            credential_id=str(uuid4()), role=role, tenant_id=tenant, workload_id=None,
+            token_sha256=digest, revision=1, created_at=datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+            revoked_at=None, service_id=service, capabilities=capabilities,
+        ))
+    write_json(config_path, {'credentials': actors})
+    config_path.chmod(0o600)
 
 
 def prepare_certificates(*, refresh: bool) -> None:
@@ -106,7 +126,7 @@ from pathlib import Path
 root = Path("/pki")
 os.umask(0o077)
 refresh = os.environ["PROOF_REFRESH_CERTIFICATES"] == "1"
-services = ("runtime", "mock-model", "gateway-a", "gateway-b")
+services = ("management", "runtime", "mock-model", "gateway-a", "gateway-b")
 def run(*args):
     subprocess.run(["openssl", *args], check=True, capture_output=True, text=True)
 ca_crt, ca_key = root / "ca.crt", root / "ca.key"
@@ -185,7 +205,7 @@ def main() -> None:
         raise RuntimeError("This proof currently requires Linux x86_64")
     PROOF.mkdir(exist_ok=True, mode=0o700)
     PROOF.chmod(0o700)
-    for name in ("pki", "secrets", "state", "state/runtime", "artifacts", "evidence"):
+    for name in ("pki", "secrets", "state", "state/runtime", "state/management", "state/management-tests", "artifacts", "evidence"):
         target = PROOF / name
         target.mkdir(exist_ok=True, mode=0o700)
         target.chmod(0o700)

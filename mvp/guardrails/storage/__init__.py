@@ -1,0 +1,1 @@
+"""Process-owned SQLite adapters."""

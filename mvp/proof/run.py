@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import sys
 import time
+from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / ".proof"
@@ -48,6 +49,25 @@ def export_schema():
     # A serialized schema is an implementation artifact, not a separately authored contract.
     schema = json.loads(result.stdout)
     (ROOT / "mvp/proof/openapi.json").write_text(json.dumps(schema, indent=2, sort_keys=True) + "\n")
+    result = run(["docker", "run", "--rm", "--network", "none", "-v", f"{ROOT}:/workspace:ro",
+                  "-w", "/workspace", "-e", "PYTHONPATH=/workspace/mvp", IMAGE, "python", "-c",
+                  "import json;from guardrails.management.app import create_app;print(json.dumps(create_app(schema_only=True).openapi(),sort_keys=True,indent=2))"], capture=True)
+    (ROOT / 'mvp/proof/management-openapi.json').write_text(json.dumps(json.loads(result.stdout), indent=2, sort_keys=True) + '\n')
+
+
+def management_tests():
+    # Separate real HTTPS process per fixture, real files retained after container exit.
+    target = STATE / 'state/management-tests' / str(uuid4())
+    target.mkdir(parents=True, mode=0o700)
+    result = run(['docker', 'run', '--rm', '--network', 'none',
+                  '--user', f'{os.getuid()}:{os.getgid()}',
+                  '-v', f'{ROOT}:/workspace:ro', '-v', f'{STATE / "pki"}:/pki:ro',
+                  '-v', f'{target}:/results', '-w', '/workspace',
+                  '-e', 'PYTHONPATH=/workspace/mvp', '-e', 'PYTHONDONTWRITEBYTECODE=1',
+                  '-e', 'PROOF_MANAGEMENT_TEST_ROOT=/results', '-e', 'PROOF_PKI=/pki',
+                  IMAGE, 'python', '-m', 'proof.test_profiles', 'integration', 'management'], check=False)
+    print(f'Management gate state and sanitized service logs retained: {target.relative_to(ROOT)}')
+    return result.returncode
 
 
 def main():
@@ -75,9 +95,11 @@ def main():
         if args.suite == "contract":
             export_schema()
         return container_tests(args.suite, args.profile)
+    if args.profile == 'management':
+        return management_tests()
     if args.profile != "smoke":
         # All/later gates must fail rather than count a smoke run as release acceptance.
-        print("Only the Phase 1 smoke integration profile is implemented.", file=sys.stderr)
+        print("Only smoke and management integration profiles are implemented.", file=sys.stderr)
         return 2
     compose("up", "-d", "--no-build", "--pull", "never", "runtime", "mock-model", "gateway-a", "gateway-b")
     result = compose("run", "--rm", "--no-deps", "--pull", "never", "runner",

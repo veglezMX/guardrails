@@ -1,6 +1,6 @@
-# Run the Phase 1 local proof
+# Run the local proof profiles
 
-This profile exercises two independently configured real LiteLLM gateways, an HTTPS fixture runtime, and a deterministic HTTPS mock model. Its gate checks input blocking, input/output transformation, output blocking, certificate verification, and content-free audit metadata. Use authored synthetic content. The fixture runtime does not implement the management lifecycle or the planned lifecycle CLI; later phases implement persistence, publication, promotion, rollback, and full release acceptance. AWS integration remains deferred.
+The Phase 1 smoke profile exercises two independently configured real LiteLLM gateways, an HTTPS fixture runtime, and a deterministic HTTPS mock model. Phase 2 adds the durable management API: identities, immutable policies, binding history, governance, snapshots and authenticated operation receipts. Use authored synthetic content. The fixture runtime is not yet connected to management; runtime snapshot application, the lifecycle CLI and full release acceptance remain later phases. AWS integration remains deferred.
 
 Run from the repository root on **Linux x86_64/amd64**, with Git, host Python **3.11 or newer**, `just`, Docker Engine, and the Docker Compose plugin available to the current user. The Docker daemon must be running. Host ports **8401**, **8402**, and **8444** must be free. Services use the prepared container environments; no host Python package installation is required.
 
@@ -46,3 +46,29 @@ just proof-integration smoke
 ```
 
 Reset stops the same named stack and removes only `.proof/state/runtime/smoke-audit.jsonl`. It retains prepared images, locks, the wheelhouse, `.proof/artifacts/`, `.proof/evidence/`, credentials and certificates. Avoid deleting `.proof/` as a routine cleanup step.
+
+## Phase 2 management gates
+
+After bootstrap, run:
+
+```sh
+just proof-unit management
+just proof-contract management
+just proof-integration management
+```
+
+The reviewed test inventory is `mvp/proof/management-cases.json`. A missing test function, missing parameter case, skipped case or unexpected inventory change fails the gate. Contract execution regenerates both `openapi.json` (foundation) and `management-openapi.json` from the implemented models and routes.
+
+Management integration starts actual Uvicorn HTTPS processes using the installed owned-service image and real SQLite databases, inside a container with `--network none`. Local loopback remains available for the test client. Each test uses a fresh directory under `.proof/state/management-tests/<run-id>/`; databases, hash-only startup configuration and sanitized service logs are retained. Tests close their clients and stop each process, including abrupt restart cases. No host ports are required for this gate. A test-authored runtime acknowledgement tests authorization and operation semantics; it does **not** establish that the evaluation runtime applied a snapshot.
+
+Bootstrap additionally prepares `management-admin.token`, `tenant-operator.token`, `runtime-service.token` and `management-service.token`. The restricted `.proof/management.json` contains only deployment credential hashes. Management startup creates the `local-proof` tenant and installs those trusted identities transactionally; workloads, policies and bindings are created through the API.
+
+For manual API work, start the optional management service (port 8443 must be free):
+
+```sh
+docker compose -p guardrails-phase1 -f mvp/proof/compose.yaml --profile management up -d --no-build --pull never management
+```
+
+The existing Compose project/image names retain their Phase 1 names for compatibility; bootstrap records the rebuilt image identities. Management state is `.proof/state/management/control.sqlite3`, separate from runtime state. `just proof-down` stops this service as well. `just proof-reset` currently resets only disposable smoke state and deliberately preserves management data and integration evidence.
+
+See [management API examples](api-examples.md) and the generated [management schema](management-openapi.json). The service also exposes authenticated `/openapi.json`; interactive documentation routes are disabled. Readback distinguishes committed desired state from acknowledged application. Without a real runtime receipt, operations remain pending and the applied binding revision is null. Runtime audit and schema forwarding are Phase 3 work: default audit queries return an explicit unavailable-source 503; `allow_partial=true` returns `complete=false`; `source=management` returns complete management-only results. `/runtime-openapi.json` returns a sanitized 503 until that adapter exists.

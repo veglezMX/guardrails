@@ -150,7 +150,10 @@ Path("/out/pip-versions.json").write_text(json.dumps(results))
         if recorded_path.exists():
             recorded = json.loads(recorded_path.read_text())
             if recorded.get("pyproject_sha256") != sha256(root / "pyproject.toml"):
-                raise RuntimeError("pyproject changed; inspect dependencies and rerun with --refresh-locks")
+                # Package-data/entry-point changes require a rebuild, not a new
+                # dependency resolution. Keep the original resolution evidence.
+                if recorded.get('direct_runtime') != runtime_requirements or recorded.get('direct_dev') != dev_requirements:
+                    raise RuntimeError("Dependencies changed; inspect and rerun with --refresh-locks")
 
     manifest_path = proof / "wheelhouse.sha256.json"
     if manifest_path.exists() and not refresh:
@@ -183,6 +186,7 @@ subprocess.run(["python", "-m", "pip", "download", "--only-binary=:all:", "--des
         "runtime_packages": pins(runtime_lock), "development_packages": pins(dev_lock),
         "locks": {path.name: sha256(path) for path in (runtime_lock, dev_lock)},
         "wheelhouse_manifest_sha256": sha256(manifest_path),
+        "build_pyproject_sha256": sha256(root / 'pyproject.toml'),
     }
 
 

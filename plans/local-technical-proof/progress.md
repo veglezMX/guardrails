@@ -2,12 +2,12 @@
 
 ## Current Status
 
-**Active phase:** Phase 2 — Durable management lifecycle (next; not started)
-**Last completed task:** Phase 1 complete — all four required gates passed
-**Next task:** Implement schema-version-1 control SQLite storage and transactional resource/audit writes
-**Sessions completed:** 1
+**Active phase:** Phase 3 — Runtime correctness and configuration consistency (next; not started)
+**Last completed task:** Phase 2 complete — all three management gates passed
+**Next task:** Implement validated atomic runtime snapshot swaps, polling/acknowledgement, age/readiness and last-known-state behavior
+**Sessions completed:** 2
 
-This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phase 1 is **COMPLETE**; later phases remain **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
+This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phases 1–2 are **COMPLETE**; Phases 3–5 remain **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
 
 The phases express dependency gates rather than five serial staffing assignments. Four engineers may prepare independent work in later phases against frozen interfaces, but must not claim a phase complete until its predecessor gates and its own gate pass. The estimate's overlapping waves assume this collaboration (see implementation-estimate.md).
 
@@ -35,17 +35,21 @@ The phases express dependency gates rather than five serial staffing assignments
 ## Phase 2: Durable management lifecycle
 
 > **Gate:** `just proof-unit management`, `just proof-contract management`, and `just proof-integration management` all exit zero after the Phase 1 gate.
-> **Status:** NOT STARTED
+> **Status:** COMPLETE
 
-- [ ] Implement schema-version-1 SQLite control storage, immutable policy/history constraints and transactionally coupled resource/audit/generation/operation writes in `mvp/guardrails/storage/control.py` (see component-specs.md §ControlRepository) (see data-schema.md §Persistence layout).
-- [ ] Implement actor/service/workload authentication, scoped authorization, tenant/workload registration and credential issuance/rotation in `mvp/guardrails/management/identity.py` (see component-specs.md §IdentityService) (see api-endpoints.md).
-- [ ] Implement strict capability validation, authorized retention, canonical publication/hash/ordinal and conflicting-version rejection in `mvp/guardrails/management/policies.py` (see component-specs.md §PolicyService) (see data-schema.md §Policy).
-- [ ] Implement Observe creation, governed state/version/timeout changes, mandatory floor checks, optimistic concurrency and audited rollback in `mvp/guardrails/management/bindings.py` (see component-specs.md §BindingService) (see variance-matrix.md §Mandatory floor demonstration).
-- [ ] Implement consistent full snapshots, conditional retrieval, authenticated generation acknowledgements and operation readback in `mvp/guardrails/management/snapshots.py` (see component-specs.md §SnapshotPublisher) (see integration-protocols.md §Management to runtime).
-- [ ] Wire management endpoints, safe errors, commit-versus-application status, and explicit incomplete audit-source handling in `mvp/guardrails/management/app.py` (see component-specs.md §ManagementAPI) (see api-endpoints.md §Management endpoints).
-- [ ] Add real database restart/transaction-failure, cross-tenant/role, immutable publication, history/floor and endpoint tests; record successful generations as committed until a real runtime acknowledgement exists (see test-strategy.md) (see quality-gates.md §Named profiles).
+- [x] Implement schema-version-1 SQLite control storage, immutable policy/history constraints and transactionally coupled resource/audit/generation/operation writes in `mvp/guardrails/storage/control.py` (see component-specs.md §ControlRepository) (see data-schema.md §Persistence layout).
+- [x] Implement actor/service/workload authentication, scoped authorization, tenant/workload registration and credential issuance/rotation in `mvp/guardrails/management/identity.py` (see component-specs.md §IdentityService) (see api-endpoints.md).
+- [x] Implement strict capability validation, authorized retention, canonical publication/hash/ordinal and conflicting-version rejection in `mvp/guardrails/management/policies.py` (see component-specs.md §PolicyService) (see data-schema.md §Policy).
+- [x] Implement Observe creation, governed state/version/timeout changes, mandatory floor checks, optimistic concurrency and audited rollback in `mvp/guardrails/management/bindings.py` (see component-specs.md §BindingService) (see variance-matrix.md §Mandatory floor demonstration).
+- [x] Implement consistent full snapshots, conditional retrieval, authenticated generation acknowledgements and operation readback in `mvp/guardrails/management/snapshots.py` (see component-specs.md §SnapshotPublisher) (see integration-protocols.md §Management to runtime).
+- [x] Wire management endpoints, safe errors, commit-versus-application status, and explicit incomplete audit-source handling in `mvp/guardrails/management/app.py` (see component-specs.md §ManagementAPI) (see api-endpoints.md §Management endpoints).
+- [x] Add real database restart/transaction-failure, cross-tenant/role, immutable publication, history/floor and endpoint tests; record successful generations as committed until a real runtime acknowledgement exists (see test-strategy.md) (see quality-gates.md §Named profiles).
 
 **Completion evidence:** direct API lifecycle operations and required rejections work on durable state; failed audit/storage transactions do not partly mutate state; restart preserves policies, histories and pending operations. Runtime application and complete CLI parity are still proved by their dependent phases.
+
+**Gate evidence:** Management unit: 28 passed; management contract: 62 passed; real management HTTPS/SQLite integration: 10 passed. Bootstrap, 22 foundation unit tests, 46 foundation contract tests plus 14 subtests, 14 real gateway smoke tests, the 67-test prototype suite and `just verify` pass. See [session 002](sessions/002-2026-10-09.md). Authenticated test receipts verify acknowledgement semantics only; real runtime application remains Phase 3.
+
+**Gaps closed in Phase 2:** Added strict management projections, shared pure governance predicates, packaged SQL schema, a generated management OpenAPI artifact, fixed case-count inventories, retained HTTPS process test state and API examples. Package-data changes reuse unchanged dependency locks. Binding recreation preserves increasing history revisions; actual SQLite contention returns a bounded 503 without overwriting a concurrent successful change.
 
 ## Phase 3: Runtime correctness and configuration consistency
 

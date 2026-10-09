@@ -1,5 +1,21 @@
 name: guardrails-phase1
 services:
+  management:
+    image: local/guardrails-proof:phase1
+    pull_policy: never
+    user: "${PROOF_UID:-1000}:${PROOF_GID:-1000}"
+    command: ["python", "-m", "uvicorn", "guardrails.management.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8443", "--ssl-certfile", "/pki/management.crt", "--ssl-keyfile", "/pki/management.key", "--no-access-log"]
+    environment:
+      GUARDRAILS_MANAGEMENT_CONFIG: /proof/management.json
+      GUARDRAILS_CONTROL_DB: /state/control.sqlite3
+    volumes:
+      - ../../.proof/management.json:/proof/management.json:ro
+      - ../../.proof/pki/management.crt:/pki/management.crt:ro
+      - ../../.proof/pki/management.key:/pki/management.key:ro
+      - ../../.proof/state/management:/state
+    ports: ["127.0.0.1:8443:8443"]
+    networks: [proof]
+    profiles: [management]
   runtime:
     image: local/guardrails-proof:phase1
     pull_policy: never
