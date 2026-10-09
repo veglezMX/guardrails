@@ -211,15 +211,27 @@ class RuntimeStack:
         operation = mutation['operation']
         deadline = time.monotonic() + 5
         while time.monotonic() < deadline:
-            result = self.management.api.request('GET', '/v1/operations/' + operation['operation_id']).json()
-            if result['status'] == 'applied':
-                assert result['applied_generation'] >= operation['desired_generation']
-                return result
+            response = self.management.api.client.get('/v1/operations/' + operation['operation_id'],
+                headers={'Authorization':'Bearer '+self.tokens['admin']})
+            assert response.status_code in (200, 503), 'operation read rejected'
+            if response.status_code == 200:
+                result = response.json()
+                if result['status'] == 'applied':
+                    assert result['applied_generation'] >= operation['desired_generation']
+                    return result
             time.sleep(.05)
         raise AssertionError('Runtime did not acknowledge generation within five seconds')
 
     def seed(self, state='block'):
-        initial = self.management.api.seed()
+        api = self.management.api
+        # Serialize setup by real application receipts, just as the default CLI
+        # does. Do not race subsequent mutations against snapshot acknowledgement
+        # writers or retry a mutation that may already have committed.
+        issued = api.request('POST', PREFIX + '/workloads', body=envelope(workload_id='team-a', display_name='Synthetic team'), status=201).json()
+        api.tokens['team-a'] = issued['token']
+        self.wait_applied(issued)
+        self.wait_applied(api.request('POST', PREFIX + '/policies', body=policy(), status=201).json())
+        initial = api.request('PUT', PREFIX + '/workloads/team-a/binding', body=envelope(policy_id='pii', policy_version='v1', reason='initial_binding'), create=True, status=202).json()
         self.wait_applied(initial)
         if state != 'observe':
             self.wait_applied(change_state(self.management.api, state))

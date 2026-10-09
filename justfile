@@ -38,11 +38,11 @@ test:
 
 # Validate every policy document in the deployment directory.
 policies:
-    @PYTHONPATH={{ mvp }} python3 -m guardrails --root {{ mvp }}/deployment validate
+    @PYTHONPATH={{ mvp }} python3 -m guardrails.legacy_cli --root {{ mvp }}/deployment validate
 
 # Serve the Evaluation API locally. e.g. `just serve 0.0.0.0 9000`.
 serve host="127.0.0.1" port="8080":
-    @PYTHONPATH={{ mvp }} python3 -m guardrails --root {{ mvp }}/deployment \
+    @PYTHONPATH={{ mvp }} python3 -m guardrails.legacy_cli --root {{ mvp }}/deployment \
       serve --host {{ host }} --port {{ port }}
 
 # Walk one request through input eval, the model, and output eval.
@@ -51,7 +51,7 @@ demo:
 
 # Print the evaluator capabilities this deployment serves.
 caps:
-    @PYTHONPATH={{ mvp }} python3 -m guardrails --root {{ mvp }}/deployment capabilities
+    @PYTHONPATH={{ mvp }} python3 -m guardrails.legacy_cli --root {{ mvp }}/deployment capabilities
 
 # List the audience decks and the decision each one asks for.
 decks:
@@ -145,3 +145,7 @@ proof-down:
 
 proof-reset:
     @python3 {{ mvp }}/proof/run.py reset
+
+# Start the API-backed local proof and both gateways from prepared artifacts.
+proof-up:
+    @PYTHONPATH={{ mvp }} python3 -m proof.run up

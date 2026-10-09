@@ -1,6 +1,6 @@
 # Management API examples
 
-Run bootstrap and start management as described in [README.md](README.md). These direct API examples use the generated CA, read the tenant-operator token from its restricted file, write the one-time workload secret to a 0600 file, and print only safe metadata. Run from the repository root with host Python 3.11 or later. They do not call a model or fabricate runtime application.
+Run bootstrap and `just proof-up` as described in [README.md](README.md). These direct API examples use the generated CA, read the tenant-operator token from its restricted file, write the one-time workload secret to a 0600 file, and print only safe metadata. Run from the repository root with host Python 3.14. They do not call a model or fabricate runtime application.
 
 ```python
 import json
@@ -12,8 +12,8 @@ from pathlib import Path
 from uuid import uuid4
 
 os.umask(0o077)
-root = Path('.proof')
-context = ssl.create_default_context(cafile=str(root / 'pki/ca.crt'))
+root = Path(json.loads(Path('.proof/live.json').read_text())['root'])
+context = ssl.create_default_context(cafile='.proof/pki/ca.crt')
 token = (root / 'secrets/tenant-operator.token').read_text().strip()
 base = 'https://127.0.0.1:8443'
 tenant = '/v1/tenants/local-proof'
@@ -76,4 +76,4 @@ Initial binding always starts in Observe. State changes require a current revisi
 
 For lost credential issuance, GET the workload's `credential_revision`, then POST `.../credentials/rotate` with that revision in `If-Match` and `body(reason='credential_rotation')`. Save the returned token as above; the previous credential is revoked. Never print credential responses. Operators cannot create tenants, change floors, publish retention-enabled policies or inspect retained content; use the admin token for those authorized operations.
 
-Runtime application and the lifecycle CLI are not part of this Phase 2 example. Do not submit a synthetic acknowledgement to make a manual operation appear applied. The management integration gate explicitly labels its test acknowledgement boundary.
+These direct API examples report committed operations. Poll `/v1/operations/{id}` for applied status before relying on a new generation; the CLI does this by default. Never submit a synthetic acknowledgement during a live lifecycle. The earlier management-only test profile labels its fixture acknowledgement boundary explicitly.

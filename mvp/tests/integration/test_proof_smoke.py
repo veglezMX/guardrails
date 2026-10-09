@@ -31,7 +31,7 @@ def client():
         while pending and time.monotonic() < deadline:
             for url in list(pending):
                 try:
-                    headers = authorized("control") if url.startswith("https://runtime:") else {}
+                    headers = authorized("control") if url.startswith("https://runtime:") else authorized("gateway-a.client") if "gateway-a:" in url else authorized("gateway-b.client") if "gateway-b:" in url else {}
                     if connection.get(url, headers=headers).status_code == 200:
                         pending.remove(url)
                 except httpx.TransportError:
@@ -132,7 +132,7 @@ def test_streaming_and_guardrail_overrides_reject_before_inference(client):
     response = call(client, "a", "proof-a", "Clean.", stream=True)
     assert response.status_code == 400
     response = call(client, "a", "proof-a", "Clean.", guardrails=[])
-    assert response.status_code == 400
+    assert response.status_code == 403
     assert calls(client)["count"] == 0
 
 

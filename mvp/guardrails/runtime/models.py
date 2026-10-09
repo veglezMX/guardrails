@@ -102,3 +102,5 @@ class Capabilities(StrictModel):
 
 class FaultControl(StrictModel):
     worker: Literal['stall', 'crash', 'invalid_span'] | None
+    response: Literal['malformed', 'invalid_transformation', 'delay'] | None = None
+    stage: Literal['input', 'output'] = 'input'

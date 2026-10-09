@@ -43,6 +43,7 @@ class EvaluationRuntime:
         self.engine = BatchDecisionEngine()
         self.audit_pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix='runtime-audit')
         self.control_hash, self.fault = control_hash, None
+        self.response_fault, self.fault_stage = None, None
 
     def service(self, request, capability):
         authorization = request.headers.get('authorization', '')
@@ -251,6 +252,11 @@ def create_app(runtime=None, *, schema_only=False, poller=None):
                     or sum(len(s.text.encode()) for s in evaluation.content.segments) > runtime.config.max_content_bytes):
                 raise ContractProblem(status=413)
             decision = await runtime.evaluate(evaluation, ticket, started)
+            if runtime.control_hash and runtime.response_fault and evaluation.stage == runtime.fault_stage:
+                from proof.faults import response_fault
+                fault_result = await response_fault(decision, runtime.response_fault)
+                if fault_result is not None:
+                    return fault_result
             return response(decision.to_wire(), DecisionModel)
         except TimeoutError:
             raise ContractProblem('evaluation_timeout', 503) from None
@@ -302,6 +308,7 @@ def create_app(runtime=None, *, schema_only=False, poller=None):
             runtime.proof_authorize(request)
             body = parse_model(await body_bytes(request, 1024), m.FaultControl)
             runtime.fault = body.worker
+            runtime.response_fault, runtime.fault_stage = body.response, body.stage
             return {'worker': runtime.fault}
 
         @app.get('/proof/resources', include_in_schema=False)

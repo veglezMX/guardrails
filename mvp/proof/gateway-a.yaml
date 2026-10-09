@@ -2,13 +2,16 @@
 model_list:
   - model_name: proof-a
     litellm_params:
-      model: openai/proof-mock
+      # Select the native role-preserving adapter; this remains a local mock.
+      model: openai/o3-proof-mock
+      drop_params: true
       api_base: https://mock-model:8445/v1
       api_key: os.environ/PROOF_MOCK_API_KEY
       timeout: 10
       max_retries: 0
     model_info:
       mode: chat
+      supports_system_messages: true
       input_cost_per_token: 0
       output_cost_per_token: 0
 
@@ -24,6 +27,7 @@ guardrails:
       tenant_id: local-proof
       workload_id: gateway-a
       model_alias: proof-a
+      spool_path: /spool/client-events.jsonl
 
 litellm_settings:
   ssl_verify: /pki/ca.crt

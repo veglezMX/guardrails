@@ -8,6 +8,7 @@ import os
 import platform
 import secrets
 import subprocess
+import sys
 from uuid import uuid4
 from datetime import datetime, timezone
 from pathlib import Path
@@ -214,7 +215,7 @@ def main() -> None:
         raise RuntimeError("This proof currently requires Linux x86_64")
     PROOF.mkdir(exist_ok=True, mode=0o700)
     PROOF.chmod(0o700)
-    for name in ("pki", "secrets", "state", "state/runtime", "state/live-runtime", "state/management", "state/management-tests", "state/runtime-tests", "artifacts", "evidence"):
+    for name in ("pki", "secrets", "state", "state/runtime", "state/live-runtime", "state/management", "state/management-tests", "state/runtime-tests", "state/gateway-a", "state/gateway-b", "artifacts", "evidence"):
         target = PROOF / name
         target.mkdir(exist_ok=True, mode=0o700)
         target.chmod(0o700)
@@ -224,6 +225,11 @@ def main() -> None:
     if any(image["Architecture"] != "amd64" or image["Os"] != "linux" for image in (python_identity, gateway_identity)):
         raise RuntimeError("Pinned base images must resolve for Linux amd64")
     dependencies = resolve(refresh=arguments.refresh_locks)
+    # Host supervision/CLI only; every service still uses its pinned image.
+    host_python = PROOF / 'host-venv/bin/python'
+    if not host_python.exists():
+        run([sys.executable, '-m', 'venv', str(PROOF / 'host-venv')])
+    run([str(host_python), '-m', 'pip', 'install', '--no-index', '--find-links=' + str(PROOF / 'wheelhouse'), '-r', str(ROOT / 'dev-requirements.lock')], capture=True)
     run(["docker", "build", "--pull=false", "-f", "mvp/proof/Dockerfile", "-t", OWNED_IMAGE, "."])
     run(["docker", "build", "--pull=false", "-f", "mvp/proof/gateway.Dockerfile", "-t", GATEWAY_IMAGE, "."])
     prepare_certificates(refresh=arguments.refresh_certificates)
@@ -257,7 +263,8 @@ def main() -> None:
         "certificates": {
             path.name: sha256(path) for path in sorted((PROOF / "pki").glob("*.crt"))
         },
-        "profile": "smoke",
+        "host_supervisor_python": platform.python_version(),
+        "profile": "local-proof",
         "limitations": [
             "Phase-one fixture configuration is not management publication or lifecycle acceptance",
             "Dependency installation and image builds are online preparation only",

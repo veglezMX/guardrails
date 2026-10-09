@@ -186,8 +186,11 @@ class FailClosed(unittest.TestCase):
 
     def test_an_unrecognized_action_applies_the_configured_behavior(self) -> None:
         client = ScriptedClient({"input": decision("discard")})
-        result, _ = self._run(client, "allow_and_log")
+        result, calls = self._run(client, "allow_and_log")
         self.assertTrue(result.allowed)
+        self.assertEqual(calls, [CLEAN])
+        self.assertTrue(result.model_called)
+        self.assertEqual(result.text, 'ok')
         self.assertTrue(result.warnings)
 
     def test_an_unreachable_runtime_blocks_when_configured_to(self) -> None:
@@ -202,8 +205,11 @@ class FailClosed(unittest.TestCase):
         client = ScriptedClient(
             {"input": EvaluationTransportError("connection refused")}
         )
-        result, _ = self._run(client, "allow_and_log")
+        result, calls = self._run(client, "allow_and_log")
         self.assertTrue(result.allowed)
+        self.assertEqual(calls, [CLEAN])
+        self.assertTrue(result.model_called)
+        self.assertEqual(result.text, 'ok')
 
     def test_a_bad_client_failure_behavior_is_refused_at_construction(self) -> None:
         with self.assertRaises(ValueError):

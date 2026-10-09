@@ -11,7 +11,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from .gateway_state import GatewayTurn, current_turn
 
@@ -38,6 +38,8 @@ def validate_request(raw: bytes, model_alias: str) -> dict[str, Any]:
         raise BoundaryError("invalid_request") from None
     if not isinstance(body, dict):
         raise BoundaryError("invalid_request", 422)
+    if set(body) & {'guardrails', 'guardrail', 'metadata', 'policy_id', 'policy_version', 'tenant_id', 'workload_id', 'api_key', 'api_base'}:
+        raise BoundaryError('identity_mismatch', 403)
     if set(body) - {"model", "messages", "stream", "n", "temperature", "max_tokens"}:
         raise BoundaryError("unsupported_surface")
     if body.get("model") != model_alias:
@@ -89,7 +91,7 @@ def response_metadata(turn: GatewayTurn) -> dict[str, Any]:
         "input_action": before["action"], "output_action": after["action"],
         "warning_codes": warnings,
         "operational_codes": sorted(set(before["operational_codes"] + after["operational_codes"])),
-        "audit_status": after["audit_status"],
+        "audit_status": max((before['audit_status'], after['audit_status']), key={'persisted': 0, 'spooled': 1, 'failed': 2}.get),
     }
 
 
@@ -104,14 +106,33 @@ class ProofGatewayBoundary:
         return any(isinstance(callback, LocalProofGuardrail) and callback.default_on for callback in litellm.callbacks)
 
     @staticmethod
+    def _clients():
+        import litellm
+        from .native_guardrail import LocalProofGuardrail
+        return [callback._client for callback in litellm.callbacks if isinstance(callback, LocalProofGuardrail)]
+
+    @staticmethod
     async def _json(send: Any, status: int, body: dict) -> None:
         data = json.dumps(body, separators=(",", ":"), ensure_ascii=True).encode()
         await send({"type": "http.response.start", "status": status, "headers": [(b"content-type", b"application/json"), (b"content-length", str(len(data)).encode())]})
         await send({"type": "http.response.body", "body": data})
 
     async def __call__(self, scope: dict, receive: Any, send: Any) -> None:
-        if scope["type"] != "http":
-            await self.proxy(scope, receive, send)
+        if scope['type'] == 'lifespan':
+            async def lifecycle(message):
+                if message['type'] == 'lifespan.startup.complete':
+                    for client in self._clients():
+                        await client.start()
+                elif message['type'] == 'lifespan.shutdown.complete':
+                    for client in self._clients():
+                        await client.close()
+                    import litellm
+                    if litellm.aclient_session is not None:
+                        await litellm.aclient_session.aclose()
+                await send(message)
+            await self.proxy(scope, receive, lifecycle)
+            return
+        if scope['type'] != 'http':
             return
         turn = GatewayTurn(str(uuid4()))
         token = current_turn.set(turn)
@@ -121,8 +142,15 @@ class ProofGatewayBoundary:
                 await self._json(send, 200, {"live": True})
                 return
             if path == "/health/ready" and scope["method"] == "GET":
-                ready = self._registered()
-                await self._json(send, 200 if ready else 503, {"ready": ready})
+                headers = {key.lower(): value for key, value in scope['headers']}
+                if not hmac.compare_digest(headers.get(b'authorization', b''), ('Bearer ' + self.gateway_token).encode()):
+                    raise BoundaryError('authentication_failed', 401)
+                clients = self._clients()
+                ready = self._registered() and bool(clients) and all(client.config is not None for client in clients)
+                health = clients[0].health() if clients else {'degraded': True, 'client_generation': None}
+                from .network_audit import external_connect_attempts
+                health['external_connect_attempts'] = external_connect_attempts
+                await self._json(send, 200 if ready else 503, health | {'ready': ready})
                 return
             if path != "/v1/chat/completions" or scope["method"] != "POST":
                 raise BoundaryError("unsupported_surface")
@@ -131,6 +159,13 @@ class ProofGatewayBoundary:
                 raise BoundaryError("authentication_failed", 401)
             if not self._registered():
                 raise BoundaryError("guardrail_hook_missing", 503)
+            if scope.get('query_string'):
+                raise BoundaryError('unsupported_surface')
+            if b'x-correlation-id' in headers:
+                try:
+                    turn.correlation_id = str(UUID(headers[b'x-correlation-id'].decode('ascii')))
+                except (ValueError, UnicodeError):
+                    raise BoundaryError('invalid_request', 422) from None
             body = bytearray()
             while True:
                 chunk = await receive()
@@ -141,7 +176,10 @@ class ProofGatewayBoundary:
                     raise BoundaryError("request_too_large", 413)
                 if not chunk.get("more_body", False):
                     break
-            validate_request(bytes(body), self.model_alias)
+            validated = validate_request(bytes(body), self.model_alias)
+            for key, default in (('stream', False), ('n', 1), ('temperature', 0), ('max_tokens', 128)):
+                validated.setdefault(key, default)
+            body = json.dumps(validated, ensure_ascii=True).encode()
             consumed = False
             async def replay() -> dict:
                 nonlocal consumed
@@ -194,6 +232,34 @@ def create_app() -> ProofGatewayBoundary:
     os.environ["LITELLM_MASTER_KEY"] = gateway_token
     os.environ["PROOF_MOCK_API_KEY"] = Path(os.environ["PROOF_MOCK_TOKEN_FILE"]).read_text().strip()
     os.environ.setdefault("LITELLM_LOCAL_MODEL_COST_MAP", "True")
+    from .network_audit import install
+    install()
+    import logging
+    factory = logging.getLogRecordFactory()
+    def safe_record(*args, **kwargs):
+        record = factory(*args, **kwargs)
+        if record.name.lower().startswith(('litellm', 'openai', 'httpx', 'httpcore')):
+            record.msg, record.args = 'gateway_dependency_event', ()
+            record.exc_info = record.exc_text = record.stack_info = None
+        return record
+    logging.setLogRecordFactory(safe_record)
+    import litellm
+    import httpx
+    import ssl
+    from .model_response import validate_model_response
+    litellm.aclient_session = httpx.AsyncClient(
+        verify=ssl.create_default_context(cafile='/pki/ca.crt'), trust_env=False,
+        follow_redirects=False, timeout=httpx.Timeout(10, connect=.25),
+        event_hooks={'response': [validate_model_response]},
+    )
+    # Public registration of the local mock's capabilities selects the native
+    # developer-preserving adapter and preserves system messages as well.
+    litellm.register_model({'o3-proof-mock': {
+        'litellm_provider': 'openai', 'mode': 'chat', 'supports_system_messages': True,
+        'input_cost_per_token': 0, 'output_cost_per_token': 0,
+        'cache_creation_input_token_cost': 0, 'cache_read_input_token_cost': 0,
+        'max_tokens': 256,
+    }})
     from litellm.proxy.proxy_server import app as proxy
     return ProofGatewayBoundary(proxy, os.environ.get("PROOF_GATEWAY_MODEL", "proof-a"), gateway_token)
 

@@ -76,13 +76,21 @@ def management_tests(profile='management'):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("suite", choices=["unit", "contract", "integration", "acceptance", "down", "reset"])
+    parser.add_argument("suite", choices=["unit", "contract", "integration", "acceptance", "up", "down", "reset"])
     parser.add_argument("profile", nargs="?", default="all")
     args = parser.parse_args()
+    if args.suite == 'up':
+        prepared()
+        return run([str(STATE / 'host-venv/bin/python'), '-m', 'proof.launcher', 'up'], check=False).returncode
     if args.suite == "down":
+        launcher = run([str(STATE / 'host-venv/bin/python'), '-m', 'proof.launcher', 'down'], check=False).returncode if (STATE / 'live.json').exists() else 0
+        if launcher:
+            return launcher
         return compose("down", "--remove-orphans", check=False).returncode
     if args.suite == "reset":
         # Reset only this named disposable stack; never remove exported reports or secrets.
+        if (STATE / 'live.json').exists():
+            run([str(STATE / 'host-venv/bin/python'), '-m', 'proof.launcher', 'reset'])
         compose("down", "--remove-orphans")
         runtime = STATE / "state/runtime"
         if runtime.exists():
@@ -101,9 +109,18 @@ def main():
         return container_tests(args.suite, args.profile)
     if args.profile in ('management', 'runtime'):
         return management_tests(args.profile)
+    if args.profile == 'all':
+        for profile in ('smoke', 'management', 'runtime'):
+            code = run([sys.executable, '-m', 'proof.run', 'integration', profile], check=False).returncode
+            if code:
+                return code
+            if profile == 'smoke':
+                compose('down', '--remove-orphans')
+        environment = os.environ | {'PYTHONPATH': str(ROOT / 'mvp'), 'PYTHONDONTWRITEBYTECODE': '1'}
+        code = "import pytest;from proof.test_profiles import GatePlugin,ALL_EXTRAS;files=ALL_EXTRAS['integration'];raise SystemExit(pytest.main(['-q','-p','no:cacheprovider',*files],plugins=[GatePlugin(files)]))"
+        return subprocess.run([str(STATE / 'host-venv/bin/python'), '-c', code], cwd=ROOT, env=environment).returncode
     if args.profile != "smoke":
-        # All/later gates must fail rather than count a smoke run as release acceptance.
-        print("Only smoke, management and runtime integration profiles are implemented.", file=sys.stderr)
+        print('Unknown integration profile', file=sys.stderr)
         return 2
     compose("up", "-d", "--no-build", "--pull", "never", "runtime", "mock-model", "gateway-a", "gateway-b")
     result = compose("run", "--rm", "--no-deps", "--pull", "never", "runner",

@@ -13,6 +13,7 @@ class GatewayTurn:
     error: dict[str, Any] | None = None
     error_status: int = 503
     output_timeout_s: float = 1.5
+    client_config: Any = None
 
 
 current_turn: ContextVar[GatewayTurn | None] = ContextVar("local_proof_turn", default=None)

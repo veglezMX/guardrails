@@ -49,6 +49,7 @@ services:
       - ../../.proof/secrets/mock.token:/secrets/mock.token:ro
     networks: [proof]
   gateway-a:
+    user: "${PROOF_UID:-1000}:${PROOF_GID:-1000}"
     image: local/guardrails-gateway:phase1
     pull_policy: never
     environment:
@@ -64,6 +65,7 @@ services:
       SSL_CERT_FILE: /pki/ca.crt
     volumes:
       - ./gateway-a.yaml:/config/gateway.yaml:ro
+      - ../../.proof/state/gateway-a:/spool
       - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
       - ../../.proof/pki/gateway-a.crt:/pki/gateway-a.crt:ro
       - ../../.proof/pki/gateway-a.key:/pki/gateway-a.key:ro
@@ -73,6 +75,7 @@ services:
     ports: ["127.0.0.1:8401:4000"]
     networks: [proof]
   gateway-b:
+    user: "${PROOF_UID:-1000}:${PROOF_GID:-1000}"
     image: local/guardrails-gateway:phase1
     pull_policy: never
     environment:
@@ -88,6 +91,7 @@ services:
       SSL_CERT_FILE: /pki/ca.crt
     volumes:
       - ./gateway-b.yaml:/config/gateway.yaml:ro
+      - ../../.proof/state/gateway-b:/spool
       - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
       - ../../.proof/pki/gateway-b.crt:/pki/gateway-b.crt:ro
       - ../../.proof/pki/gateway-b.key:/pki/gateway-b.key:ro

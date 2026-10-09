@@ -2,12 +2,12 @@
 
 ## Current Status
 
-**Active phase:** Phase 4 — Complete gateway and CLI integration (next; not started)
-**Last completed task:** Phase 3 complete — all runtime and prerequisite gates passed
-**Next task:** Complete runtime client configuration refresh, request-local pinning, explicit fallback and durable content-free spool/replay
-**Sessions completed:** 3
+**Active phase:** Phase 5 — Acceptance evidence and independent verification (not started)
+**Last completed task:** Phase 4 complete — all gateway/CLI integration and prerequisite gates passed
+**Next task:** P5.1 — Implement isolated ten-row acceptance orchestration and complete safe evidence reports; retain independent QA and a second clean run as required gates
+**Sessions completed:** 4
 
-This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phases 1–3 are **COMPLETE**; Phases 4–5 remain **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
+This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phases 1–4 are **COMPLETE**; Phase 5 remains **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
 
 The phases express dependency gates rather than five serial staffing assignments. Four engineers may prepare independent work in later phases against frozen interfaces, but must not claim a phase complete until its predecessor gates and its own gate pass. The estimate's overlapping waves assume this collaboration (see implementation-estimate.md).
 
@@ -74,17 +74,21 @@ The phases express dependency gates rather than five serial staffing assignments
 ## Phase 4: Complete gateway and CLI integration
 
 > **Gate:** `just proof-unit`, `just proof-contract`, and `just proof-integration` all exit zero after Phases 1–3 gates; `just test` retains equivalent or stronger baseline assertions.
-> **Status:** NOT STARTED
+> **Status:** COMPLETE
 
-- [ ] Complete client-config refresh, request-local pinning, strict decision validation, stage timeouts, explicit fallback and durable content-free spool/replay in `mvp/connector/core.py` (see component-specs.md §RuntimeClient) (see integration-protocols.md §Client fallback delivery).
-- [ ] Complete mandatory native hooks, all-message segment mapping, unsupported-surface rejection, single-text response enforcement and safe gateway status/metadata serialization in `mvp/connector/litellm_hooks.py` (see component-specs.md §LiteLLMConnector) (see input-output-contract.md).
-- [ ] Implement the API-backed full lifecycle and evidence commands in `mvp/guardrails/cli.py`, default applied-operation wait, credential file handling and documented error exits (see component-specs.md §LifecycleCLI) (see api-endpoints.md).
-- [ ] Complete independent gateway-A/B deployment identities/configuration and readiness, actual locked artifacts, isolated networking and non-destructive stack lifecycle commands (see component-specs.md §ProofStack) (see integration-protocols.md §Local topology).
-- [ ] Complete credentialed proof-only scenario/fault controls and bounded volatile spy cleanup for `mvp/proof/mock_model.py` (see component-specs.md §MockModel) (see integration-protocols.md §Model and fault protocol).
-- [ ] Prove API/CLI lifecycle parity, all five states through both gateways, fail-open actual model/delivery continuation, offline prepared start, TLS rejection, unsupported-route/override refusal, client-event replay and whole-stack privacy (see test-strategy.md) (see quality-gates.md).
-- [ ] Reconcile prototype entry points/tests and compatibility documentation; preserve useful existing assertions while replacing the old single-text local wire fixtures explicitly (see migration-map.md).
+- [x] Complete client-config refresh, request-local pinning, strict decision validation, stage timeouts, explicit fallback and durable content-free spool/replay in `mvp/connector/core.py` (see component-specs.md §RuntimeClient) (see integration-protocols.md §Client fallback delivery).
+- [x] Complete mandatory native hooks, all-message segment mapping, unsupported-surface rejection, single-text response enforcement and safe gateway status/metadata serialization in `mvp/connector/litellm_hooks.py` (see component-specs.md §LiteLLMConnector) (see input-output-contract.md).
+- [x] Implement the API-backed full lifecycle and evidence commands in `mvp/guardrails/cli.py`, default applied-operation wait, credential file handling and documented error exits (see component-specs.md §LifecycleCLI) (see api-endpoints.md).
+- [x] Complete independent gateway-A/B deployment identities/configuration and readiness, actual locked artifacts, isolated networking and non-destructive stack lifecycle commands (see component-specs.md §ProofStack) (see integration-protocols.md §Local topology).
+- [x] Complete credentialed proof-only scenario/fault controls and bounded volatile spy cleanup for `mvp/proof/mock_model.py` (see component-specs.md §MockModel) (see integration-protocols.md §Model and fault protocol).
+- [x] Prove API/CLI lifecycle parity, all five states through both gateways, fail-open actual model/delivery continuation, offline prepared start, TLS rejection, unsupported-route/override refusal, client-event replay and whole-stack privacy (see test-strategy.md) (see quality-gates.md).
+- [x] Reconcile prototype entry points/tests and compatibility documentation; preserve useful existing assertions while replacing the old single-text local wire fixtures explicitly (see migration-map.md).
 
 **Completion evidence:** the full integration suite uses two real gateways, runtime, management and mock. Both public management surfaces work without internal state edits; all supported string messages are inspected. Passing this gate is a prerequisite to the single-run release evidence, not a replacement for it.
+
+**Gate evidence:** Bootstrap succeeded on the recorded artifacts; complete unit: 225 passed; complete contract: 176 passed plus 14 subtests; complete integration: 109 passed (14 smoke, 10 management, 19 runtime, 66 gateway/offline); preserved prototype suite: 67 passed. The full integration gate includes the documented launcher restart/reset lifecycle. No required cases were skipped. See [session 004](sessions/004-2026-10-09.md) for corrected development failures, retained evidence and remaining Phase 5 work.
+
+**Gaps closed in Phase 4:** Added native role-preserving transport and raw response validation, strict context-failure handling, bounded durable connector delivery, full public CLI, a prepared host supervisor, restart-aware loopback TLS forwarding, connection-attempt accounting without startup DNS dependence, real application-receipt sequencing, fixed gate inventories and whole-stack privacy scans. No specification contract was rewritten or acceptance row waived.
 
 ## Phase 5: Acceptance evidence and independent verification
 

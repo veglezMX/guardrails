@@ -1,4 +1,4 @@
-"""Public LiteLLM CustomGuardrail hooks for the phase-one integration slice.
+"""Public LiteLLM CustomGuardrail hooks for the local technical proof.
 
 Detection and policy selection belong to the runtime. The gateway verifies the
 runtime decision and applies transformations before model dispatch/delivery.
@@ -23,14 +23,14 @@ SAFE_DECISION_FIELDS = (
 
 
 class LocalProofGuardrail(CustomGuardrail):
-    """Mandatory native pre/post hooks, deliberately fail-closed in Phase 1."""
+    """Mandatory native pre/post hooks with request-local policy consistency."""
 
     use_native_lifecycle_hooks = True
 
     def __init__(
         self, runtime_url: str, token_file: str, ca_file: str,
         tenant_id: str = "local-proof", workload_id: str = "gateway-a",
-        model_alias: str = "proof-a", **kwargs: Any,
+        model_alias: str = "proof-a", spool_path: str | None = None, **kwargs: Any,
     ) -> None:
         modes = [GuardrailEventHooks.pre_call, GuardrailEventHooks.post_call]
         requested = kwargs.pop("event_hook", modes)
@@ -40,7 +40,7 @@ class LocalProofGuardrail(CustomGuardrail):
             raise ValueError("local proof guardrail must be mandatory")
         kwargs.pop("supported_event_hooks", None)
         super().__init__(event_hook=modes, supported_event_hooks=modes, default_on=True, **kwargs)
-        self._client = RuntimeClient(runtime_url, token_file, ca_file)
+        self._client = RuntimeClient(runtime_url, token_file, ca_file, tenant_id=tenant_id, workload_id=workload_id, spool_path=spool_path)
         self._tenant_id = tenant_id
         self._workload_id = workload_id
         self._model_alias = model_alias
@@ -65,6 +65,8 @@ class LocalProofGuardrail(CustomGuardrail):
         }
         if decision is not None:
             turn.error["decision_id"] = decision["decision_id"]
+            if status == 503:
+                turn.error.update(source=decision['source'], audit_status=decision['audit_status'], operational_codes=decision['operational_codes'])
         turn.error_status = status
         raise HTTPException(status_code=status, detail=code)
 
@@ -76,11 +78,12 @@ class LocalProofGuardrail(CustomGuardrail):
             "context_id": turn.context_id if stage == "output" else None,
         }
         try:
-            decision = await self._client.evaluate(body, turn.output_timeout_s if stage == "output" else 1.5)
+            decision = await self._client.evaluate_turn(body, turn)
         except RuntimeClientError as error:
-            self._reject(turn, error.code, 503)
+            self._reject(turn, error.code, 401 if error.code == "authentication_failed" else 503)
         if decision["action"] == "block":
-            self._reject(turn, "guardrail_blocked", 403, decision)
+            operational = set(decision['operational_codes']) - {'disabled'}
+            self._reject(turn, 'evaluation_unavailable' if operational else 'guardrail_blocked', 503 if operational else 403, decision)
         return decision
 
     async def async_pre_call_hook(self, user_api_key_dict: Any, cache: Any, data: dict[str, Any], call_type: Any) -> dict[str, Any]:
@@ -106,18 +109,25 @@ class LocalProofGuardrail(CustomGuardrail):
             turn.output_timeout_s = config["output_timeout_ms"] / 1000.0
         return data
 
+    async def async_post_call_failure_hook(self, request_data, original_exception, user_api_key_dict, traceback_str=None):
+        from litellm import Timeout as ModelTimeout
+        turn = current_turn.get()
+        if turn is not None and turn.error is None and isinstance(original_exception, ModelTimeout):
+            turn.error_status = 504
+            turn.error = {'code':'upstream_failed', 'message':'Model request timed out', 'correlation_id':turn.correlation_id}
+        return None
+
     async def async_post_call_success_hook(self, data: dict[str, Any], user_api_key_dict: Any, response: Any) -> Any:
         turn = self._turn()
-        if turn.input_decision is None or turn.context_id is None:
+        if turn.input_decision is None:
             self._reject(turn, "context_invalid", 503)
         choices = getattr(response, "choices", None)
         if not isinstance(choices, list) or len(choices) != 1:
             self._reject(turn, "unsupported_surface", 503)
         message = getattr(choices[0], "message", None)
         text = getattr(message, "content", None)
-        if (not isinstance(text, str) or getattr(message, "tool_calls", None) or
-                getattr(message, "function_call", None) or getattr(message, "refusal", None) or
-                getattr(message, "audio", None)):
+        if (not isinstance(text, str) or getattr(message, 'role', None) != 'assistant' or
+                any(getattr(message, key, None) is not None for key in ('tool_calls','function_call','refusal','audio'))):
             self._reject(turn, "unsupported_surface", 503)
         decision = await self._evaluate("output", [{"segment_id": "0", "text": text}], turn)
         if decision["action"] == "redact":

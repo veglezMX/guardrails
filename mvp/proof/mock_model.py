@@ -1,4 +1,4 @@
-"""Deterministic OpenAI-compatible model for isolated Phase-one smoke runs.
+"""Deterministic OpenAI-compatible model for isolated local proof runs.
 
 Synthetic response selection and volatile captures require a dedicated control
 credential. The inference credential cannot select a scenario or inspect calls.
@@ -20,6 +20,12 @@ from guardrails.runtime.smoke import digest_token, strict_json
 from guardrails.transport import install_exception_handlers
 
 SCENARIOS = {
+    "error": "",
+    "timeout": "",
+    "tool_calls": "",
+    "refusal": "",
+    "multiple": "",
+    "multipart": "",
     "clean": "A clean mock response.",
     "sensitive": "Contact proof@example.test or +15551234567.",
     "delayed_sensitive": "Contact proof@example.test or +15551234567.",
@@ -34,8 +40,8 @@ def _read_token(path: str) -> str:
 
 
 def create_app() -> FastAPI:
-    if os.environ.get("GUARDRAILS_PROOF_PROFILE") != "smoke":
-        raise RuntimeError("The fixture model requires GUARDRAILS_PROOF_PROFILE=smoke")
+    if os.environ.get("GUARDRAILS_PROOF_PROFILE") not in ("smoke", "integration"):
+        raise RuntimeError("The fixture model requires GUARDRAILS_PROOF_PROFILE=smoke or integration")
     control_hash = digest_token(_read_token(os.environ["GUARDRAILS_PROOF_CONTROL_TOKEN_FILE"]))
     inference_hash = digest_token(_read_token(os.environ["GUARDRAILS_MOCK_TOKEN_FILE"]))
     if hmac.compare_digest(control_hash, inference_hash):
@@ -44,6 +50,13 @@ def create_app() -> FastAPI:
     install_exception_handlers(app)
     state: dict[str, Any] = {"scenario": "clean", "count": 0, "calls": []}
     app.state.mock = state
+    last_capture = [time.monotonic()]
+
+    def expire():
+        if time.monotonic() - last_capture[0] > 120:
+            state['calls'].clear()
+
+
 
     def authenticated(request: Request, token_hash: str) -> bool:
         return hmac.compare_digest(digest_token(bearer(request)), token_hash)
@@ -75,6 +88,7 @@ def create_app() -> FastAPI:
     async def calls(request: Request) -> Any:
         if not authenticated(request, control_hash):
             return safe_problem(401, "authentication_failed")
+        expire()
         return {"count": state["count"], "calls": state["calls"]}
 
     @app.delete("/proof/calls")
@@ -114,16 +128,27 @@ def create_app() -> FastAPI:
         if sum(len(message["content"].encode("utf-8")) for message in messages) > 1048576:
             return safe_problem(413, "invalid_request")
         # Request-local data is retained only in bounded process memory.
+        expire()
+        last_capture[0] = time.monotonic()
         state["count"] += 1
         state["calls"].append({
             "model": value["model"],
             "messages": [{"role": item["role"], "content": item["content"]} for item in messages],
         })
         del state["calls"][:-128]
+        # Bound total captured UTF-8 text as well as the number of calls.
+        retained_bytes = sum(len(message['content'].encode()) for call in state['calls'] for message in call['messages'])
+        while retained_bytes > 8 * 1024 * 1024:
+            oldest = state['calls'].pop(0)
+            retained_bytes -= sum(len(message['content'].encode()) for message in oldest['messages'])
         selected = state['scenario']
         if selected == 'delayed_sensitive':
             await asyncio.sleep(2)
-        return {
+        if selected == 'error':
+            return safe_problem(502, 'upstream_failed')
+        if selected == 'timeout':
+            await asyncio.sleep(12)
+        result = {
             "id": f"chatcmpl-{uuid4().hex}", "object": "chat.completion",
             "created": int(time.time()), "model": value["model"],
             "choices": [{
@@ -132,5 +157,17 @@ def create_app() -> FastAPI:
             }],
             "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2},
         }
+
+        message = result['choices'][0]['message']
+        if selected == 'tool_calls':
+            message['tool_calls'] = [{'id': 'call-proof', 'type': 'function', 'function': {'name': 'proof', 'arguments': '{}'}}]
+            result['choices'][0]['finish_reason'] = 'tool_calls'
+        elif selected == 'refusal':
+            message['refusal'] = 'Synthetic refusal'
+        elif selected == 'multiple':
+            result['choices'].append(dict(result['choices'][0], index=1))
+        elif selected == 'multipart':
+            message['content'] = [{'type': 'text', 'text': 'Synthetic text'}]
+        return result
 
     return app

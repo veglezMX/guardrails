@@ -1,103 +1,90 @@
-# Run the local proof profiles
+# Run the local technical proof
 
-The Phase 1 smoke profile exercises two independently configured real LiteLLM gateways, an HTTPS fixture runtime, and a deterministic HTTPS mock model. Phase 2 adds the durable management API. Phase 3 adds a live runtime with authenticated snapshot polling, pinned turns, supervised detector processes and a separate SQLite audit store. Use authored synthetic content. Full gateway/CLI integration and release acceptance remain Phases 4–5. AWS integration remains deferred.
+The proof uses a durable management API, a separate evaluation runtime, two independent real LiteLLM gateways and a deterministic HTTPS mock. The API-backed CLI registers workloads, publishes immutable policies, governs bindings and reads evidence. Phase 4 regression gates cover this integration; the two complete ten-row release reports and independent QA remain Phase 5. See the [implementation tracker](../../plans/local-technical-proof/progress.md).
 
-Run from the repository root on **Linux x86_64/amd64**, with Git, host Python **3.11 or newer**, `just`, Docker Engine, and the Docker Compose plugin available to the current user. The Docker daemon must be running. Host ports **8401**, **8402**, and **8444** must be free. Services use the prepared container environments; no host Python package installation is required.
-
-Run the four Phase 1 gates in order:
+Use Linux x86_64, Git, Python **3.14**, `just`, Docker Engine and the Compose plugin. The service images run pinned Python/LiteLLM environments; bootstrap prepares a separate ignored host environment for supervision and CLI commands. The host supervisor version and actual service artifacts are recorded in `.proof/artifacts/manifest.json`. The implementation host uses Compose 5.5.1; its recorded behavior, rather than the planned 5.6.0 candidate alone, is tested.
 
 ```sh
 just proof-bootstrap
-just proof-unit foundation
-just proof-contract foundation
-just proof-integration smoke
+just proof-unit
+just proof-contract
+just proof-integration
+just test
 ```
 
-Each command must exit zero for its gate to pass. Recorded implementation results are in the plan's progress and session log. Keep the explicit `foundation` and `smoke` profile names: the default `all` profiles include later work and fail when required tests are missing. `just proof-acceptance` currently exits nonzero because release acceptance is a later phase.
+Bootstrap is the only preparation step that can download dependencies. It reuses the committed locks, verifies cached wheel hashes, builds both images, generates local trust and distinct credentials, and records exact versions/image identities. Rebuild after changing installed service code. Integration starts prepared images with `--pull never --no-build`. Unit/contract and earlier service integration profiles run in network-disabled containers. The full gateway gate uses a fresh internal Compose network and disposable run directory; the supervising host only invokes local APIs and Docker. A reachable external sentinel proves denied container egress. Gateway connection-attempt accounting detects unexpected external dependencies.
 
-Bootstrap requires internet access to prepare image bases, dependencies and build packages. It resolves exact dependencies, verifies the wheelhouse, builds the owned and gateway images, creates local TLS certificates and distinct credentials, and records the resolved environment in `.proof/artifacts/manifest.json`. Committed `requirements.lock` and `dev-requirements.lock` are reused; bootstrap does not silently choose newer package versions. The manifest records **Compose 5.5.1** on the implementation host as a deviation from the plan's **5.6.0** candidate. Another host records its actual version; the smoke gate must verify its required Compose behavior.
+The default gates include every earlier profile and the closed inventory in `phase4-cases.json`; missing, skipped or unexpectedly changed cases fail. Optional profiles remain `foundation`, `management`, `runtime` for unit/contract and `smoke`, `management`, `runtime` for integration. `just proof-acceptance` fails explicitly until Phase 5 is implemented. A passing smoke or regression gate is not ten-row release acceptance.
 
-After bootstrap, unit and contract tests run in containers with `--network none`. Smoke starts the prepared images with pulling and building disabled on a Compose network marked `internal: true`; only communication within the proof stack is needed. Preparation is separate from offline execution. Rebuild with `just proof-bootstrap` after changing code baked into service images before running smoke again. The contract gate regenerates `mvp/proof/openapi.json` from the implemented Pydantic projections.
+## Start and stop
 
-The smoke command leaves its services running for inspection:
+```sh
+just proof-up
+just proof-down
+```
 
-| Service | Host address | Identity/model |
+`proof-up` creates an isolated live run, starts management/runtime/mock, onboards two workloads through the public CLI/API, then starts both gateways. Initial bindings are Observe. `.proof/live.json` records the selected run directory, process and readiness without secrets. Repeating `proof-up` while ready reuses that run. `proof-down` stops the selected project and the legacy smoke project while preserving stores, credentials and logs. It does not stop unrelated containers.
+
+| Service | Local endpoint | Application credential |
 | --- | --- | --- |
-| Gateway A | `https://127.0.0.1:8401` | Independent client/workload credentials; model `proof-a` |
-| Gateway B | `https://127.0.0.1:8402` | Independent client/workload credentials; model `proof-b` |
-| Fixture runtime | `https://127.0.0.1:8444` | Workload-authenticated evaluation; public `/health/live` |
-| Mock model | Compose network only | Deterministic scenarios controlled by the test runner |
+| Management | `https://localhost:8443` | Run `secrets/management-admin.token` or `tenant-operator.token` |
+| Runtime | `https://localhost:8444` | An API-issued workload credential |
+| Gateway A | `https://localhost:8401` | Run `secrets/gateway-a.client.token`, alias `proof-a` |
+| Gateway B | `https://localhost:8402` | Run `secrets/gateway-b.client.token`, alias `proof-b` |
+| Mock/inspection | Internal network only | Separate inference/control credentials |
 
-Trust the generated CA at `.proof/pki/ca.crt` when making local HTTPS requests. Leaf certificates and private keys are in `.proof/pki/`; bootstrap mounts each service's required files. Credentials are files under `.proof/secrets/`: `gateway-a.client.token`, `gateway-b.client.token`, the corresponding `*.workload.token` files, `control.token`, and `mock.token`. The automated runner loads them directly. Keep credentials and private keys out of terminal output, source control, and reports; do not disable certificate verification. Bootstrap reuses existing credentials and certificates. If certificates expire, stop the stack and explicitly renew with `python3 mvp/proof/bootstrap.py --refresh-certificates` before restarting it.
+Always trust `.proof/pki/ca.crt`; never disable verification. Every service link is HTTPS. Private keys and tokens use restricted generated files. Gateways mount neither control nor audit databases. Docker engines that omit published ports for internal-only bridges use the launcher's loopback-only fixed-destination TLS passthrough. It does not terminate TLS, inspect content or provide an external proxy. Direct Compose startup on those engines does not provide working host ports; use the launcher.
 
-The fixture seed is `.proof/smoke-runtime.json`; it is generated by bootstrap and is not a management API substitute. Runtime decision metadata goes to `.proof/state/runtime/smoke-audit.jsonl`. Mock request capture is memory-only and is cleared by the scenarios. Gate assertions and exit status provide Phase 1 evidence; a complete ten-row release report is not produced by this profile. `.proof/artifacts/` contains preparation evidence, and `.proof/evidence/` is retained for exported reports.
+`just proof-reset` stops and retires the selected disposable live run. The next `proof-up` starts fresh stores and issues new workload credentials. Previous live-run stores/logs remain under `.proof/state/live-stacks/` for inspection; exported reports and artifacts are preserved. Reset also clears only the historical smoke audit file, not unrelated state. Do not delete `.proof/` as routine cleanup.
 
-Stop the named proof stack without removing prepared artifacts, credentials, certificates, evidence, or audit state:
+## CLI lifecycle
 
-```sh
-just proof-down
-```
-
-To start again with disposable smoke audit state cleared, first preserve any audit evidence you need, then run:
+The root `python -m guardrails` and installed `guardrails` entry point now use the versioned HTTPS APIs. Help is offline. Common options work before or after command groups: `--management-url`, `--runtime-url`, `--token-file`, `--ca-file`, `--json`, `--no-wait`, `--wait-timeout`.
 
 ```sh
-just proof-reset
-just proof-integration smoke
+# Read the selected run path without exposing a credential.
+proof_run_dir=$(python3 -c 'import json; print(json.load(open(".proof/live.json"))["root"])')
+
+PYTHONPATH=mvp .proof/host-venv/bin/python -m guardrails \
+  --token-file "$proof_run_dir/secrets/management-admin.token" \
+  --ca-file .proof/pki/ca.crt workloads list --tenant local-proof
+
+PYTHONPATH=mvp .proof/host-venv/bin/python -m guardrails \
+  --token-file "$proof_run_dir/secrets/tenant-operator.token" \
+  --ca-file .proof/pki/ca.crt bindings get --tenant local-proof --workload gateway-a
 ```
 
-Reset stops the same named stack and removes only `.proof/state/runtime/smoke-audit.jsonl`. It retains prepared images, locks, the wheelhouse, `.proof/artifacts/`, `.proof/evidence/`, credentials and certificates. Avoid deleting `.proof/` as a routine cleanup step.
+The [endpoint contract](../../plans/local-technical-proof/api-endpoints.md) lists every command and argument. [API examples](api-examples.md) show writable policy documents. Public commands cover tenant registration; workload registration/read/list/credential rotation; policy validation/publication/read/list; binding creation/read/history/state/update/rollback/removal; floors; operation status; audit queries; capabilities; direct diagnostic evaluation. Diagnostic `evaluate` does not invoke a model.
 
-## Phase 2 management gates
+Mutations wait up to five seconds for an authenticated applied-generation receipt by default. `--no-wait` reports committed desired state only. A wait timeout returns exit 6 and the committed operation; it does not undo or automatically repeat the write. Read the operation/resource before deciding whether another mutation is necessary. All revision-sensitive commands send the prescribed preconditions.
 
-After bootstrap, run:
+Issued tokens require `--credential-out PATH`. The CLI creates a new 0600 file atomically, refuses to replace existing files, and prints only its path. It never accepts bearer secrets on the command line. If issuance committed but credential delivery failed, read the workload and explicitly rotate its current credential revision.
 
-```sh
-just proof-unit management
-just proof-contract management
-just proof-integration management
-```
+| Exit | Meaning |
+| --- | --- |
+| 0 | Read success, applied mutation, or explicitly requested committed/no-wait result |
+| 2 | Syntax/schema rejection |
+| 3 | Authentication/authorization rejection |
+| 4 | Conflict, not found, stale revision or governance rejection |
+| 5 | Network/service/file failure |
+| 6 | Committed mutation did not apply within the wait deadline |
 
-The reviewed test inventory is `mvp/proof/management-cases.json`. A missing test function, missing parameter case, skipped case or unexpected inventory change fails the gate. Contract execution regenerates both `openapi.json` (foundation) and `management-openapi.json` from the implemented models and routes.
+Errors contain safe codes/correlation, never input values or credentials. Audit queries disclose source completeness. Use `--allow-partial` to request explicitly incomplete results; only security administrators may publish retention-enabled policies or use `--include-content`.
 
-Management integration starts actual Uvicorn HTTPS processes using the installed owned-service image and real SQLite databases, inside a container with `--network none`. Local loopback remains available for the test client. Each test uses a fresh directory under `.proof/state/management-tests/<run-id>/`; databases, hash-only startup configuration and sanitized service logs are retained. Tests close their clients and stop each process, including abrupt restart cases. No host ports are required for this gate. A test-authored runtime acknowledgement tests authorization and operation semantics; it does **not** establish that the evaluation runtime applied a snapshot.
+## Supported model path and failures
 
-Bootstrap additionally prepares `management-admin.token`, `tenant-operator.token`, `runtime-service.token` and `management-service.token`. The restricted `.proof/management.json` contains only deployment credential hashes. Management startup creates the `local-proof` tenant and installs those trusted identities transactionally; workloads, policies and bindings are created through the API.
+Only `/v1/chat/completions` is supported. Each gateway accepts its one alias, up to 32 system/developer/user/assistant string messages (including a user), aggregate content up to 1 MiB, `stream=false`, `n=1`, `temperature=0`, and `max_tokens` 1–256. Every message is inspected separately. Tools, multipart content, other routes, arbitrary models and guardrail/identity/provider overrides reject before inference. The deterministic mock uses a native role-preserving OpenAI-compatible adapter; its explicitly registered `o3-proof-mock` capability record selects role-preserving transport to the local endpoint and is not a live model integration. Sampling options have no effect on canned mock responses.
 
-For manual API work, start the optional management service (port 8443 must be free):
+Disabled skips detection; Observe logs; Warn also returns namespaced warning codes; Redact replaces validated spans before inference/delivery; Block stops unsafe progress. Supported detection is the documented ASCII email subset and `+` followed by 8–15 ASCII digits, without separators/extensions. These fixture results do not establish comprehensive PII coverage or live model quality.
 
-```sh
-docker compose -p guardrails-phase1 -f mvp/proof/compose.yaml --profile management up -d --no-build --pull never management
-```
+Runtime snapshots refresh every second. Input pins policy, generation and failure settings for output even across updates. New turns see applied updates. A never-configured gateway refuses inference. A configured gateway uses its explicit cached/pinned failure action during an outage; fail-open really invokes the model or returns the permitted output. An input fallback without a runtime context keeps output explicitly unpinned/connector-origin. Authentication and unsupported shapes cannot fail open.
 
-The existing Compose project/image names retain their Phase 1 names for compatibility; bootstrap records the rebuilt image identities. Management state is `.proof/state/management/control.sqlite3`, separate from runtime state. `just proof-down` stops this service as well. `just proof-reset` currently resets only disposable smoke state and deliberately preserves management data and integration evidence.
+The runtime enforces a 500 ms stage budget with a 100 ms audit reserve. Client stage deadlines come from the binding (1,500 ms by default), with 250 ms connection timeout and no content retries. A stalled detector is killed/replaced. Audit failure cannot weaken an existing block/redaction. Gateway fallback events are content-free, fsynced to separate 0600 JSONL spools capped at 10 MiB, and replayed at most 100 at a time, once per iteration no faster than one second. Stable IDs deduplicate at the runtime; failed durability remains visible.
 
-See [management API examples](api-examples.md) and the generated [management schema](management-openapi.json). The service also exposes authenticated `/openapi.json`; interactive documentation routes are disabled. Readback distinguishes committed desired state from acknowledged application. Without a real runtime receipt, operations remain pending and the applied binding revision is null. The management-only configuration explicitly reports the runtime audit source unavailable. The live configuration below enables audit/schema forwarding; unavailable sources still yield 503, or `complete=false` when `allow_partial=true` is requested.
+## Evidence and compatibility
 
-## Phase 3 runtime gates
+Full gateway runs retain configuration, separate stores, logs and offline observations under `.proof/state/gateway-tests/<run-id>/`. Earlier profiles use `.proof/state/management-tests/` and `runtime-tests/`. Default privacy scans cover actual stores, spools and service logs. Authored fixture inputs, restricted credential files and explicit-retention tests are deliberately separate. Volatile mock captures are bounded and cleared between scenarios; raw captures are not exported as evidence.
 
-```sh
-just proof-unit runtime
-just proof-contract runtime
-just proof-integration runtime
-```
+The live runtime has no worker/response fault endpoints. Integration enables fixed, separately credentialed controls and real service pause/stop/restart. No caller content selects faults. Generated schemas are `openapi.json`, `management-openapi.json` and `runtime-openapi.json`.
 
-Rebuild with `just proof-bootstrap` after service changes. The runtime integration gate starts installed management/runtime packages over verified loopback TLS inside a network-disabled container, with separate real databases and four actual worker subprocesses by default. It proves applied-generation receipts, a binding update during a delayed HTTPS mock response, rollback, outages, restart, stale/cold caches, bounded queue/worker/audit deadlines, retained-content authority and non-weakening audit failure. Gateway completion remains Phase 4.
-
-The fixed inventory is `runtime-cases.json`. Missing or skipped cases fail. Each run preserves isolated state and sanitized service logs in `.proof/state/runtime-tests/<run-id>/`; timing records include the 500 ms budget and 100 ms scheduling tolerance. Fault-specific configuration explicitly lowers cache age/context TTL to 1 second or selects one worker and two queue slots. Default settings remain unchanged. Retention tests have their own per-test store; default-retention tests scan actual stores and logs for content and credentials. Token files remain in restricted generated directories and are never report artifacts.
-
-To run the management/runtime API slice manually, first stop the smoke stack, then use the overlay:
-
-```sh
-just proof-down
-docker compose -p guardrails-phase1 -f mvp/proof/compose.yaml -f mvp/proof/compose.runtime.yaml --profile management up -d --no-build --pull never management runtime
-```
-
-Bootstrap prepares `.proof/live-management.json` and `.proof/live-runtime.json`, containing service credential hashes and file references, with no workload/policy seed. The runtime fetches management snapshots every second and acknowledges only after full validation and an atomic swap. Register/publish/bind through the management API examples. Runtime audit lives in `.proof/state/live-runtime/audit.sqlite3`; management state remains in its own directory. `just proof-down` stops either configuration and retains state. `proof-reset` still resets only smoke state.
-
-The live runtime exposes the generated [runtime schema](runtime-openapi.json) through management's `/runtime-openapi.json`. Runtime readiness/schema/audit require the management-service credential; workload credentials access evaluation, capabilities, client configuration and client-event ingestion. The live overlay does not enable proof fault controls. Integration tests use a separate harness credential for fixed worker faults; prompt text cannot select them.
-
-Every input evaluation returns an opaque context and pinned configuration when a policy resolves. Output must provide that context, the same identity and correlation, once only. A completed block releases its context. Contexts hold no text, expire after 120 seconds and are capped at 1,024. Management loss continues using the last valid snapshot for up to 60 seconds; afterward known identities receive the pinned policy's explicit management-unavailable behavior. Cold start is not ready and refuses evaluation. Revocation is delayed during an outage until a new snapshot applies.
-
-The detector implements `pii-ascii-v1`: ASCII dot-atom email and `+` followed by 8–15 ASCII digits, beginning 1–9. It scans maximal candidate tokens and reports code-point offsets independently per segment. One trailing sentence period is punctuation; repeated periods and embedded malformed mailbox/phone tokens are rejected. Unicode mailbox names, quoted local parts, domain literals and separated telephone formats are outside this format. Redaction merges overlapping/touching spans and preserves clean segments.
-
-Normal findings obey the enforcement-state ceiling. Failure behavior is separate: configured fail-closed can block even in Observe or Disabled. Audit failure adds `audit_write_failed` and `audit_status=failed`; permissive audit fallback preserves a prior block or valid redaction. Default audit stores contain metadata only. Explicit content retention requires an administrator's publication, and reading retained content requires an explicitly delegated, audited administrator request. Connector replay accepts only content-free, scoped events and deduplicates stable event IDs.
+The old unversioned single-text server remains only as `guardrails.legacy_cli` for `just serve`, `just policies`, `just caps`, the reference demo and retained baseline assertions. New routes reject those old wire shapes. Legacy files/Bedrock/schema evaluators are not proof-supported capabilities or lifecycle shortcuts. Current progress and remaining release work are in the plan tracker.

@@ -54,3 +54,13 @@ def https_runtime():
         yield stack.start()
     finally:
         stack.stop()
+
+
+@pytest.fixture(scope='session')
+def gateways():
+    from proof.gateway_test_support import GatewayStack
+    stack = GatewayStack()
+    try:
+        yield stack.start()
+    finally:
+        stack.stop()
