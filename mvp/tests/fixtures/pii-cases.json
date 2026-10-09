@@ -1,0 +1,3126 @@
+[
+  {
+    "fixture_id": "pii-positive-01-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 6
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-01-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-01-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 6
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-02-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "(A.b+tag@Example.COM)."
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 1,
+        "end": 20
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "([REDACTED])."
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-02-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "(A.b+tag@Example.COM)."
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-02-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 1,
+        "end": 20
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "([REDACTED])."
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-03-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "hello a@b.co."
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 6,
+        "end": 12
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "hello [REDACTED]."
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-03-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "hello a@b.co."
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-03-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 6,
+        "end": 12
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "hello [REDACTED]."
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-04-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587\ud83d\ude42 a@b.co \u6587"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 3,
+        "end": 9
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587\ud83d\ude42 [REDACTED] \u6587"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-04-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587\ud83d\ude42 a@b.co \u6587"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-04-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 3,
+        "end": 9
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587\ud83d\ude42 [REDACTED] \u6587"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-05-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a!#$%&'*+/=?^_`{|}~-z@example.com"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 33
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-05-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a!#$%&'*+/=?^_`{|}~-z@example.com"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-05-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 33
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-06-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "phone",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 0,
+        "end": 9
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-06-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "phone",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-06-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 0,
+        "end": 9
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-07-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "phone",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "(+123456789012345)"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 1,
+        "end": 17
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "([REDACTED])"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-07-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "phone",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "(+123456789012345)"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-07-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 1,
+        "end": 17
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "([REDACTED])"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-08-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "phone",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587 +12345678 \u6587"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 2,
+        "end": 11
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587 [REDACTED] \u6587"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-08-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "phone",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587 +12345678 \u6587"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-08-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 2,
+        "end": 11
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u6587 [REDACTED] \u6587"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-09-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co,+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 6
+      },
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 7,
+        "end": 16
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email",
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED],[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-09-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co,+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-09-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 6
+      },
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 7,
+        "end": 16
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email",
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED],[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-10-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 76
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-10-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@example.com"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-10-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 76
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-11-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 68
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-11-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-11-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 68
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-12-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 254
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-12-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-12-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 254
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-13-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "overlap",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678@example.test"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 0,
+        "end": 9
+      },
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 22
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email",
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-positive-13-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "overlap",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678@example.test"
+        }
+      ]
+    },
+    "mock_scenario": "pii-positive-13-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:phone",
+        "start": 0,
+        "end": 9
+      },
+      {
+        "check_id": "pii",
+        "segment_id": "0",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 0,
+        "end": 22
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email",
+      "GR-003:local_pii:phone"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "[REDACTED]"
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-01-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "clean",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "clean 12345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-01-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "clean",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "clean 12345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-01-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-02-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": ".a@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-02-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": ".a@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-02-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-03-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a..b@c.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-03-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a..b@c.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-03-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-04-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a.@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-04-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a.@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-04-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-05-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-05-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-05-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-06-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-06-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-06-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-07-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@-b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-07-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@-b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-07-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-08-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b-.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-08-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b-.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-08-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-09-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b_c.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-09-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b_c.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-09-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-10-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.c"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-10-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.c"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-10-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-11-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.12"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-11-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.12"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-11-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-12-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b..co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-12-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b..co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-12-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-13-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co.."
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-13-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co.."
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-13-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-14-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-14-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-14-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-15-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-15-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-15-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-16-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-16-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-16-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-17-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u00e9a@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-17-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\u00e9a@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-17-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-18-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co\u00e9"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-18-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@b.co\u00e9"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-18-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-19-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\"a\"@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-19-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\"a\"@b.co"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-19-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-20-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@[127.0.0.1]"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-20-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "a@[127.0.0.1]"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-20-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-21-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+1234567"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-21-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+1234567"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-21-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-22-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+1234567890123456"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-22-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+1234567890123456"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-22-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-23-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+012345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-23-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+012345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-23-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-24-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "++12345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-24-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "++12345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-24-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-25-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "1+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-25-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "1+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-25-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-26-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678+"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-26-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678+"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-26-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-27-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+\uff11\uff12\uff13\uff14\uff15\uff16\uff17\uff18"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-27-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+\uff11\uff12\uff13\uff14\uff15\uff16\uff17\uff18"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-27-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-28-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\uff19+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-28-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "\uff19+12345678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-28-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-29-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678\uff19"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-29-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12345678\uff19"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-29-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-30-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12-345-678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-30-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12-345-678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-30-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-31-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12 345 678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-31-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+12 345 678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-31-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-32-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+1(234)5678"
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-negative-32-output",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "unsupported_format",
+    "stage": "output",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "+1(234)5678"
+        }
+      ]
+    },
+    "mock_scenario": "pii-negative-32-output",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-invalid-span-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      5,
+      8
+    ],
+    "label": "invalid_span",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "Synthetic invalid span fixture."
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [
+      "unsafe_transformation"
+    ],
+    "expected_action": "block",
+    "expected_transformed": null,
+    "expect_model_call": false
+  },
+  {
+    "fixture_id": "pii-segment-boundaries-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "email",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "synthetic-split-person@"
+        },
+        {
+          "segment_id": "1",
+          "text": "segment-boundary.example.test"
+        },
+        {
+          "segment_id": "2",
+          "text": "\ud83d\ude42a@b.co"
+        },
+        {
+          "segment_id": "3",
+          "text": "Synthetic segment tail."
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [
+      {
+        "check_id": "pii",
+        "segment_id": "2",
+        "reason_code": "GR-003:local_pii:email",
+        "start": 1,
+        "end": 7
+      }
+    ],
+    "expected_reason_codes": [
+      "GR-003:local_pii:email"
+    ],
+    "expected_operational_codes": [],
+    "expected_action": "redact",
+    "expected_transformed": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": "synthetic-split-person@"
+        },
+        {
+          "segment_id": "1",
+          "text": "segment-boundary.example.test"
+        },
+        {
+          "segment_id": "2",
+          "text": "\ud83d\ude42[REDACTED]"
+        },
+        {
+          "segment_id": "3",
+          "text": "Synthetic segment tail."
+        }
+      ]
+    },
+    "expect_model_call": true
+  },
+  {
+    "fixture_id": "pii-empty-segment-input",
+    "kind": "pii",
+    "acceptance_rows": [
+      4,
+      5,
+      9
+    ],
+    "label": "clean",
+    "stage": "input",
+    "input_segments": {
+      "segments": [
+        {
+          "segment_id": "0",
+          "text": ""
+        },
+        {
+          "segment_id": "1",
+          "text": "Synthetic empty companion."
+        }
+      ]
+    },
+    "mock_scenario": "clean",
+    "policy_alias": "closed",
+    "enforcement_state": "redact",
+    "expected_findings": [],
+    "expected_reason_codes": [],
+    "expected_operational_codes": [],
+    "expected_action": "allow",
+    "expected_transformed": null,
+    "expect_model_call": true
+  }
+]

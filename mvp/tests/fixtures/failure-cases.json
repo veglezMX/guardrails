@@ -1,0 +1,342 @@
+[
+  {
+    "fixture_id": "failure-worker-timeout-input-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "worker_timeout",
+    "policy_alias": "closed",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "runtime",
+    "expected_operational_code": "evaluation_timeout",
+    "expect_model_call": false,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-worker-timeout-input-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "worker_timeout",
+    "policy_alias": "open",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "runtime",
+    "expected_operational_code": "evaluation_timeout",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-worker-timeout-output-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "worker_timeout",
+    "policy_alias": "closed",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "runtime",
+    "expected_operational_code": "evaluation_timeout",
+    "expect_model_call": true,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-worker-timeout-output-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "worker_timeout",
+    "policy_alias": "open",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "runtime",
+    "expected_operational_code": "evaluation_timeout",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-runtime-down-input-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "runtime_down",
+    "policy_alias": "closed",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": false,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-runtime-down-input-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "runtime_down",
+    "policy_alias": "open",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-runtime-down-output-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "runtime_down",
+    "policy_alias": "closed",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": true,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-runtime-down-output-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "runtime_down",
+    "policy_alias": "open",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-unsafe-span-input-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "unsafe_span",
+    "policy_alias": "closed",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "runtime",
+    "expected_operational_code": "unsafe_transformation",
+    "expect_model_call": false,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-unsafe-span-input-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "unsafe_span",
+    "policy_alias": "open",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "runtime",
+    "expected_operational_code": "unsafe_transformation",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-unsafe-span-output-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "unsafe_span",
+    "policy_alias": "closed",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "runtime",
+    "expected_operational_code": "unsafe_transformation",
+    "expect_model_call": true,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-unsafe-span-output-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "unsafe_span",
+    "policy_alias": "open",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "runtime",
+    "expected_operational_code": "unsafe_transformation",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-malformed-response-input-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "malformed_response",
+    "policy_alias": "closed",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": false,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-malformed-response-input-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "malformed_response",
+    "policy_alias": "open",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-malformed-response-output-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "malformed_response",
+    "policy_alias": "closed",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": true,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-malformed-response-output-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "malformed_response",
+    "policy_alias": "open",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "connector",
+    "expected_operational_code": "evaluation_unavailable",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-audit-write-input-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "audit_write",
+    "policy_alias": "closed",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "runtime",
+    "expected_operational_code": "audit_write_failed",
+    "expect_model_call": false,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-audit-write-input-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "audit_write",
+    "policy_alias": "open",
+    "stage": "input",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "runtime",
+    "expected_operational_code": "audit_write_failed",
+    "expect_model_call": true,
+    "expect_delivery": true
+  },
+  {
+    "fixture_id": "failure-audit-write-output-block",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "audit_write",
+    "policy_alias": "closed",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "block",
+    "expected_source": "runtime",
+    "expected_operational_code": "audit_write_failed",
+    "expect_model_call": true,
+    "expect_delivery": false
+  },
+  {
+    "fixture_id": "failure-audit-write-output-allow-and-log",
+    "kind": "failure",
+    "acceptance_rows": [
+      8,
+      9
+    ],
+    "failure_location": "audit_write",
+    "policy_alias": "open",
+    "stage": "output",
+    "enforcement_state": "observe",
+    "expected_action": "log_only",
+    "expected_source": "runtime",
+    "expected_operational_code": "audit_write_failed",
+    "expect_model_call": true,
+    "expect_delivery": true
+  }
+]

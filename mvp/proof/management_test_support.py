@@ -39,6 +39,9 @@ def floor(**changes):
 
 def actors():
     tokens = {name: secrets.token_urlsafe(32) for name in ('admin', 'operator', 'runtime', 'management')}
+    if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+        from proof.privacy import SECRETS
+        SECRETS.update(tokens.values())
     identities = (
         credential(role='security_admin', token=tokens['admin']),
         credential(role='tenant_operator', token=tokens['operator'], tenant_id='local-proof'),
@@ -53,6 +56,11 @@ class API:
         self.client, self.tokens = client, tokens
 
     def request(self, method, path, *, body=None, status=200, actor='admin', revision=None, create=False, **kwargs):
+        if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+            from proof.privacy import remember, SECRETS
+            SECRETS.update(self.tokens.values())
+            if path=='/v1/evaluate' and body:
+                remember(*(segment['text'] for segment in body.get('content',{}).get('segments',[])))
         headers = dict(kwargs.pop('headers', {}))
         if actor is not None:
             headers['Authorization'] = 'Bearer ' + self.tokens.get(actor, actor)
@@ -63,6 +71,10 @@ class API:
         if body is not None:
             kwargs['json'] = body
         result = self.client.request(method, path, headers=headers, **kwargs)
+        if os.environ.get('PROOF_ACCEPTANCE_STATE') and result.status_code==201:
+            value=result.json()
+            if isinstance(value,dict) and isinstance(value.get('token'),str):
+                SECRETS.add(value['token'])
         assert result.status_code == status, (method, path, result.status_code, status,
                                              result.json().get('code') if result.headers.get('content-type') == 'application/problem+json' else 'unexpected_status')
         if status >= 400 and not (path == '/health/ready' and status == 503 and 'ready' in result.json()):

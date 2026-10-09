@@ -21,6 +21,7 @@ class AuditRepository:
     def __init__(self, path, *, busy_timeout_ms=100):
         self.path, self.busy_timeout_ms = Path(path), busy_timeout_ms
         self.writer = threading.Lock()
+        self._keeper = None
         self.path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.path.parent.chmod(0o700)
         fd = os.open(self.path, os.O_CREAT | os.O_RDWR, 0o600)
@@ -50,6 +51,21 @@ class AuditRepository:
         connection = sqlite3.connect(self.path, timeout=(self.busy_timeout_ms / 1000 if timeout is None else timeout), isolation_level=None)
         connection.row_factory = sqlite3.Row
         return connection
+
+    def prepare_writer(self):
+        # Run on the service's single audit thread before readiness. Keeping an
+        # idle connection open avoids a last-connection WAL checkpoint on each
+        # request; individual transactions retain their own bounded connections.
+        if self._keeper is None:
+            self._keeper = self.connect()
+            self._keeper.execute('SELECT version FROM schema_migrations').fetchall()
+
+    def close_writer(self):
+        # The caller queues this after pending writes on that same owner thread.
+        if self._keeper is not None:
+            self._keeper.close()
+            self._keeper = None
+            self.restrict_files()
 
     @contextmanager
     def transaction(self, deadline):

@@ -1,0 +1,1459 @@
+{
+  "mvp/tests/acceptance/test_release_matrix.py::test_offline_prepared_services_and_runner": {
+    "rows": [
+      1,
+      10
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_hostname_trust_is_required": {
+    "rows": [
+      1,
+      10
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-01-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-01-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-02-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-02-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-03-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-03-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-04-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-04-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-05-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-05-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-06-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-06-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-07-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-07-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-08-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-08-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-09-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-09-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-10-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-10-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-11-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-11-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-12-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-12-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-13-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-positive-13-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-01-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-01-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-02-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-02-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-03-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-03-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-04-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-04-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-05-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-05-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-06-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-06-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-07-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-07-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-08-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-08-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-09-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-09-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-10-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-10-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-11-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-11-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-12-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-12-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-13-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-13-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-14-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-14-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-15-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-15-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-16-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-16-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-17-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-17-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-18-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-18-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-19-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-19-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-20-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-20-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-21-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-21-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-22-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-22-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-23-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-23-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-24-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-24-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-25-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-25-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-26-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-26-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-27-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-27-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-28-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-28-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-29-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-29-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-30-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-30-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-31-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-31-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-32-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-negative-32-output]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-invalid-span-input]": {
+    "rows": [
+      5,
+      8
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_lifecycle[lifecycle-api]": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_lifecycle[lifecycle-cli]": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_real_api_cli_rejections_match[retention-string]": {
+    "rows": [
+      2,
+      3,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_real_api_cli_rejections_match[unsupported-capability]": {
+    "rows": [
+      2,
+      3,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_real_api_cli_rejections_match[changed-version]": {
+    "rows": [
+      2,
+      3,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_real_api_cli_rejections_match[retention-authority]": {
+    "rows": [
+      2,
+      3,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_real_identity_and_management_scope": {
+    "rows": [
+      2,
+      3,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-worker-timeout-input-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-worker-timeout-input-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-worker-timeout-output-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-worker-timeout-output-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-runtime-down-input-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-runtime-down-input-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-runtime-down-output-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-runtime-down-output-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-unsafe-span-input-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-unsafe-span-input-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-unsafe-span-output-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-unsafe-span-output-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-malformed-response-input-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-malformed-response-input-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-malformed-response-output-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-malformed-response-output-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-audit-write-input-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-audit-write-input-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-audit-write-output-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_authored_failure_boundaries[failure-audit-write-output-allow-and-log]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_management_lifecycle.py::test_real_https_lifecycle_history_update_rollback_and_pending_operations": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_management_lifecycle.py::test_real_snapshot_etag_authenticated_test_receipt_and_later_pending_write": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_management_lifecycle.py::test_real_floor_blocks_rollback_below_current_minimum": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_management_lifecycle.py::test_real_rotation_lost_issuance_recovery_scope_and_privacy": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_management_lifecycle.py::test_real_tls_rejects_untrusted_peer": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_management_lifecycle.py::test_real_binding_removal_recreation_preserves_history_and_applied_view": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_sqlite_restart.py::test_control_restart_retains_policy_history_floor_and_pending_operations": {
+    "rows": [
+      3,
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_sqlite_restart.py::test_real_failed_audit_insert_rolls_back_publication_generation_and_operation": {
+    "rows": [
+      3,
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_sqlite_restart.py::test_actual_sqlite_writer_lock_is_bounded_and_recovers": {
+    "rows": [
+      3,
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_sqlite_restart.py::test_immutable_sql_rows_survive_restart_and_applied_receipt_persists": {
+    "rows": [
+      3,
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_real_polling_ack_update_during_delayed_inference_and_rollback": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_management_outage_uses_snapshot_without_synchronous_dependency_and_rotation_applies": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_stale_and_cold_snapshots_are_explicit_and_unknown_credentials_always_reject[block-block]": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_stale_and_cold_snapshots_are_explicit_and_unknown_credentials_always_reject[allow_and_log-log_only]": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_runtime_audit_restart_and_old_context_invalidated_with_private_files": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_retention_delegation_federated_pagination_and_source_completeness": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_runtime_tls_rejects_untrusted_ca": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_snapshot_distribution.py::test_corrupt_snapshot_over_real_tls_keeps_last_good_state_and_pending_operation": {
+    "rows": [
+      7,
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_actual_stalled_worker_deadline_replacement_and_continuation[block-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_actual_stalled_worker_deadline_replacement_and_continuation[allow_and_log-log_only]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_real_queue_saturation_queued_expiry_and_recovery": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_real_sqlite_lock_is_bounded_and_does_not_weaken_decision[block-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_real_sqlite_lock_is_bounded_and_does_not_weaken_decision[redact-redact]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_real_sqlite_lock_is_bounded_and_does_not_weaken_decision[observe-log_only]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_combined_worker_cutoff_and_sqlite_lock_share_one_stage_deadline": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_unsafe_worker_spans_use_explicit_failure_behavior[block-block]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_unsafe_worker_spans_use_explicit_failure_behavior[allow_and_log-log_only]": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_live_expired_and_cross_workload_contexts_do_not_select_new_policy": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_runtime_faults.py::test_proof_controls_require_distinct_harness_credential": {
+    "rows": [
+      8,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-False-disabled]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-False-observe]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-False-warn]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-False-redact]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-False-block]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-False-disabled]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-False-observe]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-False-warn]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-False-redact]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-False-block]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-True-disabled]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-True-observe]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-True-warn]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-True-redact]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[False-True-block]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-True-disabled]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-True-observe]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-True-warn]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-True-redact]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_two_gateway_state_matrix_and_every_message[True-True-block]": {
+    "rows": [
+      4,
+      5,
+      6,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_invalid_upstream_and_timeout_never_deliver_unchecked_output[tool_calls]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_invalid_upstream_and_timeout_never_deliver_unchecked_output[refusal]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_invalid_upstream_and_timeout_never_deliver_unchecked_output[multiple]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_invalid_upstream_and_timeout_never_deliver_unchecked_output[multipart]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_invalid_upstream_and_timeout_never_deliver_unchecked_output[error]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_invalid_upstream_and_timeout_never_deliver_unchecked_output[timeout]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_runtime_failure_fallback_and_durable_replay[block-stop]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_runtime_failure_fallback_and_durable_replay[block-pause]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_runtime_failure_fallback_and_durable_replay[allow_and_log-stop]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_runtime_failure_fallback_and_durable_replay[allow_and_log-pause]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_output_outage_uses_pinned_fail_open_and_returns_real_model_text": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_turn_keeps_old_generation_during_live_update": {
+    "rows": [
+      7
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_worker_faults_through_both_gateways[block-stall-evaluation_timeout]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_worker_faults_through_both_gateways[block-crash-evaluation_unavailable]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_worker_faults_through_both_gateways[block-invalid_span-unsafe_transformation]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_worker_faults_through_both_gateways[allow_and_log-stall-evaluation_timeout]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_worker_faults_through_both_gateways[allow_and_log-crash-evaluation_unavailable]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_worker_faults_through_both_gateways[allow_and_log-invalid_span-unsafe_transformation]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_audit_lock_never_weakens_completed_restriction[block]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_audit_lock_never_weakens_completed_restriction[redact]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_cli_lifecycle_wait_rotation_governance_and_audit": {
+    "rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[block-malformed-evaluation_unavailable-input]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[block-malformed-evaluation_unavailable-output]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[block-invalid_transformation-unsafe_transformation-input]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[block-invalid_transformation-unsafe_transformation-output]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[block-delay-evaluation_timeout-input]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[block-delay-evaluation_timeout-output]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[allow_and_log-malformed-evaluation_unavailable-input]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[allow_and_log-malformed-evaluation_unavailable-output]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[allow_and_log-invalid_transformation-unsafe_transformation-input]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[allow_and_log-invalid_transformation-unsafe_transformation-output]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[allow_and_log-delay-evaluation_timeout-input]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_real_response_faults_obey_pinned_behavior[allow_and_log-delay-evaluation_timeout-output]": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_never_configured_gateway_refuses_then_recovers": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_management_outage_keeps_valid_cached_evaluation": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_litellm_gateways.py::test_expired_context_never_selects_new_policy_or_loses_fail_open_output": {
+    "rows": [
+      8
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_untrusted_tls_rejects_for_every_public_service[gateway-a]": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_untrusted_tls_rejects_for_every_public_service[gateway-b]": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_untrusted_tls_rejects_for_every_public_service[management]": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_untrusted_tls_rejects_for_every_public_service[runtime]": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_alternate_routes_overrides_and_wrong_keys_never_invoke[a]": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_alternate_routes_overrides_and_wrong_keys_never_invoke[b]": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/integration/test_offline_stack.py::test_default_persistence_and_service_logs_contain_no_traffic_or_tokens": {
+    "rows": [
+      1,
+      3,
+      9,
+      10
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-segment-boundaries-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_pii_corpus_both_gateways[pii-empty-segment-input]": {
+    "rows": [
+      4,
+      5,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_owner_cannot_weaken_mandatory_floor_through_api_or_cli": {
+    "rows": [
+      3,
+      7,
+      9
+    ]
+  },
+  "mvp/tests/acceptance/test_release_matrix.py::test_final_privacy_and_readback": {
+    "rows": [
+      1,
+      9,
+      10
+    ]
+  }
+}

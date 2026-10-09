@@ -1,0 +1,308 @@
+[
+  {
+    "fixture_id": "lifecycle-api",
+    "kind": "lifecycle",
+    "acceptance_rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ],
+    "actor_alias": "admin",
+    "interface": "api",
+    "steps": [
+      {
+        "operation": "register",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "workload_id": "fixture-team",
+          "display_name": "Synthetic fixture team"
+        },
+        "expected_status": 201,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "publish",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "tenant_id": "local-proof",
+          "policy_id": "pii",
+          "version": "fixture-v1",
+          "checks": [
+            {
+              "check_id": "pii",
+              "evaluator": "local_pii",
+              "stages": [
+                "input",
+                "output"
+              ],
+              "pii_types": [
+                "email",
+                "phone"
+              ],
+              "requested_action": "block"
+            }
+          ],
+          "failure_behavior": {
+            "evaluation_timeout": "block",
+            "evaluation_unavailable": "block",
+            "policy_unresolved": "block",
+            "management_unavailable": "block",
+            "audit_failure": "block",
+            "transformation_failure": "block"
+          },
+          "retain_content": false,
+          "detector_format_version": "pii-ascii-v1"
+        },
+        "expected_status": 201,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "bind",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "policy_id": "pii",
+          "policy_version": "fixture-v1",
+          "reason": "initial_binding"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "inspect",
+        "request_template": {},
+        "expected_status": 200,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "state",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "enforcement_state": "redact",
+          "reason": "synthetic_promotion",
+          "evidence_kind": "synthetic_local_proof",
+          "fixture_run_id": "$run"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "publish",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "tenant_id": "local-proof",
+          "policy_id": "pii",
+          "version": "fixture-v2",
+          "checks": [
+            {
+              "check_id": "pii",
+              "evaluator": "local_pii",
+              "stages": [
+                "input",
+                "output"
+              ],
+              "pii_types": [
+                "email",
+                "phone"
+              ],
+              "requested_action": "block"
+            }
+          ],
+          "failure_behavior": {
+            "evaluation_timeout": "block",
+            "evaluation_unavailable": "block",
+            "policy_unresolved": "block",
+            "management_unavailable": "block",
+            "audit_failure": "block",
+            "transformation_failure": "block"
+          },
+          "retain_content": false,
+          "detector_format_version": "pii-ascii-v1"
+        },
+        "expected_status": 201,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "update",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "policy_id": "pii",
+          "policy_version": "fixture-v2",
+          "reason": "policy_update"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "rollback",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "target_revision": 1,
+          "reason": "rollback"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "inspect",
+        "request_template": {},
+        "expected_status": 200,
+        "expected_problem_code": null
+      }
+    ]
+  },
+  {
+    "fixture_id": "lifecycle-cli",
+    "kind": "lifecycle",
+    "acceptance_rows": [
+      2,
+      3,
+      6,
+      7,
+      9
+    ],
+    "actor_alias": "admin",
+    "interface": "cli",
+    "steps": [
+      {
+        "operation": "register",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "workload_id": "fixture-team",
+          "display_name": "Synthetic fixture team"
+        },
+        "expected_status": 201,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "publish",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "tenant_id": "local-proof",
+          "policy_id": "pii",
+          "version": "fixture-v1",
+          "checks": [
+            {
+              "check_id": "pii",
+              "evaluator": "local_pii",
+              "stages": [
+                "input",
+                "output"
+              ],
+              "pii_types": [
+                "email",
+                "phone"
+              ],
+              "requested_action": "block"
+            }
+          ],
+          "failure_behavior": {
+            "evaluation_timeout": "block",
+            "evaluation_unavailable": "block",
+            "policy_unresolved": "block",
+            "management_unavailable": "block",
+            "audit_failure": "block",
+            "transformation_failure": "block"
+          },
+          "retain_content": false,
+          "detector_format_version": "pii-ascii-v1"
+        },
+        "expected_status": 201,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "bind",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "policy_id": "pii",
+          "policy_version": "fixture-v1",
+          "reason": "initial_binding"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "inspect",
+        "request_template": {},
+        "expected_status": 200,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "state",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "enforcement_state": "redact",
+          "reason": "synthetic_promotion",
+          "evidence_kind": "synthetic_local_proof",
+          "fixture_run_id": "$run"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "publish",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "tenant_id": "local-proof",
+          "policy_id": "pii",
+          "version": "fixture-v2",
+          "checks": [
+            {
+              "check_id": "pii",
+              "evaluator": "local_pii",
+              "stages": [
+                "input",
+                "output"
+              ],
+              "pii_types": [
+                "email",
+                "phone"
+              ],
+              "requested_action": "block"
+            }
+          ],
+          "failure_behavior": {
+            "evaluation_timeout": "block",
+            "evaluation_unavailable": "block",
+            "policy_unresolved": "block",
+            "management_unavailable": "block",
+            "audit_failure": "block",
+            "transformation_failure": "block"
+          },
+          "retain_content": false,
+          "detector_format_version": "pii-ascii-v1"
+        },
+        "expected_status": 201,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "update",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "policy_id": "pii",
+          "policy_version": "fixture-v2",
+          "reason": "policy_update"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "rollback",
+        "request_template": {
+          "schema_version": "local-proof-v1",
+          "target_revision": 1,
+          "reason": "rollback"
+        },
+        "expected_status": 202,
+        "expected_problem_code": null
+      },
+      {
+        "operation": "inspect",
+        "request_template": {},
+        "expected_status": 200,
+        "expected_problem_code": null
+      }
+    ]
+  }
+]

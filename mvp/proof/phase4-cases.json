@@ -177,5 +177,6 @@
   "mvp/tests/unit/test_snapshot_cache.py::test_unbound_required_floor_overrides_deployment_fail_open": 1,
   "mvp/tests/unit/test_turn_context.py::test_capacity_expiry_and_release_are_bounded": 1,
   "mvp/tests/unit/test_turn_context.py::test_context_pins_immutable_policy_and_is_consumed_once": 1,
-  "mvp/tests/unit/test_turn_context.py::test_context_scope_cannot_be_exchanged_or_consumed_by_another_turn": 4
+  "mvp/tests/unit/test_turn_context.py::test_context_scope_cannot_be_exchanged_or_consumed_by_another_turn": 4,
+  "mvp/tests/unit/test_failure_precedence.py::test_runtime_writer_retains_wal_until_shutdown_and_preserves_deadline_rollback": 1
 }

@@ -97,3 +97,28 @@ def test_runtime_audit_failure_does_not_fabricate_identifier_or_persist_partial_
     assert error.value.code == 'audit_write_failed'
     with sqlite3.connect(repository.path) as connection:
         assert connection.execute('SELECT COUNT(*) FROM decision_audit').fetchone()[0] == 0
+
+
+def test_runtime_writer_retains_wal_until_shutdown_and_preserves_deadline_rollback(tmp_path):
+    import sqlite3
+    import time
+    from contextlib import closing
+    from guardrails.storage.audit import AuditRepository
+    from guardrails.transport import ContractProblem
+    repository=AuditRepository(tmp_path/'audit.sqlite3')
+    repository.prepare_writer()
+    decision,_=decide('block')
+    try:
+        repository.write_decision(decision,evaluation('a@b.co'),components()[1],deadline=time.monotonic()+.5,cache_age=0)
+        assert repository.path.with_name('audit.sqlite3-wal').stat().st_size>0
+        with closing(sqlite3.connect(repository.path)) as reader:
+            assert reader.execute('SELECT COUNT(*) FROM decision_audit').fetchone()[0]==1
+        with pytest.raises(ContractProblem) as error:
+            repository.write_decision(decision,evaluation('a@b.co'),components()[1],deadline=time.monotonic()-1,cache_age=0)
+        assert error.value.code=='audit_write_failed'
+    finally:
+        repository.close_writer()
+    assert not repository.path.with_name('audit.sqlite3-wal').exists()
+    with closing(sqlite3.connect(repository.path)) as reader:
+        assert reader.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
+        assert reader.execute('SELECT COUNT(*) FROM decision_audit').fetchone()[0]==1

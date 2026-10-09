@@ -165,8 +165,9 @@ def test_retention_delegation_federated_pagination_and_source_completeness(https
 
 def test_runtime_tls_rejects_untrusted_ca(https_runtime):
     with httpx.Client(base_url=https_runtime.url, trust_env=False) as client:
-        with pytest.raises(httpx.TransportError):
+        with pytest.raises(httpx.TransportError) as rejected:
             client.get('/health/live')
+        assert isinstance(rejected.value, httpx.TransportError)
 
 
 def test_corrupt_snapshot_over_real_tls_keeps_last_good_state_and_pending_operation(https_runtime):

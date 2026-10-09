@@ -14,8 +14,9 @@ from proof.gateway_test_support import port
 @pytest.mark.parametrize('service', ['gateway-a','gateway-b','management','runtime'])
 def test_untrusted_tls_rejects_for_every_public_service(gateways, service):
     with httpx.Client(verify=True, trust_env=False, timeout=2) as client:
-        with pytest.raises(httpx.ConnectError):
+        with pytest.raises(httpx.ConnectError) as rejected:
             client.get(gateways.url(service) + '/health/live')
+        assert isinstance(rejected.value, httpx.ConnectError)
 
 
 @pytest.mark.parametrize('gateway', ['a','b'])

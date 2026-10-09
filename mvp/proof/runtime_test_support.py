@@ -47,6 +47,9 @@ def evaluation(*texts, stage='input', context=None, correlation=None, workload='
 
 
 def request_body(text='clean', *, previous=None, workload='team-a'):
+    if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+        from proof.privacy import remember
+        remember(text)
     return envelope(tenant_id='local-proof', workload_id=workload, stage='output' if previous else 'input',
                     content=batch(text).to_wire(), correlation_id=previous['correlation_id'] if previous else str(uuid4()),
                     context_id=previous['context_id'] if previous else None)
@@ -81,6 +84,9 @@ class RuntimeStack:
             self.port = sock.getsockname()[1]
         self.url = f'https://127.0.0.1:{self.port}'
         self.db = self.runtime_root / 'db/audit.sqlite3'
+        if os.environ.get('PROOF_ACCEPTANCE_STATE') and 'authorized-retention' in self.root.parts:
+            from proof.privacy import RETAINED_DATABASES
+            RETAINED_DATABASES.add(self.db.resolve())
         self.config = self.runtime_root / 'runtime.json'
         self.process = None
         self.mock_process = None
@@ -90,6 +96,9 @@ class RuntimeStack:
             path = self.runtime_root / f'{name}.token'
             path.write_text(self.tokens[name])
             path.chmod(0o600)
+            if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+                from proof.privacy import INPUT_FILES
+                INPUT_FILES.add(path.resolve())
         management_config = json.loads(self.management.config.read_text())
         management_config['runtime'] = dict(url=self.url, ca_file=str(self.pki / 'ca.crt'), token_file=str(self.runtime_root / 'management.token'))
         self.management.config.write_text(json.dumps(management_config))
@@ -176,6 +185,9 @@ class RuntimeStack:
             path = root / f'{name}.token'
             path.write_text(self.tokens[name])
             path.chmod(0o600)
+            if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+                from proof.privacy import INPUT_FILES
+                INPUT_FILES.add(path.resolve())
         with socket.socket() as sock:
             sock.bind(('127.0.0.1', 0))
             port = sock.getsockname()[1]

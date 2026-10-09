@@ -26,7 +26,7 @@ PROFILES = {
     },
 }
 ALL_EXTRAS = {
-    "unit": ["mvp/tests/unit/test_runtime_connector.py"],
+    "unit": ["mvp/tests/unit/test_runtime_connector.py", "mvp/tests/unit/test_acceptance_evidence.py"],
     "contract": ["mvp/tests/contract/test_cli_api_parity.py", "mvp/tests/contract/test_gateway_surface.py"],
     "integration": ["mvp/tests/integration/test_litellm_gateways.py", "mvp/tests/integration/test_offline_stack.py"],
 }
@@ -44,7 +44,7 @@ class GatePlugin:
         if missing:
             import pytest
             raise pytest.UsageError("Required gate files collected no tests: " + ", ".join(sorted(missing)))
-        for profile in ('management', 'runtime', 'phase4'):
+        for profile in ('management', 'runtime', 'phase4', 'phase5'):
             inventory = json.loads((ROOT / f'mvp/proof/{profile}-cases.json').read_text())
             required = {name: count for name, count in inventory.items() if name.split('::')[0] in self.required_files}
             profile_files = {name.split('::')[0] for name in required}

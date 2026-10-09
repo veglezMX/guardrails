@@ -2,12 +2,12 @@
 
 ## Current Status
 
-**Active phase:** Phase 5 — Acceptance evidence and independent verification (not started)
-**Last completed task:** Phase 4 complete — all gateway/CLI integration and prerequisite gates passed
-**Next task:** P5.1 — Implement isolated ten-row acceptance orchestration and complete safe evidence reports; retain independent QA and a second clean run as required gates
-**Sessions completed:** 4
+**Active phase:** All five phases complete
+**Last completed task:** P5.6 — Independent QA, matching offline acceptance pair, release review and effort reforecast complete
+**Next task:** None — local technical proof implementation and acceptance complete
+**Sessions completed:** 5
 
-This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phases 1–4 are **COMPLETE**; Phase 5 remains **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
+This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. All five phases are **COMPLETE**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
 
 The phases express dependency gates rather than five serial staffing assignments. Four engineers may prepare independent work in later phases against frozen interfaces, but must not claim a phase complete until its predecessor gates and its own gate pass. The estimate's overlapping waves assume this collaboration (see implementation-estimate.md).
 
@@ -93,14 +93,18 @@ The phases express dependency gates rather than five serial staffing assignments
 ## Phase 5: Acceptance evidence and independent verification
 
 > **Gate:** `just proof-acceptance` exits zero for all ten rows; after `just proof-down` and `just proof-reset`, a second `just proof-acceptance` exits zero with separate preserved evidence; `just verify` also exits zero for repository documentation.
-> **Status:** NOT STARTED
+> **Status:** COMPLETE
 
-- [ ] Implement final isolated-run orchestration, complete fixture inventory, ten-row accounting, safe manifests and results in `mvp/proof/acceptance.py`; earlier report scaffolding can begin in Phase 1 (see component-specs.md §AcceptanceRunner) (see data-schema.md §EvidenceReport).
-- [ ] Execute every release row offline with actual pinned services, real boundary faults, semantic outcome comparisons and sanitized evidence; any absent, skipped or inconclusive required assertion fails (see test-strategy.md §Acceptance matrix traceability) (see quality-gates.md).
-- [ ] Write setup/API/CLI instructions, detector limits, failure behavior and evidence-reading instructions using the implemented commands and contracts (see input-output-contract.md) (see migration-map.md) (see test-strategy.md).
-- [ ] Have QA independently review fixture labels, execute setup/negative scenarios, inspect stored metadata/logs, and retest defects; record concrete results and remaining concerns (see implementation-estimate.md §QA effort and acceptance ownership) (see quality-gates.md).
-- [ ] Produce a clean second run after the documented reset, preserve both evidence reports, and record the source commit, exact resolved dependency/image artifacts and test settings (see component-specs.md §AcceptanceRunner) (see tech-stack.md).
-- [ ] Reforecast actual effort and allowance consumed, complete release-matrix review and update this status/session history only after all gates pass (see implementation-estimate.md) (see quality-gates.md).
+- [x] Implement final isolated-run orchestration, complete fixture inventory, ten-row accounting, safe manifests and results in `mvp/proof/acceptance.py`; earlier report scaffolding can begin in Phase 1 (see component-specs.md §AcceptanceRunner) (see data-schema.md §EvidenceReport).
+- [x] Execute every release row offline with actual pinned services, real boundary faults, semantic outcome comparisons and sanitized evidence; any absent, skipped or inconclusive required assertion fails (see test-strategy.md §Acceptance matrix traceability) (see quality-gates.md).
+- [x] Write setup/API/CLI instructions, detector limits, failure behavior and evidence-reading instructions using the implemented commands and contracts (see input-output-contract.md) (see migration-map.md) (see test-strategy.md).
+- [x] Have QA independently review fixture labels, execute setup/negative scenarios, inspect stored metadata/logs, and retest defects; record concrete results and remaining concerns (see implementation-estimate.md §QA effort and acceptance ownership) (see quality-gates.md).
+- [x] Produce a clean second run after the documented reset, preserve both evidence reports, and record the source commit, exact resolved dependency/image artifacts and test settings (see component-specs.md §AcceptanceRunner) (see tech-stack.md).
+- [x] Reforecast actual effort and allowance consumed, complete release-matrix review and update this status/session history only after all gates pass (see implementation-estimate.md) (see quality-gates.md).
+
+**Gate evidence:** Both final offline runs pass all 216 required scenarios and all ten rows: `e5ce3a91-579c-461f-9023-3fa0441351b2` and `34abe556-4244-46b7-b1f6-0505b0ad9552`. The documented shutdown/reset occurred between them; source, fixtures, locks, images and safety settings match. Complete unit: 238 passed; contract: 176 passed plus 14 subtests; integration: 109 passed; prototype: 67 passed. Independent QA approved fixture labels, negative behavior, both reports and stored privacy, and passed six focused defect regressions. `just verify` passes with 94 documents and 90 generated regions current. No required cases were skipped. See [session 005](sessions/005-2026-10-09.md) for exact artifacts, report paths, command ownership, diagnostic failures and reforecast.
+
+**Gaps closed in Phase 5:** Added a network-isolated runner, restricted lifecycle supervisor, 115 authored fixtures, actual assertion accounting, closed ten-row evidence, exact privacy exclusions and complete report scans. Fixed clean-shell imports, child bytecode-cache inheritance, the concurrent-update test race, audit-writer startup/WAL lifecycle, premature pytest helper registration and an incidental two-byte privacy-fixture collision. Strict scanning, application deadlines and durability remain intact. Remaining W1–W7 implementation is zero for the accepted local proof; human-day reserve consumption is unmeasured, with concrete allowance work and agent elapsed time recorded in session 005.
 
 ## Overall acceptance
 

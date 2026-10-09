@@ -58,8 +58,14 @@ def https_runtime():
 
 @pytest.fixture(scope='session')
 def gateways():
+    import os
     from proof.gateway_test_support import GatewayStack
-    stack = GatewayStack()
+    if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+        from proof.acceptance_stack import AcceptanceStack
+        stack = AcceptanceStack()
+        stack.observations = []
+    else:
+        stack = GatewayStack()
     try:
         yield stack.start()
     finally:

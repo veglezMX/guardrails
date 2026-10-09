@@ -76,6 +76,10 @@ def test_real_runtime_failure_fallback_and_durable_replay(gateways, mode, behavi
         for gateway in ('a','b'):
             result = stack.chat(gateway, (SENSITIVE,))
             assert result.status_code == (503 if behavior == 'block' else 200)
+            if behavior == 'block':
+                error=result.json()['error']
+                assert error['source']=='connector' and error['audit_status']=='spooled'
+                assert ('evaluation_timeout' if mode=='pause' else 'evaluation_unavailable') in error['operational_codes']
             if behavior == 'allow_and_log':
                 body = result.json()
                 assert body['choices'][0]['message']['content'] == OUTPUT
@@ -135,18 +139,30 @@ def test_turn_keeps_old_generation_during_live_update(gateways):
     stack = gateways
     stack.state('redact')
     old = stack.binding('a')
-    stack.scenario('delayed_sensitive')
+    draft = policy('updated-' + uuid4().hex[:8])
+    stack.wait(stack.api.request('POST', PREFIX + '/policies', body=draft, status=201).json())
+    # Complete the native adapter's first-call initialization before measuring
+    # a concurrent turn; the held request still must be observed at the mock.
+    stack.scenario('clean')
+    assert stack.chat().status_code == 200
+    stack.scenario('held_sensitive')
     with concurrent.futures.ThreadPoolExecutor() as pool:
         future = pool.submit(stack.chat)
-        deadline = time.monotonic() + 3
-        while stack.mock()['count'] != 1 and time.monotonic() < deadline:
-            time.sleep(.05)
-        draft = policy('updated-' + uuid4().hex[:8])
-        stack.api.request('POST', PREFIX + '/policies', body=draft, status=201)
-        mutation = stack.api.request('PUT', PREFIX + '/workloads/gateway-a/binding', status=202, revision=old['revision'],
-            body=envelope(policy_id='pii', policy_version=draft['version'], reason='policy_update')).json()
-        stack.wait(mutation)
-        assert not future.done(), 'update must apply while model inference is in flight'
+        try:
+            deadline = time.monotonic() + 3
+            while True:
+                calls = stack.mock()['count']
+                if calls == 1:
+                    break
+                assert time.monotonic() < deadline, 'model inference did not start'
+                time.sleep(.05)
+            assert not future.done(), 'model inference must be held before update'
+            mutation = stack.api.request('PUT', PREFIX + '/workloads/gateway-a/binding', status=202, revision=old['revision'],
+                body=envelope(policy_id='pii', policy_version=draft['version'], reason='policy_update')).json()
+            stack.wait(mutation)
+            assert not future.done(), 'update must apply while model inference is in flight'
+        finally:
+            assert stack.mock('POST', '/proof/release')['released']
         response = future.result(timeout=10)
     assert response.status_code == 200
     assert response.json()['guardrails']['policy_version'] == old['policy_version']
@@ -173,6 +189,9 @@ def test_real_worker_faults_through_both_gateways(gateways, worker, code, behavi
         for letter in ('a','b'):
             response = stack.chat(letter,(SENSITIVE,))
             assert response.status_code == (503 if behavior == 'block' else 200)
+            if behavior == 'block':
+                error=response.json()['error']
+                assert error['source']=='runtime' and code in error['operational_codes']
             if behavior == 'allow_and_log':
                 value = response.json()
                 assert code in value['guardrails']['operational_codes']
@@ -197,6 +216,9 @@ def test_audit_lock_never_weakens_completed_restriction(gateways, state):
     try:
         response = stack.chat(texts=(SENSITIVE,))
         assert response.status_code == (503 if state == 'block' else 200)
+        if state=='block':
+            error=response.json()['error']
+            assert error['source']=='runtime' and 'audit_write_failed' in error['operational_codes']
         if state == 'redact':
             value = response.json()
             assert value['choices'][0]['message']['content'] == SAFE
@@ -278,6 +300,9 @@ def test_real_response_faults_obey_pinned_behavior(gateways, stage, mode, code, 
     try:
         result = s.chat(texts=(SENSITIVE,))
         assert result.status_code == (503 if behavior == 'block' else 200)
+        if behavior=='block':
+            error=result.json()['error']
+            assert error['source']=='connector' and code in error['operational_codes']
         if behavior == 'allow_and_log':
             value = result.json()
             assert value['choices'][0]['message']['content'] == OUTPUT

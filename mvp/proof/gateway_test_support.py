@@ -26,12 +26,12 @@ def port():
 
 
 class GatewayStack:
-    def __init__(self, *, live=False, resume=None):
+    def __init__(self, *, live=False, resume=None, acceptance=False):
         self.run_id = Path(resume["root"]).name if resume else str(uuid4())
         self.resuming = resume is not None
-        self.root = PREPARED / ('state/live-stacks' if live else 'state/gateway-tests') / self.run_id
+        self.root = PREPARED / ('state/acceptance' if acceptance else 'state/live-stacks' if live else 'state/gateway-tests') / self.run_id
         self.root.mkdir(parents=True, mode=0o700, exist_ok=self.resuming)
-        self.project = resume['project'] if resume else 'guardrails-p4-' + self.run_id[:8]
+        self.project = resume['project'] if resume else ('guardrails-p5-' if acceptance else 'guardrails-p4-') + self.run_id[:8]
         self.config = self.root / 'compose.json'
         self.tokens = {}
         self.fixture_content = set()
@@ -93,6 +93,10 @@ class GatewayStack:
     def load_credentials(self):
         for path in (self.root / 'secrets').glob('*.token'):
             self.tokens[path.stem] = path.read_text().strip()
+            if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+                from proof.privacy import INPUT_FILES, SECRETS
+                INPUT_FILES.add(path.resolve())
+                SECRETS.add(self.tokens[path.stem])
         self.tokens.update(admin=self.tokens['management-admin'], operator=self.tokens['tenant-operator'])
         for letter in ('a','b'):
             if 'gateway-' + letter + '.workload' in self.tokens:
@@ -169,11 +173,20 @@ class GatewayStack:
         raise AssertionError('initial runtime receipt missing')
 
     def cli(self, *args, actor='admin', status=0, extra=()):
+        if os.environ.get('PROOF_ACCEPTANCE_STATE'):
+            from proof.privacy import INPUT_FILES
+            if '--file' in args:
+                INPUT_FILES.add(Path(args[args.index('--file')+1]).resolve())
         token = self.root / 'secrets' / ('management-admin.token' if actor == 'admin' else 'tenant-operator.token' if actor == 'operator' else actor + '.token')
         result = subprocess.run([sys.executable, '-m', 'guardrails', '--management-url', self.url('management'),
             '--runtime-url', self.url('runtime'), '--ca-file', str(PREPARED / 'pki/ca.crt'), '--token-file', str(token), *extra, *map(str, args)],
             cwd=ROOT, env=os.environ | {'PYTHONPATH': str(ROOT / 'mvp'), 'PYTHONDONTWRITEBYTECODE': '1'}, text=True, capture_output=True)
         assert result.returncode == status, ('CLI exit', result.returncode, status)
+        if os.environ.get('PROOF_ACCEPTANCE_STATE') and result.returncode==0 and '--credential-out' in args:
+            from proof.privacy import SECRETS
+            issued=Path(args[args.index('--credential-out')+1])
+            INPUT_FILES.add(issued.resolve())
+            SECRETS.add(issued.read_text().strip())
         assert not any(value in result.stdout + result.stderr for value in self.tokens.values()), 'credential exposed by CLI'
         return json.loads(result.stdout if status == 0 else result.stderr)
 

@@ -97,8 +97,9 @@ def test_real_rotation_lost_issuance_recovery_scope_and_privacy(https_management
 
 def test_real_tls_rejects_untrusted_peer(https_management):
     with httpx.Client(verify=ssl.create_default_context(), trust_env=False) as client:
-        with pytest.raises(httpx.ConnectError):
+        with pytest.raises(httpx.ConnectError) as rejected:
             client.get(https_management.url + '/health/live')
+        assert isinstance(rejected.value, httpx.ConnectError)
 
 
 def test_real_binding_removal_recreation_preserves_history_and_applied_view(https_management):

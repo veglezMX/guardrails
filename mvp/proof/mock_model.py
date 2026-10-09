@@ -6,6 +6,7 @@ credential. The inference credential cannot select a scenario or inspect calls.
 from __future__ import annotations
 
 import asyncio
+import json
 import hmac
 import os
 import time
@@ -29,6 +30,7 @@ SCENARIOS = {
     "clean": "A clean mock response.",
     "sensitive": "Contact proof@example.test or +15551234567.",
     "delayed_sensitive": "Contact proof@example.test or +15551234567.",
+    "held_sensitive": "Contact proof@example.test or +15551234567.",
 }
 
 
@@ -50,7 +52,18 @@ def create_app() -> FastAPI:
     install_exception_handlers(app)
     state: dict[str, Any] = {"scenario": "clean", "count": 0, "calls": []}
     app.state.mock = state
+    scenarios = dict(SCENARIOS)
+    # An immutable authored corpus is mounted by acceptance, never supplied by
+    # an inference request or by a caller-controlled response body.
+    corpus = os.environ.get('GUARDRAILS_MOCK_CORPUS')
+    if corpus:
+        from proof.fixtures import PiiFixture
+        for value in json.loads(Path(corpus).read_text()):
+            fixture = PiiFixture.model_validate_json(json.dumps(value))
+            if fixture.stage == 'output':
+                scenarios[fixture.mock_scenario] = fixture.input_segments.segments[0].text
     last_capture = [time.monotonic()]
+    inference_release = [asyncio.Event()]
 
     def expire():
         if time.monotonic() - last_capture[0] > 120:
@@ -79,10 +92,20 @@ def create_app() -> FastAPI:
         except (ValueError, UnicodeDecodeError):
             return safe_problem(400, "invalid_request")
         if (not isinstance(value, dict) or set(value) != {"scenario"}
-                or not isinstance(value["scenario"], str) or value["scenario"] not in SCENARIOS):
+                or not isinstance(value["scenario"], str) or value["scenario"] not in scenarios):
             return safe_problem(422, "invalid_request")
         state["scenario"] = value["scenario"]
+        inference_release[0] = asyncio.Event()
         return {"scenario": state["scenario"]}
+
+    @app.post("/proof/release")
+    async def release(request: Request) -> Any:
+        if not authenticated(request, control_hash):
+            return safe_problem(401, "authentication_failed")
+        if await bounded_body(request):
+            return safe_problem(422, "invalid_request")
+        inference_release[0].set()
+        return {"released": True}
 
     @app.get("/proof/calls")
     async def calls(request: Request) -> Any:
@@ -142,6 +165,11 @@ def create_app() -> FastAPI:
             oldest = state['calls'].pop(0)
             retained_bytes -= sum(len(message['content'].encode()) for message in oldest['messages'])
         selected = state['scenario']
+        if selected == 'held_sensitive':
+            try:
+                await asyncio.wait_for(inference_release[0].wait(), timeout=8)
+            except TimeoutError:
+                return safe_problem(503, 'upstream_failed')
         if selected == 'delayed_sensitive':
             await asyncio.sleep(2)
         if selected == 'error':
@@ -152,7 +180,7 @@ def create_app() -> FastAPI:
             "id": f"chatcmpl-{uuid4().hex}", "object": "chat.completion",
             "created": int(time.time()), "model": value["model"],
             "choices": [{
-                "index": 0, "message": {"role": "assistant", "content": SCENARIOS[selected]},
+                "index": 0, "message": {"role": "assistant", "content": scenarios[selected]},
                 "finish_reason": "stop",
             }],
             "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2},

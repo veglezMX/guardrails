@@ -1,0 +1,8 @@
+{
+  "mvp/tests/unit/test_acceptance_evidence.py::test_fixture_loader_rejects_missing_duplicate_unknown_and_invalid_templates": 1,
+  "mvp/tests/unit/test_acceptance_evidence.py::test_held_mock_requires_control_release_and_has_bounded_watchdog": 1,
+  "mvp/tests/unit/test_acceptance_evidence.py::test_missing_failed_or_empty_row_cannot_pass": 1,
+  "mvp/tests/unit/test_acceptance_evidence.py::test_privacy_exclusions_are_exact_consumed_inputs_and_retained_audit_only": 1,
+  "mvp/tests/unit/test_acceptance_evidence.py::test_real_pytest_plugin_rejects_empty_and_skipped_cases": 5,
+  "mvp/tests/unit/test_acceptance_evidence.py::test_report_refuses_plain_and_json_escaped_traffic": 3
+}

@@ -126,7 +126,10 @@ class EvaluationRuntime:
     async def close(self):
         await self.executor.close()
         self.contexts.contexts.clear()
-        self.audit_pool.shutdown(wait=True, cancel_futures=True)
+        try:
+            await asyncio.get_running_loop().run_in_executor(self.audit_pool, self.audit.close_writer)
+        finally:
+            self.audit_pool.shutdown(wait=True, cancel_futures=True)
 
 
 async def body_bytes(request, limit):
@@ -171,6 +174,7 @@ def create_app(runtime=None, *, schema_only=False, poller=None):
         task = None
         try:
             await runtime.executor.start()
+            await asyncio.get_running_loop().run_in_executor(runtime.audit_pool, runtime.audit.prepare_writer)
             if poller:
                 task = asyncio.create_task(poller.run())
             yield

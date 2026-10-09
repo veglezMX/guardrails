@@ -230,6 +230,11 @@ def main() -> None:
     if not host_python.exists():
         run([sys.executable, '-m', 'venv', str(PROOF / 'host-venv')])
     run([str(host_python), '-m', 'pip', 'install', '--no-index', '--find-links=' + str(PROOF / 'wheelhouse'), '-r', str(ROOT / 'dev-requirements.lock')], capture=True)
+    try:
+        from proof.reports import source_files, digest
+    except ModuleNotFoundError:
+        from reports import source_files, digest
+    build_sources=source_files()
     run(["docker", "build", "--pull=false", "-f", "mvp/proof/Dockerfile", "-t", OWNED_IMAGE, "."])
     run(["docker", "build", "--pull=false", "-f", "mvp/proof/gateway.Dockerfile", "-t", GATEWAY_IMAGE, "."])
     prepare_certificates(refresh=arguments.refresh_certificates)
@@ -242,10 +247,14 @@ def main() -> None:
         raise RuntimeError("Derived gateway image does not contain the pinned LiteLLM version")
     source_commit = run(["git", "rev-parse", "HEAD"], capture=True)
     source_dirty = bool(run(["git", "status", "--porcelain"], capture=True))
+    sources = source_files()
+    if sources!=build_sources:
+        raise RuntimeError('Source changed during artifact preparation; rebuild from a stable worktree')
     manifest = {
         "schema_version": "phase1-bootstrap-v1",
         "prepared_at": datetime.now(timezone.utc).isoformat(),
         "source_commit": source_commit, "source_dirty": source_dirty,
+        "source_files": sources, "source_digest": digest(sources),
         "platform": {"host": platform.platform(), "machine": platform.machine()},
         "docker_engine": engine, "docker_compose": compose,
         "deviations": ([] if compose == "5.6.0" else [{

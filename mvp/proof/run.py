@@ -16,7 +16,8 @@ COMPOSE_FILE = ROOT / "mvp/proof/compose.yaml"
 
 
 def run(command, *, capture=False, check=True):
-    return subprocess.run(command, cwd=ROOT, check=check, text=True, capture_output=capture)
+    environment = os.environ | {'PYTHONPATH': str(ROOT / 'mvp'), 'PYTHONDONTWRITEBYTECODE': '1'}
+    return subprocess.run(command, cwd=ROOT, env=environment, check=check, text=True, capture_output=capture)
 
 
 def compose(*args, capture=False, check=True):
@@ -100,8 +101,9 @@ def main():
         print("Disposable smoke state reset; reports, prepared artifacts and credentials retained.")
         return 0
     if args.suite == "acceptance":
-        print("Release acceptance is not implemented; Phase 5 is pending.", file=sys.stderr)
-        return 2
+        prepared()
+        environment = os.environ | {'PYTHONPATH': str(ROOT / 'mvp'), 'PYTHONDONTWRITEBYTECODE': '1'}
+        return subprocess.run([str(STATE / 'host-venv/bin/python'), '-m', 'proof.acceptance'], cwd=ROOT, env=environment).returncode
     prepared()
     if args.suite in {"unit", "contract"}:
         if args.suite == "contract":
