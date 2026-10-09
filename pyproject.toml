@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-guardrails-proof"
+version = "0.1.0"
+requires-python = ">=3.14,<3.15"
+dependencies = ["fastapi==0.143.0", "pydantic==2.14.0", "uvicorn==0.54.0", "httpx==0.28.1"]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.scripts]
+guardrails = "guardrails.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["mvp"]
+include = ["guardrails*", "connector*", "proof*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["mvp"]
+testpaths = ["mvp/tests"]
+addopts = "-ra --tb=short"

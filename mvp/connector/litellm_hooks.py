@@ -172,3 +172,11 @@ class GuardrailsHandler:
             choices = response.get("choices") or []
             if choices:
                 choices[0].setdefault("message", {})["content"] = text
+
+
+def __getattr__(name: str) -> Any:
+    """Load the actual LiteLLM extension only in the installed gateway image."""
+    if name == "LocalProofGuardrail":
+        from .native_guardrail import LocalProofGuardrail
+        return LocalProofGuardrail
+    raise AttributeError(name)

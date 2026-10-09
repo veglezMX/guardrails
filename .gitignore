@@ -21,3 +21,9 @@ mvp/deployment/audit.jsonl
 # in the tree is always something that leaked out of an ad-hoc command
 *.whl
 .venv/
+
+# Prepared local proof artifacts, credentials and environments
+.proof/
+*.egg-info/
+.pytest_cache/
+build/

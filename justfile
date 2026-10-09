@@ -122,3 +122,26 @@ publish: deck-all xlsx-all docx-all
     @mkdir -p assets
     @cp presentations/*.pptx presentations/*.xlsx presentations/*.docx assets/
     @ls -1 assets/
+
+# Prepare exact dependencies/images and local TLS; may access package registries.
+proof-bootstrap:
+    @python3 {{ mvp }}/proof/bootstrap.py
+
+# Closed phase-specific gates. Unimplemented/all profiles fail explicitly.
+proof-unit profile="all":
+    @python3 {{ mvp }}/proof/run.py unit {{ profile }}
+
+proof-contract profile="all":
+    @python3 {{ mvp }}/proof/run.py contract {{ profile }}
+
+proof-integration profile="all":
+    @python3 {{ mvp }}/proof/run.py integration {{ profile }}
+
+proof-acceptance:
+    @python3 {{ mvp }}/proof/run.py acceptance
+
+proof-down:
+    @python3 {{ mvp }}/proof/run.py down
+
+proof-reset:
+    @python3 {{ mvp }}/proof/run.py reset

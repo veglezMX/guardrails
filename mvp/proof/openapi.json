@@ -1,0 +1,963 @@
+{
+  "components": {
+    "schemas": {
+      "CheckSpecModel": {
+        "additionalProperties": false,
+        "properties": {
+          "check_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Check Id",
+            "type": "string"
+          },
+          "evaluator": {
+            "const": "local_pii",
+            "title": "Evaluator",
+            "type": "string"
+          },
+          "pii_types": {
+            "items": {
+              "enum": [
+                "email",
+                "phone"
+              ],
+              "type": "string"
+            },
+            "title": "Pii Types",
+            "type": "array"
+          },
+          "requested_action": {
+            "enum": [
+              "log_only",
+              "redact",
+              "block"
+            ],
+            "title": "Requested Action",
+            "type": "string"
+          },
+          "stages": {
+            "items": {
+              "enum": [
+                "input",
+                "output",
+                "retrieval",
+                "tool_call",
+                "tool_result",
+                "memory_write",
+                "final_response"
+              ],
+              "type": "string"
+            },
+            "title": "Stages",
+            "type": "array"
+          }
+        },
+        "required": [
+          "check_id",
+          "evaluator",
+          "stages",
+          "pii_types",
+          "requested_action"
+        ],
+        "title": "CheckSpecModel",
+        "type": "object"
+      },
+      "ClientConfigModel": {
+        "additionalProperties": false,
+        "properties": {
+          "failure_behavior": {
+            "$ref": "#/components/schemas/FailureBehaviorModel"
+          },
+          "generation": {
+            "minimum": 1.0,
+            "title": "Generation",
+            "type": "integer"
+          },
+          "input_timeout_ms": {
+            "maximum": 5000.0,
+            "minimum": 750.0,
+            "title": "Input Timeout Ms",
+            "type": "integer"
+          },
+          "output_timeout_ms": {
+            "maximum": 5000.0,
+            "minimum": 750.0,
+            "title": "Output Timeout Ms",
+            "type": "integer"
+          },
+          "retrieved_at": {
+            "format": "date-time",
+            "title": "Retrieved At",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "local-proof-v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "tenant_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "workload_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Workload Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema_version",
+          "tenant_id",
+          "workload_id",
+          "generation",
+          "input_timeout_ms",
+          "output_timeout_ms",
+          "failure_behavior",
+          "retrieved_at"
+        ],
+        "title": "ClientConfigModel",
+        "type": "object"
+      },
+      "DecisionModel": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "allow",
+              "log_only",
+              "redact",
+              "block"
+            ],
+            "title": "Action",
+            "type": "string"
+          },
+          "allowed": {
+            "title": "Allowed",
+            "type": "boolean"
+          },
+          "audit_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audit Id"
+          },
+          "audit_status": {
+            "enum": [
+              "persisted",
+              "spooled",
+              "failed"
+            ],
+            "title": "Audit Status",
+            "type": "string"
+          },
+          "binding_revision": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Binding Revision"
+          },
+          "client_config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClientConfigModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "context_id": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Id"
+          },
+          "correlation_id": {
+            "format": "uuid",
+            "title": "Correlation Id",
+            "type": "string"
+          },
+          "decision_id": {
+            "format": "uuid",
+            "title": "Decision Id",
+            "type": "string"
+          },
+          "enforcement_state": {
+            "anyOf": [
+              {
+                "enum": [
+                  "disabled",
+                  "observe",
+                  "warn",
+                  "redact",
+                  "block"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enforcement State"
+          },
+          "evaluation_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Id"
+          },
+          "evaluation_ms": {
+            "minimum": 0.0,
+            "title": "Evaluation Ms",
+            "type": "number"
+          },
+          "evaluator_metadata": {
+            "items": {
+              "$ref": "#/components/schemas/EvaluatorMetadataModel"
+            },
+            "title": "Evaluator Metadata",
+            "type": "array"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/FindingModel"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "guardrail_category": {
+            "anyOf": [
+              {
+                "const": "GR-003",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Guardrail Category"
+          },
+          "operational_codes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Operational Codes",
+            "type": "array"
+          },
+          "policy_digest": {
+            "anyOf": [
+              {
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Policy Digest"
+          },
+          "policy_id": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Policy Id"
+          },
+          "policy_version": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Policy Version"
+          },
+          "reason_codes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "snapshot_generation": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Snapshot Generation"
+          },
+          "source": {
+            "enum": [
+              "runtime",
+              "connector"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "stage": {
+            "enum": [
+              "input",
+              "output",
+              "retrieval",
+              "tool_call",
+              "tool_result",
+              "memory_write",
+              "final_response"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "tenant_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "transformed_content": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TextBatchModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "workload_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Workload Id",
+            "type": "string"
+          },
+          "would_be_action": {
+            "enum": [
+              "allow",
+              "log_only",
+              "redact",
+              "block"
+            ],
+            "title": "Would Be Action",
+            "type": "string"
+          }
+        },
+        "required": [
+          "decision_id",
+          "evaluation_id",
+          "correlation_id",
+          "context_id",
+          "tenant_id",
+          "workload_id",
+          "stage",
+          "policy_id",
+          "policy_version",
+          "policy_digest",
+          "binding_revision",
+          "snapshot_generation",
+          "enforcement_state",
+          "action",
+          "allowed",
+          "would_be_action",
+          "reason_codes",
+          "operational_codes",
+          "guardrail_category",
+          "evaluator_metadata",
+          "audit_id",
+          "findings",
+          "transformed_content",
+          "evaluation_ms",
+          "source",
+          "audit_status",
+          "client_config"
+        ],
+        "title": "DecisionModel",
+        "type": "object"
+      },
+      "EvaluationRequestModel": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "$ref": "#/components/schemas/TextBatchModel"
+          },
+          "context_id": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Id"
+          },
+          "correlation_id": {
+            "format": "uuid",
+            "title": "Correlation Id",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "local-proof-v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "stage": {
+            "enum": [
+              "input",
+              "output",
+              "retrieval",
+              "tool_call",
+              "tool_result",
+              "memory_write",
+              "final_response"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "tenant_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "workload_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Workload Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema_version",
+          "tenant_id",
+          "workload_id",
+          "stage",
+          "content",
+          "correlation_id",
+          "context_id"
+        ],
+        "title": "EvaluationRequestModel",
+        "type": "object"
+      },
+      "EvaluatorMetadataModel": {
+        "additionalProperties": false,
+        "properties": {
+          "detector_format_version": {
+            "title": "Detector Format Version",
+            "type": "string"
+          },
+          "elapsed_ms": {
+            "minimum": 0.0,
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "evaluator_id": {
+            "title": "Evaluator Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evaluator_id",
+          "detector_format_version",
+          "elapsed_ms"
+        ],
+        "title": "EvaluatorMetadataModel",
+        "type": "object"
+      },
+      "FailureBehaviorModel": {
+        "additionalProperties": false,
+        "properties": {
+          "audit_failure": {
+            "enum": [
+              "block",
+              "allow_and_log"
+            ],
+            "title": "Audit Failure",
+            "type": "string"
+          },
+          "evaluation_timeout": {
+            "enum": [
+              "block",
+              "allow_and_log"
+            ],
+            "title": "Evaluation Timeout",
+            "type": "string"
+          },
+          "evaluation_unavailable": {
+            "enum": [
+              "block",
+              "allow_and_log"
+            ],
+            "title": "Evaluation Unavailable",
+            "type": "string"
+          },
+          "management_unavailable": {
+            "enum": [
+              "block",
+              "allow_and_log"
+            ],
+            "title": "Management Unavailable",
+            "type": "string"
+          },
+          "policy_unresolved": {
+            "enum": [
+              "block",
+              "allow_and_log"
+            ],
+            "title": "Policy Unresolved",
+            "type": "string"
+          },
+          "transformation_failure": {
+            "enum": [
+              "block",
+              "allow_and_log"
+            ],
+            "title": "Transformation Failure",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evaluation_timeout",
+          "evaluation_unavailable",
+          "policy_unresolved",
+          "management_unavailable",
+          "audit_failure",
+          "transformation_failure"
+        ],
+        "title": "FailureBehaviorModel",
+        "type": "object"
+      },
+      "FieldErrorModel": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "field": {
+            "title": "Field",
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "code"
+        ],
+        "title": "FieldErrorModel",
+        "type": "object"
+      },
+      "FindingModel": {
+        "additionalProperties": false,
+        "properties": {
+          "check_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Check Id",
+            "type": "string"
+          },
+          "end": {
+            "minimum": 1.0,
+            "title": "End",
+            "type": "integer"
+          },
+          "reason_code": {
+            "title": "Reason Code",
+            "type": "string"
+          },
+          "segment_id": {
+            "title": "Segment Id",
+            "type": "string"
+          },
+          "start": {
+            "minimum": 0.0,
+            "title": "Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "check_id",
+          "segment_id",
+          "reason_code",
+          "start",
+          "end"
+        ],
+        "title": "FindingModel",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "PolicyValidationModel": {
+        "additionalProperties": false,
+        "properties": {
+          "canonical_digest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Canonical Digest",
+            "type": "string"
+          },
+          "capabilities_version": {
+            "title": "Capabilities Version",
+            "type": "string"
+          },
+          "valid": {
+            "const": true,
+            "title": "Valid",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "valid",
+          "canonical_digest",
+          "capabilities_version"
+        ],
+        "title": "PolicyValidationModel",
+        "type": "object"
+      },
+      "PolicyWriteModel": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/CheckSpecModel"
+            },
+            "title": "Checks",
+            "type": "array"
+          },
+          "detector_format_version": {
+            "const": "pii-ascii-v1",
+            "title": "Detector Format Version",
+            "type": "string"
+          },
+          "failure_behavior": {
+            "$ref": "#/components/schemas/FailureBehaviorModel"
+          },
+          "policy_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Policy Id",
+            "type": "string"
+          },
+          "retain_content": {
+            "title": "Retain Content",
+            "type": "boolean"
+          },
+          "schema_version": {
+            "const": "local-proof-v1",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "tenant_id": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$",
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema_version",
+          "tenant_id",
+          "policy_id",
+          "version",
+          "checks",
+          "failure_behavior",
+          "retain_content",
+          "detector_format_version"
+        ],
+        "title": "PolicyWriteModel",
+        "type": "object"
+      },
+      "ProblemModel": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "correlation_id": {
+            "format": "uuid",
+            "title": "Correlation Id",
+            "type": "string"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/FieldErrorModel"
+            },
+            "title": "Errors",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code",
+          "correlation_id",
+          "errors"
+        ],
+        "title": "ProblemModel",
+        "type": "object"
+      },
+      "TextBatchModel": {
+        "additionalProperties": false,
+        "properties": {
+          "segments": {
+            "items": {
+              "$ref": "#/components/schemas/TextSegmentModel"
+            },
+            "maxItems": 32,
+            "minItems": 1,
+            "title": "Segments",
+            "type": "array"
+          }
+        },
+        "required": [
+          "segments"
+        ],
+        "title": "TextBatchModel",
+        "type": "object"
+      },
+      "TextSegmentModel": {
+        "additionalProperties": false,
+        "properties": {
+          "segment_id": {
+            "title": "Segment Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment_id",
+          "text"
+        ],
+        "title": "TextSegmentModel",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Guardrails local proof foundation",
+    "version": "local-proof-v1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/v1/client-config": {
+      "get": {
+        "operationId": "schema_client_config_v1_client_config_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientConfigModel"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Schema Client Config"
+      }
+    },
+    "/v1/evaluate": {
+      "post": {
+        "operationId": "schema_evaluation_v1_evaluate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationRequestModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionModel"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemModel"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          }
+        },
+        "summary": "Schema Evaluation"
+      }
+    },
+    "/v1/tenants/{tenant_id}/policies/validate": {
+      "post": {
+        "operationId": "schema_policy_v1_tenants__tenant_id__policies_validate_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant_id",
+            "required": true,
+            "schema": {
+              "title": "Tenant Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PolicyWriteModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyValidationModel"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Schema Policy"
+      }
+    }
+  }
+}

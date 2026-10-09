@@ -176,3 +176,16 @@ def decision_from_wire(body: dict[str, Any]) -> Decision:
             Content(transformed["kind"], transformed["text"]) if transformed else None
         ),
     )
+
+
+# Local-proof-v1 uses the strict immutable batch contract. Legacy single-text
+# names remain above solely for the staged prototype migration.
+from .local_contract import (  # noqa: E402,F401
+    ClientConfig,
+    FailureBehavior,
+    TextBatch,
+    TextSegment,
+    Decision as ProofDecision,
+    Evaluation as ProofEvaluation,
+    Policy as ProofPolicy,
+)

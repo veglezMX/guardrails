@@ -2,31 +2,35 @@
 
 ## Current Status
 
-**Active phase:** Phase 1 — Contracts and real integration slice
-**Last completed task:** None — planning only; implementation has not started
-**Next task:** Create the proof recipe profiles and package/configuration skeleton
-**Sessions completed:** 0
+**Active phase:** Phase 2 — Durable management lifecycle (next; not started)
+**Last completed task:** Phase 1 complete — all four required gates passed
+**Next task:** Implement schema-version-1 control SQLite storage and transactional resource/audit writes
+**Sessions completed:** 1
 
-This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Every phase begins **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
+This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phase 1 is **COMPLETE**; later phases remain **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
 
 The phases express dependency gates rather than five serial staffing assignments. Four engineers may prepare independent work in later phases against frozen interfaces, but must not claim a phase complete until its predecessor gates and its own gate pass. The estimate's overlapping waves assume this collaboration (see implementation-estimate.md).
 
 ## Phase 1: Contracts and real integration slice
 
 > **Gate:** `just proof-bootstrap`, `just proof-unit foundation`, `just proof-contract foundation`, and `just proof-integration smoke` all exit zero.
-> **Status:** NOT STARTED
+> **Status:** COMPLETE
 
-- [ ] Create package/configuration skeleton and named proof recipe profiles; produce root package metadata, `justfile` additions and test profile registration (see folder-structure.md) (see tech-stack.md) (see quality-gates.md).
-- [ ] Implement immutable domain representations, shared enumerations and safe decision identity in `mvp/guardrails/contract.py` (see component-specs.md §DomainContracts) (see data-schema.md).
-- [ ] Implement strict JSON/request/response parsing and sanitized Problem serialization in `mvp/guardrails/transport.py`; produce an OpenAPI schema artifact from the same models (see component-specs.md §StrictContracts) (see api-endpoints.md).
-- [ ] Implement initial artifact resolution, TLS and local topology preparation in `mvp/proof/bootstrap.py` with the service/gateway image and Compose files; record actual resolved package locks and image digests (see component-specs.md §ProofStack) (see tech-stack.md).
-- [ ] Implement the deterministic HTTPS model endpoint and memory-only spy in `mvp/proof/mock_model.py` (see component-specs.md §MockModel) (see integration-protocols.md §Model and fault protocol).
-- [ ] Prove the native pre/post callback mechanism in `mvp/connector/litellm_hooks.py` using the pinned real LiteLLM process, one string-message request and safe response metadata; this slice is not full connector completion (see component-specs.md §LiteLLMConnector) (see integration-protocols.md §LiteLLM adapter mechanism).
-- [ ] Implement the minimal asynchronous verified-TLS client slice in `mvp/connector/core.py` and strict response validation used by the smoke path (see component-specs.md §RuntimeClient) (see api-endpoints.md).
-- [ ] Wire the temporary smoke-profile runtime in `mvp/guardrails/runtime/app.py` using valid explicit fixture policy/snapshot data and actual local evaluation; do not seed live management tables or claim a management lifecycle (see component-specs.md §EvaluationRuntime) (see migration-map.md).
-- [ ] Add foundation contract/immutability tests and the explicitly scoped real gateway → runtime → mock smoke case; record whether the candidate versions worked and update the resolved locks if needed (see test-strategy.md) (see quality-gates.md §Named profiles).
+- [x] Create package/configuration skeleton and named proof recipe profiles; produce root package metadata, `justfile` additions and test profile registration (see folder-structure.md) (see tech-stack.md) (see quality-gates.md).
+- [x] Implement immutable domain representations, shared enumerations and safe decision identity in `mvp/guardrails/contract.py` (see component-specs.md §DomainContracts) (see data-schema.md).
+- [x] Implement strict JSON/request/response parsing and sanitized Problem serialization in `mvp/guardrails/transport.py`; produce an OpenAPI schema artifact from the same models (see component-specs.md §StrictContracts) (see api-endpoints.md).
+- [x] Implement initial artifact resolution, TLS and local topology preparation in `mvp/proof/bootstrap.py` with the service/gateway image and Compose files; record actual resolved package locks and image digests (see component-specs.md §ProofStack) (see tech-stack.md).
+- [x] Implement the deterministic HTTPS model endpoint and memory-only spy in `mvp/proof/mock_model.py` (see component-specs.md §MockModel) (see integration-protocols.md §Model and fault protocol).
+- [x] Prove the native pre/post callback mechanism in `mvp/connector/litellm_hooks.py` using the pinned real LiteLLM process, one string-message request and safe response metadata; this slice is not full connector completion (see component-specs.md §LiteLLMConnector) (see integration-protocols.md §LiteLLM adapter mechanism).
+- [x] Implement the minimal asynchronous verified-TLS client slice in `mvp/connector/core.py` and strict response validation used by the smoke path (see component-specs.md §RuntimeClient) (see api-endpoints.md).
+- [x] Wire the temporary smoke-profile runtime in `mvp/guardrails/runtime/app.py` using valid explicit fixture policy/snapshot data and actual local evaluation; do not seed live management tables or claim a management lifecycle (see component-specs.md §EvaluationRuntime) (see migration-map.md).
+- [x] Add foundation contract/immutability tests and the explicitly scoped real gateway → runtime → mock smoke case; record whether the candidate versions worked and update the resolved locks if needed (see test-strategy.md) (see quality-gates.md §Named profiles).
 
 **Completion evidence:** strict models/schema validate; actual gateway hooks enforce input block plus input/output transformations before delivery; local certificate verification succeeds and an invalid trust case fails; the configured mock is called through real HTTP. Missing lifecycle functionality is still tracked in later phases, never skipped and counted as passing release acceptance.
+
+**Gate evidence:** Bootstrap succeeded with recorded locks/images; foundation unit: 22 passed; foundation contract: 46 passed plus 14 subtests; real HTTPS smoke: 14 passed. Existing prototype: 67 passed. See [session 001](sessions/001-2026-10-08.md) for defects corrected, scope limits and the recorded Compose version deviation.
+
+**Gaps closed in Phase 1:** Added isolated immutable domain types re-exported by the legacy contract module; a narrow ASGI gateway boundary for strict raw input and safe error/metadata serialization; native-hook and request-context helper modules; dependency/wheelhouse preparation; a closed gate inventory; and operator instructions. These support the named components without changing the plan's release boundary.
 
 ## Phase 2: Durable management lifecycle
 
@@ -92,4 +96,4 @@ All five phase gates pass, all twenty components have implemented/tested behavio
 
 ## Implementation records
 
-There are no implementation sessions yet. The first implementation session creates `sessions/001-YYYY-MM-DD.md`; every subsequent session appends a new numbered log. Each entry records completed task IDs/descriptions, exact gate commands/results, decisions, Gaps Closed, effort/remaining-risk observations and the next task. Do not mark work complete from file existence or an earlier prototype's Built label.
+Session [001-2026-10-08.md](sessions/001-2026-10-08.md) records completed Phase 1. Every subsequent session appends a new numbered log. Each entry records completed task IDs/descriptions, exact gate commands/results, decisions, Gaps Closed, effort/remaining-risk observations and the next task. Do not mark work complete from file existence or an earlier prototype's Built label.

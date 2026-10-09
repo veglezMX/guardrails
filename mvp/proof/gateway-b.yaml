@@ -1,0 +1,37 @@
+# Native callback registration for the pinned real LiteLLM image.
+model_list:
+  - model_name: proof-b
+    litellm_params:
+      model: openai/proof-mock
+      api_base: https://mock-model:8445/v1
+      api_key: os.environ/PROOF_MOCK_API_KEY
+      timeout: 10
+      max_retries: 0
+    model_info:
+      mode: chat
+      input_cost_per_token: 0
+      output_cost_per_token: 0
+
+guardrails:
+  - guardrail_name: local-proof
+    litellm_params:
+      guardrail: connector.litellm_hooks.LocalProofGuardrail
+      mode: [pre_call, post_call]
+      default_on: true
+      runtime_url: https://runtime:8444
+      token_file: /secrets/gateway-b.workload.token
+      ca_file: /pki/ca.crt
+      tenant_id: local-proof
+      workload_id: gateway-b
+      model_alias: proof-b
+
+litellm_settings:
+  ssl_verify: /pki/ca.crt
+  num_retries: 0
+  set_verbose: false
+  turn_off_message_logging: true
+  request_timeout: 10
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  disable_spend_logs: true

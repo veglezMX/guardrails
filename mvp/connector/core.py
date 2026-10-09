@@ -221,3 +221,88 @@ class GuardedInvocation:
         """
         if decision.get("enforcement_state") == "warn" and decision.get("reason_codes"):
             result.warnings = result.warnings + tuple(decision["reason_codes"])
+
+
+class RuntimeClientError(EvaluationTransportError):
+    """A safe failure code from the local-proof async transport boundary."""
+
+    def __init__(self, code: str) -> None:
+        self.code = code
+        super().__init__(code)
+
+
+class RuntimeClient:
+    """Phase-one verified-TLS client, with no retry or policy fallback.
+
+    The full background configuration cache and durable fallback spool are
+    Phase 4 work. This slice always fails closed when evaluation is unavailable.
+    Imports stay lazy so the legacy standard-library prototype remains usable.
+    """
+
+    def __init__(self, runtime_url: str, token_file: str, ca_file: str) -> None:
+        import ssl
+        from pathlib import Path
+        from urllib.parse import urlsplit
+
+        url = urlsplit(runtime_url)
+        if (url.scheme != "https" or not url.hostname or url.username or
+                url.password or url.query or url.fragment or url.path not in ("", "/")):
+            raise ValueError("runtime_url must be an HTTPS origin")
+        token = Path(token_file).read_text(encoding="utf-8").strip()
+        if not token or any(character.isspace() for character in token):
+            raise ValueError("invalid runtime credential file")
+        self._url = runtime_url.rstrip("/") + "/v1/evaluate"
+        self._token = token
+        self._tls = ssl.create_default_context(cafile=ca_file)
+
+    async def evaluate(self, body: dict[str, Any], timeout_s: float = 1.5) -> dict[str, Any]:
+        import asyncio
+        import httpx
+        from guardrails.transport import ContractProblem, parse_decision
+
+        try:
+            async with asyncio.timeout(timeout_s):
+                async with httpx.AsyncClient(
+                    verify=self._tls, trust_env=False, follow_redirects=False,
+                    timeout=httpx.Timeout(timeout_s),
+                ) as client:
+                    async with client.stream(
+                        "POST", self._url, json=body,
+                        headers={"Authorization": f"Bearer {self._token}"},
+                    ) as response:
+                        if response.status_code != 200:
+                            raise RuntimeClientError("evaluation_unavailable")
+                        if response.headers.get("content-type", "").split(";", 1)[0] != "application/json":
+                            raise RuntimeClientError("invalid_runtime_response")
+                        chunks = bytearray()
+                        async for chunk in response.aiter_bytes():
+                            chunks.extend(chunk)
+                            if len(chunks) > 8 * 1024 * 1024:
+                                raise RuntimeClientError("invalid_runtime_response")
+                        decision = parse_decision(bytes(chunks)).model_dump(mode="json")
+        except (httpx.TimeoutException, TimeoutError):
+            raise RuntimeClientError("evaluation_timeout") from None
+        except (httpx.HTTPError, ContractProblem):
+            raise RuntimeClientError("evaluation_unavailable") from None
+
+        for field in ("tenant_id", "workload_id", "stage", "correlation_id"):
+            if decision[field] != body[field]:
+                raise RuntimeClientError("invalid_runtime_response")
+        if decision["source"] != "runtime":
+            raise RuntimeClientError("invalid_runtime_response")
+        # A terminal block can release its consumed context and omit the
+        # token. It still must match identity, stage and correlation above.
+        # A non-null foreign token is always a protocol failure.
+        if body["stage"] == "output":
+            terminal_block = decision["action"] == "block" and decision["context_id"] is None
+            if not terminal_block and decision["context_id"] != body["context_id"]:
+                raise RuntimeClientError("invalid_runtime_response")
+        if decision["allowed"] and not decision["context_id"]:
+            raise RuntimeClientError("invalid_runtime_response")
+        if decision["action"] == "redact":
+            original = body["content"]["segments"]
+            transformed = decision["transformed_content"]["segments"]
+            if ([part["segment_id"] for part in original] !=
+                    [part["segment_id"] for part in transformed]):
+                raise RuntimeClientError("unsafe_transformation")
+        return decision

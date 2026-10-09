@@ -1,0 +1,99 @@
+name: guardrails-phase1
+services:
+  runtime:
+    image: local/guardrails-proof:phase1
+    pull_policy: never
+    user: "${PROOF_UID:-1000}:${PROOF_GID:-1000}"
+    environment:
+      GUARDRAILS_PROOF_PROFILE: smoke
+      GUARDRAILS_SMOKE_CONFIG: /proof/smoke-runtime.json
+      GUARDRAILS_SMOKE_AUDIT_PATH: /state/smoke-audit.jsonl
+    volumes:
+      - ../../.proof/smoke-runtime.json:/proof/smoke-runtime.json:ro
+      - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
+      - ../../.proof/pki/runtime.crt:/pki/runtime.crt:ro
+      - ../../.proof/pki/runtime.key:/pki/runtime.key:ro
+      - ../../.proof/state/runtime:/state
+    ports: ["127.0.0.1:8444:8444"]
+    networks: [proof]
+  mock-model:
+    image: local/guardrails-proof:phase1
+    pull_policy: never
+    user: "${PROOF_UID:-1000}:${PROOF_GID:-1000}"
+    command: ["python", "-m", "uvicorn", "proof.mock_model:create_app", "--factory", "--host", "0.0.0.0", "--port", "8445", "--ssl-certfile", "/pki/mock-model.crt", "--ssl-keyfile", "/pki/mock-model.key", "--no-access-log"]
+    environment:
+      GUARDRAILS_PROOF_PROFILE: smoke
+      GUARDRAILS_PROOF_CONTROL_TOKEN_FILE: /secrets/control.token
+      GUARDRAILS_MOCK_TOKEN_FILE: /secrets/mock.token
+    volumes:
+      - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
+      - ../../.proof/pki/mock-model.crt:/pki/mock-model.crt:ro
+      - ../../.proof/pki/mock-model.key:/pki/mock-model.key:ro
+      - ../../.proof/secrets/control.token:/secrets/control.token:ro
+      - ../../.proof/secrets/mock.token:/secrets/mock.token:ro
+    networks: [proof]
+  gateway-a:
+    image: local/guardrails-gateway:phase1
+    pull_policy: never
+    environment:
+      CONFIG_FILE_PATH: /config/gateway.yaml
+      PROOF_GATEWAY_TOKEN_FILE: /secrets/gateway-a.client.token
+      PROOF_MOCK_TOKEN_FILE: /secrets/mock.token
+      PROOF_TLS_CERT: /pki/gateway-a.crt
+      PROOF_TLS_KEY: /pki/gateway-a.key
+      PROOF_GATEWAY_MODEL: proof-a
+      PROOF_PORT: "4000"
+      LITELLM_LOCAL_MODEL_COST_MAP: "True"
+      DISABLE_AIOHTTP_TRANSPORT: "True"
+      SSL_CERT_FILE: /pki/ca.crt
+    volumes:
+      - ./gateway-a.yaml:/config/gateway.yaml:ro
+      - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
+      - ../../.proof/pki/gateway-a.crt:/pki/gateway-a.crt:ro
+      - ../../.proof/pki/gateway-a.key:/pki/gateway-a.key:ro
+      - ../../.proof/secrets/gateway-a.workload.token:/secrets/gateway-a.workload.token:ro
+      - ../../.proof/secrets/gateway-a.client.token:/secrets/gateway-a.client.token:ro
+      - ../../.proof/secrets/mock.token:/secrets/mock.token:ro
+    ports: ["127.0.0.1:8401:4000"]
+    networks: [proof]
+  gateway-b:
+    image: local/guardrails-gateway:phase1
+    pull_policy: never
+    environment:
+      CONFIG_FILE_PATH: /config/gateway.yaml
+      PROOF_GATEWAY_TOKEN_FILE: /secrets/gateway-b.client.token
+      PROOF_MOCK_TOKEN_FILE: /secrets/mock.token
+      PROOF_TLS_CERT: /pki/gateway-b.crt
+      PROOF_TLS_KEY: /pki/gateway-b.key
+      PROOF_GATEWAY_MODEL: proof-b
+      PROOF_PORT: "4000"
+      LITELLM_LOCAL_MODEL_COST_MAP: "True"
+      DISABLE_AIOHTTP_TRANSPORT: "True"
+      SSL_CERT_FILE: /pki/ca.crt
+    volumes:
+      - ./gateway-b.yaml:/config/gateway.yaml:ro
+      - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
+      - ../../.proof/pki/gateway-b.crt:/pki/gateway-b.crt:ro
+      - ../../.proof/pki/gateway-b.key:/pki/gateway-b.key:ro
+      - ../../.proof/secrets/gateway-b.workload.token:/secrets/gateway-b.workload.token:ro
+      - ../../.proof/secrets/gateway-b.client.token:/secrets/gateway-b.client.token:ro
+      - ../../.proof/secrets/mock.token:/secrets/mock.token:ro
+    ports: ["127.0.0.1:8402:4000"]
+    networks: [proof]
+  runner:
+    image: local/guardrails-proof:phase1
+    pull_policy: never
+    user: "${PROOF_UID:-1000}:${PROOF_GID:-1000}"
+    working_dir: /workspace
+    environment:
+      PYTHONPATH: /workspace/mvp
+      PYTHONDONTWRITEBYTECODE: "1"
+      PROOF_STATE: /proof
+    volumes:
+      - ../..:/workspace:ro
+      - ../../.proof:/proof
+    networks: [proof]
+    profiles: [tests]
+networks:
+  proof:
+    internal: true

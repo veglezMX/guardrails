@@ -1,0 +1,9 @@
+.git
+**/__pycache__
+.proof/pki
+.proof/secrets
+.proof/state
+.proof/reports
+.proof/venv
+.proof/bin
+.proof/artifacts
