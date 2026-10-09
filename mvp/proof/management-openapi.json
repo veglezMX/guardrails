@@ -53,8 +53,14 @@
             "title": "Actor Id"
           },
           "content": {
-            "title": "Content",
-            "type": "null"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TextBatchModel"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "correlation_id": {
             "anyOf": [
@@ -1712,6 +1718,44 @@
           "display_name"
         ],
         "title": "TenantWrite",
+        "type": "object"
+      },
+      "TextBatchModel": {
+        "additionalProperties": false,
+        "properties": {
+          "segments": {
+            "items": {
+              "$ref": "#/components/schemas/TextSegmentModel"
+            },
+            "maxItems": 32,
+            "minItems": 1,
+            "title": "Segments",
+            "type": "array"
+          }
+        },
+        "required": [
+          "segments"
+        ],
+        "title": "TextBatchModel",
+        "type": "object"
+      },
+      "TextSegmentModel": {
+        "additionalProperties": false,
+        "properties": {
+          "segment_id": {
+            "title": "Segment Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment_id",
+          "text"
+        ],
+        "title": "TextSegmentModel",
         "type": "object"
       },
       "WorkloadIssued": {

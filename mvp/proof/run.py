@@ -53,11 +53,15 @@ def export_schema():
                   "-w", "/workspace", "-e", "PYTHONPATH=/workspace/mvp", IMAGE, "python", "-c",
                   "import json;from guardrails.management.app import create_app;print(json.dumps(create_app(schema_only=True).openapi(),sort_keys=True,indent=2))"], capture=True)
     (ROOT / 'mvp/proof/management-openapi.json').write_text(json.dumps(json.loads(result.stdout), indent=2, sort_keys=True) + '\n')
+    result = run(['docker', 'run', '--rm', '--network', 'none', '-v', f'{ROOT}:/workspace:ro',
+                  '-w', '/workspace', '-e', 'PYTHONPATH=/workspace/mvp', IMAGE, 'python', '-c',
+                  'import json;from guardrails.runtime.app import create_app;print(json.dumps(create_app(schema_only=True).openapi(),sort_keys=True,indent=2))'], capture=True)
+    (ROOT / 'mvp/proof/runtime-openapi.json').write_text(json.dumps(json.loads(result.stdout), indent=2, sort_keys=True) + '\n')
 
 
-def management_tests():
+def management_tests(profile='management'):
     # Separate real HTTPS process per fixture, real files retained after container exit.
-    target = STATE / 'state/management-tests' / str(uuid4())
+    target = STATE / f'state/{profile}-tests' / str(uuid4())
     target.mkdir(parents=True, mode=0o700)
     result = run(['docker', 'run', '--rm', '--network', 'none',
                   '--user', f'{os.getuid()}:{os.getgid()}',
@@ -65,8 +69,8 @@ def management_tests():
                   '-v', f'{target}:/results', '-w', '/workspace',
                   '-e', 'PYTHONPATH=/workspace/mvp', '-e', 'PYTHONDONTWRITEBYTECODE=1',
                   '-e', 'PROOF_MANAGEMENT_TEST_ROOT=/results', '-e', 'PROOF_PKI=/pki',
-                  IMAGE, 'python', '-m', 'proof.test_profiles', 'integration', 'management'], check=False)
-    print(f'Management gate state and sanitized service logs retained: {target.relative_to(ROOT)}')
+                  IMAGE, 'python', '-m', 'proof.test_profiles', 'integration', profile], check=False)
+    print(f'{profile.title()} gate state and sanitized service logs retained: {target.relative_to(ROOT)}')
     return result.returncode
 
 
@@ -95,11 +99,11 @@ def main():
         if args.suite == "contract":
             export_schema()
         return container_tests(args.suite, args.profile)
-    if args.profile == 'management':
-        return management_tests()
+    if args.profile in ('management', 'runtime'):
+        return management_tests(args.profile)
     if args.profile != "smoke":
         # All/later gates must fail rather than count a smoke run as release acceptance.
-        print("Only smoke and management integration profiles are implemented.", file=sys.stderr)
+        print("Only smoke, management and runtime integration profiles are implemented.", file=sys.stderr)
         return 2
     compose("up", "-d", "--no-build", "--pull", "never", "runtime", "mock-model", "gateway-a", "gateway-b")
     result = compose("run", "--rm", "--no-deps", "--pull", "never", "runner",

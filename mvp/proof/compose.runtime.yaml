@@ -1,0 +1,19 @@
+# Apply alongside compose.yaml for the Phase 3 management/runtime API slice.
+# Workloads and policies are onboarded through management, never this file.
+services:
+  management:
+    environment:
+      GUARDRAILS_MANAGEMENT_CONFIG: /proof/live-management.json
+    volumes:
+      - ../../.proof/live-management.json:/proof/live-management.json:ro
+      - ../../.proof/pki/ca.crt:/pki/ca.crt:ro
+      - ../../.proof/secrets/management-service.token:/secrets/management-service.token:ro
+  runtime:
+    environment:
+      GUARDRAILS_PROOF_PROFILE: live
+      GUARDRAILS_RUNTIME_CONFIG: /proof/live-runtime.json
+      GUARDRAILS_AUDIT_DB: /live-state/audit.sqlite3
+    volumes:
+      - ../../.proof/live-runtime.json:/proof/live-runtime.json:ro
+      - ../../.proof/secrets/runtime-service.token:/secrets/runtime-service.token:ro
+      - ../../.proof/state/live-runtime:/live-state

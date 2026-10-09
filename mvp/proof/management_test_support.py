@@ -63,8 +63,9 @@ class API:
         if body is not None:
             kwargs['json'] = body
         result = self.client.request(method, path, headers=headers, **kwargs)
-        assert result.status_code == status, (method, path, result.status_code, status)
-        if status >= 400:
+        assert result.status_code == status, (method, path, result.status_code, status,
+                                             result.json().get('code') if result.headers.get('content-type') == 'application/problem+json' else 'unexpected_status')
+        if status >= 400 and not (path == '/health/ready' and status == 503 and 'ready' in result.json()):
             assert result.headers['content-type'] == 'application/problem+json'
         return result
 

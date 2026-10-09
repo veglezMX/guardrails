@@ -1,6 +1,6 @@
 # Run the local proof profiles
 
-The Phase 1 smoke profile exercises two independently configured real LiteLLM gateways, an HTTPS fixture runtime, and a deterministic HTTPS mock model. Phase 2 adds the durable management API: identities, immutable policies, binding history, governance, snapshots and authenticated operation receipts. Use authored synthetic content. The fixture runtime is not yet connected to management; runtime snapshot application, the lifecycle CLI and full release acceptance remain later phases. AWS integration remains deferred.
+The Phase 1 smoke profile exercises two independently configured real LiteLLM gateways, an HTTPS fixture runtime, and a deterministic HTTPS mock model. Phase 2 adds the durable management API. Phase 3 adds a live runtime with authenticated snapshot polling, pinned turns, supervised detector processes and a separate SQLite audit store. Use authored synthetic content. Full gateway/CLI integration and release acceptance remain Phases 4–5. AWS integration remains deferred.
 
 Run from the repository root on **Linux x86_64/amd64**, with Git, host Python **3.11 or newer**, `just`, Docker Engine, and the Docker Compose plugin available to the current user. The Docker daemon must be running. Host ports **8401**, **8402**, and **8444** must be free. Services use the prepared container environments; no host Python package installation is required.
 
@@ -71,4 +71,33 @@ docker compose -p guardrails-phase1 -f mvp/proof/compose.yaml --profile manageme
 
 The existing Compose project/image names retain their Phase 1 names for compatibility; bootstrap records the rebuilt image identities. Management state is `.proof/state/management/control.sqlite3`, separate from runtime state. `just proof-down` stops this service as well. `just proof-reset` currently resets only disposable smoke state and deliberately preserves management data and integration evidence.
 
-See [management API examples](api-examples.md) and the generated [management schema](management-openapi.json). The service also exposes authenticated `/openapi.json`; interactive documentation routes are disabled. Readback distinguishes committed desired state from acknowledged application. Without a real runtime receipt, operations remain pending and the applied binding revision is null. Runtime audit and schema forwarding are Phase 3 work: default audit queries return an explicit unavailable-source 503; `allow_partial=true` returns `complete=false`; `source=management` returns complete management-only results. `/runtime-openapi.json` returns a sanitized 503 until that adapter exists.
+See [management API examples](api-examples.md) and the generated [management schema](management-openapi.json). The service also exposes authenticated `/openapi.json`; interactive documentation routes are disabled. Readback distinguishes committed desired state from acknowledged application. Without a real runtime receipt, operations remain pending and the applied binding revision is null. The management-only configuration explicitly reports the runtime audit source unavailable. The live configuration below enables audit/schema forwarding; unavailable sources still yield 503, or `complete=false` when `allow_partial=true` is requested.
+
+## Phase 3 runtime gates
+
+```sh
+just proof-unit runtime
+just proof-contract runtime
+just proof-integration runtime
+```
+
+Rebuild with `just proof-bootstrap` after service changes. The runtime integration gate starts installed management/runtime packages over verified loopback TLS inside a network-disabled container, with separate real databases and four actual worker subprocesses by default. It proves applied-generation receipts, a binding update during a delayed HTTPS mock response, rollback, outages, restart, stale/cold caches, bounded queue/worker/audit deadlines, retained-content authority and non-weakening audit failure. Gateway completion remains Phase 4.
+
+The fixed inventory is `runtime-cases.json`. Missing or skipped cases fail. Each run preserves isolated state and sanitized service logs in `.proof/state/runtime-tests/<run-id>/`; timing records include the 500 ms budget and 100 ms scheduling tolerance. Fault-specific configuration explicitly lowers cache age/context TTL to 1 second or selects one worker and two queue slots. Default settings remain unchanged. Retention tests have their own per-test store; default-retention tests scan actual stores and logs for content and credentials. Token files remain in restricted generated directories and are never report artifacts.
+
+To run the management/runtime API slice manually, first stop the smoke stack, then use the overlay:
+
+```sh
+just proof-down
+docker compose -p guardrails-phase1 -f mvp/proof/compose.yaml -f mvp/proof/compose.runtime.yaml --profile management up -d --no-build --pull never management runtime
+```
+
+Bootstrap prepares `.proof/live-management.json` and `.proof/live-runtime.json`, containing service credential hashes and file references, with no workload/policy seed. The runtime fetches management snapshots every second and acknowledges only after full validation and an atomic swap. Register/publish/bind through the management API examples. Runtime audit lives in `.proof/state/live-runtime/audit.sqlite3`; management state remains in its own directory. `just proof-down` stops either configuration and retains state. `proof-reset` still resets only smoke state.
+
+The live runtime exposes the generated [runtime schema](runtime-openapi.json) through management's `/runtime-openapi.json`. Runtime readiness/schema/audit require the management-service credential; workload credentials access evaluation, capabilities, client configuration and client-event ingestion. The live overlay does not enable proof fault controls. Integration tests use a separate harness credential for fixed worker faults; prompt text cannot select them.
+
+Every input evaluation returns an opaque context and pinned configuration when a policy resolves. Output must provide that context, the same identity and correlation, once only. A completed block releases its context. Contexts hold no text, expire after 120 seconds and are capped at 1,024. Management loss continues using the last valid snapshot for up to 60 seconds; afterward known identities receive the pinned policy's explicit management-unavailable behavior. Cold start is not ready and refuses evaluation. Revocation is delayed during an outage until a new snapshot applies.
+
+The detector implements `pii-ascii-v1`: ASCII dot-atom email and `+` followed by 8–15 ASCII digits, beginning 1–9. It scans maximal candidate tokens and reports code-point offsets independently per segment. One trailing sentence period is punctuation; repeated periods and embedded malformed mailbox/phone tokens are rejected. Unicode mailbox names, quoted local parts, domain literals and separated telephone formats are outside this format. Redaction merges overlapping/touching spans and preserves clean segments.
+
+Normal findings obey the enforcement-state ceiling. Failure behavior is separate: configured fail-closed can block even in Observe or Disabled. Audit failure adds `audit_write_failed` and `audit_status=failed`; permissive audit fallback preserves a prior block or valid redaction. Default audit stores contain metadata only. Explicit content retention requires an administrator's publication, and reading retained content requires an explicitly delegated, audited administrator request. Connector replay accepts only content-free, scoped events and deduplicates stable event IDs.

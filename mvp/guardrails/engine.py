@@ -293,13 +293,83 @@ class DecisionEngine:
 
 
 def _redact(text: str, spans: tuple[tuple[int, int], ...]) -> str:
+    merged = []
+    for start, end in sorted(spans):
+        if not 0 <= start < end <= len(text):
+            raise ValueError('unsafe_transformation')
+        if merged and start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        else:
+            merged.append((start, end))
     out: list[str] = []
     cursor = 0
-    for start, end in spans:
-        if start < cursor:  # overlapping detections
-            continue
+    for start, end in merged:
         out.append(text[cursor:start])
         out.append(REDACTION_PLACEHOLDER)
         cursor = end
     out.append(text[cursor:])
     return "".join(out)
+
+
+class BatchDecisionEngine:
+    """Pure versioned batch normalization; adapters supply findings and audit."""
+
+    actions = ('allow', 'log_only', 'redact', 'block')
+    ceilings = dict(disabled='allow', observe='log_only', warn='log_only', redact='redact', block='block')
+
+    @staticmethod
+    def failure_action(behavior):
+        return 'block' if behavior == 'block' else 'log_only'
+
+    def decide(self, evaluation, binding, policy, client, *, context_id=None,
+               result=None, failure=None, elapsed_ms=0):
+        from . import local_contract as d
+        from uuid import uuid4
+        findings, metadata, codes = (), (), ()
+        transformed = None
+        action = would_be = 'allow'
+        behavior = client.failure_behavior
+        if failure:
+            action = would_be = self.failure_action(getattr(behavior, failure))
+            codes = (failure,)
+        elif binding.enforcement_state == 'disabled':
+            codes = ('disabled',)
+        else:
+            try:
+                findings = tuple(d.Finding(**f) for f in result['findings'])
+                checks = {c.check_id: c for c in policy.checks if evaluation.stage in c.stages}
+                for finding in findings:
+                    finding.validate_content(evaluation.content)
+                    check = checks.get(finding.check_id)
+                    if check is None or finding.reason_code.rsplit(':', 1)[-1] not in check.pii_types:
+                        raise d.DomainValidationError('unsafe_transformation')
+                metadata = (d.EvaluatorMetadata(evaluator_id='local_pii', detector_format_version='pii-ascii-v1', elapsed_ms=result['elapsed_ms']),)
+                would_be = max((checks[f.check_id].requested_action for f in findings), key=self.actions.index, default='allow')
+                action = min(would_be, self.ceilings[binding.enforcement_state], key=self.actions.index)
+                if action == 'redact':
+                    transformed = d.TextBatch(segments=tuple(
+                        d.TextSegment(segment_id=s.segment_id, text=_redact(s.text, tuple((f.start, f.end) for f in findings if f.segment_id == s.segment_id)))
+                        for s in evaluation.content.segments))
+            except (d.DomainValidationError, ValueError, TypeError, KeyError):
+                # Invalid findings never escape into response/audit metadata.
+                findings, metadata, transformed = (), (), None
+                action = would_be = self.failure_action(behavior.transformation_failure)
+                codes = ('unsafe_transformation',)
+        reasons = tuple(sorted({f.reason_code for f in findings}))
+        return d.Decision(decision_id=uuid4(), evaluation_id=evaluation.evaluation_id,
+                          correlation_id=evaluation.correlation_id, context_id=context_id,
+                          tenant_id=evaluation.tenant_id, workload_id=evaluation.workload_id, stage=evaluation.stage,
+                          policy_id=policy.policy_id if policy else None, policy_version=policy.version if policy else None,
+                          policy_digest=policy.digest if policy else None, binding_revision=binding.revision if binding else None,
+                          snapshot_generation=client.generation if policy else None,
+                          enforcement_state=binding.enforcement_state if binding else None,
+                          action=action, would_be_action=would_be, reason_codes=reasons, operational_codes=codes,
+                          guardrail_category='GR-003' if reasons else None, evaluator_metadata=metadata,
+                          audit_id=None, findings=findings, transformed_content=transformed, evaluation_ms=elapsed_ms,
+                          source='runtime', audit_status='failed', client_config=client if evaluation.stage == 'input' else None)
+
+    def audit_failed(self, decision, behavior):
+        from dataclasses import replace
+        action = max(decision.action, self.failure_action(behavior.audit_failure), key=self.actions.index)
+        return replace(decision, action=action, transformed_content=decision.transformed_content if action == 'redact' else None,
+                       audit_id=None, audit_status='failed', operational_codes=decision.operational_codes + ('audit_write_failed',))

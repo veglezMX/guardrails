@@ -117,6 +117,15 @@ def prepare_credentials() -> None:
         ))
     write_json(config_path, {'credentials': actors})
     config_path.chmod(0o600)
+    write_json(PROOF / 'live-management.json', {'credentials': actors, 'runtime': {
+        'url': 'https://runtime:8444', 'ca_file': '/pki/ca.crt', 'token_file': '/secrets/management-service.token'}})
+    write_json(PROOF / 'live-runtime.json', {
+        'credentials': [item for item in actors if item['role'] == 'management_service'],
+        'management_url': 'https://management:8443', 'ca_file': '/pki/ca.crt',
+        'token_file': '/secrets/runtime-service.token', 'proof_config': {},
+    })
+    for name in ('live-management.json', 'live-runtime.json'):
+        (PROOF / name).chmod(0o600)
 
 
 def prepare_certificates(*, refresh: bool) -> None:
@@ -205,7 +214,7 @@ def main() -> None:
         raise RuntimeError("This proof currently requires Linux x86_64")
     PROOF.mkdir(exist_ok=True, mode=0o700)
     PROOF.chmod(0o700)
-    for name in ("pki", "secrets", "state", "state/runtime", "state/management", "state/management-tests", "artifacts", "evidence"):
+    for name in ("pki", "secrets", "state", "state/runtime", "state/live-runtime", "state/management", "state/management-tests", "state/runtime-tests", "artifacts", "evidence"):
         target = PROOF / name
         target.mkdir(exist_ok=True, mode=0o700)
         target.chmod(0o700)

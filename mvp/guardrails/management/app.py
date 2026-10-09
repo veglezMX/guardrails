@@ -77,9 +77,17 @@ def query_options(request, allowed):
     return query, limit
 
 
-def paginate(items, key, request, query, limit):
+def cursor_scope(request, query):
+    return hashlib.sha256(document([request.url.path, {k: v for k, v in query.items() if k not in ('cursor', 'limit')}]).encode()).hexdigest()
+
+
+def cursor_for(request, query, after):
+    return base64.urlsafe_b64encode(document({'scope': cursor_scope(request, query), 'after': after}).encode()).decode()
+
+
+def cursor_key(request, query):
     """Scope-bound opaque keyset cursor; no caller-provided SQL or offsets."""
-    scope = hashlib.sha256(document([request.url.path, {k: v for k, v in query.items() if k not in ('cursor', 'limit')}]).encode()).hexdigest()
+    scope = cursor_scope(request, query)
     after = None
     if 'cursor' in query:
         try:
@@ -90,19 +98,25 @@ def paginate(items, key, request, query, limit):
             after = tuple(decoded['after'])
         except (ValueError, TypeError, ContractProblem):
             raise ContractProblem(status=422) from None
+    return after
+
+
+def paginate(items, key, request, query, limit):
+    after = cursor_key(request, query)
     ordered = sorted(items, key=key)
     if after is not None:
         ordered = [item for item in ordered if key(item) > after]
     page = ordered[:limit]
     cursor = None
     if len(ordered) > limit:
-        cursor = base64.urlsafe_b64encode(document({'scope': scope, 'after': key(page[-1])}).encode()).decode()
+        cursor = cursor_for(request, query, key(page[-1]))
     return dict(items=page, next_cursor=cursor)
 
 
 class ManagementBoundary:
-    def __init__(self, repository):
+    def __init__(self, repository, runtime=None):
         self.repository = repository
+        self.runtime = runtime
         self.identity = IdentityService(repository)
         self.policies = PolicyService(repository)
         self.bindings = BindingService(repository)
@@ -156,7 +170,9 @@ class ManagementBoundary:
         if name == 'schema':
             return request.app.openapi(), 200
         if name == 'runtime_schema':
-            raise ContractProblem('evaluation_unavailable', 503)
+            if self.runtime is None:
+                raise ContractProblem('evaluation_unavailable', 503)
+            return self.runtime.schema(), 200
         with self.repository.transaction() as connection:
             if name == 'workload':
                 return read_document(connection.execute('SELECT document FROM workloads WHERE tenant_id=? AND workload_id=?', (tenant_id, workload_id)).fetchone()), 200
@@ -201,6 +217,7 @@ class ManagementBoundary:
         source = query.get('source')
         status = {}
         items = []
+        runtime_more = False
         if source in (None, 'management'):
             status['management'] = 'available'
             try:
@@ -219,16 +236,36 @@ class ManagementBoundary:
                     raise
                 status['management'] = 'unavailable'
         if source in (None, 'runtime', 'connector'):
-            # Phase 3 installs the authenticated runtime audit adapter. Until then
-            # this source is explicitly unavailable, never an empty successful query.
             status['runtime'] = 'unavailable'
+            if self.runtime is not None:
+                try:
+                    tenants = [tenant_id] if tenant_id else self._tenant_ids()
+                    after = cursor_key(request, query)
+                    for tenant in tenants:
+                        result = self.runtime.audit(query | {'tenant_id': tenant}, limit, after=after,
+                                                    actor_id=str(actor.credential_id), role=actor.role)
+                        items.extend(result['items'])
+                        runtime_more = runtime_more or result['next_cursor'] is not None
+                    status['runtime'] = 'available'
+                except ContractProblem as error:
+                    if error.status != 503:
+                        raise
+                    # Do not return a subset of tenants from an unavailable source.
+                    items = [item for item in items if item['source'] == 'management']
         complete = all(value == 'available' for value in status.values())
         if not complete and query.get('allow_partial') != 'true':
             result = problem_document(ContractProblem('evaluation_unavailable', 503), UUID(correlation_id))
             result.update(source_status=status, complete=False)
             return JSONResponse(result, status_code=503, media_type='application/problem+json'), 503
         page = paginate(items, lambda item: (item['occurred_at'], item['event_id']), request, query, limit)
+        if runtime_more and page['items'] and page['next_cursor'] is None:
+            last = page['items'][-1]
+            page['next_cursor'] = cursor_for(request, query, (last['occurred_at'], last['event_id']))
         return dict(**page, source_status=status, complete=complete), 200
+
+    def _tenant_ids(self):
+        with self.repository.transaction() as connection:
+            return [row[0] for row in connection.execute('SELECT tenant_id FROM tenants ORDER BY tenant_id')]
 
 
 # Models listed here produce both endpoint validation and the published OpenAPI.
@@ -260,15 +297,26 @@ ROUTES = (
 )
 
 
-def create_app(repository=None, *, credentials=(), schema_only=False):
+def create_app(repository=None, *, credentials=(), schema_only=False, runtime=None):
     if repository is None and not schema_only:
         config = strict_json_loads(Path(os.environ['GUARDRAILS_MANAGEMENT_CONFIG']).read_bytes())
         credentials = tuple(parse_model(document(value).encode(), m.CredentialModel).to_domain() for value in config['credentials'])
         repository = ControlRepository(os.environ['GUARDRAILS_CONTROL_DB'])
-    boundary = ManagementBoundary(repository)
+        if config.get('runtime'):
+            from .runtime_client import RuntimeAuditClient
+            runtime = RuntimeAuditClient(**config['runtime'])
+    boundary = ManagementBoundary(repository, runtime)
     if credentials:
         boundary.identity.bootstrap(credentials)
-    app = FastAPI(title='Guardrails local proof management', version=d.SCHEMA_VERSION,
+    from contextlib import asynccontextmanager
+
+    @asynccontextmanager
+    async def lifespan(app):
+        yield
+        if runtime is not None:
+            runtime.close()
+
+    app = FastAPI(title='Guardrails local proof management', version=d.SCHEMA_VERSION, lifespan=lifespan,
                   docs_url=None, redoc_url=None, openapi_url=None)
     install_exception_handlers(app)
     app.state.management = boundary

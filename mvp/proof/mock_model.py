@@ -5,6 +5,7 @@ credential. The inference credential cannot select a scenario or inspect calls.
 """
 from __future__ import annotations
 
+import asyncio
 import hmac
 import os
 import time
@@ -14,13 +15,14 @@ from uuid import uuid4
 
 from fastapi import FastAPI, Request
 
-from guardrails.runtime.app import bearer, bounded_body, safe_problem
+from guardrails.runtime.smoke_app import bearer, bounded_body, safe_problem
 from guardrails.runtime.smoke import digest_token, strict_json
 from guardrails.transport import install_exception_handlers
 
 SCENARIOS = {
     "clean": "A clean mock response.",
     "sensitive": "Contact proof@example.test or +15551234567.",
+    "delayed_sensitive": "Contact proof@example.test or +15551234567.",
 }
 
 
@@ -118,11 +120,14 @@ def create_app() -> FastAPI:
             "messages": [{"role": item["role"], "content": item["content"]} for item in messages],
         })
         del state["calls"][:-128]
+        selected = state['scenario']
+        if selected == 'delayed_sensitive':
+            await asyncio.sleep(2)
         return {
             "id": f"chatcmpl-{uuid4().hex}", "object": "chat.completion",
             "created": int(time.time()), "model": value["model"],
             "choices": [{
-                "index": 0, "message": {"role": "assistant", "content": SCENARIOS[state["scenario"]]},
+                "index": 0, "message": {"role": "assistant", "content": SCENARIOS[selected]},
                 "finish_reason": "stop",
             }],
             "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2},

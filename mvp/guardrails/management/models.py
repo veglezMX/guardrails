@@ -10,7 +10,7 @@ from pydantic import Field, model_validator
 from .. import local_contract as d
 from ..transport import (
     StrictModel, Identifier, PositiveInt, TimeoutMs, TenantModel, WorkloadModel,
-    PolicyModel, PolicyBindingModel, GovernanceFloorModel, ProblemModel,
+    PolicyModel, PolicyBindingModel, GovernanceFloorModel, ProblemModel, TextBatchModel,
 )
 
 
@@ -181,7 +181,7 @@ class AuditModel(StrictModel):
     event_type: str
     correlation_id: UUID | None
     metadata: dict
-    content: None
+    content: TextBatchModel | None
 
 
 class AuditPage(Page[AuditModel]):

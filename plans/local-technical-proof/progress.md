@@ -2,12 +2,12 @@
 
 ## Current Status
 
-**Active phase:** Phase 3 — Runtime correctness and configuration consistency (next; not started)
-**Last completed task:** Phase 2 complete — all three management gates passed
-**Next task:** Implement validated atomic runtime snapshot swaps, polling/acknowledgement, age/readiness and last-known-state behavior
-**Sessions completed:** 2
+**Active phase:** Phase 4 — Complete gateway and CLI integration (next; not started)
+**Last completed task:** Phase 3 complete — all runtime and prerequisite gates passed
+**Next task:** Complete runtime client configuration refresh, request-local pinning, explicit fallback and durable content-free spool/replay
+**Sessions completed:** 3
 
-This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phases 1–2 are **COMPLETE**; Phases 3–5 remain **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
+This file tracks implementation only. The inspected prototype's 67 passing tests are baseline evidence, not completed tasks below. Phases 1–3 are **COMPLETE**; Phases 4–5 remain **NOT STARTED**. Record implementation sessions in `sessions/` and update this status, task checkboxes and gate evidence together. Follow AGENT.md for gaps and changes; architecture.md alone defines excluded scope.
 
 The phases express dependency gates rather than five serial staffing assignments. Four engineers may prepare independent work in later phases against frozen interfaces, but must not claim a phase complete until its predecessor gates and its own gate pass. The estimate's overlapping waves assume this collaboration (see implementation-estimate.md).
 
@@ -54,18 +54,22 @@ The phases express dependency gates rather than five serial staffing assignments
 ## Phase 3: Runtime correctness and configuration consistency
 
 > **Gate:** `just proof-unit runtime`, `just proof-contract runtime`, and `just proof-integration runtime` all exit zero after Phases 1–2 gates.
-> **Status:** NOT STARTED
+> **Status:** COMPLETE
 
-- [ ] Implement validated atomic snapshot swaps, polling/acknowledgement, age/readiness and last-known-state behavior in `mvp/guardrails/runtime/snapshots.py` (see component-specs.md §SnapshotCache) (see integration-protocols.md §Management to runtime).
-- [ ] Complete authenticated batch evaluation, bounded identity/correlation-scoped contexts, pinned input/output policy generations, one-time output consumption, client configuration and safe internal endpoints in `mvp/guardrails/runtime/app.py` (see component-specs.md §EvaluationRuntime) (see data-schema.md §EvaluationContext).
-- [ ] Implement the exact ASCII email and international phone detector with per-segment code-point spans in `mvp/guardrails/evaluators/pii.py` (see component-specs.md §LocalPIIEvaluator) (see input-output-contract.md §Detector formats).
-- [ ] Implement bounded queue/process admission, real stage deadlines, worker termination/replacement and clean shutdown in `mvp/guardrails/runtime/executor.py` (see component-specs.md §DeadlineExecutor) (see data-schema.md §ProofConfig).
-- [ ] Adapt the engine for batch findings, safe union-of-span redaction, normal action ceilings and explicit non-weakening failure precedence in `mvp/guardrails/engine.py` (see component-specs.md §DecisionEngine) (see variance-matrix.md).
-- [ ] Implement the separately owned runtime audit database, allowlisted records, authorized content delegation, deduplicated client events and scoped queries in `mvp/guardrails/storage/audit.py` (see component-specs.md §AuditRepository) (see data-schema.md §AuditEvent).
-- [ ] Complete management's federated audit query integration and explicit source-completeness results against the real runtime audit endpoint (see component-specs.md §ManagementAPI) (see api-endpoints.md).
-- [ ] Add actual stalled-worker/queue/audit-lock deadline tests; policy update during inference; expired/cross-workload contexts; stale/cold snapshot behavior; overlap/retention/failure regressions and SQLite restart tests (see test-strategy.md) (see quality-gates.md §Named profiles).
+- [x] Implement validated atomic snapshot swaps, polling/acknowledgement, age/readiness and last-known-state behavior in `mvp/guardrails/runtime/snapshots.py` (see component-specs.md §SnapshotCache) (see integration-protocols.md §Management to runtime).
+- [x] Complete authenticated batch evaluation, bounded identity/correlation-scoped contexts, pinned input/output policy generations, one-time output consumption, client configuration and safe internal endpoints in `mvp/guardrails/runtime/app.py` (see component-specs.md §EvaluationRuntime) (see data-schema.md §EvaluationContext).
+- [x] Implement the exact ASCII email and international phone detector with per-segment code-point spans in `mvp/guardrails/evaluators/pii.py` (see component-specs.md §LocalPIIEvaluator) (see input-output-contract.md §Detector formats).
+- [x] Implement bounded queue/process admission, real stage deadlines, worker termination/replacement and clean shutdown in `mvp/guardrails/runtime/executor.py` (see component-specs.md §DeadlineExecutor) (see data-schema.md §ProofConfig).
+- [x] Adapt the engine for batch findings, safe union-of-span redaction, normal action ceilings and explicit non-weakening failure precedence in `mvp/guardrails/engine.py` (see component-specs.md §DecisionEngine) (see variance-matrix.md).
+- [x] Implement the separately owned runtime audit database, allowlisted records, authorized content delegation, deduplicated client events and scoped queries in `mvp/guardrails/storage/audit.py` (see component-specs.md §AuditRepository) (see data-schema.md §AuditEvent).
+- [x] Complete management's federated audit query integration and explicit source-completeness results against the real runtime audit endpoint (see component-specs.md §ManagementAPI) (see api-endpoints.md).
+- [x] Add actual stalled-worker/queue/audit-lock deadline tests; policy update during inference; expired/cross-workload contexts; stale/cold snapshot behavior; overlap/retention/failure regressions and SQLite restart tests (see test-strategy.md) (see quality-gates.md §Named profiles).
 
 **Completion evidence:** runtime calls never synchronously query management; a model turn stays on its pinned generation while the next turn sees an applied update; a timed-out worker is replaced and subsequent work succeeds; no audit fallback weakens a completed block or redaction. Full real-gateway enforcement remains the Phase 4 gate.
+
+**Gate evidence:** Runtime unit: 139 passed; runtime contract: 39 passed; real HTTPS/SQLite/process integration: 19 passed. Bootstrap and every Phase 1–2 gate pass on the rebuilt artifacts; the 67-test prototype suite and `just verify` also pass. The integration suite asserts a newer generation is applied while an actual delayed model request remains in flight. See [session 003](sessions/003-2026-10-09.md) for retained evidence, timing observations and corrected development failures.
+
+**Gaps closed in Phase 3:** Added dedicated context/worker/runtime-projection modules, runtime SQL and OpenAPI, a fixed case-count inventory, installed-service HTTPS fixtures, the delayed mock scenario and a live management/runtime Compose overlay. Separated the smoke app to preserve its existing gate. Closed startup/shutdown and strict response-serialization defects without weakening deadlines or adding automatic mutation retries. Full connector configuration/fallback/spooling and CLI parity remain Phase 4.
 
 ## Phase 4: Complete gateway and CLI integration
 
