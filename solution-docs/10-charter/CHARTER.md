@@ -7,6 +7,12 @@
 
 ---
 
+> **Local evolution (2026-10-09):** The follow-on scope in AGR-031 through AGR-036 and DEC-025 now includes shared service consumption, policy approval/composition, administration, delivery modes and additional evaluation boundaries. The original proof boundary below remains historical; [the new plan](../../plans/guardrails-evolution/architecture.md) defines its own local gates without claiming the hosted programme complete.
+
+
+> **Evolution scope authority:** [AGR-031](../00-source-of-truth/AGREEMENTS.md#agr-031--select-all-nine-evolution-workstreams), [AGR-032](../00-source-of-truth/AGREEMENTS.md#agr-032--keep-two-team-owned-gateways-as-shared-service-consumers), [AGR-033](../00-source-of-truth/AGREEMENTS.md#agr-033--keep-evolution-delivery-local-and-assess-minikube), [AGR-034](../00-source-of-truth/AGREEMENTS.md#agr-034--prioritize-immutable-policy-approval-and-audited-activation), [AGR-035](../00-source-of-truth/AGREEMENTS.md#agr-035--accept-evolution-through-automated-evidence), [AGR-036](../00-source-of-truth/AGREEMENTS.md#agr-036--allow-shared-local-processing-and-constrain-four-allow-deny-categories).
+
+
 > **Current local release (2026-10-08):** [DEC-022](../00-source-of-truth/DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md).
 
 > This charter is a durable, boundary-setting reference. It states what the AI Guardrails solution is, why it exists, and where its edges are. It intentionally does not contain component diagrams, API shapes, or implementation instructions — those live in the architecture and delivery layers linked from [Section 17](#17-related-documents). Where this charter and [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) could be read as conflicting, `AGREEMENTS.md` is authoritative (L1) and wins.

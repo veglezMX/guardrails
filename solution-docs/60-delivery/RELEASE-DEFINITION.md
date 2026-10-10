@@ -7,6 +7,12 @@
 
 ---
 
+> **Evolution scope authority:** [AGR-031](../00-source-of-truth/AGREEMENTS.md#agr-031--select-all-nine-evolution-workstreams), [AGR-032](../00-source-of-truth/AGREEMENTS.md#agr-032--keep-two-team-owned-gateways-as-shared-service-consumers), [AGR-033](../00-source-of-truth/AGREEMENTS.md#agr-033--keep-evolution-delivery-local-and-assess-minikube), [AGR-034](../00-source-of-truth/AGREEMENTS.md#agr-034--prioritize-immutable-policy-approval-and-audited-activation), [AGR-035](../00-source-of-truth/AGREEMENTS.md#agr-035--accept-evolution-through-automated-evidence), [AGR-036](../00-source-of-truth/AGREEMENTS.md#agr-036--allow-shared-local-processing-and-constrain-four-allow-deny-categories).
+
+
+> **Follow-on plan (2026-10-09):** The completed local technical proof remains the historical release defined below. AGR-031 through AGR-036 and DEC-025 authorize a separate local evolution plan covering all nine selected workstreams. Its scope, assumptions and six unstarted implementation phases begin at [Guardrails evolution AGENT.md](../../plans/guardrails-evolution/AGENT.md). This is planned work, not a claim of hosted or production readiness.
+
+
 ## Release statement
 
 Deliver a local technical proof of AI Guardrails for internal application teams. Teams operate the complete workload and policy lifecycle through an API and CLI. Two independently configured real LiteLLM instances use one versioned policy model and a locally running guardrails service. A mock model is the default inference backend, and the proof runs without internet access after dependencies are installed. Sensitive-data detection and redaction must actually work locally on input prompts and output responses.

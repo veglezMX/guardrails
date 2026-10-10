@@ -7,6 +7,8 @@
 
 ---
 
+> **Local evolution plan (2026-10-09):** AGR-031, AGR-032, AGR-033, AGR-034, AGR-035 and AGR-036, recorded through DEC-025, govern [the separate follow-on implementation contract](../../plans/guardrails-evolution/architecture.md): all selected workstreams, two team-owned gateways, local delivery, immutable approval, automated acceptance and shared local processing with four-category restrictions. Its implementation is not yet started. Existing hosted architecture obligations remain separate, and the completed proof is historical evidence only for its tested local scope.
+
 > This is the consolidated technical report for the AI Guardrails platform. It is a derived (L3) view: it does not introduce new decisions and must not contradict [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) (L1) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md) (L1). Where this report and those registers appear to differ, the registers win and this report must be corrected. Figures, dates, and dollar amounts not present in the L1 registers are marked **TBD** rather than invented.
 
 ## Table of contents

@@ -2,10 +2,10 @@
   "_comment": "Editorial prose that cannot be derived from the documents themselves. Generated tables read from here; see tools/docs/generate.py.",
   "documents": {
     "00-source-of-truth/AGREEMENTS.md": {
-      "description": "The 30 accepted agreements (`AGR-001`…`AGR-030`) that govern the solution and its current local release.",
-      "purpose": "The 30 accepted agreements that no other document may contradict.",
+      "description": "The 36 accepted agreements (`AGR-001`…`AGR-036`) that govern the solution and its current local release.",
+      "purpose": "The 36 accepted agreements that no other document may contradict.",
       "authority_note": "L1 (Authoritative)",
-      "role": "The 30 accepted agreements (AGR-001–AGR-030) that no derived document may contradict. The single most-cited document in this set.",
+      "role": "The 36 accepted agreements (AGR-001–AGR-036) that no derived document may contradict. The single most-cited document in this set.",
       "toc_depth": 2,
       "toc_style": "bullet"
     },
@@ -647,7 +647,7 @@
       "description": "The defined local technical proof: accepted scope, complete API/CLI workflow, two-gateway offline demonstration and acceptance matrix.",
       "purpose": "Current-release scope and its separation from later cloud and service delivery.",
       "authority_note": "L2",
-      "role": "The current local-release definition and acceptance matrix derived from AGR-022 through AGR-030 and DEC-022 through DEC-024; implementation acceptance remains unverified."
+      "role": "The historical local-proof release definition plus the separately planned evolution under AGR-031 through AGR-036 and DEC-025; local evidence does not certify hosted readiness."
     }
   },
   "open_questions": {

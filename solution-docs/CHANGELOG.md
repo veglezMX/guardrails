@@ -18,6 +18,7 @@
 ## Table of contents
 
 <!-- BEGIN GENERATED: toc -->
+- [[2026-10-10] — Local evolution implementation plan](#2026-10-10--local-evolution-implementation-plan)
 - [[2026-10-08] — Local technical proof release defined](#2026-10-08--local-technical-proof-release-defined)
 - [[Unreleased]](#unreleased)
 - [[2026-07-26d] — Traceability generated; hand-maintained indexes retired](#2026-07-26d--traceability-generated-hand-maintained-indexes-retired)
@@ -29,6 +30,22 @@
 - [[2026-07-24] — Initial documentation set](#2026-07-24--initial-documentation-set)
 - [Related documents](#related-documents)
 <!-- END GENERATED: toc -->
+---
+
+## [2026-10-10] — Local evolution implementation plan
+
+**Change type:** Path A — explicit follow-on interview decisions recorded separately from historical proof acceptance.
+**Trigger:** User selected all nine evolution workstreams and confirmed shared local processing, four-category restrictions and policy approval workflow.
+
+### Added
+
+- AGR-031 through AGR-036 and DEC-025 preserve the accepted interview decisions.
+- `plans/guardrails-evolution/`: six local phases, 28 components, domain/wire contracts, detector/residency/tenancy rules, UI and deployment specifications, executable acceptance gates and explicitly marked implementation assumptions.
+
+### Changed
+
+- Release definition, charter, scope and product-roadmap entry points distinguish the new local sequence from the completed proof and the broader hosted programme. No predecessor specification/progress or production-readiness claim changed.
+
 ---
 
 ## [2026-10-08] — Local technical proof release defined

@@ -7,6 +7,9 @@
 
 ---
 
+> **Local evolution sequence (2026-10-09):** DEC-025 authorizes [six follow-on local implementation phases](../../plans/guardrails-evolution/progress.md) spanning the selected workstreams. Those phase numbers are independent of this five-phase product roadmap; none is evidence that an untested hosted programme gate has passed.
+
+
 ## Purpose and authority
 
 This document presents the AI Guardrails delivery roadmap as five sequential phases, each with an objective and headline deliverables. It is a **derived, product-facing view (L4)** of the phased delivery structure agreed at [`AGREEMENTS.md` AGR-020 — Five-phase delivery](../00-source-of-truth/AGREEMENTS.md#agr-020--five-phase-delivery) and recorded in [`DECISIONS.md` DEC-006](../00-source-of-truth/DECISIONS.md#dec-006--sequence-delivery-into-five-phases), [DEC-007](../00-source-of-truth/DECISIONS.md#dec-007--defer-advanced-isolation-distribution-security-agent-authorization-and-org-wide-enforcement), and [DEC-008](../00-source-of-truth/DECISIONS.md#dec-008--supersede-the-mvp-bounded-scope-define-and-estimate-the-full-feature-set-across-five-phases), which defines and estimates the solution over the full feature set presented across these phases. It does not introduce new scope, and it must not be read as contradicting [`AGREEMENTS.md`](../00-source-of-truth/AGREEMENTS.md) or [`CONSTRAINTS.md`](../00-source-of-truth/CONSTRAINTS.md); where a conflict is ever found, those L1 documents win and this roadmap must be corrected.

@@ -57,6 +57,7 @@ Each entry uses a fixed shape:
 | [DEC-022](#dec-022--define-a-separately-accepted-local-technical-proof) | 2026-10-08 | Define a separately accepted local technical proof | Accepted | AGR-022, AGR-023, AGR-024 |
 | [DEC-023](#dec-023--establish-the-local-proof-topology-and-guardrail-scenario) | 2026-10-08 | Establish the local proof topology and guardrail scenario | Accepted | AGR-022, AGR-025, AGR-026, AGR-027 |
 | [DEC-024](#dec-024--close-the-local-release-definition-and-acceptance-workflow) | 2026-10-08 | Close the local release definition and acceptance workflow | Accepted | AGR-022, AGR-023, AGR-024, AGR-025, AGR-026, AGR-027, AGR-028, AGR-029, AGR-030 |
+| [DEC-025](#dec-025--plan-the-local-guardrails-evolution-after-the-technical-proof) | 2026-10-09 | Plan the local guardrails evolution after the technical proof | Accepted | AGR-002, AGR-006, AGR-008, AGR-010, AGR-014, AGR-018, AGR-020, AGR-029, AGR-031, AGR-032, AGR-033, AGR-034, AGR-035, AGR-036 |
 <!-- END GENERATED: decision-log -->
 ---
 
@@ -395,3 +396,16 @@ Phase 5 is treated as a separate product expansion, not an MVP prerequisite, and
 **Related agreements:** AGR-028, AGR-029, AGR-030; AGR-022, AGR-023, AGR-024, AGR-025, AGR-026, AGR-027
 **Owners:** Product lead, technical lead
 **Closes:** OQ-021 for this release; the local release-definition interview. A later request for multi-policy composition must record a new scope decision.
+
+---
+
+## DEC-025 — Plan the local guardrails evolution after the technical proof
+
+**Date:** 2026-10-09
+**Status:** Accepted
+**Decision:** Create a separate comprehensive implementation plan for all nine selected evolution workstreams, prioritizing immutable policy versioning and approval. Two team-owned LiteLLM instances consume the shared local service. Local Minikube delivery is selected subject to suitability verification. Automated acceptance is sufficient. Shared local raw-content processing is permitted; explicit allow/deny restrictions govern destinations, providers, tools/actions and content terms/topics.
+**Context:** The user requested an interview and implementation-plan folder after completion of the local proof. Follow-up answers confirmed the shared-processing boundary, all four restriction categories and the author → different approver → operator workflow.
+**Consequences:** [Guardrails evolution](../../plans/guardrails-evolution/AGENT.md) defines six new local engineering phases, with its own unstarted progress tracker. This locally scoped sequence is authorized independently of the hosted programme's phase gates; it does not claim those gates complete. The completed proof's five phases and historical specifications remain unchanged. Minikube resource sizing, PostgreSQL, UI framework, engine choices and detailed detector/media limits are clearly identified implementation assumptions, not verbatim interview decisions. The provider-operated gateway is optional for other consumers; team gateways retain ownership. No cloud deployment, live external processing, production certification or commit/push is authorized merely by plan creation.
+**Related agreements:** AGR-031, AGR-032, AGR-033, AGR-034, AGR-035, AGR-036; AGR-002, AGR-006, AGR-008, AGR-010, AGR-014, AGR-018, AGR-020, AGR-029
+**Owners:** Product lead, technical lead
+**Supersedes:** The proof-only deferral of service consumption, UI and policy composition for this new follow-on scope; not the original proof's acceptance contract. Local engineering phase ordering is separate from hosted programme acceptance ordering.

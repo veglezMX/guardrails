@@ -7,6 +7,8 @@
 
 ---
 
+> **Local evolution (2026-10-09):** [DEC-025](DECISIONS.md#dec-025--plan-the-local-guardrails-evolution-after-the-technical-proof) carries the local delivery boundary into the next plan. AWS IAM/KMS and cloud-placement requirements retain their hosted applicability; local credentials, keys and network tests do not prove those cloud controls. Shared-service exposure is now selected locally under AGR-032 and AGR-036.
+
 > **Current local release (2026-10-08):** [DEC-022](DECISIONS.md#dec-022--define-a-separately-accepted-local-technical-proof), grounded in AGR-022 through AGR-024, defines a separately accepted local technical proof for internal application teams, operated through an API and CLI. AWS integration and service exposure to other teams are later milestones. This document retains its programme and hosted-phase obligations; cloud-specific requirements are not local-release exit gates, and local substitutes do not prove those controls. The current boundary and interview status are in [RELEASE-DEFINITION.md](../60-delivery/RELEASE-DEFINITION.md).
 
 ## Purpose and authority

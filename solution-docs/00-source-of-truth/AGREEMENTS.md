@@ -41,6 +41,12 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - [AGR-028 — The local API and CLI cover the full policy lifecycle](#agr-028--the-local-api-and-cli-cover-the-full-policy-lifecycle)
 - [AGR-029 — One configurable published policy version per local workload](#agr-029--one-configurable-published-policy-version-per-local-workload)
 - [AGR-030 — Repeatable automated demonstration is the local acceptance evidence](#agr-030--repeatable-automated-demonstration-is-the-local-acceptance-evidence)
+- [AGR-031 — Select all nine evolution workstreams](#agr-031--select-all-nine-evolution-workstreams)
+- [AGR-032 — Keep two team-owned gateways as shared-service consumers](#agr-032--keep-two-team-owned-gateways-as-shared-service-consumers)
+- [AGR-033 — Keep evolution delivery local and assess Minikube](#agr-033--keep-evolution-delivery-local-and-assess-minikube)
+- [AGR-034 — Prioritize immutable policy approval and audited activation](#agr-034--prioritize-immutable-policy-approval-and-audited-activation)
+- [AGR-035 — Accept evolution through automated evidence](#agr-035--accept-evolution-through-automated-evidence)
+- [AGR-036 — Allow shared local processing and constrain four allow-deny categories](#agr-036--allow-shared-local-processing-and-constrain-four-allow-deny-categories)
 <!-- END GENERATED: toc -->
 ---
 
@@ -598,3 +604,93 @@ These agreements are the authoritative source of truth for the AI Guardrails sol
 - `60-delivery/RELEASE-DEFINITION.md`
 - `60-delivery/VALIDATION-PLAN.md`
 - `10-charter/SUCCESS-CRITERIA.md`
+
+---
+
+## AGR-031 — Select all nine evolution workstreams
+
+**Status:** Accepted
+**Date:** 2026-10-09
+**Owners:** Product lead, technical lead
+**Agreement:** The next local evolution plan includes real application integration; stronger guardrail coverage; policy governance including composition; a shared internal service; operational readiness; customer-managed runtime; administration UI; streaming, tool, retrieval and multimodal evaluation boundaries; and a provider-operated gateway option.
+**User statement:** "1. All options in the table"
+**Rationale:** Preserve the explicit follow-on planning interview as scope authority for implementation.
+**Implications:** This is a new local follow-on scope, not an expansion of what the completed proof claimed. It authorizes a locally gated implementation sequence for the selected workstreams while preserving separate hosted programme acceptance requirements. Composition is now selected for this follow-on; AGR-029 remains the historical proof boundary. Gateway/application responsibilities and the charter exclusions remain intact.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- [Guardrails evolution architecture](../../plans/guardrails-evolution/architecture.md)
+
+---
+
+## AGR-032 — Keep two team-owned gateways as shared-service consumers
+
+**Status:** Accepted
+**Date:** 2026-10-09
+**Owners:** Product lead, technical lead
+**Agreement:** Two teams each retain their own independently operated LiteLLM instance and consume guardrails as a service.
+**User statement:** "Two teams has their own instance of litellm, they should comsume guardrails as service"
+**Rationale:** Preserve the explicit follow-on planning interview as scope authority for implementation.
+**Implications:** Do not import, replace or require administration of either team gateway. The selected provider-operated gateway is an additional option for other consumers, not a mandatory migration for these teams.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- [Guardrails evolution architecture](../../plans/guardrails-evolution/architecture.md)
+
+---
+
+## AGR-033 — Keep evolution delivery local and assess Minikube
+
+**Status:** Accepted
+**Date:** 2026-10-09
+**Owners:** Product lead, technical lead
+**Agreement:** The next phases target a local environment; use Minikube if suitable for that environment.
+**User statement:** "right local, if minikube suitable, then do that"
+**Rationale:** Preserve the explicit follow-on planning interview as scope authority for implementation.
+**Implications:** Local deployment and automated evidence remain independent of AWS hosting. The implementation plan records a positive preliminary Minikube assessment, explicit resource/network requirements and a real deployment gate. This does not certify production capacity or physical data residency.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- [Guardrails evolution architecture](../../plans/guardrails-evolution/architecture.md)
+
+---
+
+## AGR-034 — Prioritize immutable policy approval and audited activation
+
+**Status:** Accepted
+**Date:** 2026-10-09
+**Owners:** Product lead, technical lead
+**Agreement:** Policy versioning and approval are the first priorities. An author creates an immutable candidate; a different authorized principal approves its exact content; an authorized operator activates it. Changes require a new version and approval; activation and rollback are audited.
+**User statement:** "policy versioning and approval; follow-up workflow: correct"
+**Rationale:** Preserve the explicit follow-on planning interview as scope authority for implementation.
+**Implications:** Approval covers resolved executable policy dependencies, not a mutable name. Separation of author and approver is required. Operator is a separate permission; the interview did not require a third distinct person. Rollback cannot bypass current mandatory controls or restore revoked approval.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- [Guardrails evolution architecture](../../plans/guardrails-evolution/architecture.md)
+
+---
+
+## AGR-035 — Accept evolution through automated evidence
+
+**Status:** Accepted
+**Date:** 2026-10-09
+**Owners:** Product lead, technical lead
+**Agreement:** Automated acceptance is sufficient for this local evolution plan.
+**User statement:** "Automated acceptance is sufficient"
+**Rationale:** Preserve the explicit follow-on planning interview as scope authority for implementation.
+**Implications:** Exercise the real service and independent gateways with reproducible positive, negative and failure cases. Named application-team sign-off is not a gate. This evidence threshold does not remove the product policy-approval workflow or satisfy untested hosted/production claims.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- [Guardrails evolution architecture](../../plans/guardrails-evolution/architecture.md)
+
+---
+
+## AGR-036 — Allow shared local processing and constrain four allow-deny categories
+
+**Status:** Accepted
+**Date:** 2026-10-09
+**Owners:** Product lead, technical lead
+**Agreement:** Evaluated content may reach a shared local guardrails service. Data-residency restrictions and explicit allowlists and denylists cover network destinations, model/evaluator providers, tools/actions and content terms/topics.
+**User statement:** "data-resident restriction, explitic allowedlist & denylist; follow-up: yes, shared local guardrail service; all four"
+**Rationale:** Preserve the explicit follow-on planning interview as scope authority for implementation.
+**Implications:** The shared service may process raw content locally; this is not per-team data-local evaluation. No external processing is implied. The plan must define matching, precedence, inheritance, enforcement and negative evidence for all four categories. Tool eligibility does not grant business authorization.
+**Affected documents:**
+- `60-delivery/RELEASE-DEFINITION.md`
+- [Guardrails evolution architecture](../../plans/guardrails-evolution/architecture.md)

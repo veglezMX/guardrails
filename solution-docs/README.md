@@ -110,7 +110,7 @@ Each table lists the documents in one directory with the authority level declare
 <!-- BEGIN GENERATED: readme-index:00-source-of-truth -->
 | Document | Level | Description |
 | --- | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 30 accepted agreements (`AGR-001`…`AGR-030`) that govern the solution and its current local release. |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | L1 (Authoritative) | The 36 accepted agreements (`AGR-001`…`AGR-036`) that govern the solution and its current local release. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | L1 | Non-negotiable, checkable boundaries — cloud placement, security, data handling, resource limits (`CON-NNN`). |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | L1 | Chronological log of product, organizational, and delivery decisions (`DEC-NNN`), distinct from architecture-level ADRs. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | L1 | Register of load-bearing but not-yet-validated beliefs the charter and delivery sequencing depend on (`ASM-NNN`). |

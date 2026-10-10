@@ -211,7 +211,7 @@ solution-docs/
 <!-- BEGIN GENERATED: documentmap-index:00-source-of-truth -->
 | Document | Purpose |
 | --- | --- |
-| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 30 accepted agreements that no other document may contradict. |
+| [`AGREEMENTS.md`](00-source-of-truth/AGREEMENTS.md) | The 36 accepted agreements that no other document may contradict. |
 | [`ASSUMPTIONS.md`](00-source-of-truth/ASSUMPTIONS.md) | Standing assumptions underlying the solution. |
 | [`CONSTRAINTS.md`](00-source-of-truth/CONSTRAINTS.md) | Hard constraints on the solution. |
 | [`DECISIONS.md`](00-source-of-truth/DECISIONS.md) | The decision log. |
