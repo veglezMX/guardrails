@@ -149,3 +149,102 @@ proof-reset:
 # Start the API-backed local proof and both gateways from prepared artifacts.
 proof-up:
     @PYTHONPATH={{ mvp }} python3 -m proof.run up
+
+# Evolution uses its separately hash-locked Python3.14 environment.
+evolution_python := env_var_or_default("EVOLUTION_PYTHON", ".evolution/venv314/bin/python")
+
+# Network preparation: resolve hashes when absent, install and verify local wheels.
+evolution-lock *args:
+    @PYTHONPATH={{ mvp }} python3 -m evolution.dependencies {{ args }}
+
+# Owned evolution unit and wire tests; no artifact download.
+evolution-test:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run test
+
+# Start or verify the pinned task-owned PostgreSQL test fixture; never pulls images.
+evolution-db:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.postgres
+
+# Closed phase registry. Unknown or unimplemented phases fail explicitly.
+evolution-gate phase:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run gate "{{ phase }}"
+
+# Observe signed applied runtime caches and HTTPS receipts; optionally submit evidence.
+evolution-canary *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.canary {{ args }}
+
+# Keep all installed plan checks; validate a live session count against its logs.
+evolution-plan-check checker:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.plan_check plans/guardrails-evolution --checker "{{ checker }}"
+
+# Network preparation of exact deployment images, binaries and models (Phase 2).
+evolution-prepare *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run prepare {{ args }}
+
+# Start only the dedicated task-owned offline-capable deployment (Phase 2).
+evolution-up *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run up {{ args }}
+
+# Read safe deployment and artifact health (Phase 2).
+evolution-status *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run status {{ args }}
+
+# Stop task-owned workloads while retaining persistent data (Phase 2).
+evolution-down *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run down {{ args }}
+
+# Destructive task-profile reset requires its backup procedure (Phase 2).
+evolution-reset *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run reset {{ args }}
+
+# Read-only legacy mapping by default; apply requires the explicit approved profile.
+evolution-migrate mode="dry-run" *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m guardrails.evolution.migrate "{{ mode }}" {{ args }}
+
+# Frozen detector-quality benchmark (Phase 3).
+evolution-benchmark *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run benchmark {{ args }}
+
+# Prepared real-browser administration journeys (Phase 4).
+evolution-ui-test:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run ui-test
+
+# Encrypted metadata backup (Phase 4).
+evolution-backup:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run backup
+
+# Actual recovery into an isolated task-owned namespace (Phase 4).
+evolution-restore-drill:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run restore-drill
+
+# Signed tenant-only portable bundle (Phase 5).
+evolution-bundle:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run bundle
+
+# Complete closed local registry; never substitutes external optional tests.
+evolution-acceptance:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run acceptance
+
+# Optional externally configured Bedrock integration; may use paid external APIs.
+evolution-bedrock-live *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run bedrock-live {{ args }}
+
+# Verify the entire prepared deployment inventory offline.
+evolution-verify-prepared *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run verify {{ args }}
+
+# Run actual Calico and TLS network probes in the owned cluster.
+evolution-probes *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run probes {{ args }}
+
+# Assemble and start the owned two-tenant platform through real governance.
+evolution-platform *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run platform {{ args }}
+
+# Read local endpoints and the protected access-manifest path, without credentials.
+evolution-access *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run access {{ args }}
+
+# Renew existing identities through the authenticated API with durable recovery.
+evolution-renew-credentials *args:
+    @PYTHONPATH={{ mvp }} "{{ evolution_python }}" -m evolution.run renew-credentials {{ args }}

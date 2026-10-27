@@ -71,7 +71,9 @@ Discriminated by Rule.kind: PII has `entities: tuple[Literal["email","internatio
 
 ### PolicyVersion
 
-Composite key `(tenant_id: str, policy_id: str, version: int)`; `author_id: UUID`; `parents: tuple[PolicyRef,...]` max 3; `rules: tuple[Rule,...]`; `residency: ResidencyProfile`; `resolved_lists: tuple[ListSet,...]`; `providers: tuple[ProviderProfile,...]`; `tools: tuple[ToolSpec,...]`; `quota: Quota`; `failure_behavior: Failure`; `compiled_digest: Digest`; `compiler_version: str`; `status: PolicyStatus`. Stored canonical bytes include all resolved dependency bytes and schema/compiler versions, excluding lifecycle projections. Never update bytes. New dependency revisions require a new version.
+Composite key `(tenant_id: str, policy_id: str, version: int)`; `author_id: UUID`; `parents: tuple[PolicyRef,...]` max 3; `rules: tuple[Rule,...]`; `residency: ResidencyProfile`; `resolved_lists: tuple[ListSet,...]`; `resolved_destinations: tuple[Destination,...]` max 256, at most one version per destination ID; `providers: tuple[ProviderProfile,...]`; `tools: tuple[ToolSpec,...]`; `quota: Quota`; `failure_behavior: Failure`; `compiled_digest: Digest`; `compiler_version: str`; `status: PolicyStatus`. Stored canonical bytes include all resolved dependency bytes and schema/compiler versions, excluding lifecycle projections. Never update bytes. New dependency revisions require a new version.
+
+Destination pinning amendment approved 2026-10-10: policy commands supply exact `{id, version, digest}` destination references; compilation resolves and embeds those bytes before approval. Network providers require a matching exact destination pin, with no runtime lookup of the latest version. New compilations use `compiler-v2.2`; historical `compiler-v2.1` canonical payloads omit the new field, retaining their original bytes, digests and approvals. Historical policies without network dependencies remain eligible; unresolved network dependencies cannot authorize egress. Endpoint changes require a new policy version, approval and release.
 
 ### Approval
 
