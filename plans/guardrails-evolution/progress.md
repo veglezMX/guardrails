@@ -3,8 +3,8 @@
 ## Current Status
 
 **Active phase:** Phase 3 — Rules and evaluators
-**Last completed task:** P3.R2a — Revised recovery approved and source committed in logical groups. Worker composition, twelve-Secret authority, expanded inventory and package binder checks pass; current stopped-node metadata passes the corrected startup projections.
-**Next task:** P3.R2b — Finish parent result joins, final governance comparison, finite health lineage and reviewed exact bindings; then perform the approved TLS-first recovery and exactly17 credential replacements. Fixed credential expiry2026-10-28T18:00Z; classifier cap nine remains.
+**Last completed task:** P3.R2a — Revised recovery approved and source committed in logical groups. Concrete startup package validates without dispatch; TLS continuation, private metadata capture, operator backup, shared command budget and health-lineage component checks pass.
+**Next task:** P3.R2b — Finish executable health composition, operator continuation bindings and final independent reviews; then perform the approved TLS-first recovery and exactly17 credential replacements. Fixed credential expiry2026-10-28T18:00Z; classifier cap nine remains.
 **Sessions completed:** 4
 
 Phase 1 passed the closed gate in run `b59de4e3-4676-4412-931b-010eacbbf1c9`: all 177 required cases passed with 1,930 measured assertions and a verified Ed25519 report. Executable source digest: `e2aeaf958ac4563d79501e1db1b537c672d39f97a86f836d601c579c6b1a2324`. The earlier failed assertion-counting attempt remains preserved separately. Phase 2 passed the sealed 1,103-case gate `1c8b455e-520f-49ee-b6be-c8bc23b7ab7d` with 21,026 assertions. The user approved exact destination pinning, preserving legacy compiled digests and requiring new approval/release for endpoint changes. Registry, quota, runtime, deployment and connector work proceeds. The predecessor proof remains preserved; phases here use their own numbering.
@@ -17,6 +17,7 @@ Active Session005 update: user approved proposal v4 and later authorized logical
 Session005 checkpoint at2026-10-27T20:46:59Z: fresh read-only observation confirms the same stopped container/image/volume/network and active timesyncd. The pure authority derivation authenticated62 private inputs under the existing lock and matched all four retained credential-consumer projections. Latest isolated scopes pass: worker36, Secret authority27, inventory57, binder57 and corrected startup126, with zero failures/skips. Current metadata also passes the tested startup projections. Parent result joins and finite final-health evidence remain under review; no deployment mutation or phase gate is claimed. Detailed receipts and preserved preparation failures are recorded in log005 and the active durable session.
 
 ## Phase 1: Governance foundation
+
 
 > **Gate:** `just evolution-gate 1` succeeds (see quality-gates.md).
 > **Status:** COMPLETE
