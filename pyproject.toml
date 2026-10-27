@@ -10,16 +10,28 @@ dependencies = ["fastapi==0.143.0", "pydantic==2.14.0", "uvicorn==0.54.0", "http
 
 [project.optional-dependencies]
 dev = ["pytest==9.1.1"]
+evolution = [
+  "SQLAlchemy>=2.0,<2.1", "psycopg[binary]>=3.2,<4", "alembic>=1.16,<2",
+  "cryptography>=46,<47", "jsonschema>=4.25,<5", "Jinja2>=3.1.6,<3.2",
+  "prometheus-client>=0.22,<1",
+]
+evolution-dev = [
+  "setuptools>=80", "pytest==9.1.1", "pytest-asyncio>=1,<2", "hypothesis>=6,<7",
+  "ruff>=0.12,<1", "playwright>=1.55,<2", "pip-audit>=2.9,<3",
+]
+bedrock = ["boto3>=1.40,<2"]
 
 [project.scripts]
 guardrails = "guardrails.cli:main"
+guardrails-evolution = "guardrails.evolution.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["mvp"]
-include = ["guardrails*", "connector*", "proof*"]
+include = ["guardrails*", "connector*", "proof*", "evolution*"]
 
 [tool.setuptools.package-data]
 "guardrails.storage" = ["*.sql"]
+"evolution" = ["*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["mvp"]
