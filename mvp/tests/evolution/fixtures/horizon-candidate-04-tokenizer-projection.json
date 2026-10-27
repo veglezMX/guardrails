@@ -1,0 +1,3719 @@
+{
+  "version": "1.0",
+  "truncation": {
+    "direction": "Right",
+    "max_length": 1024,
+    "strategy": "LongestFirst",
+    "stride": 0
+  },
+  "padding": null,
+  "added_tokens": [
+    {
+      "id": 0,
+      "content": "<pad>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 1,
+      "content": "<eos>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 2,
+      "content": "<bos>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 3,
+      "content": "<unk>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 4,
+      "content": "<mask>",
+      "single_word": false,
+      "lstrip": true,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 5,
+      "content": "<2mass>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 6,
+      "content": "[@BOS@]",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 7,
+      "content": "<unused0>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 8,
+      "content": "<unused1>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 9,
+      "content": "<unused2>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 10,
+      "content": "<unused3>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 11,
+      "content": "<unused4>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 12,
+      "content": "<unused5>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 13,
+      "content": "<unused6>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 14,
+      "content": "<unused7>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 15,
+      "content": "<unused8>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 16,
+      "content": "<unused9>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 17,
+      "content": "<unused10>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 18,
+      "content": "<unused11>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 19,
+      "content": "<unused12>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 20,
+      "content": "<unused13>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 21,
+      "content": "<unused14>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 22,
+      "content": "<unused15>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 23,
+      "content": "<unused16>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 24,
+      "content": "<unused17>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 25,
+      "content": "<unused18>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 26,
+      "content": "<unused19>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 27,
+      "content": "<unused20>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 28,
+      "content": "<unused21>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 29,
+      "content": "<unused22>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 30,
+      "content": "<unused23>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 31,
+      "content": "<unused24>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 32,
+      "content": "<unused25>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 33,
+      "content": "<unused26>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 34,
+      "content": "<unused27>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 35,
+      "content": "<unused28>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 36,
+      "content": "<unused29>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 37,
+      "content": "<unused30>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 38,
+      "content": "<unused31>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 39,
+      "content": "<unused32>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 40,
+      "content": "<unused33>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 41,
+      "content": "<unused34>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 42,
+      "content": "<unused35>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 43,
+      "content": "<unused36>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 44,
+      "content": "<unused37>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 45,
+      "content": "<unused38>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 46,
+      "content": "<unused39>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 47,
+      "content": "<unused40>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 48,
+      "content": "<unused41>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 49,
+      "content": "<unused42>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 50,
+      "content": "<unused43>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 51,
+      "content": "<unused44>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 52,
+      "content": "<unused45>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 53,
+      "content": "<unused46>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 54,
+      "content": "<unused47>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 55,
+      "content": "<unused48>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 56,
+      "content": "<unused49>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 57,
+      "content": "<unused50>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 58,
+      "content": "<unused51>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 59,
+      "content": "<unused52>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 60,
+      "content": "<unused53>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 61,
+      "content": "<unused54>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 62,
+      "content": "<unused55>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 63,
+      "content": "<unused56>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 64,
+      "content": "<unused57>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 65,
+      "content": "<unused58>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 66,
+      "content": "<unused59>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 67,
+      "content": "<unused60>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 68,
+      "content": "<unused61>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 69,
+      "content": "<unused62>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 70,
+      "content": "<unused63>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 71,
+      "content": "<unused64>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 72,
+      "content": "<unused65>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 73,
+      "content": "<unused66>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 74,
+      "content": "<unused67>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 75,
+      "content": "<unused68>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 76,
+      "content": "<unused69>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 77,
+      "content": "<unused70>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 78,
+      "content": "<unused71>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 79,
+      "content": "<unused72>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 80,
+      "content": "<unused73>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 81,
+      "content": "<unused74>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 82,
+      "content": "<unused75>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 83,
+      "content": "<unused76>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 84,
+      "content": "<unused77>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 85,
+      "content": "<unused78>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 86,
+      "content": "<unused79>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 87,
+      "content": "<unused80>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 88,
+      "content": "<unused81>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 89,
+      "content": "<unused82>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 90,
+      "content": "<unused83>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 91,
+      "content": "<unused84>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 92,
+      "content": "<unused85>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 93,
+      "content": "<unused86>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 94,
+      "content": "<unused87>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 95,
+      "content": "<unused88>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 96,
+      "content": "<unused89>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 97,
+      "content": "<unused90>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 98,
+      "content": "<unused91>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 99,
+      "content": "<unused92>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 100,
+      "content": "<unused93>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 101,
+      "content": "<unused94>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 102,
+      "content": "<unused95>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 103,
+      "content": "<unused96>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 104,
+      "content": "<unused97>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 105,
+      "content": "<unused98>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 106,
+      "content": "<start_of_turn>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 107,
+      "content": "<end_of_turn>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 108,
+      "content": "\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 109,
+      "content": "\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 110,
+      "content": "\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 111,
+      "content": "\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 112,
+      "content": "\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 113,
+      "content": "\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 114,
+      "content": "\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 115,
+      "content": "\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 116,
+      "content": "\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 117,
+      "content": "\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 118,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 119,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 120,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 121,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 122,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 123,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 124,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 125,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 126,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 127,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 128,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 129,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 130,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 131,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 132,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 133,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 134,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 135,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 136,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 137,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 138,
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 139,
+      "content": "▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 140,
+      "content": "▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 141,
+      "content": "▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 142,
+      "content": "▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 143,
+      "content": "▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 144,
+      "content": "▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 145,
+      "content": "▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 146,
+      "content": "▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 147,
+      "content": "▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 148,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 149,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 150,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 151,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 152,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 153,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 154,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 155,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 156,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 157,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 158,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 159,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 160,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 161,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 162,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 163,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 164,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 165,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 166,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 167,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 168,
+      "content": "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 169,
+      "content": "<table>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 170,
+      "content": "<caption>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 171,
+      "content": "<thead>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 172,
+      "content": "<tbody>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 173,
+      "content": "<tfoot>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 174,
+      "content": "<tr>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 175,
+      "content": "<th>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 176,
+      "content": "<td>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 177,
+      "content": "</table>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 178,
+      "content": "</caption>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 179,
+      "content": "</thead>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 180,
+      "content": "</tbody>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 181,
+      "content": "</tfoot>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 182,
+      "content": "</tr>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 183,
+      "content": "</th>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 184,
+      "content": "</td>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 185,
+      "content": "<h1>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 186,
+      "content": "<h2>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 187,
+      "content": "<h3>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 188,
+      "content": "<h4>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 189,
+      "content": "<h5>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 190,
+      "content": "<h6>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 191,
+      "content": "<blockquote>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 192,
+      "content": "</h1>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 193,
+      "content": "</h2>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 194,
+      "content": "</h3>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 195,
+      "content": "</h4>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 196,
+      "content": "</h5>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 197,
+      "content": "</h6>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 198,
+      "content": "</blockquote>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 199,
+      "content": "<strong>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 200,
+      "content": "<em>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 201,
+      "content": "<b>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 202,
+      "content": "<i>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 203,
+      "content": "<u>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 204,
+      "content": "<s>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 205,
+      "content": "<sub>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 206,
+      "content": "<sup>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 207,
+      "content": "<code>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 208,
+      "content": "</strong>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 209,
+      "content": "</em>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 210,
+      "content": "</b>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 211,
+      "content": "</i>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 212,
+      "content": "</u>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 213,
+      "content": "</s>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 214,
+      "content": "</sub>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 215,
+      "content": "</sup>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 216,
+      "content": "</code>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255968,
+      "content": "[toxicity=0]",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255969,
+      "content": "\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255970,
+      "content": "\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255971,
+      "content": "\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255972,
+      "content": "\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255973,
+      "content": "\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255974,
+      "content": "\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255975,
+      "content": "\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255976,
+      "content": "\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255977,
+      "content": "\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255978,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255979,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255980,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255981,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255982,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255983,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255984,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255985,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255986,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255987,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255988,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255989,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255990,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255991,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255992,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255993,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255994,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255995,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255996,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255997,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255998,
+      "content": "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    },
+    {
+      "id": 255999,
+      "content": "<unused99>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": false
+    }
+  ],
+  "normalizer": {
+    "type": "Sequence",
+    "normalizers": [
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀠"
+        },
+        "content": " "
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄐"
+        },
+        "content": " "
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀡"
+        },
+        "content": "!"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄑"
+        },
+        "content": "!"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀢"
+        },
+        "content": "\""
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄒"
+        },
+        "content": "\""
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀣"
+        },
+        "content": "#"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄓"
+        },
+        "content": "#"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀤"
+        },
+        "content": "$"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄔"
+        },
+        "content": "$"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀥"
+        },
+        "content": "%"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄕"
+        },
+        "content": "%"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀦"
+        },
+        "content": "&"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄖"
+        },
+        "content": "&"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀧"
+        },
+        "content": "'"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄗"
+        },
+        "content": "'"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀨"
+        },
+        "content": "("
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄘"
+        },
+        "content": "("
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀩"
+        },
+        "content": ")"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄙"
+        },
+        "content": ")"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀪"
+        },
+        "content": "*"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄚"
+        },
+        "content": "*"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀫"
+        },
+        "content": "+"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄛"
+        },
+        "content": "+"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀬"
+        },
+        "content": ","
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄜"
+        },
+        "content": ","
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀭"
+        },
+        "content": "-"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄝"
+        },
+        "content": "-"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀮"
+        },
+        "content": "."
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄞"
+        },
+        "content": "."
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀯"
+        },
+        "content": "/"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄟"
+        },
+        "content": "/"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀰"
+        },
+        "content": "0"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄠"
+        },
+        "content": "0"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀱"
+        },
+        "content": "1"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄡"
+        },
+        "content": "1"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀲"
+        },
+        "content": "2"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄢"
+        },
+        "content": "2"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀳"
+        },
+        "content": "3"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄣"
+        },
+        "content": "3"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀴"
+        },
+        "content": "4"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄤"
+        },
+        "content": "4"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀵"
+        },
+        "content": "5"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄥"
+        },
+        "content": "5"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀶"
+        },
+        "content": "6"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄦"
+        },
+        "content": "6"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀷"
+        },
+        "content": "7"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄧"
+        },
+        "content": "7"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀸"
+        },
+        "content": "8"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄨"
+        },
+        "content": "8"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀹"
+        },
+        "content": "9"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄩"
+        },
+        "content": "9"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀺"
+        },
+        "content": ":"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄪"
+        },
+        "content": ":"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀻"
+        },
+        "content": ";"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄫"
+        },
+        "content": ";"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀼"
+        },
+        "content": "<"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄬"
+        },
+        "content": "<"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀽"
+        },
+        "content": "="
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄭"
+        },
+        "content": "="
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀾"
+        },
+        "content": ">"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄮"
+        },
+        "content": ">"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠀿"
+        },
+        "content": "?"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄯"
+        },
+        "content": "?"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁀"
+        },
+        "content": "@"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄰"
+        },
+        "content": "@"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁁"
+        },
+        "content": "A"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄱"
+        },
+        "content": "A"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁂"
+        },
+        "content": "B"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄲"
+        },
+        "content": "B"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁃"
+        },
+        "content": "C"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄳"
+        },
+        "content": "C"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁄"
+        },
+        "content": "D"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄴"
+        },
+        "content": "D"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁅"
+        },
+        "content": "E"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄵"
+        },
+        "content": "E"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁆"
+        },
+        "content": "F"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄶"
+        },
+        "content": "F"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁇"
+        },
+        "content": "G"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄷"
+        },
+        "content": "G"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁈"
+        },
+        "content": "H"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄸"
+        },
+        "content": "H"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁉"
+        },
+        "content": "I"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄹"
+        },
+        "content": "I"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁊"
+        },
+        "content": "J"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄺"
+        },
+        "content": "J"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁋"
+        },
+        "content": "K"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄻"
+        },
+        "content": "K"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁌"
+        },
+        "content": "L"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄼"
+        },
+        "content": "L"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁍"
+        },
+        "content": "M"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄽"
+        },
+        "content": "M"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁎"
+        },
+        "content": "N"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄾"
+        },
+        "content": "N"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁏"
+        },
+        "content": "O"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠄿"
+        },
+        "content": "O"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁐"
+        },
+        "content": "P"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅀"
+        },
+        "content": "P"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁑"
+        },
+        "content": "Q"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅁"
+        },
+        "content": "Q"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁒"
+        },
+        "content": "R"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅂"
+        },
+        "content": "R"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁓"
+        },
+        "content": "S"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅃"
+        },
+        "content": "S"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁔"
+        },
+        "content": "T"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅄"
+        },
+        "content": "T"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁕"
+        },
+        "content": "U"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅅"
+        },
+        "content": "U"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁖"
+        },
+        "content": "V"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅆"
+        },
+        "content": "V"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁗"
+        },
+        "content": "W"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅇"
+        },
+        "content": "W"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁘"
+        },
+        "content": "X"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅈"
+        },
+        "content": "X"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁙"
+        },
+        "content": "Y"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅉"
+        },
+        "content": "Y"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁚"
+        },
+        "content": "Z"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅊"
+        },
+        "content": "Z"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁛"
+        },
+        "content": "["
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅋"
+        },
+        "content": "["
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁜"
+        },
+        "content": "\\"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅌"
+        },
+        "content": "\\"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁝"
+        },
+        "content": "]"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅍"
+        },
+        "content": "]"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁞"
+        },
+        "content": "^"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅎"
+        },
+        "content": "^"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁟"
+        },
+        "content": "_"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅏"
+        },
+        "content": "_"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁠"
+        },
+        "content": "`"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅐"
+        },
+        "content": "`"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁡"
+        },
+        "content": "a"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅑"
+        },
+        "content": "a"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁢"
+        },
+        "content": "b"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅒"
+        },
+        "content": "b"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁣"
+        },
+        "content": "c"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅓"
+        },
+        "content": "c"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁤"
+        },
+        "content": "d"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅔"
+        },
+        "content": "d"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁥"
+        },
+        "content": "e"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅕"
+        },
+        "content": "e"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁦"
+        },
+        "content": "f"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅖"
+        },
+        "content": "f"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁧"
+        },
+        "content": "g"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅗"
+        },
+        "content": "g"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁨"
+        },
+        "content": "h"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅘"
+        },
+        "content": "h"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁩"
+        },
+        "content": "i"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅙"
+        },
+        "content": "i"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁪"
+        },
+        "content": "j"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅚"
+        },
+        "content": "j"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁫"
+        },
+        "content": "k"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅛"
+        },
+        "content": "k"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁬"
+        },
+        "content": "l"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅜"
+        },
+        "content": "l"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁭"
+        },
+        "content": "m"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅝"
+        },
+        "content": "m"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁮"
+        },
+        "content": "n"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅞"
+        },
+        "content": "n"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁯"
+        },
+        "content": "o"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅟"
+        },
+        "content": "o"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁰"
+        },
+        "content": "p"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅠"
+        },
+        "content": "p"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁱"
+        },
+        "content": "q"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅡"
+        },
+        "content": "q"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁲"
+        },
+        "content": "r"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅢"
+        },
+        "content": "r"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁳"
+        },
+        "content": "s"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅣"
+        },
+        "content": "s"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁴"
+        },
+        "content": "t"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅤"
+        },
+        "content": "t"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁵"
+        },
+        "content": "u"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅥"
+        },
+        "content": "u"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁶"
+        },
+        "content": "v"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅦"
+        },
+        "content": "v"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁷"
+        },
+        "content": "w"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅧"
+        },
+        "content": "w"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁸"
+        },
+        "content": "x"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅨"
+        },
+        "content": "x"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁹"
+        },
+        "content": "y"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅩"
+        },
+        "content": "y"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁺"
+        },
+        "content": "z"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅪"
+        },
+        "content": "z"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁻"
+        },
+        "content": "{"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅫"
+        },
+        "content": "{"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁼"
+        },
+        "content": "|"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅬"
+        },
+        "content": "|"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁽"
+        },
+        "content": "}"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅭"
+        },
+        "content": "}"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠁾"
+        },
+        "content": "~"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "󠅮"
+        },
+        "content": "~"
+      },
+      {
+        "type": "NFKC"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "Regex": "[­᠎​-‏‪-‮⁠-⁤⁦-⁩﻿︀-️󠀀-󠁿󠄀-󠇯̱̅-̸⃐-⃿]"
+        },
+        "content": ""
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": " "
+        },
+        "content": "▁"
+      }
+    ]
+  },
+  "pre_tokenizer": {
+    "type": "Metaspace",
+    "replacement": "▁",
+    "prepend_scheme": "always",
+    "split": true
+  },
+  "post_processor": {
+    "type": "TemplateProcessing",
+    "single": [
+      {
+        "SpecialToken": {
+          "id": "<bos>",
+          "type_id": 0
+        }
+      },
+      {
+        "Sequence": {
+          "id": "A",
+          "type_id": 0
+        }
+      },
+      {
+        "SpecialToken": {
+          "id": "<eos>",
+          "type_id": 0
+        }
+      }
+    ],
+    "pair": [
+      {
+        "SpecialToken": {
+          "id": "<bos>",
+          "type_id": 0
+        }
+      },
+      {
+        "Sequence": {
+          "id": "A",
+          "type_id": 0
+        }
+      },
+      {
+        "SpecialToken": {
+          "id": "<eos>",
+          "type_id": 0
+        }
+      },
+      {
+        "Sequence": {
+          "id": "B",
+          "type_id": 0
+        }
+      },
+      {
+        "SpecialToken": {
+          "id": "<eos>",
+          "type_id": 0
+        }
+      }
+    ],
+    "special_tokens": {
+      "<bos>": {
+        "id": "<bos>",
+        "ids": [
+          2
+        ],
+        "tokens": [
+          "<bos>"
+        ]
+      },
+      "<eos>": {
+        "id": "<eos>",
+        "ids": [
+          1
+        ],
+        "tokens": [
+          "<eos>"
+        ]
+      }
+    }
+  },
+  "decoder": {
+    "type": "Sequence",
+    "decoders": [
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "▁"
+        },
+        "content": " "
+      },
+      {
+        "type": "ByteFallback"
+      },
+      {
+        "type": "Fuse"
+      }
+    ]
+  },
+  "model": {
+    "type": "BPE",
+    "dropout": null,
+    "unk_token": "<unk>",
+    "continuing_subword_prefix": null,
+    "end_of_word_suffix": null,
+    "fuse_unk": true,
+    "byte_fallback": true,
+    "ignore_merges": false
+  },
+  "vocab_entries": 256000,
+  "merges_count": 580604,
+  "tokenizer_sha256": "47834a7dbbb0c4324fe9569fe47955241594a9ee539c9e478755d6fbc51e5f46",
+  "tokenizer_loaded": false,
+  "tokenizer_encode_calls": 0
+}
