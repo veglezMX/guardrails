@@ -225,7 +225,12 @@ class ProofGatewayBoundary:
             current_turn.reset(token)
 
 
-def create_app() -> ProofGatewayBoundary:
+def create_app(contract_version="local-proof-v1") -> Any:
+    if contract_version == "guardrails-v2":
+        from .evolution_gateway import create_app as create_evolution_app
+        return create_evolution_app()
+    if contract_version != "local-proof-v1":
+        raise ValueError("unsupported gateway contract version")
     gateway_token = Path(os.environ["PROOF_GATEWAY_TOKEN_FILE"]).read_text().strip()
     if not gateway_token or any(character.isspace() for character in gateway_token):
         raise ValueError("invalid gateway credential file")

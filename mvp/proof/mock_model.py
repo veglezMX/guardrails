@@ -20,6 +20,8 @@ from guardrails.runtime.smoke_app import bearer, bounded_body, safe_problem
 from guardrails.runtime.smoke import digest_token, strict_json
 from guardrails.transport import install_exception_handlers
 
+from proof.evolution_scenarios import EVALUATOR_SCENARIOS
+
 SCENARIOS = {
     "error": "",
     "timeout": "",
@@ -32,6 +34,8 @@ SCENARIOS = {
     "delayed_sensitive": "Contact proof@example.test or +15551234567.",
     "held_sensitive": "Contact proof@example.test or +15551234567.",
 }
+
+SCENARIOS.update(EVALUATOR_SCENARIOS)
 
 
 def _read_token(path: str) -> str:
