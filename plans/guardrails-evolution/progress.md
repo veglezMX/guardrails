@@ -3,8 +3,8 @@
 ## Current Status
 
 **Active phase:** Phase 3 — Rules and evaluators
-**Last completed task:** P3.R2a — Revised recovery approved; seven logical source commits recorded. TLS socket/stream65 and CA-consumer74 isolated checks pass; deployment admission remains pending.
-**Next task:** P3.R2b — Finish startup, observation and backup/admission integration; pass reviewed bound checks, then perform the approved TLS-first recovery and exactly17 credential replacements. Fixed credential expiry2026-10-28T18:00Z; classifier cap nine remains.
+**Last completed task:** P3.R2a — Revised recovery approved and source committed in logical groups. Latest isolated recovery component checks pass; execution worker/inventory composition and concrete admission remain pending.
+**Next task:** P3.R2b — Finish worker composition, current inventory derivation and reviewed exact bindings; then perform the approved TLS-first recovery and exactly17 credential replacements. Fixed credential expiry2026-10-28T18:00Z; classifier cap nine remains.
 **Sessions completed:** 4
 
 Phase 1 passed the closed gate in run `b59de4e3-4676-4412-931b-010eacbbf1c9`: all 177 required cases passed with 1,930 measured assertions and a verified Ed25519 report. Executable source digest: `e2aeaf958ac4563d79501e1db1b537c672d39f97a86f836d601c579c6b1a2324`. The earlier failed assertion-counting attempt remains preserved separately. Phase 2 passed the sealed 1,103-case gate `1c8b455e-520f-49ee-b6be-c8bc23b7ab7d` with 21,026 assertions. The user approved exact destination pinning, preserving legacy compiled digests and requiring new approval/release for endpoint changes. Registry, quota, runtime, deployment and connector work proceeds. The predecessor proof remains preserved; phases here use their own numbering.
