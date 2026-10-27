@@ -1,0 +1,165 @@
+{{- if not .Values.servicesOnly }}
+{{- range $name, $app := .Values.components }}
+{{- if $app.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $name }}
+  namespace: {{ $app.namespace }}
+automountServiceAccountToken: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  namespace: {{ $app.namespace }}
+  labels: {guardrails.evolution/owner: {{ $.Values.ownerId | quote }}}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {guardrails.evolution/instance: {{ $name }}}
+  template:
+    metadata:
+      labels:
+        guardrails.evolution/instance: {{ $name }}
+        guardrails.evolution/component: {{ $app.component }}
+      annotations:
+        guardrails.evolution/config-revision: {{ $app.configRevision | quote }}
+    spec:
+      serviceAccountName: {{ $name }}
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 15
+      dnsPolicy: None
+      dnsConfig:
+        nameservers: [10.96.0.10]
+        searches: [{{ $app.namespace }}.svc.cluster.local, svc.cluster.local, cluster.local]
+        options: [{name: ndots, value: "1"}]
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ $app.uid | default 10001 }}
+        runAsGroup: {{ $app.uid | default 10001 }}
+        fsGroup: {{ $app.uid | default 10001 }}
+        seccompProfile: {type: RuntimeDefault}
+      initContainers:
+        - name: private-files
+          image: {{ $.Values.initImage | quote }}
+          imagePullPolicy: Never
+          command: [python, -B, -c]
+          args:
+            {{- if eq $app.component "ollama" }}
+            - {{ $.Files.Get "files/model-private-files.py" | toJson }}
+            {{- else }}
+            - "import os,pathlib; [pathlib.Path('/'+v+'/data').mkdir(mode=0o700,exist_ok=True) for v in ('private','state')]; [(pathlib.Path('/private/data',p.name).write_bytes(p.read_bytes()),os.chmod('/private/data/'+p.name,0o600)) for p in pathlib.Path('/projected').iterdir() if not p.name.startswith('.')]"
+            {{- end }}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 10m, memory: 16Mi}, limits: {cpu: 100m, memory: 32Mi}}
+          volumeMounts:
+            - {name: projected, mountPath: /projected, readOnly: true}
+            - {name: private, mountPath: /private}
+            - {name: state, mountPath: /state}
+        {{- if $app.sidecar }}
+        - name: caddy-binary
+          image: {{ $app.sidecar.image | quote }}
+          imagePullPolicy: Never
+          command: [timeout, "30", /bin/sh, -ec]
+          args:
+            - {{ $.Files.Get "files/caddy-copy.sh" | toJson }}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 10m, memory: 16Mi}, limits: {cpu: 100m, memory: 64Mi}}
+          volumeMounts:
+            - {name: caddy-executable, mountPath: /executable}
+        {{- end }}
+      containers:
+        - name: {{ $app.component }}
+          image: {{ required "immutable image is required" $app.image | quote }}
+          imagePullPolicy: Never
+          {{- if $app.command }}
+          command: {{ $app.command | toJson }}
+          {{- end }}
+          {{- if $app.args }}
+          args: {{ $app.args | toJson }}
+          {{- end }}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {{ $app.resources | toJson }}
+          {{- if $app.env }}
+          env:
+          {{- range $key, $value := $app.env }}
+            - {name: {{ $key }}, value: {{ $value | quote }}}
+          {{- end }}
+          {{- end }}
+          volumeMounts:
+            - {name: private, mountPath: /config, subPath: data, readOnly: true}
+            - {name: state, mountPath: /state, subPath: data}
+            - {name: temporary, mountPath: /tmp}
+            {{- if eq $app.component "ollama" }}
+            - {name: state, mountPath: /models/manifests-v2, subPath: model-manifests-v2, readOnly: true}
+            {{- end }}
+            {{- if eq $app.component "postgres" }}
+            - {name: postgres-data, mountPath: /var/lib/postgresql}
+            - {name: pg-run, mountPath: /var/run/postgresql}
+            {{- end }}
+          {{- if $app.readinessCommand }}
+          readinessProbe:
+            exec: {command: {{ $app.readinessCommand | toJson }}}
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+          {{- end }}
+          {{- if $app.livenessCommand }}
+          livenessProbe:
+            exec: {command: {{ $app.livenessCommand | toJson }}}
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          startupProbe:
+            exec: {command: {{ $app.livenessCommand | toJson }}}
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 36
+          {{- end }}
+        {{- if $app.sidecar }}
+        - name: tls
+          image: {{ $app.sidecar.image | quote }}
+          imagePullPolicy: Never
+          command: [/executable/caddy, run, --config, /config/Caddyfile, --adapter, caddyfile]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 20m, memory: 32Mi}, limits: {cpu: 100m, memory: 96Mi}}
+          env: [{name: XDG_CONFIG_HOME, value: /state/caddy-config}, {name: XDG_DATA_HOME, value: /state/caddy-data}]
+          volumeMounts:
+            - {name: caddy-executable, mountPath: /executable, subPath: private, readOnly: true}
+            - {name: private, mountPath: /config, subPath: data, readOnly: true}
+            - {name: state, mountPath: /state, subPath: data}
+            - {name: temporary, mountPath: /tmp}
+        {{- end }}
+        {{- if $app.postgresTunnel }}
+        - name: postgres-tunnel
+          image: {{ $app.postgresTunnel.image | quote }}
+          imagePullPolicy: Never
+          command: [python, -B, /config/postgres_tunnel.py]
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          resources: {requests: {cpu: 10m, memory: 16Mi}, limits: {cpu: 50m, memory: 64Mi}}
+          readinessProbe:
+            exec: {command: [python, -S, -B, /config/postgres_tunnel.py, --check]}
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - {name: private, mountPath: /config, subPath: data, readOnly: true}
+        {{- end }}
+      volumes:
+        - {name: projected, secret: {secretName: {{ $name }}-config, defaultMode: 0440}}
+        - {name: private, emptyDir: {medium: Memory, sizeLimit: 8Mi}}
+        - {name: state, emptyDir: {sizeLimit: 64Mi}}
+        - {name: temporary, emptyDir: {medium: Memory, sizeLimit: 64Mi}}
+        {{- if $app.sidecar }}
+        - {name: caddy-executable, emptyDir: {sizeLimit: 96Mi}}
+        {{- end }}
+        {{- if eq $app.component "postgres" }}
+        - {name: postgres-data, persistentVolumeClaim: {claimName: postgres-data}}
+        - {name: pg-run, emptyDir: {medium: Memory, sizeLimit: 16Mi}}
+        {{- end }}
+---
+{{- end }}
+{{- end }}
+{{- end }}

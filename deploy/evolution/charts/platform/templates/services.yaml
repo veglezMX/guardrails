@@ -1,0 +1,26 @@
+{{- $services := list (dict "name" "postgres" "namespace" "gr-platform" "port" 5432 "component" "postgres") (dict "name" "management" "namespace" "gr-platform" "port" 8443 "component" "management") (dict "name" "runtime" "namespace" "gr-platform" "port" 8443 "component" "runtime") (dict "name" "gateway" "namespace" "gr-team-a" "port" 8443 "component" "gateway") (dict "name" "gateway" "namespace" "gr-team-b" "port" 8443 "component" "gateway") (dict "name" "ollama" "namespace" "gr-model" "port" 8443 "component" "ollama") (dict "name" "mock" "namespace" "gr-model" "port" 8443 "component" "mock") }}
+{{- if .Values.classifierService }}
+{{- $services = append $services (dict "name" "classifier" "namespace" "gr-platform" "port" 8443 "component" "classifier") }}
+{{- end }}
+{{- range $entry := $services }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $entry.name }}
+  namespace: {{ $entry.namespace }}
+  labels: {guardrails.evolution/owner: {{ $.Values.ownerId | quote }}}
+spec:
+  type: ClusterIP
+  selector: {guardrails.evolution/component: {{ $entry.component }}}
+  ports: [{name: {{ if eq $entry.port 5432 }}postgres{{ else }}https{{ end }}, port: {{ $entry.port }}, targetPort: {{ $entry.port }}}]
+---
+{{- end }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+  namespace: gr-platform
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests: {storage: 2Gi}
