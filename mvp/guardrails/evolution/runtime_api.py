@@ -36,13 +36,49 @@ from .models import (
     parse_time,
     strict_json_loads,
 )
-from .plugins import EvaluatorRegistry
+from .plugins import EvaluatorRegistry, _TIMING_CONTEXT, _TimingCapture, _timing_event, _timing_safe
 from .runtime_apply import RuntimeApplyClient, RuntimeSnapshotStore
 from .snapshots import stamp
 
 STATES = ("disabled", "observe", "warn", "redact", "block")
 ACTIONS = ("allow", "warn", "redact", "block")
 MAX_BODY_BYTES = 24 * 1024 * 1024
+
+
+class _TimingASGI:
+    """A pure pass-through: no new task, receive owner, timeout, or await on export."""
+
+    def __init__(self, app, capture):
+        self.app, self.capture = app, capture
+
+    async def __call__(self, scope, receive, send):
+        if (scope.get("type") != "http" or scope.get("method") != "POST"
+                or scope.get("path") != "/v2/evaluations" or self.capture.mapping is None
+                or self.capture.claimed):
+            return await self.app(scope, receive, send)
+        context = {"capture": self.capture, "record": None, "provisional": [None, None, None]}
+        token = _TIMING_CONTEXT.set(context)
+        outcome, status = "returned", None
+
+        async def observed_send(message):
+            nonlocal status
+            if message.get("type") == "http.response.start":
+                status = message.get("status")
+            await send(message)
+
+        try:
+            return await self.app(scope, receive, observed_send)
+        except asyncio.CancelledError:
+            outcome = "cancelled"
+            raise
+        except BaseException:
+            outcome = "error"
+            raise
+        finally:
+            record = context["record"]
+            if record is not None:
+                _timing_safe(self.capture.publish, record, outcome, status)
+            _timing_safe(_TIMING_CONTEXT.reset, token)
 
 
 @dataclass(frozen=True)
@@ -331,11 +367,13 @@ class EvaluationRuntime:
         job = asyncio.current_task()
         self._jobs.add(job)
         try:
+            _timing_event("mark", 3)
             context, binding, policy, reservation, deadline, detector_deadline = await self.metadata(
                 identity.tenant_id,
                 lambda: self._admit(identity, request, deadline, started=started),
                 admission_deadline,
             )
+            _timing_event("admitted", policy, binding, self.config)
             if time.monotonic() >= admission_deadline:
                 raise EvolutionError("evaluation_timeout")
             if admission_budget is not None:
@@ -372,6 +410,7 @@ class EvaluationRuntime:
                     if request.stage not in rule.stages:
                         continue
                     revisions.add(rule.evaluator_revision)
+                    _timing_event("rule", rule, detector_deadline)
                     try:
                         found = await self.registry.evaluate(rule, request.parts, detector_deadline,
                                                              tenant_id=identity.tenant_id, policy=policy,
@@ -407,7 +446,9 @@ class EvaluationRuntime:
                     action = "block"
                     reasons.add("unsafe_transformation")
             decision = Decision(decision_id=str(uuid4()), request_id=request.request_id, context_id=context.context_id, tenant_id=identity.tenant_id, workload_id=identity.workload_id, stage=request.stage, policy=policy.reference(), binding_revision=context.binding_revision, snapshot_generation=context.snapshot_generation, action=action, would_be_action=would_be, reason_codes=tuple(sorted(reasons)), findings=findings, transformed_parts=transformed, evaluation_ms=(time.monotonic() - started) * 1000, audit_status="persisted", evaluator_revisions=tuple(sorted(revisions)))
+            _timing_event("mark", 13)
             await self.metadata(identity.tenant_id, lambda: self._finalize(identity, request, context, decision), deadline)
+            _timing_event("mark", 14)
             return decision.model_copy(update={"evaluation_ms": (time.monotonic() - started) * 1000})
         finally:
             self._jobs.discard(job)
@@ -542,18 +583,25 @@ def create_app(repository=None, *, service=None, config=None, runtime_slots=None
             repository = TenantRepository(Path(config.database_url_file).read_text().strip())
         service = EvaluationRuntime(repository, config=config, runtime_slots=runtime_slots or load_runtime_slots("runtime-slots.json"))
 
+    capture = _TimingCapture()
+
     @asynccontextmanager
     async def lifespan(app):
         try:
+            _timing_safe(capture.start)
             await service.start()
             yield
         finally:
-            await service.close()
-            if owned_repository:
-                service.repository.close()
+            try:
+                await service.close()
+                if owned_repository:
+                    service.repository.close()
+            finally:
+                _timing_safe(capture.close)
 
     app = FastAPI(title="Guardrails evolution evaluation", version="2.0.0", lifespan=lifespan)
     app.state.service = service
+    app.add_middleware(_TimingASGI, capture=capture)
 
     @app.get("/health/live")
     async def live():
@@ -585,6 +633,7 @@ def create_app(repository=None, *, service=None, config=None, runtime_slots=None
 
     async def handle(request: Request):
         started = time.monotonic()
+        _timing_event("arrival", started)
         deadline = started + min(500, service.config.text_budget_ms) / 1000
         correlation = str(uuid4())
         headers = {"Cache-Control": "no-store", "X-Request-ID": correlation}
@@ -604,6 +653,7 @@ def create_app(repository=None, *, service=None, config=None, runtime_slots=None
                 if not authorization.startswith("Bearer "):
                     raise EvolutionError("authentication_failed")
                 identity = await service.authenticate(authorization[7:], deadline)
+                _timing_event("authenticated")
                 if request.url.path == "/health/ready":
                     ready, dependency = await service.metadata(identity.tenant_id, lambda: service.ready_for(identity), deadline)
                     return JSONResponse({"ready": ready, "dependency_codes": [] if ready else [dependency]}, status_code=200 if ready else 503, headers=headers)
@@ -631,6 +681,7 @@ def create_app(repository=None, *, service=None, config=None, runtime_slots=None
                     if len(parts) > 64 or sum(len(part["text"].encode("utf-8")) for part in parts if isinstance(part, dict) and part.get("kind") == "text" and isinstance(part.get("text"), str)) > 65536:
                         raise EvolutionError("payload_too_large")
                 value = EvaluationRequest.model_validate_json(canonical_json_bytes(payload))
+                _timing_event("claim", identity, value)
                 body.clear()
                 decision = await evaluate_connected(request, identity, value, started, deadline, budget)
                 return JSONResponse(decision.model_dump(mode="json"), headers=headers)

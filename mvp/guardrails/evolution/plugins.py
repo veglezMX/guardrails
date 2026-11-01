@@ -8,10 +8,13 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import math
+import mmap
 import os
 import re
+import stat
 import sys
 import time
+from contextvars import ContextVar
 from pathlib import Path
 from types import MappingProxyType
 
@@ -36,6 +39,193 @@ MAX_WIRE_BYTES = 512 * 1024
 MAX_RESULT_BYTES = 4 * 1024 * 1024
 MAX_FINDINGS = 4096
 SUPPORTED_ENTITIES = frozenset({"email", "international_phone"})
+
+# Temporary, source-bound diagnostic. No environment/request controls its scope.
+_TIMING_CORRELATION = "b410756d-35b7-4e5f-a218-59a5dfca5a7e"
+_TIMING_OPERATION = "234763f7-f610-4e0a-882a-89eaf9a158f8"
+_TIMING_DIRECTORY = "/tmp"
+_TIMING_UID = 10001
+_TIMING_CONTEXT = ContextVar("runtime_fixed_timing", default=None)
+_TIMING_PHASES = frozenset({"before_queue", "queue", "write_or_drain", "read_response",
+                            "decode", "worker_reported_deadline", "outer_cancelled",
+                            "other_closed_error"})
+
+
+def _timing_safe(function, *args):
+    """Recorder-only failures must never replace an original operation or error."""
+    try:
+        return function(*args)
+    except BaseException:  # noqa: BLE001,S110 -- Only diagnostic bookkeeping is enclosed.
+        return None
+
+
+class _TimingCapture:
+    """One preallocated tmpfs leaf; request marks never touch the mapping."""
+
+    def __init__(self):
+        self.mapping = None
+        self.fd = self.directory_fd = None
+        self.claimed = False
+
+    def start(self):
+        if os.getuid() != _TIMING_UID or self.mapping is not None or self.fd is not None:
+            return
+        try:
+            self.directory_fd = os.open(_TIMING_DIRECTORY, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            directory = os.fstat(self.directory_fd)
+            if (not stat.S_ISDIR(directory.st_mode) or directory.st_uid not in {0, _TIMING_UID}
+                    or directory.st_mode & 0o002 and not directory.st_mode & stat.S_ISVTX):
+                raise ValueError("diagnostic_directory")
+            name = "runtime-timing-" + _TIMING_OPERATION + ".bin"
+            self.fd = os.open(name, os.O_RDWR | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                              0o600, dir_fd=self.directory_fd)
+            info = os.fstat(self.fd)
+            if (not stat.S_ISREG(info.st_mode) or info.st_uid != _TIMING_UID or info.st_nlink != 1
+                    or stat.S_IMODE(info.st_mode) != 0o600 or info.st_size != 0):
+                raise ValueError("diagnostic_leaf")
+            os.ftruncate(self.fd, 4096)
+            after = os.fstat(self.fd)
+            leaf = os.stat(name, dir_fd=self.directory_fd, follow_symlinks=False)
+            if ((after.st_dev, after.st_ino, after.st_mode, after.st_uid, after.st_nlink, after.st_size)
+                    != (leaf.st_dev, leaf.st_ino, leaf.st_mode, leaf.st_uid, leaf.st_nlink, leaf.st_size)
+                    or after.st_size != 4096):
+                raise ValueError("diagnostic_leaf_changed")
+            self.mapping = mmap.mmap(self.fd, 4096, access=mmap.ACCESS_WRITE)
+            self.mapping[:] = b"\0" * 4096  # Allocate/touch before service readiness.
+            self._store({"schema": "runtime-fixed-timing-v1", "operation": _TIMING_OPERATION,
+                         "correlation_id": _TIMING_CORRELATION, "status": "ready"}, b"R")
+        except BaseException:
+            self.close()
+            raise
+
+    def close(self):
+        mapping, self.mapping = self.mapping, None
+        if mapping is not None:
+            _timing_safe(mapping.close)
+        for name in ("fd", "directory_fd"):
+            descriptor = getattr(self, name)
+            setattr(self, name, None)
+            if descriptor is not None:
+                _timing_safe(os.close, descriptor)
+        # Never unlink/reuse a prior operation's diagnostic evidence.
+
+    def _store(self, value, marker):
+        raw = canonical_json_bytes(value)
+        if not raw.isascii() or len(raw) > 2048 or marker not in {b"R", b"F"}:
+            raise ValueError("diagnostic_record")
+        self.mapping[128:2176] = raw + b"\0" * (2048 - len(raw))
+        self.mapping[9:17] = f"{len(raw):08x}".encode("ascii")
+        self.mapping[17:81] = hashlib.sha256(raw).hexdigest().encode("ascii")
+        self.mapping[:8] = b"EVOTIM1\n"
+        self.mapping[8:9] = marker  # Final marker last; no flush/write/fsync.
+
+    def claim(self, provisional, identity, request):
+        if (self.mapping is None or self.claimed
+                or identity.tenant_id != "team-a" or identity.workload_id != "chat"
+                or request.tenant_id != "team-a" or request.workload_id != "chat"
+                or request.stage != "input" or request.correlation_id != _TIMING_CORRELATION):
+            return None
+        self.claimed = True
+        return {"started": provisional[0], "marks": [*provisional, *([None] * 13)],
+                "rule": -1, "phase": "before_queue", "origin": [None, None],
+                "remaining_us": [None, None], "policy_digest": None, "binding_revision": None,
+                "server_ms": None, "reserve_ms": None, "pool_ms": None, "invalid": False}
+
+    def publish(self, record, outcome, status):
+        if self.mapping is None or self.mapping[8:9] != b"R" or record["invalid"]:
+            return
+        now = time.monotonic_ns()
+        record["marks"][15] = now
+        marks = [None if x is None else (x - record["started"]) // 1000 for x in record["marks"]]
+        if (len(marks) != 16 or any(x is not None and (type(x) is not int or not 0 <= x <= 300_000_000) for x in marks)
+                or outcome not in {"returned", "cancelled", "error"}
+                or status is not None and (type(status) is not int or not 100 <= status <= 599)):
+            return
+        self._store({"schema": "runtime-fixed-timing-v1", "operation": _TIMING_OPERATION,
+                     "correlation_id": _TIMING_CORRELATION, "status": "finalized",
+                     "marks_us": marks, "timeout_origin": record["origin"],
+                     "remaining_us": record["remaining_us"], "policy_digest": record["policy_digest"],
+                     "binding_revision": record["binding_revision"], "server_ms": record["server_ms"],
+                     "reserve_ms": record["reserve_ms"], "pool_ms": record["pool_ms"],
+                     "terminal": outcome, "http_status": status}, b"F")
+
+
+def _timing_event(event, *values):
+    """Fixed scalar marks only. This function never performs I/O or awaits."""
+    try:
+        context = _TIMING_CONTEXT.get()
+        if context is None:
+            return
+        if event == "arrival":
+            context["provisional"][0] = int(values[0] * 1_000_000_000)
+            return
+        if event == "authenticated":
+            context["provisional"][1] = time.monotonic_ns()
+            return
+        if event == "claim":
+            context["provisional"][2] = time.monotonic_ns()
+            context["record"] = context["capture"].claim(context["provisional"], *values)
+            return
+        record = context["record"]
+        if record is None or record["invalid"]:
+            return
+        if event == "mark":
+            index = values[0]
+            if index not in {3, 13, 14} or record["marks"][index] is not None:
+                raise ValueError("diagnostic_mark")
+            record["marks"][index] = time.monotonic_ns()
+        elif event == "admitted":
+            policy, binding, config = values
+            digest = policy.compiled_digest
+            if (type(digest) is not str or re.fullmatch(r"[0-9a-f]{64}", digest) is None
+                    or type(binding.revision) is not int or not 1 <= binding.revision <= 2**63 - 1):
+                raise ValueError("diagnostic_policy")
+            record.update(policy_digest=digest, binding_revision=binding.revision,
+                          server_ms=min(500, config.text_budget_ms), reserve_ms=config.audit_reserve_ms)
+            record["marks"][4] = time.monotonic_ns()
+        elif event == "rule":
+            rule, deadline = values
+            index = record["rule"] + 1
+            if (index not in {0, 1} or rule.rule_id != ("phase3-pii", "pii")[index]
+                    or rule.kind != "pii" or not math.isfinite(deadline)):
+                raise ValueError("diagnostic_rule")
+            record["rule"] = index
+            record["marks"][5 + 4 * index] = time.monotonic_ns()
+            record["remaining_us"][index] = int((deadline - time.monotonic()) * 1_000_000)
+            record["phase"] = "before_queue"
+        elif event == "phase":
+            if values[0] not in _TIMING_PHASES:
+                raise ValueError("diagnostic_phase")
+            record["phase"] = values[0]
+        elif event == "pool":
+            if type(values[0]) is not int or not 1 <= values[0] <= 500:
+                raise ValueError("diagnostic_pool")
+            record["pool_ms"] = values[0]
+        elif event == "step":
+            if record["rule"] not in {0, 1} or values[0] not in {1, 2, 3}:
+                raise ValueError("diagnostic_step")
+            index = 5 + 4 * record["rule"] + values[0]
+            if record["marks"][index] is not None:
+                raise ValueError("diagnostic_duplicate_step")
+            record["marks"][index] = time.monotonic_ns()
+        elif event == "decoding":
+            result = values[0]
+            record["phase"] = ("worker_reported_deadline" if type(result) is dict and len(result) == 1
+                               and result.get("error") == "evaluation_timeout" else "decode")
+        elif event == "timeout":
+            if record["rule"] in {0, 1}:
+                origin = values[0] if values else record["phase"]
+                if origin not in _TIMING_PHASES:
+                    raise ValueError("diagnostic_timeout_origin")
+                record["origin"][record["rule"]] = origin
+        else:
+            raise ValueError("diagnostic_event")
+    except BaseException:  # noqa: BLE001 -- Recorder only; original operations remain outside.
+        try:
+            if context is not None and context.get("record") is not None:
+                context["record"]["invalid"] = True
+        except BaseException:  # noqa: BLE001,S110
+            pass
 
 
 def _verify_artifacts():
@@ -182,7 +372,9 @@ class PinnedPiiEvaluator:
         if type(deadline_monotonic) not in (float, int) or not math.isfinite(deadline_monotonic):
             raise EvolutionError("validation_failed")
         cutoff = min(deadline_monotonic, loop.time() + self.timeout_ms / 1000)
+        _timing_event("pool", self.timeout_ms)
         if cutoff <= loop.time():
+            _timing_event("timeout", "before_queue")
             raise EvolutionError("evaluation_timeout")
         if not self._ready or self._closed:
             raise EvolutionError("evaluator_unavailable")
@@ -193,27 +385,42 @@ class PinnedPiiEvaluator:
         self._tasks.add(task)
         try:
             async with asyncio.timeout_at(cutoff):
+                _timing_event("phase", "queue")
                 process = await self._available.get()
+                _timing_event("step", 1)
+                _timing_event("phase", "write_or_drain")
                 self._busy.add(process)
                 raw_payload = canonical_json_bytes(payload)
                 if len(raw_payload) > self._max_wire_bytes:
                     raise EvolutionError("payload_too_large")
                 process.stdin.write(raw_payload + b"\n")
                 await process.stdin.drain()
+                _timing_event("step", 2)
+                _timing_event("phase", "read_response")
                 raw = await process.stdout.readline()
                 if not raw or len(raw) > self._max_result_bytes:
                     raise EvolutionError("evaluator_unavailable")
+                _timing_event("phase", "decode")
                 result = strict_json_loads(raw)
+                _timing_event("decoding", result)
                 value = decode(result)
+                _timing_event("step", 3)
                 self._available.put_nowait(process)
                 self._busy.discard(process)
                 process = None
                 return value
         except TimeoutError:
+            _timing_event("timeout")
             raise EvolutionError("evaluation_timeout") from None
-        except (EvolutionError, asyncio.CancelledError):
+        except EvolutionError as exc:
+            if exc.code == "evaluation_timeout":
+                _timing_event("timeout")
+            raise
+        except asyncio.CancelledError:
+            _timing_event("timeout", "outer_cancelled")
             raise
         except Exception:  # noqa: BLE001 - worker boundary never exposes payload/driver errors
+            _timing_event("timeout", "other_closed_error")
             raise EvolutionError("evaluator_unavailable") from None
         finally:
             self._admitted -= 1
