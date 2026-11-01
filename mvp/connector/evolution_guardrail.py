@@ -16,6 +16,7 @@ from .evolution import (
     current_turn,
     https_origin,
 )
+from . import gateway_timing_probe as timing_probe
 
 
 class EvolutionGuardrail(CustomGuardrail):
@@ -61,14 +62,19 @@ class EvolutionGuardrail(CustomGuardrail):
             if data.get("model") != self.settings.model_alias or turn.input_decision is not None:
                 raise EvolutionError("provider_denied")
             request = self.connector.normalize(data, "input")
+            timing_probe.mark("input_evaluate_enter")
             decision = await self.client.evaluate(request)
+            timing_probe.mark("input_evaluate_return")
             self.connector.verify(decision, request)
+            timing_probe.mark("input_verified")
             result = self.connector.enforce(decision, data)
+            timing_probe.mark("input_enforced")
             turn.context_id = decision.context_id
             turn.input_decision = decision
             # The stored parts are transient, request-local and cleared by the boundary.
             turn.input_parts = request.parts
             self.mark_pre_call_hook_ran(result)
+            timing_probe.mark("input_accepted")
             return result
         except EvolutionError as error:
             self.reject(turn, error)
@@ -76,6 +82,7 @@ class EvolutionGuardrail(CustomGuardrail):
     async def async_pre_call_deployment_hook(self, kwargs, call_type):
         """Validate the selected route even when LiteLLM skips repeated pre-hooks."""
         turn = self.turn()
+        timing_probe.mark("deployment_enter")
         try:
             if turn.input_decision is None or turn.model_dispatched:
                 raise EvolutionError("context_invalid")
@@ -110,12 +117,14 @@ class EvolutionGuardrail(CustomGuardrail):
                 # silently creates an independent, unguarded provider client.
                 kwargs["client"] = handler
             turn.route_verified = True
+            timing_probe.mark("deployment_verified")
             return kwargs
         except EvolutionError as error:
             self.reject(turn, error)
 
     async def async_post_call_success_hook(self, data, user_api_key_dict, response):
         turn = self.turn()
+        timing_probe.mark("output_hook_enter")
         try:
             if turn.input_decision is None or not turn.route_verified:
                 raise EvolutionError("context_invalid")
@@ -137,13 +146,18 @@ class EvolutionGuardrail(CustomGuardrail):
                 return response
             payload = {"messages": [{"role": "assistant", "content": content}]}
             request = self.connector.normalize(payload, "output")
+            timing_probe.mark("output_evaluate_enter")
             decision = await self.client.evaluate(request)
+            timing_probe.mark("output_evaluate_return")
             self.connector.verify(decision, request, turn.input_decision)
+            timing_probe.mark("output_verified")
             transformed = self.connector.enforce(decision, payload)
+            timing_probe.mark("output_enforced")
             if decision.action == "redact":
                 message.content = transformed["messages"][0]["content"]
             turn.output_decision = decision
             turn.output_parts = request.parts
+            timing_probe.mark("output_accepted")
             return response
         except EvolutionError as error:
             self.reject(turn, error)

@@ -24,6 +24,7 @@ from .evolution import (
     read_secret,
     validate_request,
 )
+from . import gateway_timing_probe as timing_probe
 
 
 def validate_output(value: Any, *, proxy_metadata: bool = False) -> dict:
@@ -77,6 +78,7 @@ class ModelTransport(httpx.AsyncBaseTransport):
         )
 
     async def handle_async_request(self, request):
+        timing_probe.mark("transport_enter")
         turn = current_turn.get()
         base = self.settings.model_base_url
         expected = base + ("/chat/completions" if self.settings.profile == "deterministic_mock" else "/api/chat")
@@ -95,6 +97,7 @@ class ModelTransport(httpx.AsyncBaseTransport):
             # callbacks sharing a turn cannot both dispatch.
             turn.model_dispatched = True
             deadline = time.monotonic() + self.settings.model_timeout
+            timing_probe.mark("transport_reserved")
             body = bytearray()
             async with asyncio.timeout_at(deadline):
                 async for chunk in request.stream:
@@ -146,9 +149,11 @@ class ModelTransport(httpx.AsyncBaseTransport):
                 raise EvolutionError("inspection_incomplete") from None
             headers = {key: value for key, value in request.headers.items()
                        if key.lower() not in {"host", "content-length", "transfer-encoding", "connection", "accept-encoding"}}
+            timing_probe.mark("transport_request_enter")
             result = await self.transport.request(route, method=request.method, path=path, body=bytes(body),
                 headers=headers, deadline_monotonic=deadline,
                 max_response_bytes=MAX_WIRE_BYTES)
+            timing_probe.mark("transport_response_return")
             return httpx.Response(result.status_code, headers=result.headers, content=result.content, request=request)
         except TimeoutError:
             turn.error, turn.error_status = EvolutionError("upstream_timeout"), 504
@@ -196,6 +201,7 @@ class GatewayBoundary:
                         await self.native_http_handler.close()
                     elif litellm.aclient_session is not None:
                         await litellm.aclient_session.aclose()
+                    timing_probe.close()
                 await send(message)
             await self.proxy(scope, receive, lifecycle)
             return
@@ -203,6 +209,10 @@ class GatewayBoundary:
             return
         turn = Turn(native_http_handler=self.native_http_handler)
         token = current_turn.set(turn)
+        timing_context_token = timing_probe.suspend()
+        timing_token = None
+        timing_arrived = (time.time_ns(), time.monotonic_ns())
+        timing_terminal = "returned"
         try:
             if scope["path"] == "/health/live" and scope["method"] == "GET":
                 await self.respond(send, 200, {"live": True}, turn.correlation_id)
@@ -254,6 +264,8 @@ class GatewayBoundary:
                     if not event.get("more_body", False):
                         break
             payload = validate_request(bytes(raw), self.settings.model_alias)
+            timing_token = timing_probe.claim(turn.correlation_id, timing_arrived)
+            timing_probe.mark("request_validated")
             for name, value in (("stream", False), ("n", 1), ("temperature", 0), ("max_tokens", 128)):
                 payload.setdefault(name, value)
             body = canonical_json_bytes(payload)
@@ -300,17 +312,28 @@ class GatewayBoundary:
                     try:
                         await asyncio.wait((proxy_task, disconnect_task), return_when=asyncio.FIRST_COMPLETED)
                         if disconnected.is_set():
+                            timing_terminal = "disconnect"
+                            timing_probe.terminate("disconnect", "disconnect")
                             return
                         await proxy_task
+                        timing_probe.mark("proxy_return")
+                    except asyncio.CancelledError:
+                        timing_probe.mark("cancel_requested")
+                        raise
                     finally:
                         for task in (proxy_task, disconnect_task):
                             if not task.done():
+                                timing_probe.mark("cancel_requested")
                                 task.cancel()
                         await asyncio.gather(proxy_task, disconnect_task, return_exceptions=True)
             except TimeoutError:
+                timing_terminal = "timeout"
+                timing_probe.mark("boundary_error")
                 turn.error = turn.error or EvolutionError("upstream_timeout")
                 turn.error_status = 504
             except Exception as failure:  # noqa: BLE001 - provider exceptions must not expose raw content
+                timing_terminal = "provider_error"
+                timing_probe.mark("boundary_error")
                 # Upstream exception strings may contain raw content or credentials.
                 status = 502
                 if os.environ.get("EVOLUTION_CONNECTOR_DIAGNOSTICS") == "1":
@@ -354,11 +377,24 @@ class GatewayBoundary:
                 "audit_status": "spooled" if "spooled" in {before.audit_status, after.audit_status} else "persisted",
             }
             await self.respond(send, 200, result, turn.correlation_id)
+            timing_probe.mark("boundary_return")
+        except asyncio.CancelledError:
+            timing_terminal = "cancelled"
+            timing_probe.terminate("cancelled", "cancel_requested")
+            raise
         except EvolutionError as error:
+            timing_terminal = "guardrail_error"
+            timing_probe.mark("boundary_error")
             await self.respond(send, error.status, error.envelope(turn.correlation_id), turn.correlation_id)
         except (TimeoutError, httpx.HTTPError):
+            timing_terminal = "transport_error"
+            timing_probe.mark("boundary_error")
             await self.respond(send, 503, EvolutionError("evaluator_unavailable").envelope(turn.correlation_id), turn.correlation_id)
         finally:
+            if timing_token is not None:
+                timing_probe.finish(timing_terminal)
+                timing_probe.reset(timing_token)
+            timing_probe.reset(timing_context_token)
             turn.input_parts = turn.output_parts = ()
             turn.input_decision = turn.output_decision = None
             current_turn.reset(token)
@@ -433,6 +469,7 @@ def create_app():
         "output_cost_per_token": 0, "max_tokens": 256,
     }})
     from litellm.proxy.proxy_server import app as proxy
+    timing_probe.initialize()
     return GatewayBoundary(proxy, settings, native_http_handler=native_http_handler)
 
 
