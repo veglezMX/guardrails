@@ -1,0 +1,122 @@
+{{- if .Values.classifierService }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: classifier-runtime-ingress, namespace: gr-platform}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: classifier}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {guardrails.evolution/component: runtime}}
+      ports: [{protocol: TCP, port: 8443}]
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: runtime-classifier-egress, namespace: gr-platform}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: runtime}}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector: {matchLabels: {guardrails.evolution/component: classifier}}
+      ports: [{protocol: TCP, port: 8443}]
+---
+{{- end }}
+{{- range $namespace := list "gr-team-a" "gr-team-b" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: gateway-outbound, namespace: {{ $namespace }}}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: gateway}}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: gr-platform}}
+          podSelector: {matchLabels: {guardrails.evolution/component: runtime}}
+      ports: [{protocol: TCP, port: 8443}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: gr-model}}
+          podSelector:
+            matchExpressions:
+              - {key: guardrails.evolution/component, operator: In, values: [ollama, mock]}
+      ports: [{protocol: TCP, port: 8443}]
+---
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: runtime-ingress, namespace: gr-platform}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: runtime}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchExpressions:
+              - {key: kubernetes.io/metadata.name, operator: In, values: [gr-team-a, gr-team-b]}
+          podSelector: {matchLabels: {guardrails.evolution/component: gateway}}
+      ports: [{protocol: TCP, port: 8443}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: metadata-database, namespace: gr-platform}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: postgres}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchExpressions:
+              - {key: guardrails.evolution/component, operator: In, values: [management, runtime]}
+      ports: [{protocol: TCP, port: 5432}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: metadata-egress, namespace: gr-platform}
+spec:
+  podSelector:
+    matchExpressions:
+      - {key: guardrails.evolution/component, operator: In, values: [management, runtime]}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector: {matchLabels: {guardrails.evolution/component: postgres}}
+      ports: [{protocol: TCP, port: 5432}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: runtime-snapshot-egress, namespace: gr-platform}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: runtime}}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector: {matchLabels: {guardrails.evolution/component: management}}
+      ports: [{protocol: TCP, port: 8443}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: management-snapshot-ingress, namespace: gr-platform}
+spec:
+  podSelector: {matchLabels: {guardrails.evolution/component: management}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: {matchLabels: {guardrails.evolution/component: runtime}}
+      ports: [{protocol: TCP, port: 8443}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: approved-local-inference, namespace: gr-model}
+spec:
+  podSelector:
+    matchExpressions:
+      - {key: guardrails.evolution/component, operator: In, values: [mock, ollama]}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchExpressions:
+              - {key: kubernetes.io/metadata.name, operator: In, values: [gr-team-a, gr-team-b]}
+          podSelector: {matchLabels: {guardrails.evolution/component: gateway}}
+      ports: [{protocol: TCP, port: 8443}]
