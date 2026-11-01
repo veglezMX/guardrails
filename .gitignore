@@ -27,3 +27,6 @@ mvp/deployment/audit.jsonl
 *.egg-info/
 .pytest_cache/
 build/
+
+# Task-owned environments, secrets, state and reports
+.evolution/
