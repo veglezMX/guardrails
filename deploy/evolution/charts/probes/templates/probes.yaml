@@ -1,0 +1,179 @@
+{{- if not .Values.ownerId }}{{ fail "ownerId is required" }}{{- end }}
+{{- $root := . }}
+{{- range $namespace := list "gr-platform" "gr-team-a" "gr-team-b" "gr-model" }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $namespace }}
+  labels:
+    app.kubernetes.io/part-of: guardrails-evolution
+    guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: {{ $namespace }}
+  labels: {guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dns-only
+  namespace: {{ $namespace }}
+  labels: {guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+spec:
+  podSelector:
+    matchExpressions:
+      - {key: guardrails.evolution/component, operator: NotIn, values: [classifier]}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - {protocol: UDP, port: 53}
+        - {protocol: TCP, port: 53}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: probe-code
+  namespace: {{ $namespace }}
+  labels: {guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+data:
+  probe.py: |
+{{ $root.Files.Get "scripts/probe.py" | indent 4 }}
+---
+{{- end }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: probe
+  namespace: gr-platform
+  labels: {guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+spec:
+  selector: {app: tls-probe}
+  ports:
+    - {name: https, port: 8443, targetPort: 8443}
+    - {name: denied-https, port: 9443, targetPort: 9443}
+    - {name: expired-https, port: 8445, targetPort: 8445}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: probe-https
+  namespace: gr-platform
+  labels: {guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+spec:
+  podSelector: {matchLabels: {app: tls-probe}}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchExpressions:
+              - {key: kubernetes.io/metadata.name, operator: In, values: [gr-team-a, gr-team-b]}
+          podSelector: {matchLabels: {app: allowed-probe}}
+      ports: [{protocol: TCP, port: 8443}, {protocol: TCP, port: 8445}]
+---
+{{- range $namespace := list "gr-team-a" "gr-team-b" }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: probe-https
+  namespace: {{ $namespace }}
+  labels: {guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+spec:
+  podSelector: {matchLabels: {app: allowed-probe}}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: gr-platform}}
+          podSelector: {matchLabels: {app: tls-probe}}
+      ports: [{protocol: TCP, port: 8443}, {protocol: TCP, port: 8445}]
+---
+{{- end }}
+{{- range $pod := list (dict "namespace" "gr-platform" "name" "tls-probe" "server" true) (dict "namespace" "gr-team-a" "name" "allowed-probe" "server" false) (dict "namespace" "gr-team-b" "name" "allowed-probe" "server" false) (dict "namespace" "gr-team-a" "name" "denied-probe" "server" false) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $pod.name }}
+  namespace: {{ $pod.namespace }}
+  labels: {app: {{ $pod.name }}, guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: {{ $pod.name }}}
+  template:
+    metadata:
+      annotations:
+        guardrails.evolution/tls-revision: {{ $root.Values.tlsRevision | quote }}
+        guardrails.evolution/code-revision: {{ $root.Files.Get "scripts/probe.py" | sha256sum | quote }}
+      labels: {app: {{ $pod.name }}, guardrails.evolution/owner: {{ $root.Values.ownerId | quote }}}
+    spec:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers: [10.96.0.10]
+        searches: [{{ $pod.namespace }}.svc.cluster.local, svc.cluster.local, cluster.local]
+        options: [{name: ndots, value: "1"}]
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      initContainers:
+        - name: private-secrets
+          image: {{ $root.Values.image | quote }}
+          imagePullPolicy: Never
+          command: [python, -c]
+          args:
+            - "import os,pathlib; pathlib.Path('/private/data').mkdir(mode=0o700,exist_ok=True); [(pathlib.Path('/private/data',p.name).write_bytes(p.read_bytes()),os.chmod('/private/data/'+p.name,0o600)) for p in pathlib.Path('/projected').iterdir() if not p.name.startswith('.')]"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 10m, memory: 16Mi}
+            limits: {cpu: 50m, memory: 32Mi}
+          volumeMounts:
+            - {name: projected, mountPath: /projected, readOnly: true}
+            - {name: private, mountPath: /private}
+      containers:
+        - name: probe
+          image: {{ $root.Values.image | quote }}
+          imagePullPolicy: Never
+          command: [python, -B]
+          args: {{ if $pod.server }}[/code/probe.py, server]{{ else }}[-c, "import time; time.sleep(86400)"]{{ end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 10m, memory: 16Mi}
+            limits: {cpu: 50m, memory: 48Mi}
+          volumeMounts:
+            - {name: private, mountPath: /secrets, subPath: data, readOnly: true}
+            - {name: code, mountPath: /code, readOnly: true}
+          {{- if $pod.server }}
+          readinessProbe: {tcpSocket: {port: 8443}, initialDelaySeconds: 1, periodSeconds: 2}
+          {{- end }}
+      volumes:
+        - name: projected
+          secret: {secretName: probe-tls, defaultMode: 0440}
+        - name: private
+          emptyDir: {medium: Memory, sizeLimit: 1Mi}
+        - name: code
+          configMap: {name: probe-code, defaultMode: 0444}
+---
+{{- end }}
