@@ -7,7 +7,10 @@ a separate profile; its original locks and interfaces are preserved.
 
 ## Optional evaluator preparation and governance
 
-Phase 3 acceptance remains pending until its complete signed gate passes. The
+Phase 3 acceptance remains pending until its complete signed gate passes.
+Classifier enablement requires the approved cumulative qualification and all
+operational gates. No evaluated candidate currently qualifies; see the current
+implementation progress before preparing or activating a classifier. The
 classifier quality benchmark, isolated worker tests and declared resource limits
 are separate evidence; none establishes the deployed evaluation deadline alone.
 
@@ -54,15 +57,17 @@ input file; preserve its journal and original values. Readiness and immutable
 image verification precede its completion marker. Do not create a replacement
 journal or infer successful recovery from a still-running process.
 
-Run the explicit frozen benchmark through `just evolution-benchmark --python PATH
+The original 600-case benchmark is invoked through `just evolution-benchmark --python PATH
 --model-directory PATH --output NEW_DIRECTORY --source-digest SHA256`. It scores
-all 600 frozen cases once, without warmup or retries, using the prepared Python
+the original 600 frozen cases once, without warmup or retries, using the prepared Python
 3.13.16 CPU environment. English requires at least 90% recall, at most 5% false
 positives and no operational errors at threshold 0.90. Spanish results are
 reported separately and do not enable Spanish enforcement. Keep failed reports
 and the original invocation receipt. The classifier's 3-second evaluation budget
 and 4-second connector budget still need separate arrival-through-audit evidence;
-the default text evaluation budget remains 500 ms.
+the default text evaluation budget remains 500 ms. This original corpus does not
+replace cumulative held-out evidence or final production-worker qualification.
+The benchmark command does not authorize restarting an exhausted selection campaign.
 
 `just evolution-bedrock-live` is optional and requires `--allow-external` plus
 explicit configuration, credential and CA file arguments. A numbered guardrail
