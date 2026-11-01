@@ -1,0 +1,22 @@
+{
+  "schema_version": "bedrock-synthetic-protocol-v1",
+  "provenance": "Hand-authored synthetic protocol fixtures; no AWS requests or customer content.",
+  "sources": [
+    "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ApplyGuardrail.html",
+    "https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_GuardrailPiiEntityFilter.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-sensitive-filters.html"
+  ],
+  "cases": [
+    {"id": "clean", "text": "Synthetic clean text", "response": {"action": "NONE", "assessments": [], "outputs": []}, "spans": []},
+    {"id": "clean-empty-families", "text": "Synthetic clean text", "response": {"action": "NONE", "assessments": [{"contentPolicy": {"filters": []}, "topicPolicy": {"topics": []}, "wordPolicy": {"customWords": [], "managedWordLists": []}, "sensitiveInformationPolicy": {"piiEntities": [], "regexes": []}}], "outputs": []}, "spans": []},
+    {"id": "clean-filter", "text": "Synthetic clean text", "response": {"action": "NONE", "assessments": [{"contentPolicy": {"filters": [{"action": "NONE", "confidence": "NONE", "type": "HATE", "detected": false}]}}], "outputs": []}, "spans": []},
+    {"id": "blocked", "text": "Synthetic prohibited topic", "response": {"action": "GUARDRAIL_INTERVENED", "assessments": [{"topicPolicy": {"topics": [{"action": "BLOCKED", "name": "synthetic-topic", "type": "DENY", "detected": true}]}}], "outputs": [{"text": "Vendor denial text must never be returned"}]}, "spans": [null]},
+    {"id": "unique-unicode-mask", "text": "🙂 mail alice@example.test!", "response": {"action": "GUARDRAIL_INTERVENED", "assessments": [{"sensitiveInformationPolicy": {"piiEntities": [{"action": "ANONYMIZED", "match": "alice@example.test", "type": "EMAIL", "detected": true}], "regexes": []}}], "outputs": [{"text": "🙂 mail {EMAIL}!"}]}, "spans": [[7, 25]]},
+    {"id": "multi-mask", "text": "Ada emails alice@example.test", "response": {"action": "GUARDRAIL_INTERVENED", "assessments": [{"sensitiveInformationPolicy": {"piiEntities": [{"action": "ANONYMIZED", "match": "alice@example.test", "type": "EMAIL"}, {"action": "ANONYMIZED", "match": "Ada", "type": "NAME"}], "regexes": []}}], "outputs": [{"text": "{NAME} emails {EMAIL}"}]}, "spans": [[0, 3], [11, 29]]},
+    {"id": "ambiguous-repeated-mask", "text": "Ada meets Ada", "response": {"action": "GUARDRAIL_INTERVENED", "assessments": [{"sensitiveInformationPolicy": {"piiEntities": [{"action": "ANONYMIZED", "match": "Ada", "type": "NAME"}], "regexes": []}}], "outputs": [{"text": "{NAME} meets {NAME}"}]}, "spans": [null]},
+    {"id": "missing-mask-location", "text": "Synthetic original text", "response": {"action": "GUARDRAIL_INTERVENED", "assessments": [{"sensitiveInformationPolicy": {"piiEntities": [{"action": "ANONYMIZED", "match": "absent", "type": "NAME"}], "regexes": []}}], "outputs": [{"text": "{NAME}"}]}, "spans": [null]},
+    {"id": "custom-regex-mask", "text": "Synthetic token ABC", "response": {"action": "GUARDRAIL_INTERVENED", "assessments": [{"sensitiveInformationPolicy": {"piiEntities": [], "regexes": [{"action": "ANONYMIZED", "name": "synthetic", "match": "ABC"}]}}], "outputs": [{"text": "Synthetic token {synthetic}"}]}, "spans": [null]},
+    {"id": "detect-only", "text": "Synthetic topic", "response": {"action": "NONE", "assessments": [{"topicPolicy": {"topics": [{"action": "NONE", "type": "DENY", "name": "synthetic", "detected": true}]}}], "outputs": []}, "spans": [null]},
+    {"id": "unknown-policy", "text": "Synthetic text", "response": {"action": "NONE", "assessments": [{"futurePolicy": {"outcome": "unknown"}}], "outputs": []}, "spans": [null]}
+  ]
+}
