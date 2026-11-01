@@ -1,0 +1,2209 @@
+{
+  "schema_version": "guardrails-evolution-cases-v1",
+  "phases": {
+    "1": {
+      "status": "ready",
+      "required_families": [
+        "storage",
+        "identity",
+        "audit",
+        "compiler",
+        "governance",
+        "binding",
+        "api",
+        "cli",
+        "migration",
+        "dependencies",
+        "registry"
+      ],
+      "cases": [
+        {
+          "case_id": "GOV-COMPILER-CANONICAL-DIGEST-IS-EXACT-IMMUTABLE-AND-LIFECYCLE-INDEPENDENT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_canonical_digest_is_exact_immutable_and_lifecycle_independent",
+          "assertions": [
+            "Canonical digest is exact immutable and lifecycle independent."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-DETECTOR-SET-ORDER-CANNOT-CHANGE-COMPILED-DIGEST",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_detector_set_order_cannot_change_compiled_digest",
+          "assertions": [
+            "Detector set order cannot change compiled digest."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-STALE-DEPENDENCY-DIGEST-AND-MUTATED-MODEL-COPY-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_stale_dependency_digest_and_mutated_model_copy_reject",
+          "assertions": [
+            "Stale dependency digest and mutated model copy reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-PARENT-RESOLUTION-INHERITS-MANDATORY-RULES-AND-PRESERVES-BYTES",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_parent_resolution_inherits_mandatory_rules_and_preserves_bytes",
+          "assertions": [
+            "Parent resolution inherits mandatory rules and preserves bytes."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-REMOVAL-WEAKENED-FLOOR-AND-INCOMPARABLE-OVERRIDE-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_removal_weakened_floor_and_incomparable_override_reject",
+          "assertions": [
+            "Removal weakened floor and incomparable override reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-QUOTA-STRENGTHENING-IS-MONOTONIC",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_quota_strengthening_is_monotonic",
+          "assertions": [
+            "Quota strengthening is monotonic."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-QUOTA-RESIDENCY-AND-FAIL-OPEN-WEAKENINGS-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_quota_residency_and_fail_open_weakenings_reject",
+          "assertions": [
+            "Quota residency and fail open weakenings reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-CYCLES-DEPTH-MISSING-AND-CROSS-TENANT-REFERENCES-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_cycles_depth_missing_and_cross_tenant_references_reject",
+          "assertions": [
+            "Cycles depth missing and cross tenant references reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-PLATFORM-PARENT-REQUIRES-AUTHORIZED-PUBLICATION-PORT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_platform_parent_requires_authorized_publication_port",
+          "assertions": [
+            "Platform parent requires authorized publication port."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-REJECTED-REVOKED-AND-STALE-PARENT-BYTES-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_rejected_revoked_and_stale_parent_bytes_reject",
+          "assertions": [
+            "Rejected revoked and stale parent bytes reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-ALLOW-INTERSECTIONS-DENY-UNION-AND-EMPTY-INTERSECTION-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_allow_intersections_deny_union_and_empty_intersection_reject",
+          "assertions": [
+            "Allow intersections deny union and empty intersection reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-DEPENDENCY-VERSIONS-CANNOT-BE-REPLACED-ACROSS-LAYERS",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_dependency_versions_cannot_be_replaced_across_layers",
+          "assertions": [
+            "Dependency versions cannot be replaced across layers."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-MISSING-LIST-AND-UNREGISTERED-EVALUATOR-REJECT",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_missing_list_and_unregistered_evaluator_reject",
+          "assertions": [
+            "Missing list and unregistered evaluator reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-UNTRANSFORMABLE-ENGINE-NEVER-ACCEPTS-REDACTION",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_untransformable_engine_never_accepts_redaction",
+          "assertions": [
+            "Untransformable engine never accepts redaction."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-COMPILER-DIFF-REPORTS-IDS-AND-DIGESTS-WITHOUT-CONTENT-SAMPLES",
+          "requirement_id": "P1.5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_compiler.py::test_diff_reports_ids_and_digests_without_content_samples",
+          "assertions": [
+            "Diff reports ids and digests without content samples."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-STRICT-JSON-REJECTS-DUPLICATE-KEYS-NONFINITE-AND-EXTRAS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_strict_json_rejects_duplicate_keys_nonfinite_and_extras",
+          "assertions": [
+            "Strict json rejects duplicate keys nonfinite and extras."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODELS-JSON-WIRE-REQUIRES-UTF8-AND-VALID-UNICODE-SCALAR-VALUES",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_json_wire_requires_utf8_and_valid_unicode_scalar_values",
+          "assertions": [
+            "Json wire requires utf8 and valid unicode scalar values."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-RULE-CONFIG-DISCRIMINATES-AND-REJECTS-FOREIGN-FIELDS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_rule_config_discriminates_and_rejects_foreign_fields",
+          "assertions": [
+            "Rule config discriminates and rejects foreign fields."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-DOMAIN-PAYLOAD-IS-RECURSIVELY-IMMUTABLE-AND-ROUNDTRIPS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_domain_payload_is_recursively_immutable_and_roundtrips",
+          "assertions": [
+            "Domain payload is recursively immutable and roundtrips."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-JSON-PAYLOAD-LIMITS-REJECT-DEPTH-NODES-AND-WRONG-PAYLOADS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_json_payload_limits_reject_depth_nodes_and_wrong_payloads",
+          "assertions": [
+            "Json payload limits reject depth nodes and wrong payloads."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-EVALUATION-REQUIRES-CONTEXT-PROVIDER-AND-AGGREGATE-BOUNDS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_evaluation_requires_context_provider_and_aggregate_bounds",
+          "assertions": [
+            "Evaluation requires context provider and aggregate bounds."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-RESTRICTED-SCHEMA-REJECTS-REFERENCES-AND-EXPANSION",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_restricted_schema_rejects_references_and_expansion",
+          "assertions": [
+            "Restricted schema rejects references and expansion."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-LIST-DEFAULTS-AND-SELECTED-CONTENT-GRAMMAR",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_list_defaults_and_selected_content_grammar",
+          "assertions": [
+            "List defaults and selected content grammar."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-DESTINATION-REJECTS-CREDENTIAL-WILDCARD-AND-NONCANONICAL-ROUTES",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_destination_rejects_credential_wildcard_and_noncanonical_routes",
+          "assertions": [
+            "Destination rejects credential wildcard and noncanonical routes."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-PRINCIPAL-SCOPE-AND-CREDENTIAL-SESSION-LIFETIMES",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_principal_scope_and_credential_session_lifetimes",
+          "assertions": [
+            "Principal scope and credential session lifetimes."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-UNKNOWN-POLICY-AUDIT-FAILURE-AND-INVALID-TRANSFORM-CANNOT-ALLOW",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_unknown_policy_audit_failure_and_invalid_transform_cannot_allow",
+          "assertions": [
+            "Unknown policy audit failure and invalid transform cannot allow."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-AUDIT-ALLOWLIST-REJECTS-CONTENT-FIELDS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_audit_allowlist_rejects_content_fields",
+          "assertions": [
+            "Audit allowlist rejects content fields."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-CONFIG-REJECTS-UNKNOWN-ENVIRONMENT-AND-NONFILE-SECRETS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_config_rejects_unknown_environment_and_nonfile_secrets",
+          "assertions": [
+            "Config rejects unknown environment and nonfile secrets."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-RUNTIME-MODES-HAVE-BOUNDED-ONLINE-DEFAULTS",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_runtime_modes_have_bounded_online_defaults",
+          "assertions": [
+            "Runtime modes have bounded online defaults."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MODEL-UUID-TIME-SLUGS-AND-OFFSETS-REJECT-NONCANONICAL-VALUES",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "compiler",
+          "nodeid": "mvp/tests/evolution/unit/test_models.py::test_uuid_time_slugs_and_offsets_reject_noncanonical_values",
+          "assertions": [
+            "Uuid time slugs and offsets reject noncanonical values."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-PLAN-SESSION-HISTORY",
+          "requirement_id": "P1.G4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_plan_check.py::test_active_plan_requires_matching_complete_sequential_session_history",
+          "assertions": [
+            "Completed-session claims require sequential logs with all mandatory sections; gaps, missing history and negative counts reject."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-REGISTRY",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_registry_rejects_duplicates_missing_required_families_and_unknown_profiles",
+          "assertions": [
+            "Duplicate IDs, empty required families, unknown phases and optional profiles fail before execution."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-EXECUTION",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_real_pytest_worker_rejects_empty_skipped_xfailed_missing_and_failed_cases",
+          "assertions": [
+            "Actual pytest execution rejects empty, fixture-only, skipped, xfailed, missing and failing tests and excludes private failure values."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-DEADLINE",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_worker_enforces_real_process_deadline_and_exact_collection",
+          "assertions": [
+            "The worker terminates an over-budget real process and rejects unexpanded parameter variants."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-CLOSURE",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_results_reject_missing_duplicate_skip_zero_and_failure",
+          "assertions": [
+            "Missing IDs, repeated IDs, required skips, failed cases and zero assertion counts prevent a pass."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-SIGNATURE",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_signed_reports_detect_tampering_and_cannot_overwrite",
+          "assertions": [
+            "Ed25519 rejects changed report bytes and append-only output refuses overwrites while preserving the signing identity."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-SOURCE",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_dirty_source_hash_detects_modification_addition_and_symlinks",
+          "assertions": [
+            "Changed or newly added executable files invalidate earlier source hashes; symbolic source paths are rejected."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-ARTIFACTS",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_prepared_artifacts_reject_missing_modified_or_stale_bytes",
+          "assertions": [
+            "Pinned wheel bytes are verified; altered wheels or a changed dependency lock invalidate prepared evidence."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-DEPENDENCIES",
+          "requirement_id": "P1.1",
+          "profile": "local",
+          "mode": "remote",
+          "family": "dependencies",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_locked_environment_retains_baseline_and_imports_owned_dependencies",
+          "assertions": [
+            "Python3.14 and all locked versions match installed packages; original FastAPI/Pydantic/pytest pins and import/schema/signing behavior pass."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-EVIDENCE-PROCESS-GROUP",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_worker_timeout_terminates_server_descendants",
+          "assertions": [
+            "A timed-out real pytest worker and its listening child server are both terminated; no descendant port remains reachable."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNNER-REGISTRY-REJECTS-MALFORMED-TYPES-AND-INVALID-UTF8",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_registry_rejects_malformed_types_and_invalid_utf8",
+          "assertions": [
+            "Registry rejects malformed types and invalid utf8."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNNER-WORKER-MALFORMED-EVIDENCE-NEVER-PASSES-OR-ECHOES-PRIVATE-VALUES",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_worker_malformed_evidence_never_passes_or_echoes_private_values",
+          "assertions": [
+            "Worker malformed evidence never passes or echoes private values."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNNER-GATE-PREFLIGHT-FAILURE-EMITS-SIGNED-FAILURE-WITHOUT-RUNNING-CASES",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_gate_preflight_failure_emits_signed_failure_without_running_cases",
+          "assertions": [
+            "Gate preflight failure emits signed failure without running cases."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNNER-UNAVAILABLE-OR-INVALID-SOURCE-GATE-KEEPS-SEPARATE-APPEND-ONLY-DIAGNOSTICS",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/unit/test_runner.py::test_unavailable_or_invalid_source_gate_keeps_separate_append_only_diagnostics",
+          "assertions": [
+            "Unavailable or invalid source gate keeps separate append only diagnostics."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSIONS-ARE-IMMUTABLE-REPLAYABLE-AND-LINKED-LISTS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_versions_are_immutable_replayable_and_linked[lists]",
+          "assertions": [
+            "Configuration versions are immutable replayable and linked[lists]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSIONS-ARE-IMMUTABLE-REPLAYABLE-AND-LINKED-RESIDENCY",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_versions_are_immutable_replayable_and_linked[residency]",
+          "assertions": [
+            "Configuration versions are immutable replayable and linked[residency]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSIONS-ARE-IMMUTABLE-REPLAYABLE-AND-LINKED-DESTINATIONS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_versions_are_immutable_replayable_and_linked[destinations]",
+          "assertions": [
+            "Configuration versions are immutable replayable and linked[destinations]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSIONS-ARE-IMMUTABLE-REPLAYABLE-AND-LINKED-PROVIDERS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_versions_are_immutable_replayable_and_linked[providers]",
+          "assertions": [
+            "Configuration versions are immutable replayable and linked[providers]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSIONS-ARE-IMMUTABLE-REPLAYABLE-AND-LINKED-TOOLS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_versions_are_immutable_replayable_and_linked[tools]",
+          "assertions": [
+            "Configuration versions are immutable replayable and linked[tools]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSIONS-ARE-IMMUTABLE-REPLAYABLE-AND-LINKED-QUOTAS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_versions_are_immutable_replayable_and_linked[quotas]",
+          "assertions": [
+            "Configuration versions are immutable replayable and linked[quotas]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONCURRENT-CONFIGURATION-VERSIONS-ALLOCATE-DISTINCT-CONTIGUOUS-VERSIONS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_concurrent_configuration_versions_allocate_distinct_contiguous_versions",
+          "assertions": [
+            "Concurrent configuration versions allocate distinct contiguous versions."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-SCOPE-ROLES-AND-SERVER-FIELDS-ARE-ENFORCED-LISTS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_scope_roles_and_server_fields_are_enforced[lists]",
+          "assertions": [
+            "Configuration version scope roles and server fields are enforced[lists]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-SCOPE-ROLES-AND-SERVER-FIELDS-ARE-ENFORCED-RESIDENCY",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_scope_roles_and_server_fields_are_enforced[residency]",
+          "assertions": [
+            "Configuration version scope roles and server fields are enforced[residency]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-SCOPE-ROLES-AND-SERVER-FIELDS-ARE-ENFORCED-DESTINATIONS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_scope_roles_and_server_fields_are_enforced[destinations]",
+          "assertions": [
+            "Configuration version scope roles and server fields are enforced[destinations]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-SCOPE-ROLES-AND-SERVER-FIELDS-ARE-ENFORCED-PROVIDERS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_scope_roles_and_server_fields_are_enforced[providers]",
+          "assertions": [
+            "Configuration version scope roles and server fields are enforced[providers]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-SCOPE-ROLES-AND-SERVER-FIELDS-ARE-ENFORCED-TOOLS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_scope_roles_and_server_fields_are_enforced[tools]",
+          "assertions": [
+            "Configuration version scope roles and server fields are enforced[tools]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-SCOPE-ROLES-AND-SERVER-FIELDS-ARE-ENFORCED-QUOTAS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_scope_roles_and_server_fields_are_enforced[quotas]",
+          "assertions": [
+            "Configuration version scope roles and server fields are enforced[quotas]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-FOREIGN-CONFIGURATION-IDENTITY-CANNOT-BE-VERSIONED-IN-LOCAL-TENANT",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_foreign_configuration_identity_cannot_be_versioned_in_local_tenant",
+          "assertions": [
+            "Foreign configuration identity cannot be versioned in local tenant."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-DEPENDENCY-VERSION-REQUIRES-NEW-POLICY-REVIEW-AND-PRESERVES-ACTIVE-BYTES",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_dependency_version_requires_new_policy_review_and_preserves_active_bytes",
+          "assertions": [
+            "Dependency version requires new policy review and preserves active bytes."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CONFIG-VERSIONS-CONFIGURATION-VERSION-OPENAPI-REUSES-STRICT-CREATE-SHAPE-AND-LOCATION",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_configuration_versions.py::test_configuration_version_openapi_reuses_strict_create_shape_and_location",
+          "assertions": [
+            "Configuration version openapi reuses strict create shape and location."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-SELF-APPROVAL-REJECTED-FOR-SECOND-CREDENTIAL-AND-TRANSACTION-UNCHANGED",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_self_approval_rejected_for_second_credential_and_transaction_unchanged",
+          "assertions": [
+            "Self approval rejected for second credential and transaction unchanged."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-REVIEW-RACE-IS-SERIALIZED-AND-REVOCATION-IS-FINAL",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_review_race_is_serialized_and_revocation_is_final",
+          "assertions": [
+            "Review race is serialized and revocation is final."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-ACTIVATION-REQUIRES-APPROVAL-DIGEST-AND-CURRENT-FLOOR",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_activation_requires_approval_digest_and_current_floor",
+          "assertions": [
+            "Activation requires approval digest and current floor."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-ROLLOUT-CANNOT-PROMOTE-WITHOUT-CANARY-OR-ROLLBACK-REVOKED-POLICY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_rollout_cannot_promote_without_canary_or_rollback_revoked_policy",
+          "assertions": [
+            "Rollout cannot promote without canary or rollback revoked policy."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-HTTP-AUTH-SCOPE-STRICT-JSON-AND-SAFE-ERRORS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_http_auth_scope_strict_json_and_safe_errors",
+          "assertions": [
+            "Http auth scope strict json and safe errors."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-HTTP-IDEMPOTENCY-AND-STALE-WORKLOAD-REVISION",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_http_idempotency_and_stale_workload_revision",
+          "assertions": [
+            "Http idempotency and stale workload revision."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-HTTP-CURSOR-BINDS-SCOPE-AND-VIEWER-CANNOT-READ-AUDIT",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_http_cursor_binds_scope_and_viewer_cannot_read_audit",
+          "assertions": [
+            "Http cursor binds scope and viewer cannot read audit."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-CURRENT-STRICTER-BASELINE-BLOCKS-OLD-APPROVAL-AND-ROLLBACK",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_current_stricter_baseline_blocks_old_approval_and_rollback",
+          "assertions": [
+            "Current stricter baseline blocks old approval and rollback."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-IMMUTABLE-DEPENDENCY-AND-PARENT-REVOCATION-CANNOT-REUSE-APPROVAL",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/contract/test_management.py::test_immutable_dependency_and_parent_revocation_cannot_reuse_approval",
+          "assertions": [
+            "Immutable dependency and parent revocation cannot reuse approval."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-CONFIGURATION-CREATE-RETAINS-EXACT-IMMUTABLE-VERSIONS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_configuration_create_retains_exact_immutable_versions",
+          "assertions": [
+            "Configuration create retains exact immutable versions."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-READER-NEVER-RECEIVES-NESTED-PROVIDER-CREDENTIAL-REFERENCES",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_reader_never_receives_nested_provider_credential_references",
+          "assertions": [
+            "Reader never receives nested provider credential references."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-CREDENTIAL-REPLAY-CONFLICTS-WITHOUT-SECOND-SECRET-OR-ROW",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_credential_replay_conflicts_without_second_secret_or_row",
+          "assertions": [
+            "Credential replay conflicts without second secret or row."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-RELEASE-AND-RESOURCE-REFERENCE-TYPES-ARE-NOT-COERCED",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_release_and_resource_reference_types_are_not_coerced",
+          "assertions": [
+            "Release and resource reference types are not coerced."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-POLICY-LISTING-USES-LATEST-VERSION-AND-CURRENT-STATUS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_policy_listing_uses_latest_version_and_current_status",
+          "assertions": [
+            "Policy listing uses latest version and current status."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-AUDIT-TIME-WINDOW-IS-ENFORCED-AND-CURSOR-BINDS-FILTERS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_audit_time_window_is_enforced_and_cursor_binds_filters",
+          "assertions": [
+            "Audit time window is enforced and cursor binds filters."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-BROWSER-SESSION-SECURE-COOKIE-CSRF-ORIGIN-AND-REVOCATION",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_browser_session_secure_cookie_csrf_origin_and_revocation",
+          "assertions": [
+            "Browser session secure cookie csrf origin and revocation."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-SESSION-LOGIN-THROTTLES-FAILED-HANDLE-WITHOUT-SECRET-STORAGE",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_session_login_throttles_failed_handle_without_secret_storage",
+          "assertions": [
+            "Session login throttles failed handle without secret storage."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-WORKLOAD-CANNOT-REFERENCE-FOREIGN-OR-MISSING-CONFIG",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_workload_cannot_reference_foreign_or_missing_config",
+          "assertions": [
+            "Workload cannot reference foreign or missing config."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-BASELINE-PUBLICATION-MARKS-CURRENT-BINDING-BLOCKED-ATOMICALLY",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_baseline_publication_marks_current_binding_blocked_atomically",
+          "assertions": [
+            "Baseline publication marks current binding blocked atomically."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-RECEIPT-REPLAY-AND-OLD-GENERATION-NEVER-REGRESS-APPLIED-STATE",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_receipt_replay_and_old_generation_never_regress_applied_state",
+          "assertions": [
+            "Receipt replay and old generation never regress applied state."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-FAILED-RUNTIME-RECEIPT-PRESERVES-OLD-APPLIED-POINTER",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_failed_runtime_receipt_preserves_old_applied_pointer",
+          "assertions": [
+            "Failed runtime receipt preserves old applied pointer."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-INITIAL-BINDING-REQUIRES-OBSERVE-WHEN-MANDATORY-FLOOR-PERMITS",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_initial_binding_requires_observe_when_mandatory_floor_permits",
+          "assertions": [
+            "Initial binding requires observe when mandatory floor permits."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-PLATFORM-TENANT-CREATE-REPLAYS-ATOMICALLY-AND-PROVISIONS-SCOPED-ADMIN",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_platform_tenant_create_replays_atomically_and_provisions_scoped_admin",
+          "assertions": [
+            "Platform tenant create replays atomically and provisions scoped admin."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-OPENAPI-CONTAINS-STRICT-COMMANDS-REAL-RESPONSES-AND-SECURITY",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_openapi_contains_strict_commands_real_responses_and_security",
+          "assertions": [
+            "Openapi contains strict commands real responses and security."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-SIGNED-CANARY-EVIDENCE-ALLOWS-FULL-RELEASE-ONLY-AFTER-REAL-RECEIPT",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_signed_canary_evidence_allows_full_release_only_after_real_receipt",
+          "assertions": [
+            "Signed canary evidence allows full release only after real receipt."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-CURSOR-REJECTS-NONCANONICAL-ENCODING-AND-UNKNOWN-FILTERS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_cursor_rejects_noncanonical_encoding_and_unknown_filters",
+          "assertions": [
+            "Cursor rejects noncanonical encoding and unknown filters."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-WORKLOAD-PRINCIPAL-CANNOT-READ-MANAGEMENT-TENANT-RECORDS",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_workload_principal_cannot_read_management_tenant_records",
+          "assertions": [
+            "Workload principal cannot read management tenant records."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-ROLLOUT-CANNOT-APPLY-USING-EXPIRED-OR-REVOKED-PEER-RUNTIME",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_rollout_cannot_apply_using_expired_or_revoked_peer_runtime",
+          "assertions": [
+            "Rollout cannot apply using expired or revoked peer runtime."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-EVIDENCE-TRUST-BOOTSTRAP-REQUIRES-PLATFORM-AND-RETAINS-PUBLIC-BYTES-ONLY",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_evidence_trust_bootstrap_requires_platform_and_retains_public_bytes_only",
+          "assertions": [
+            "Evidence trust bootstrap requires platform and retains public bytes only."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-ASSEMBLED-API-VERIFIES-PERSISTED-EVIDENCE-ROOTS-AND-REJECTS-REVOKED-KEY",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_assembled_api_verifies_persisted_evidence_roots_and_rejects_revoked_key",
+          "assertions": [
+            "Assembled api verifies persisted evidence roots and rejects revoked key."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-RELEASE-VALIDATES-TARGET-POLICY-RESIDENCY-AND-MODE-ATOMICALLY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_release_validates_target_policy_residency_and_mode_atomically",
+          "assertions": [
+            "Release validates target policy residency and mode atomically."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-RELEASE-DETAIL-PAGES-ALL-RECEIPTS-AND-EXCLUDES-UNRELATED-HISTORY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_release_detail_pages_all_receipts_and_excludes_unrelated_history",
+          "assertions": [
+            "Release detail pages all receipts and excludes unrelated history."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MANAGEMENT-EDGE-MULTI-WORKLOAD-RELEASE-RECHECKS-EARLIER-WORKLOAD-LEASE-BEFORE-APPLIED",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/contract/test_management_edges.py::test_multi_workload_release_rechecks_earlier_workload_lease_before_applied",
+          "assertions": [
+            "Multi workload release rechecks earlier workload lease before applied."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-CONCURRENT-AUDIT-HASH-CHAIN-IS-COMPLETE-AND-ORDERED",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_concurrent_audit_hash_chain_is_complete_and_ordered",
+          "assertions": [
+            "Concurrent audit hash chain is complete and ordered."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-DECISION-RAW-CONTENT-STRIPPED-AND-ALLOWLIST-REJECTS-UNKNOWN-FIELDS",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_decision_raw_content_stripped_and_allowlist_rejects_unknown_fields",
+          "assertions": [
+            "Decision raw content stripped and allowlist rejects unknown fields."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-AUDIT-IDEMPOTENCY-AND-IMMUTABLE-DATABASE-ENFORCEMENT",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_audit_idempotency_and_immutable_database_enforcement",
+          "assertions": [
+            "Audit idempotency and immutable database enforcement."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-BOUNDED-SPOOL-IS-SAFE-AND-REPLAY-DEDUPLICATES",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_bounded_spool_is_safe_and_replay_deduplicates",
+          "assertions": [
+            "Bounded spool is safe and replay deduplicates."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-REQUIRED-AUDIT-FAILURE-BLOCKS-OR-SPOOLS-METADATA-ONLY",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_required_audit_failure_blocks_or_spools_metadata_only",
+          "assertions": [
+            "Required audit failure blocks or spools metadata only."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-RETENTION-REQUIRES-SIGNED-CHECKPOINT-AND-PRESERVES-CHAIN",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_retention_requires_signed_checkpoint_and_preserves_chain",
+          "assertions": [
+            "Retention requires signed checkpoint and preserves chain."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "OPS-AUDIT-AUDIT-CONNECTION-STALL-CANNOT-EXCEED-RESPONSE-BUDGET",
+          "requirement_id": "P1.4",
+          "profile": "local",
+          "mode": "remote",
+          "family": "audit",
+          "nodeid": "mvp/tests/evolution/integration/test_audit.py::test_audit_connection_stall_cannot_exceed_response_budget",
+          "assertions": [
+            "Audit connection stall cannot exceed response budget."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CANARY-INTEGRITY-CANARY-REJECTS-TAMPERED-INSTALLED-CODE-BEFORE-HTTP-OR-REPORT",
+          "requirement_id": "P1.10",
+          "profile": "local",
+          "mode": "remote",
+          "family": "registry",
+          "nodeid": "mvp/tests/evolution/integration/test_canary_integrity.py::test_canary_rejects_tampered_installed_code_before_http_or_report",
+          "assertions": [
+            "Canary rejects tampered installed code before http or report."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-HTTPS-CLI-POLICY-REVIEW-ROLE-PARITY-AND-PENDING-TIMEOUT",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_https_cli_policy_review_role_parity_and_pending_timeout",
+          "assertions": [
+            "Https cli policy review role parity and pending timeout."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-HTTPS-CLI-SECRET-OUTPUT-IS-EXCLUSIVE-AND-NEVER-STDOUT",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_https_cli_secret_output_is_exclusive_and_never_stdout",
+          "assertions": [
+            "Https cli secret output is exclusive and never stdout."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-HTTPS-CLI-REJECTS-UNTRUSTED-SERVER-AND-INSECURE-CREDENTIALS",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_https_cli_rejects_untrusted_server_and_insecure_credentials",
+          "assertions": [
+            "Https cli rejects untrusted server and insecure credentials."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-CLI-INPUT-REJECTS-DUPLICATE-NONFINITE-AND-OVERSIZED-JSON",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_cli_input_rejects_duplicate_nonfinite_and_oversized_json",
+          "assertions": [
+            "Cli input rejects duplicate nonfinite and oversized json."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-HTTPS-CLI-CONFIGURATION-VERSIONS-PRESERVE-IDENTITY-AND-RETRY",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_https_cli_configuration_versions_preserve_identity_and_retry",
+          "assertions": [
+            "Https cli configuration versions preserve identity and retry."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-HTTPS-CLI-EXPORTS-EVERY-AUDIT-PAGE-AND-PRESERVES-FILTERS",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_https_cli_exports_every_audit_page_and_preserves_filters",
+          "assertions": [
+            "Https cli exports every audit page and preserves filters."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-CLI-HTTPS-CLI-RESERVES-SECRET-FILE-BEFORE-ISSUANCE-AND-CLEANS-FAILED-ATTEMPT",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_cli.py::test_https_cli_reserves_secret_file_before_issuance_and_cleans_failed_attempt",
+          "assertions": [
+            "Https cli reserves secret file before issuance and cleans failed attempt."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-PRIVATE-LINKS-EXACT-WIRE-AND-ATOMIC-AUDIT",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_private_links_exact_wire_and_atomic_audit",
+          "assertions": [
+            "Enrollment private links exact wire and atomic audit."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REQUIRES-CURRENT-OPERATOR-AND-NO-RUNTIME-SELF-ASSIGNMENT-VIEWER",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_requires_current_operator_and_no_runtime_self_assignment[viewer]",
+          "assertions": [
+            "Enrollment requires current operator and no runtime self assignment[viewer]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REQUIRES-CURRENT-OPERATOR-AND-NO-RUNTIME-SELF-ASSIGNMENT-A",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_requires_current_operator_and_no_runtime_self_assignment[a]",
+          "assertions": [
+            "Enrollment requires current operator and no runtime self assignment[a]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-FOREIGN-IDS-AND-PLATFORM-ARE-NOT-TENANT-AUTHORITY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_foreign_ids_and_platform_are_not_tenant_authority",
+          "assertions": [
+            "Enrollment foreign ids and platform are not tenant authority."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REJECTS-INCOMPATIBLE-OR-INACTIVE-TARGETS-RUNTIMES-0-STATUS-REVOKED-FORBIDDEN",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_rejects_incompatible_or_inactive_targets[runtimes-0-status-revoked-forbidden]",
+          "assertions": [
+            "Enrollment rejects incompatible or inactive targets[runtimes-0-status-revoked-forbidden]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REJECTS-INCOMPATIBLE-OR-INACTIVE-TARGETS-RUNTIMES-0-ZONE-UNAPPROVED-ZONE-RESIDENCY-DENIED",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_rejects_incompatible_or_inactive_targets[runtimes-0-zone-unapproved-zone-residency_denied]",
+          "assertions": [
+            "Enrollment rejects incompatible or inactive targets[runtimes-0-zone-unapproved-zone-residency denied]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REJECTS-INCOMPATIBLE-OR-INACTIVE-TARGETS-WORKLOADS-CHAT-MODE-CUSTOMER-VALIDATION-FAILED",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_rejects_incompatible_or_inactive_targets[workloads-chat-mode-customer-validation_failed]",
+          "assertions": [
+            "Enrollment rejects incompatible or inactive targets[workloads-chat-mode-customer-validation failed]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REJECTS-INCOMPATIBLE-OR-INACTIVE-TARGETS-WORKLOADS-CHAT-STATUS-SUSPENDED-FORBIDDEN",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_rejects_incompatible_or_inactive_targets[workloads-chat-status-suspended-forbidden]",
+          "assertions": [
+            "Enrollment rejects incompatible or inactive targets[workloads-chat-status-suspended-forbidden]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REJECTS-INCOMPATIBLE-OR-INACTIVE-TARGETS-PRINCIPALS-A-ROLES-VALUE4-FORBIDDEN",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_rejects_incompatible_or_inactive_targets[principals-a-roles-value4-forbidden]",
+          "assertions": [
+            "Enrollment rejects incompatible or inactive targets[principals-a-roles-value4-forbidden]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-REJECTS-REUSE-RETARGET-STALE-CAS-AND-POSTRELEASE-CHANGE",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_rejects_reuse_retarget_stale_cas_and_postrelease_change",
+          "assertions": [
+            "Enrollment rejects reuse retarget stale cas and postrelease change."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-AUDIT-FAILURE-ROLLS-BACK-ALL-ASSOCIATIONS",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_audit_failure_rolls_back_all_associations",
+          "assertions": [
+            "Enrollment audit failure rolls back all associations."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-ENROLLMENT-ENROLLMENT-CONCURRENT-TARGET-CAS-HAS-ONE-WINNER",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_enrollment.py::test_enrollment_concurrent_target_cas_has_one_winner",
+          "assertions": [
+            "Enrollment concurrent target cas has one winner."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-TWO-AUTHENTICATED-TEAMS-SHARE-NORMALIZED-FINDINGS-AND-ISOLATE-ATTRIBUTION",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_two_authenticated_teams_share_normalized_findings_and_isolate_attribution",
+          "assertions": [
+            "Two authenticated teams share normalized findings and isolate attribution."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-PINNED-EVALUATOR-REJECTS-UNSUPPORTED-REVISION-ENTITIES-AND-SURFACE-BEFORE-ADMISSION",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_pinned_evaluator_rejects_unsupported_revision_entities_and_surface_before_admission",
+          "assertions": [
+            "Pinned evaluator rejects unsupported revision entities and surface before admission."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-EVALUATOR-ARTIFACT-PIN-AND-API-MAJOR-FAIL-BEFORE-WORKER-SPAWN",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_evaluator_artifact_pin_and_api_major_fail_before_worker_spawn",
+          "assertions": [
+            "Evaluator artifact pin and api major fail before worker spawn."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-EVALUATOR-DEADLINE-KILLS-STOPPED-WORKER-AND-RECOVERS",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_evaluator_deadline_kills_stopped_worker_and_recovers",
+          "assertions": [
+            "Evaluator deadline kills stopped worker and recovers."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-EVALUATOR-CANCELLATION-AND-QUEUE-BOUND-RECLAIM-ACTUAL-WORKER",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_evaluator_cancellation_and_queue_bound_reclaim_actual_worker",
+          "assertions": [
+            "Evaluator cancellation and queue bound reclaim actual worker."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-EVALUATOR-CRASH-RECOVERY-PRESERVES-OTHER-WORKER-AND-PENDING-JOBS",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_evaluator_crash_recovery_preserves_other_worker_and_pending_jobs",
+          "assertions": [
+            "Evaluator crash recovery preserves other worker and pending jobs."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-FINDINGS-EVALUATOR-REPORTS-UNAVAILABLE-WHEN-EVERY-WORKER-DIES-AND-RECOVERS",
+          "requirement_id": "P1.G5",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_findings.py::test_evaluator_reports_unavailable_when_every_worker_dies_and_recovers",
+          "assertions": [
+            "Evaluator reports unavailable when every worker dies and recovers."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RACE-RELEASE-THEN-GOVERNANCE-CHANGE-IS-SERIALIZED-THROUGH-COMMIT-REVOKE",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_races.py::test_release_then_governance_change_is_serialized_through_commit[revoke]",
+          "assertions": [
+            "Release then governance change is serialized through commit[revoke]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RACE-RELEASE-THEN-GOVERNANCE-CHANGE-IS-SERIALIZED-THROUGH-COMMIT-BASELINE",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_races.py::test_release_then_governance_change_is_serialized_through_commit[baseline]",
+          "assertions": [
+            "Release then governance change is serialized through commit[baseline]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RACE-COMMITTING-GOVERNANCE-CHANGE-REJECTS-WAITING-RELEASE-ATOMICALLY-REVOKE-POLICY-REVOKED",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_races.py::test_committing_governance_change_rejects_waiting_release_atomically[revoke-policy_revoked]",
+          "assertions": [
+            "Committing governance change rejects waiting release atomically[revoke-policy revoked]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RACE-COMMITTING-GOVERNANCE-CHANGE-REJECTS-WAITING-RELEASE-ATOMICALLY-BASELINE-FLOOR-CONFLICT",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_races.py::test_committing_governance_change_rejects_waiting_release_atomically[baseline-floor_conflict]",
+          "assertions": [
+            "Committing governance change rejects waiting release atomically[baseline-floor conflict]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RACE-PLATFORM-ADMISSION-LOCK-DOES-NOT-BLOCK-OTHER-TENANT",
+          "requirement_id": "P1.6",
+          "profile": "local",
+          "mode": "remote",
+          "family": "governance",
+          "nodeid": "mvp/tests/evolution/integration/test_governance_races.py::test_platform_admission_lock_does_not_block_other_tenant",
+          "assertions": [
+            "Platform admission lock does not block other tenant."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-HTTP-CLIENT-HTTPS-CLIENT-CAPS-STREAMED-BYTES-AND-DISCARDS-ERROR-BODIES",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_http_client.py::test_https_client_caps_streamed_bytes_and_discards_error_bodies",
+          "assertions": [
+            "Https client caps streamed bytes and discards error bodies."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-HTTP-CLIENT-HTTPS-CLIENT-CANCELS-SLOW-TRICKLE-AT-TOTAL-DEADLINE",
+          "requirement_id": "P1.9",
+          "profile": "local",
+          "mode": "remote",
+          "family": "cli",
+          "nodeid": "mvp/tests/evolution/integration/test_http_client.py::test_https_client_cancels_slow_trickle_at_total_deadline",
+          "assertions": [
+            "Https client cancels slow trickle at total deadline."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-IDENTITY-HASH-ONLY-ROTATION-EXPIRY-AND-REVOCATION",
+          "requirement_id": "P1.3",
+          "profile": "local",
+          "mode": "remote",
+          "family": "identity",
+          "nodeid": "mvp/tests/evolution/integration/test_identity.py::test_hash_only_rotation_expiry_and_revocation",
+          "assertions": [
+            "Hash only rotation expiry and revocation."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-IDENTITY-WORKLOAD-SCOPE-SUSPENSION-AND-INVALID-LIFETIME",
+          "requirement_id": "P1.3",
+          "profile": "local",
+          "mode": "remote",
+          "family": "identity",
+          "nodeid": "mvp/tests/evolution/integration/test_identity.py::test_workload_scope_suspension_and_invalid_lifetime",
+          "assertions": [
+            "Workload scope suspension and invalid lifetime."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-IDENTITY-SAME-PRINCIPAL-TWO-CREDENTIALS-CANNOT-SELF-APPROVE",
+          "requirement_id": "P1.3",
+          "profile": "local",
+          "mode": "remote",
+          "family": "identity",
+          "nodeid": "mvp/tests/evolution/integration/test_identity.py::test_same_principal_two_credentials_cannot_self_approve",
+          "assertions": [
+            "Same principal two credentials cannot self approve."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-IDENTITY-SESSION-CSRF-ORIGIN-IDLE-ABSOLUTE-AND-REVOCATION",
+          "requirement_id": "P1.3",
+          "profile": "local",
+          "mode": "remote",
+          "family": "identity",
+          "nodeid": "mvp/tests/evolution/integration/test_identity.py::test_session_csrf_origin_idle_absolute_and_revocation",
+          "assertions": [
+            "Session csrf origin idle absolute and revocation."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-IDENTITY-PLATFORM-PRIVILEGES-NEVER-IMPLY-AUDITOR-OR-OPERATOR",
+          "requirement_id": "P1.3",
+          "profile": "local",
+          "mode": "remote",
+          "family": "identity",
+          "nodeid": "mvp/tests/evolution/integration/test_identity.py::test_platform_privileges_never_imply_auditor_or_operator",
+          "assertions": [
+            "Platform privileges never imply auditor or operator."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-API-DEADLINE-MANAGEMENT-SLOW-BODY-TIMES-OUT-BEFORE-CONFIGURATION-WRITE",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/integration/test_management_deadlines.py::test_management_slow_body_times_out_before_configuration_write",
+          "assertions": [
+            "Management slow body times out before configuration write."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-API-DEADLINE-MANAGEMENT-LOCK-TIMEOUT-ROLLS-BACK-AND-RETRY-CREATES-ONCE",
+          "requirement_id": "P1.8",
+          "profile": "local",
+          "mode": "remote",
+          "family": "api",
+          "nodeid": "mvp/tests/evolution/integration/test_management_deadlines.py::test_management_lock_timeout_rolls_back_and_retry_creates_once",
+          "assertions": [
+            "Management lock timeout rolls back and retry creates once."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-DRY-RUN-IS-READ-ONLY-AND-CLI-REPORT-CONTAINS-NO-CREDENTIALS",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_dry_run_is_read_only_and_cli_report_contains_no_credentials",
+          "assertions": [
+            "Dry run is read only and cli report contains no credentials."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-UNMAPPABLE-OR-CORRUPT-SOURCE-REJECTED-BEFORE-ANY-IMPORT-BAD-DIGEST",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_unmappable_or_corrupt_source_rejected_before_any_import[bad_digest-source_policy_identity_or_digest_mismatch]",
+          "assertions": [
+            "Unmappable or corrupt source rejected before any import; variant bad_digest-source_policy_identity_or_digest_mismatch."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-UNMAPPABLE-OR-CORRUPT-SOURCE-REJECTED-BEFORE-ANY-IMPORT-RAW",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_unmappable_or_corrupt_source_rejected_before_any_import[raw-raw_retention_requires_separate_authority]",
+          "assertions": [
+            "Unmappable or corrupt source rejected before any import; variant raw-raw_retention_requires_separate_authority."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-UNMAPPABLE-OR-CORRUPT-SOURCE-REJECTED-BEFORE-ANY-IMPORT-NAMED-FLOOR",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_unmappable_or_corrupt_source_rejected_before_any_import[named_floor-legacy_named_floor_requires_explicit_conversion]",
+          "assertions": [
+            "Unmappable or corrupt source rejected before any import; variant named_floor-legacy_named_floor_requires_explicit_conversion."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-IMPORT-PRESERVES-BYTES-FLOORS-HISTORY-AND-NEVER-APPROVES",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_import_preserves_bytes_floors_history_and_never_approves",
+          "assertions": [
+            "Import preserves bytes floors history and never approves."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-IMPORT-FAULT-ROLLS-BACK-ALL-TENANT-STATE",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_import_fault_rolls_back_all_tenant_state",
+          "assertions": [
+            "Import fault rolls back all tenant state."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-MIGRATION-SNAPSHOT-DIGEST-AND-CREDENTIAL-METADATA-ARE-VALIDATED",
+          "requirement_id": "P1.11",
+          "profile": "local",
+          "mode": "remote",
+          "family": "migration",
+          "nodeid": "mvp/tests/evolution/integration/test_migration.py::test_snapshot_digest_and_credential_metadata_are_validated",
+          "assertions": [
+            "Snapshot digest and credential metadata are validated."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNTIME-RUNTIME-CACHE-TWO-INSTANCES-CANNOT-REGRESS-DURABLE-GENERATION",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_runtime_cache_two_instances_cannot_regress_durable_generation",
+          "assertions": [
+            "Runtime cache two instances cannot regress durable generation."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNTIME-RUNTIME-CACHE-CONCURRENT-PROCESSES-CANNOT-REGRESS-GENERATION",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_runtime_cache_concurrent_processes_cannot_regress_generation",
+          "assertions": [
+            "Runtime cache concurrent processes cannot regress generation."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNTIME-RUNTIME-CACHE-BOOTSTRAP-REVALIDATES-TRUST-SCOPE-AND-PERMISSIONS",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_runtime_cache_bootstrap_revalidates_trust_scope_and_permissions",
+          "assertions": [
+            "Runtime cache bootstrap revalidates trust scope and permissions."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNTIME-RUNTIME-PROCESS-STOPS-SLOW-TLS-RESPONSE-WITHOUT-CACHE-OR-RECEIPT",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_runtime_process_stops_slow_tls_response_without_cache_or_receipt",
+          "assertions": [
+            "Runtime process stops slow tls response without cache or receipt."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-SYNC-REAL-HTTPS-RUNTIME-LOADS-POLICY-BEFORE-RECEIPT-AND-REQUIRES-ALL-TARGETS",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_real_https_runtime_loads_policy_before_receipt_and_requires_all_targets",
+          "assertions": [
+            "Real https runtime loads policy before receipt and requires all targets."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-RUNTIME-RUNTIME-SNAPSHOT-REJECTS-ZONE-DRIFT-BEFORE-ANY-POLICY-OR-RECEIPT",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_runtime_snapshot_rejects_zone_drift_before_any_policy_or_receipt",
+          "assertions": [
+            "Runtime snapshot rejects zone drift before any policy or receipt."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-SYNC-RUNTIME-VERIFICATION-REJECTS-TAMPERING-SCOPE-REPLAY-AND-EXPIRY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_runtime_verification_rejects_tampering_scope_replay_and_expiry",
+          "assertions": [
+            "Runtime verification rejects tampering scope replay and expiry."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-SYNC-REAL-SYNC-REJECTS-WRONG-RUNTIME-RECEIPT-AND-REVOKED-POLICY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_real_sync_rejects_wrong_runtime_receipt_and_revoked_policy",
+          "assertions": [
+            "Real sync rejects wrong runtime receipt and revoked policy."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-SYNC-SNAPSHOT-LEASE-304-NEVER-RENEWS-AND-OUTAGE-EXPIRES-LOADED-STATE",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_snapshot_lease_304_never_renews_and_outage_expires_loaded_state",
+          "assertions": [
+            "Snapshot lease 304 never renews and outage expires loaded state."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-SYNC-STALE-AND-MISMATCHED-RECEIPTS-NEVER-MARK-BINDING-APPLIED",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_stale_and_mismatched_receipts_never_mark_binding_applied",
+          "assertions": [
+            "Stale and mismatched receipts never mark binding applied."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "GOV-SYNC-LARGE-OUTBOX-REVOKED-REPLAY",
+          "requirement_id": "P1.7",
+          "profile": "local",
+          "mode": "remote",
+          "family": "binding",
+          "nodeid": "mvp/tests/evolution/integration/test_runtime_receipts.py::test_large_outbox_and_revoked_runtime_cannot_replay_old_success",
+          "assertions": [
+            "More than1000 historical outbox rows do not hide committed desired state; a revoked runtime cannot replay its previously successful receipt response."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-POSTGRES18-NONOWNER-FORCED-RLS-AND-POOL-REUSE",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_postgres18_nonowner_forced_rls_and_pool_reuse",
+          "assertions": [
+            "Postgres18 nonowner forced rls and pool reuse."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CROSS-TENANT-INSERT-AND-COMPOSITE-FOREIGN-KEY-REJECTED",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_cross_tenant_insert_and_composite_foreign_key_rejected",
+          "assertions": [
+            "Cross tenant insert and composite foreign key rejected."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-IMMUTABLE-BYTES-AND-ATOMIC-AUDIT-OUTBOX-ROLLBACK",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_immutable_bytes_and_atomic_audit_outbox_rollback",
+          "assertions": [
+            "Immutable bytes and atomic audit outbox rollback."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONCURRENT-BINDING-COMPARE-AND-SWAP-HAS-ONE-WINNER",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_concurrent_binding_compare_and_swap_has_one_winner",
+          "assertions": [
+            "Concurrent binding compare and swap has one winner."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-KEYSET-PAGES-AND-VERSION-LOCKS-PRESERVE-ALL-RECORDS",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_keyset_pages_and_version_locks_preserve_all_records",
+          "assertions": [
+            "Keyset pages and version locks preserve all records."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-MIGRATION-FRESH-DATABASE-AND-OWNER-REJECTED",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_migration_fresh_database_and_owner_rejected",
+          "assertions": [
+            "Migration fresh database and owner rejected."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-TENANT-PROVISIONING-JOINS-PLATFORM-TRANSACTION-AND-RESTORES-SCOPE",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_tenant_provisioning_joins_platform_transaction_and_restores_scope",
+          "assertions": [
+            "Tenant provisioning joins platform transaction and restores scope."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-CONSTRAINT-REJECTS-NONOWNER-MALFORMED-KEYS-LISTS-LIST-ID",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_constraint_rejects_nonowner_malformed_keys[lists-list_id]",
+          "assertions": [
+            "Config identity constraint rejects nonowner malformed keys[lists-list id]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-CONSTRAINT-REJECTS-NONOWNER-MALFORMED-KEYS-RESIDENCY-RESIDENCY-ID",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_constraint_rejects_nonowner_malformed_keys[residency-residency_id]",
+          "assertions": [
+            "Config identity constraint rejects nonowner malformed keys[residency-residency id]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-CONSTRAINT-REJECTS-NONOWNER-MALFORMED-KEYS-DESTINATIONS-DESTINATION-ID",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_constraint_rejects_nonowner_malformed_keys[destinations-destination_id]",
+          "assertions": [
+            "Config identity constraint rejects nonowner malformed keys[destinations-destination id]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-CONSTRAINT-REJECTS-NONOWNER-MALFORMED-KEYS-PROVIDERS-PROVIDER-ID",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_constraint_rejects_nonowner_malformed_keys[providers-provider_id]",
+          "assertions": [
+            "Config identity constraint rejects nonowner malformed keys[providers-provider id]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-CONSTRAINT-REJECTS-NONOWNER-MALFORMED-KEYS-TOOLS-TOOL-ID",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_constraint_rejects_nonowner_malformed_keys[tools-tool_id]",
+          "assertions": [
+            "Config identity constraint rejects nonowner malformed keys[tools-tool id]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-CONSTRAINT-REJECTS-NONOWNER-MALFORMED-KEYS-QUOTAS-QUOTA-ID",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_constraint_rejects_nonowner_malformed_keys[quotas-quota_id]",
+          "assertions": [
+            "Config identity constraint rejects nonowner malformed keys[quotas-quota id]."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-EXACT-POLICY-ID-ALLOCATION-IS-INDEPENDENT-UNDER-CONCURRENCY",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_exact_policy_id_allocation_is_independent_under_concurrency",
+          "assertions": [
+            "Exact policy id allocation is independent under concurrency."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-CONFIG-IDENTITY-UPGRADE-REJECTS-MALFORMED-HISTORY-WITHOUT-REWRITING",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage.py::test_config_identity_upgrade_rejects_malformed_history_without_rewriting",
+          "assertions": [
+            "Config identity upgrade rejects malformed history without rewriting."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-DEADLINE-POSTGRES-ADVISORY-WAIT-OBEYS-REQUEST-DEADLINE-AND-RESETS-POOL",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage_deadlines.py::test_postgres_advisory_wait_obeys_request_deadline_and_resets_pool",
+          "assertions": [
+            "Postgres advisory wait obeys request deadline and resets pool."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-DEADLINE-EXPIRED-REQUEST-CANNOT-COMMIT-SUCCESSFUL-EARLIER-STATEMENT",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage_deadlines.py::test_expired_request_cannot_commit_successful_earlier_statement",
+          "assertions": [
+            "Expired request cannot commit successful earlier statement."
+          ],
+          "timeout_s": 120
+        },
+        {
+          "case_id": "TEN-STORAGE-DEADLINE-POOL-TIMEOUT-IS-SAFE-AND-EXTERNAL-ENGINE-CONFIGURATION-IS-PRESERVED",
+          "requirement_id": "P1.2",
+          "profile": "local",
+          "mode": "remote",
+          "family": "storage",
+          "nodeid": "mvp/tests/evolution/integration/test_storage_deadlines.py::test_pool_timeout_is_safe_and_external_engine_configuration_is_preserved",
+          "assertions": [
+            "Pool timeout is safe and external engine configuration is preserved."
+          ],
+          "timeout_s": 120
+        }
+      ]
+    },
+    "2": {
+      "status": "unavailable",
+      "required_families": [
+        "network",
+        "tls",
+        "gateways",
+        "snapshots",
+        "deterministic-controls",
+        "quotas",
+        "residency",
+        "offline",
+        "real-model"
+      ],
+      "cases": []
+    },
+    "3": {
+      "status": "unavailable",
+      "required_families": [
+        "detectors",
+        "transforms",
+        "benchmark",
+        "worker-failure",
+        "bedrock-contract"
+      ],
+      "cases": []
+    },
+    "4": {
+      "status": "unavailable",
+      "required_families": [
+        "browser",
+        "privacy",
+        "metrics",
+        "load",
+        "backup-restore",
+        "schema-upgrade"
+      ],
+      "cases": []
+    },
+    "5": {
+      "status": "unavailable",
+      "required_families": [
+        "customer-bundle",
+        "key-rotation",
+        "telemetry",
+        "operated-gateway",
+        "independence"
+      ],
+      "cases": []
+    },
+    "6": {
+      "status": "unavailable",
+      "required_families": [
+        "tool-boundaries",
+        "retrieval",
+        "authorization",
+        "media",
+        "streams",
+        "all-modes",
+        "repeatable-release"
+      ],
+      "cases": []
+    }
+  }
+}
