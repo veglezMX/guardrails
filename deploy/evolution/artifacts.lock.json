@@ -1,0 +1,194 @@
+{
+  "artifacts": [
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "kicbase",
+      "sha256": "eb4fec00e8ad70adf8e6436f195cc429825ffb85f95afcdb5d8d9deb576f3e93",
+      "size_bytes": 1936326441,
+      "source_url": "docker://gcr.io/k8s-minikube/kicbase@sha256:eb4fec00e8ad70adf8e6436f195cc429825ffb85f95afcdb5d8d9deb576f3e93",
+      "version": "0.0.50"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "kube-apiserver",
+      "sha256": "7e916e0d8364133c8c4fd4ca188028143f3be5cdb9a53b8ca35e99dd6eafd1b7",
+      "size_bytes": 120817007,
+      "source_url": "docker://registry.k8s.io/kube-apiserver@sha256:7e916e0d8364133c8c4fd4ca188028143f3be5cdb9a53b8ca35e99dd6eafd1b7",
+      "version": "1.35.1"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "kube-controller-manager",
+      "sha256": "a496600be41c23e9858bf28d4c13f9028fcfef9827a78a19a5794af47ad45572",
+      "size_bytes": 102310881,
+      "source_url": "docker://registry.k8s.io/kube-controller-manager@sha256:a496600be41c23e9858bf28d4c13f9028fcfef9827a78a19a5794af47ad45572",
+      "version": "1.35.1"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "kube-scheduler",
+      "sha256": "9399917b4a6eb101aa41ec1c2afe22d34661722b81c8efc93fa863ce32ac608a",
+      "size_bytes": 72280311,
+      "source_url": "docker://registry.k8s.io/kube-scheduler@sha256:9399917b4a6eb101aa41ec1c2afe22d34661722b81c8efc93fa863ce32ac608a",
+      "version": "1.35.1"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "kube-proxy",
+      "sha256": "c1f8ad41fc2d5a51b02cf8dbe9708aaabc7c4246e6d9de43669b59b544f2d470",
+      "size_bytes": 99867919,
+      "source_url": "docker://registry.k8s.io/kube-proxy@sha256:c1f8ad41fc2d5a51b02cf8dbe9708aaabc7c4246e6d9de43669b59b544f2d470",
+      "version": "1.35.1"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "coredns",
+      "sha256": "246e7333fde10251c693b68f13d21d6d64c7dbad866bbfa11bd49315e3f725a7",
+      "size_bytes": 105012378,
+      "source_url": "docker://registry.k8s.io/coredns/coredns@sha256:246e7333fde10251c693b68f13d21d6d64c7dbad866bbfa11bd49315e3f725a7",
+      "version": "1.13.1"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "etcd",
+      "sha256": "5279f56db4f32772bb41e47ca44c553f5c87a08fdf339d74c23a4cdc3c388d6a",
+      "size_bytes": 89475904,
+      "source_url": "docker://registry.k8s.io/etcd@sha256:5279f56db4f32772bb41e47ca44c553f5c87a08fdf339d74c23a4cdc3c388d6a",
+      "version": "3.6.6-0"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "pause",
+      "sha256": "e5b941ef8f71de54dc3a13398226c269ba217d06650a21bd3afcf9d890cf1f41",
+      "size_bytes": 1059418,
+      "source_url": "docker://registry.k8s.io/pause@sha256:e5b941ef8f71de54dc3a13398226c269ba217d06650a21bd3afcf9d890cf1f41",
+      "version": "3.10.1"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "storage-provisioner",
+      "sha256": "c4c05d6ad6c0f24d87b39e596d4dddf64bec3e0d84f5b36e4511d4ebf583f38f",
+      "size_bytes": 40526839,
+      "source_url": "docker://gcr.io/k8s-minikube/storage-provisioner@sha256:c4c05d6ad6c0f24d87b39e596d4dddf64bec3e0d84f5b36e4511d4ebf583f38f",
+      "version": "5"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "calico-node",
+      "sha256": "8e8d25f4d0bf0f1ed4e7ce864d789ea948830c1c4377994fa4032d3093095295",
+      "size_bytes": 575418998,
+      "source_url": "docker://docker.io/calico/node@sha256:8e8d25f4d0bf0f1ed4e7ce864d789ea948830c1c4377994fa4032d3093095295",
+      "version": "3.31.3"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "calico-cni",
+      "sha256": "08b508bec6b7cc2fd35d7ad340f28ff265f7589feacd217a56ccc6aa0cd98634",
+      "size_bytes": 235914186,
+      "source_url": "docker://docker.io/calico/cni@sha256:08b508bec6b7cc2fd35d7ad340f28ff265f7589feacd217a56ccc6aa0cd98634",
+      "version": "3.31.3"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "calico-kube-controllers",
+      "sha256": "65a824efe37bad955e45a9a37492d8db862f6b7c99bc58ac99cf18915a23ee26",
+      "size_bytes": 178920580,
+      "source_url": "docker://docker.io/calico/kube-controllers@sha256:65a824efe37bad955e45a9a37492d8db862f6b7c99bc58ac99cf18915a23ee26",
+      "version": "3.31.3"
+    },
+    {
+      "kind": "image",
+      "license": "PSF-2.0",
+      "name": "python",
+      "sha256": "cfe2e24a75302a15934d37c2d86412893c0aa934dc3a97cbb439d04c01890ca9",
+      "size_bytes": 178175783,
+      "source_url": "docker://docker.io/library/python@sha256:cfe2e24a75302a15934d37c2d86412893c0aa934dc3a97cbb439d04c01890ca9",
+      "version": "3.14.8-slim"
+    },
+    {
+      "kind": "image",
+      "license": "Apache-2.0",
+      "name": "caddy",
+      "sha256": "98eb57d882ccd5213d1688764db10c1ca2c58a1ca3a6717a3411ad798f7a423a",
+      "size_bytes": 88338049,
+      "source_url": "docker://docker.io/library/caddy@sha256:98eb57d882ccd5213d1688764db10c1ca2c58a1ca3a6717a3411ad798f7a423a",
+      "version": "2.11.4"
+    },
+    {
+      "kind": "image",
+      "license": "MIT",
+      "name": "ollama",
+      "sha256": "31650ae0d08bde9c8bbd845d27f2da31acddf6ff735523869d8e5ee7a9969b03",
+      "size_bytes": 9363638783,
+      "source_url": "docker://docker.io/ollama/ollama@sha256:31650ae0d08bde9c8bbd845d27f2da31acddf6ff735523869d8e5ee7a9969b03",
+      "version": "0.40.2"
+    },
+    {
+      "kind": "image",
+      "license": "LicenseRef-Local-Prepared",
+      "name": "kicbase-offline",
+      "sha256": "7f889b55e29290b0e421645906786d32e8a5288a9bfab6eb1aa3904c9c7007f9",
+      "size_bytes": 1936369263,
+      "source_url": "docker://docker.io/guardrails-evolution/kicbase-offline:0.0.50-v2@sha256:7f889b55e29290b0e421645906786d32e8a5288a9bfab6eb1aa3904c9c7007f9",
+      "version": "0.0.50-evolution-2"
+    },
+    {
+      "kind": "image",
+      "license": "PostgreSQL",
+      "name": "postgres",
+      "sha256": "41fc5342eefba6cc2ccda736aaf034bbbb7c3df0fdb81516eba1ba33f360162c",
+      "size_bytes": 642978002,
+      "source_url": "docker://docker.io/library/postgres@sha256:41fc5342eefba6cc2ccda736aaf034bbbb7c3df0fdb81516eba1ba33f360162c",
+      "version": "18.0"
+    },
+    {
+      "kind": "image",
+      "license": "MIT",
+      "name": "litellm",
+      "sha256": "3d88bd757134a00e8c00237b85a021ab1f6d54abb9c1df750f411dbe7256a500",
+      "size_bytes": 1705332317,
+      "source_url": "docker://ghcr.io/berriai/litellm@sha256:3d88bd757134a00e8c00237b85a021ab1f6d54abb9c1df750f411dbe7256a500",
+      "version": "1.104.2"
+    },
+    {
+      "kind": "image",
+      "license": "LicenseRef-Local-Prepared",
+      "name": "evolution-gateway",
+      "sha256": "09c3493e6f553f3610f2835ca717ba5b98055bacaba9f3bd9aae33752c1866d3",
+      "size_bytes": 1706820307,
+      "source_url": "docker://docker.io/guardrails-evolution/gateway@sha256:09c3493e6f553f3610f2835ca717ba5b98055bacaba9f3bd9aae33752c1866d3",
+      "version": "a2c1e2aecc89988e"
+    },
+    {
+      "kind": "image",
+      "license": "LicenseRef-Local-Prepared",
+      "name": "evolution-model",
+      "sha256": "99135d476809169428eff0d3784b4f9970d587b144cb25d60fca0ecdfe37a3d0",
+      "size_bytes": 10146582834,
+      "source_url": "docker://docker.io/guardrails-evolution/model@sha256:99135d476809169428eff0d3784b4f9970d587b144cb25d60fca0ecdfe37a3d0",
+      "version": "b0d9afd34660e42f"
+    },
+    {
+      "kind": "image",
+      "license": "LicenseRef-Local-Prepared",
+      "name": "evolution-service",
+      "sha256": "56438427d9030f7acc46d678f5cb662a22739637c63869db695d84ff8cc91f86",
+      "size_bytes": 876670762,
+      "source_url": "docker://docker.io/guardrails-evolution/service@sha256:56438427d9030f7acc46d678f5cb662a22739637c63869db695d84ff8cc91f86",
+      "version": "d419598e5341848f"
+    }
+  ],
+  "schema_version": "guardrails-evolution-artifacts-v1"
+}

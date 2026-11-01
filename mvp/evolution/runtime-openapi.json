@@ -1,0 +1,1218 @@
+{
+  "components": {
+    "schemas": {
+      "Capability": {
+        "additionalProperties": false,
+        "properties": {
+          "actions": {
+            "items": {
+              "enum": [
+                "allow",
+                "warn",
+                "redact",
+                "block"
+              ],
+              "type": "string"
+            },
+            "maxItems": 4,
+            "minItems": 1,
+            "title": "Actions",
+            "type": "array"
+          },
+          "capability_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Capability Id",
+            "type": "string"
+          },
+          "evaluator_revision": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Evaluator Revision",
+            "type": "string"
+          },
+          "max_input_bytes": {
+            "minimum": 1.0,
+            "title": "Max Input Bytes",
+            "type": "integer"
+          },
+          "part_kinds": {
+            "items": {
+              "enum": [
+                "text",
+                "json",
+                "image"
+              ],
+              "type": "string"
+            },
+            "maxItems": 3,
+            "minItems": 1,
+            "title": "Part Kinds",
+            "type": "array"
+          },
+          "stage": {
+            "enum": [
+              "input",
+              "output",
+              "retrieval",
+              "tool_arguments",
+              "tool_result"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "enabled",
+              "disabled",
+              "unavailable"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "timeout_ms": {
+            "minimum": 1.0,
+            "title": "Timeout Ms",
+            "type": "integer"
+          },
+          "zone": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Zone",
+            "type": "string"
+          }
+        },
+        "required": [
+          "capability_id",
+          "stage",
+          "part_kinds",
+          "actions",
+          "evaluator_revision",
+          "max_input_bytes",
+          "timeout_ms",
+          "zone",
+          "status"
+        ],
+        "title": "Capability",
+        "type": "object"
+      },
+      "ContentPart": {
+        "additionalProperties": false,
+        "properties": {
+          "data_base64": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Data Base64"
+          },
+          "kind": {
+            "enum": [
+              "text",
+              "json",
+              "image"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "media_type": {
+            "anyOf": [
+              {
+                "enum": [
+                  "image/png",
+                  "image/jpeg"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Media Type"
+          },
+          "part_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Part Id",
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "retrieval",
+              "tool"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Source Id"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Text"
+          },
+          "tool": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ToolCall"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JsonValue"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "part_id",
+          "kind",
+          "role"
+        ],
+        "title": "ContentPart",
+        "type": "object"
+      },
+      "Decision": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "allow",
+              "warn",
+              "redact",
+              "block"
+            ],
+            "title": "Action",
+            "type": "string"
+          },
+          "audit_status": {
+            "enum": [
+              "persisted",
+              "spooled",
+              "failed"
+            ],
+            "title": "Audit Status",
+            "type": "string"
+          },
+          "binding_revision": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Binding Revision"
+          },
+          "context_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Id"
+          },
+          "decision_id": {
+            "title": "Decision Id",
+            "type": "string"
+          },
+          "evaluation_ms": {
+            "minimum": 0.0,
+            "title": "Evaluation Ms",
+            "type": "number"
+          },
+          "evaluator_revisions": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 64,
+            "title": "Evaluator Revisions",
+            "type": "array"
+          },
+          "findings": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "maxItems": 10000,
+            "title": "Findings",
+            "type": "array"
+          },
+          "policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PolicyRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason_codes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 128,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "snapshot_generation": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Snapshot Generation"
+          },
+          "stage": {
+            "enum": [
+              "input",
+              "output",
+              "retrieval",
+              "tool_arguments",
+              "tool_result"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "tenant_id": {
+            "pattern": "^[a-z0-9-]{1,64}$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "transformed_parts": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ContentPart"
+                },
+                "maxItems": 64,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transformed Parts"
+          },
+          "workload_id": {
+            "pattern": "^[a-z0-9-]{1,64}$",
+            "title": "Workload Id",
+            "type": "string"
+          },
+          "would_be_action": {
+            "enum": [
+              "allow",
+              "warn",
+              "redact",
+              "block"
+            ],
+            "title": "Would Be Action",
+            "type": "string"
+          }
+        },
+        "required": [
+          "decision_id",
+          "request_id",
+          "tenant_id",
+          "workload_id",
+          "stage",
+          "action",
+          "would_be_action",
+          "evaluation_ms",
+          "audit_status"
+        ],
+        "title": "Decision",
+        "type": "object"
+      },
+      "Error": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "invalid_json",
+              "invalid_cursor",
+              "unsupported_surface",
+              "authentication_failed",
+              "session_expired",
+              "forbidden",
+              "self_approval",
+              "residency_denied",
+              "destination_denied",
+              "provider_denied",
+              "tool_denied",
+              "resource_not_found",
+              "revision_conflict",
+              "idempotency_conflict",
+              "approval_required",
+              "policy_revoked",
+              "floor_conflict",
+              "capability_missing",
+              "payload_too_large",
+              "validation_failed",
+              "composition_conflict",
+              "inspection_incomplete",
+              "precondition_required",
+              "quota_exceeded",
+              "queue_full",
+              "policy_unresolved",
+              "snapshot_stale",
+              "evaluator_unavailable",
+              "audit_failed",
+              "context_invalid",
+              "unsafe_transformation",
+              "evaluation_timeout",
+              "upstream_timeout"
+            ],
+            "title": "Code",
+            "type": "string"
+          },
+          "correlation_id": {
+            "title": "Correlation Id",
+            "type": "string"
+          },
+          "details": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Details",
+            "type": "object"
+          },
+          "message": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          },
+          "retryable": {
+            "default": false,
+            "title": "Retryable",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "correlation_id"
+        ],
+        "title": "Error",
+        "type": "object"
+      },
+      "ErrorEnvelope": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/Error"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "type": "object"
+      },
+      "EvaluationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "context_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Context Id"
+          },
+          "correlation_id": {
+            "title": "Correlation Id",
+            "type": "string"
+          },
+          "deadline_ms": {
+            "maximum": 180000,
+            "minimum": 1,
+            "title": "Deadline Ms",
+            "type": "integer"
+          },
+          "parts": {
+            "items": {
+              "$ref": "#/components/schemas/ContentPart"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "title": "Parts",
+            "type": "array"
+          },
+          "provider_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Provider Id"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "guardrails-v2",
+            "default": "guardrails-v2",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "stage": {
+            "enum": [
+              "input",
+              "output",
+              "retrieval",
+              "tool_arguments",
+              "tool_result"
+            ],
+            "title": "Stage",
+            "type": "string"
+          },
+          "tenant_id": {
+            "pattern": "^[a-z0-9-]{1,64}$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "workload_id": {
+            "pattern": "^[a-z0-9-]{1,64}$",
+            "title": "Workload Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "correlation_id",
+          "tenant_id",
+          "workload_id",
+          "stage",
+          "parts",
+          "deadline_ms"
+        ],
+        "title": "EvaluationRequest",
+        "type": "object"
+      },
+      "Finding": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Category",
+            "type": "string"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          },
+          "evaluator_revision": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Evaluator Revision",
+            "type": "string"
+          },
+          "json_pointer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json Pointer"
+          },
+          "part_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Part Id",
+            "type": "string"
+          },
+          "reason_code": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Reason Code",
+            "type": "string"
+          },
+          "rule_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Rule Id",
+            "type": "string"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "start": {
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start"
+          }
+        },
+        "required": [
+          "rule_id",
+          "category",
+          "part_id",
+          "reason_code",
+          "evaluator_revision"
+        ],
+        "title": "Finding",
+        "type": "object"
+      },
+      "JsonValue": {},
+      "PolicyRef": {
+        "additionalProperties": false,
+        "properties": {
+          "digest": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Digest",
+            "type": "string"
+          },
+          "policy_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Policy Id",
+            "type": "string"
+          },
+          "tenant_id": {
+            "pattern": "^(?:[a-z0-9-]{1,64}|_platform)$",
+            "title": "Tenant Id",
+            "type": "string"
+          },
+          "version": {
+            "minimum": 1.0,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "tenant_id",
+          "policy_id",
+          "version",
+          "digest"
+        ],
+        "title": "PolicyRef",
+        "type": "object"
+      },
+      "Readiness": {
+        "additionalProperties": false,
+        "properties": {
+          "dependency_codes": {
+            "items": {
+              "enum": [
+                "invalid_json",
+                "invalid_cursor",
+                "unsupported_surface",
+                "authentication_failed",
+                "session_expired",
+                "forbidden",
+                "self_approval",
+                "residency_denied",
+                "destination_denied",
+                "provider_denied",
+                "tool_denied",
+                "resource_not_found",
+                "revision_conflict",
+                "idempotency_conflict",
+                "approval_required",
+                "policy_revoked",
+                "floor_conflict",
+                "capability_missing",
+                "payload_too_large",
+                "validation_failed",
+                "composition_conflict",
+                "inspection_incomplete",
+                "precondition_required",
+                "quota_exceeded",
+                "queue_full",
+                "policy_unresolved",
+                "snapshot_stale",
+                "evaluator_unavailable",
+                "audit_failed",
+                "context_invalid",
+                "unsafe_transformation",
+                "evaluation_timeout",
+                "upstream_timeout"
+              ],
+              "title": "Code",
+              "type": "string"
+            },
+            "maxItems": 1,
+            "type": "array"
+          },
+          "ready": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ready",
+          "dependency_codes"
+        ],
+        "type": "object"
+      },
+      "ToolCall": {
+        "additionalProperties": false,
+        "properties": {
+          "arguments": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Arguments",
+            "type": "object"
+          },
+          "call_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Call Id",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "result_for_call_id": {
+            "anyOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Result For Call Id"
+          },
+          "tool_digest": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Tool Digest",
+            "type": "string"
+          }
+        },
+        "required": [
+          "call_id",
+          "name",
+          "arguments",
+          "tool_digest"
+        ],
+        "title": "ToolCall",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "title": "Guardrails evolution evaluation",
+    "version": "2.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "live_health_live_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Live"
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "handle_health_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Readiness"
+                }
+              }
+            },
+            "description": "Scoped runtime is ready"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Readiness"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ErrorEnvelope"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Handle"
+      }
+    },
+    "/v2/capabilities": {
+      "get": {
+        "operationId": "handle_v2_capabilities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Capability"
+                  },
+                  "title": "Response Handle V2 Capabilities Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Handle"
+      }
+    },
+    "/v2/evaluations": {
+      "post": {
+        "operationId": "handle_v2_evaluations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Decision"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Safe bounded failure"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Handle"
+      }
+    }
+  }
+}
