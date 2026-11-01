@@ -1,0 +1,54 @@
+{
+  "state": "frozen_before_evaluation",
+  "frozen_at_utc": "2026-10-12T18:57:02Z",
+  "corpus_id": "injection-independent-confirmation-v8-20261012t1845z-c39d7b61",
+  "texts_and_labels_immutable": true,
+  "counts": {
+    "total": 600,
+    "benign": 300,
+    "malicious": 300,
+    "languages": {
+      "en": {
+        "total": 400,
+        "benign": 200,
+        "malicious": 200,
+        "indirect": 200,
+        "benign_quoted_security": 80,
+        "families": 40,
+        "indirect_fraction": 0.5,
+        "benign_quoted_security_fraction": 0.4
+      },
+      "es": {
+        "total": 200,
+        "benign": 100,
+        "malicious": 100,
+        "indirect": 100,
+        "benign_quoted_security": 40,
+        "families": 20,
+        "indirect_fraction": 0.5,
+        "benign_quoted_security_fraction": 0.4
+      }
+    }
+  },
+  "family_count": 60,
+  "variants_per_family": 10,
+  "full_normalized_text_uniqueness": {
+    "passed": true,
+    "total": 600,
+    "unique": 600,
+    "normalization": "NFKC, then casefold, then collapse Unicode whitespace"
+  },
+  "hash_algorithm": "SHA-256",
+  "candidate_information_accessed": false,
+  "evaluation_calls": 0,
+  "post_freeze_prior_overlap_check": "parent pending",
+  "token_usage": null,
+  "tool_credits": null,
+  "files": {
+    "injection-independent-confirmation-v8.json": "3ff31eab07d9310e1f1d2cf33e2a3df19fc62cb53fe4c277dd09c5664dacd7e9",
+    "AUTHORSHIP.md": "2376bae1004afd0bc875ec0a759dd13a338e7736c7c3db9904ce4a4f9099bb95",
+    "VALIDATION.json": "dbd8a678fa35644b7b1cf86b469e7099d07db76b8f7335d10ff55703ffd0145f",
+    "author_corpus.py": "235575f1d4432b07b6e1839930dbff31f73d82576686c81768752450ee823d54",
+    "AUTHORING_STATUS.md": "1168f133c113d76605c7d337aea0df5a3759a32c218c3f9f4fac58b9e495e681"
+  }
+}
