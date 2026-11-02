@@ -12,6 +12,7 @@ from pathlib import Path
 
 from evolution.classifier_corpus_extension import corpus_projection
 from guardrails.evolution.classifier_contract import canonical, parse
+
 from services.classifier import bounded_qualification_core_extended as core
 from services.classifier import bounded_qualification_evidence_extended as evidence
 from services.classifier import bounded_qualification_plan_v5 as binding

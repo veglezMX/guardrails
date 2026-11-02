@@ -14,6 +14,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import pytest
+from evolution.evaluator_cases import control
 from guardrails.evolution import models
 from guardrails.evolution.bindings import BindingService
 from guardrails.evolution.errors import EvolutionError
@@ -54,9 +55,13 @@ def persisted(system):
 def approved(system, feature="supported"):
     payload = deepcopy(system["payload"])
     with system["repo"].transaction(system["tenant"]) as tx:
-        if feature == "ipv4":
+        if feature.startswith("injection-"):
+            # The revision is installed, but this deployment has no admitted
+            # classifier endpoint. Approval alone cannot enable that route.
+            payload["rules"] = [control("injection", feature.removeprefix("injection-"))]
+        else:
+            # Both features are supported by the expanded Rules registry.
             payload["rules"][0]["config"]["entities"] = ["ipv4"]
-        elif feature == "content-list":
             content = models.with_resource_digest(models.ListSet(
                 tenant_id=system["tenant"], list_id=str(uuid4()), kind="content",
                 deny=("term:synthetic-forbidden",), allow_enabled=False,
@@ -96,7 +101,7 @@ def management_http(server, token):
     return client
 
 
-@pytest.mark.parametrize("feature", ["ipv4", "content-list"])
+@pytest.mark.parametrize("feature", ["injection-input", "injection-output"])
 def test_default_https_release_rejects_approved_unsupported_policy_without_writes(system, tmp_path, feature):
     reference = approved(system, feature)
     before = persisted(system)
@@ -126,14 +131,21 @@ def test_default_https_catalog_and_supported_release_are_static_and_pending(syst
             catalog = client.get(f"/v2/tenants/{system['tenant']}/capabilities")
             assert catalog.status_code == 200, catalog.text
             items = catalog.json()["items"]
-            assert len(items) == 2
-            assert {item["stage"] for item in items} == {"input", "output"}
+            revisions = {"rules-pii": "pii-v2", "rules-secret": "secrets-v1",
+                         "rules-term": "lexical-v1", "rules-topic": "lexical-v1",
+                         "rules-json-schema": "schema-v1"}
+            assert len(items) == 10
+            assert {(item["capability_id"], item["evaluator_revision"], item["stage"]) for item in items} == {
+                (capability, revision, stage) for capability, revision in revisions.items()
+                for stage in ("input", "output")}
             assert all(item["status"] == "enabled" for item in items)
-            assert all(item["capability_id"] == "pii-email-phone" for item in items)
-            assert all(item["evaluator_revision"] == "pii-v2" for item in items)
             assert all(item["zone"] == "local-shared" for item in items)
-            assert all(item["part_kinds"] == ["text"] for item in items)
-            assert all(set(item["actions"]) == {"allow", "warn", "redact", "block"} for item in items)
+            assert all(item["part_kinds"] == ["text", "json"] for item in items)
+            for item in items:
+                expected = {"allow", "warn", "block"}
+                if item["capability_id"] not in {"rules-topic", "rules-json-schema"}:
+                    expected.add("redact")
+                assert set(item["actions"]) == expected
             assert all(item["max_input_bytes"] == 65536 and item["timeout_ms"] == 400 for item in items)
             unauthorized = client.get(f"/v2/tenants/{system['tenant']}/capabilities",
                                       headers={"Authorization": "Bearer invalid"})
@@ -192,7 +204,7 @@ def test_default_https_unknown_evaluator_revision_cannot_be_submitted(system, tm
     assert persisted(system) == before
 
 
-@pytest.mark.parametrize("feature", ["ipv4", "content-list"])
+@pytest.mark.parametrize("feature", ["injection-input", "injection-output"])
 def test_default_distributor_rejects_unsupported_desired_policy_and_retains_signed_pointer(system, feature):
     reference = approved(system, feature)
     service = system["service"]
@@ -265,5 +277,5 @@ def test_tampered_installed_artifact_denies_default_admission_without_workers_or
     report = json.loads(result.stdout)
     assert report["error"] == "evaluator_unavailable"
     assert report["health"] == {"ready": False, "workers": 0, "admitted": 0}
-    assert report["declared"] == ["unavailable", "unavailable"]
+    assert report["declared"] == ["unavailable"] * 10
     assert persisted(system) == before

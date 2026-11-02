@@ -8,6 +8,7 @@ from guardrails.evolution.errors import EvolutionError
 from litellm.integrations.custom_guardrail import CustomGuardrail
 from litellm.types.guardrails import GuardrailEventHooks
 
+from . import gateway_timing_probe as timing_probe
 from .evolution import (
     EvaluationClient,
     GatewaySettings,
@@ -16,7 +17,6 @@ from .evolution import (
     current_turn,
     https_origin,
 )
-from . import gateway_timing_probe as timing_probe
 
 
 class EvolutionGuardrail(CustomGuardrail):

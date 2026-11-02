@@ -1,15 +1,14 @@
 """Exact inventory and sequential custody/health contracts; no native operations."""
 from __future__ import annotations
 
-from copy import deepcopy
-from datetime import UTC, datetime, timedelta
 import hashlib
 import json
+from copy import deepcopy
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from uuid import UUID
 
 import pytest
-
 from evolution import deterministic_matrix as matrix
 from evolution.registry import EvidenceError
 

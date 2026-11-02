@@ -11,7 +11,6 @@ import time
 from types import ModuleType
 
 import pytest
-
 from connector import gateway_timing_probe as probe
 
 
@@ -280,6 +279,7 @@ def test_replaced_path_is_not_written(observation, tmp_path):
 def assembled_boundary(tmp_path, proxy, *, correlation=None, authenticated=True):
     """Use the actual boundary; only its proxy and ASGI ports are fake."""
     from types import SimpleNamespace
+
     from connector.evolution_gateway import GatewayBoundary
 
     secret = "test-only-" + "x" * 48
@@ -302,6 +302,7 @@ def assembled_boundary(tmp_path, proxy, *, correlation=None, authenticated=True)
 async def test_actual_boundary_cancellation_and_timeout_cleanup(observation, tmp_path, monkeypatch, cause):
     import asyncio
     from types import SimpleNamespace
+
     from connector import evolution_gateway as gateway
     from connector.evolution import current_turn
 
@@ -440,6 +441,7 @@ async def test_actual_boundary_disconnect_preserves_late_worker(observation, tmp
 @pytest.mark.asyncio
 async def test_actual_boundary_overlapping_requests_have_one_capture(observation, tmp_path):
     import asyncio
+
     from connector.evolution import current_turn
 
     probe.initialize()
@@ -498,7 +500,7 @@ async def test_unauthenticated_fixed_correlation_never_claims(observation, tmp_p
     async def proxy(*args):
         pytest.fail("unauthenticated request reached proxy")
 
-    boundary, scope, body = assembled_boundary(tmp_path, proxy, authenticated=False)
+    boundary, scope, _body = assembled_boundary(tmp_path, proxy, authenticated=False)
     probe.initialize()
     output = []
 
@@ -545,8 +547,9 @@ async def test_early_rejection_cannot_mark_an_existing_claim(observation, tmp_pa
 
 @pytest.mark.asyncio
 async def test_transport_reservation_mark_cannot_delay_deadline_start(observation, monkeypatch):
-    import httpx
     from types import SimpleNamespace
+
+    import httpx
     from connector import evolution_gateway as gateway
     from connector.evolution import Turn, current_turn, normalize_messages
 

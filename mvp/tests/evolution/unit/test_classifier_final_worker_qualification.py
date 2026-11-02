@@ -12,9 +12,9 @@ from evolution import classifier_final_worker_qualification as s
 from evolution import classifier_provenance as p
 from evolution import classifier_provenance_io as io
 from evolution.registry import EvidenceError
-from mvp.tests.evolution.unit.test_classifier_provenance import case
 
 from mvp.tests.evolution.unit.test_classifier_loaded_evidence import isolated_network
+from mvp.tests.evolution.unit.test_classifier_provenance import case
 
 
 @pytest.fixture(autouse=True)

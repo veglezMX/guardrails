@@ -76,7 +76,7 @@ def test_disabled_keeps_admission_and_never_runs_content_constraints():
     assert response.json()["action"] == "allow"
     assert response.json()["reason_codes"] == ["disabled"]
     assert records.content == records.detectors == records.transformed == []
-    assert records.order == ["lock", "eligible", "reserve", "commit"]
+    assert records.order == ["organization-lock", "lock", "eligible", "reserve", "commit"]
     assert len(records.finalized) == 1
 
 

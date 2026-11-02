@@ -15,6 +15,7 @@ import httpx
 from guardrails.evolution.errors import EvolutionError
 from guardrails.evolution.models import canonical_json_bytes, strict_json_loads
 
+from . import gateway_timing_probe as timing_probe
 from .evolution import (
     MAX_WIRE_BYTES,
     GatewaySettings,
@@ -24,7 +25,6 @@ from .evolution import (
     read_secret,
     validate_request,
 )
-from . import gateway_timing_probe as timing_probe
 
 
 def validate_output(value: Any, *, proxy_metadata: bool = False) -> dict:

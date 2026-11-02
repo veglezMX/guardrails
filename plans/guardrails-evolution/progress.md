@@ -1,6 +1,15 @@
 # Implementation Progress
 
-## Current Status
+## Consolidation — 2026-11-01
+
+All 14 original implementation branches have been reconciled into one history. The combined implementation retains the later governance, quota, deadline, audit, transport and lifecycle safeguards, plus classifier qualification support, gateway/runtime timing diagnostics and the deterministic matrix runner. Historical candidate artifacts remain evidence and are not newly enabled evaluators.
+
+Validation and integration repairs are recorded in the durable reconciliation session under `~/.agent-sessions/own/ai/guardrails/sessions/2026-11-01T2153Z_gpt-6_f0745ca3_reconcile-all-worktrees/`. Private deployment files and ignored worktree state are preserved there rather than committed. The user authorized committing and merging the accumulated work; the no-merge notes below describe older recovery sessions.
+
+Phase 3 operational acceptance remains incomplete. The October recovery windows have expired and cannot authorize a new deployment attempt. Continuing the live gate requires fresh environment/credential assessment and current operational instructions. Phases 4–6 remain planned. This consolidation does not declare those gates complete.
+
+
+## Historical operational status (through October 2026)
 
 **Active phase:** Phase 3 — Rules and evaluators
 **Last completed task:** P3.R2f — Explicit historical/current idle clock boundary implemented, independently reviewed and tested through actual qualification admission; all active-phase limits retained. Qualification then refused a persistent D-state thread.

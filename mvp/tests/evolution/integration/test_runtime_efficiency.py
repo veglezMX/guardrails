@@ -3,6 +3,7 @@
 import asyncio
 import os
 import time
+from collections import Counter
 from copy import deepcopy
 from pathlib import Path
 from uuid import uuid4
@@ -145,7 +146,11 @@ def test_input_output_each_resolve_baseline_once_per_transaction_with_real_detec
                 assert decision.action == "allow" and decision.would_be_action == "block"
                 assert decision.findings and decision.evaluator_revisions == ("pii-v2",)
                 assert decision.audit_status == "persisted" and decision.evaluation_ms < 500
-                assert sum(parameters.get("kind") == "baseline" and parameters.get("key") == "current" for _, parameters in queries) == 2
+                # Tenant and organization baselines are each resolved once in
+                # admission and once again in the finalization transaction.
+                baseline_scopes = Counter(parameters["tenant"] for _, parameters in queries
+                                          if parameters.get("kind") == "baseline" and parameters.get("key") == "current")
+                assert baseline_scopes == {system["tenant"]: 2, "_platform": 2}
                 assert acquired_keys(queries).count(system["tenant"] + ":governance-admission") == 2
                 async with asyncio.timeout(2):
                     while service._cleanup:

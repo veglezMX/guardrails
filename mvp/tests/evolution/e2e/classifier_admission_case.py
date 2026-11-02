@@ -14,7 +14,6 @@ import time
 from pathlib import Path
 
 from evolution.diagnostics import SourceCatalog
-from mvp.tests.evolution.e2e.classifier_provenance_support import held_lock
 
 from mvp.evolution import classifier_admission_measurements as evidence
 from mvp.tests.evolution.e2e.classifier_admission_fault import OwnedClassifierFault
@@ -25,6 +24,7 @@ from mvp.tests.evolution.e2e.classifier_admission_support import (
     ScopeReader,
     check,
 )
+from mvp.tests.evolution.e2e.classifier_provenance_support import held_lock
 
 SCHEMA = 'evolution-classifier-admission-case-v1'
 SOURCES = frozenset({'mvp/evolution/evaluator_attempt.py', 'mvp/evolution/evaluator_governance.py',

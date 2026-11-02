@@ -6,6 +6,7 @@ import json
 from types import SimpleNamespace
 
 import pytest
+
 from services.classifier import bounded_qualification_v5 as p
 from services.classifier.tests.test_bounded_qualification_core import (
     Child,

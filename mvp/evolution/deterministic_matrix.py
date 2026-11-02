@@ -8,12 +8,12 @@ is retained when a failed or uncertain case stops dispatch.
 """
 from __future__ import annotations
 
-from datetime import UTC, datetime
 import hashlib
 import json
 import math
-from pathlib import Path
 import re
+from datetime import datetime
+from pathlib import Path
 from typing import Protocol
 from uuid import UUID
 
@@ -71,7 +71,7 @@ def reference(value):
 def instant(value):
     require(type(value) is str and len(value) <= 40, "matrix_timestamp_invalid")
     try:
-        result = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        result = datetime.fromisoformat(value)
     except ValueError as error:
         raise EvidenceError("matrix_timestamp_invalid") from error
     require(result.tzinfo is not None and result.utcoffset().total_seconds() == 0,
@@ -317,7 +317,7 @@ def execute(plan, registry_raw, frozen_raw, ports: MatrixPorts):
             results.append(result)
             try:
                 ports.record_case(plan, entry, result, None, None)
-            except BaseException as error:
+            except BaseException as error:  # noqa: BLE001 -- Retain failure evidence and propagate interruptions after cleanup.
                 errors.append(safe_error(error, "unexecuted_row_publication"))
                 if not isinstance(error, Exception) and interruption is None:
                     interruption = error
@@ -336,7 +336,7 @@ def execute(plan, registry_raw, frozen_raw, ports: MatrixPorts):
             require(type(dispatch_ns) is int and dispatch_ns > 0, "matrix_clock")
             stage = ports.run_case(plan, entry, case, admission=admission,
                 measurement_started_ns=dispatch_ns, measurement_deadline=dispatch_ns / 1e9 + CASE_SECONDS)
-        except BaseException as error:
+        except BaseException as error:  # noqa: BLE001 -- Retain failure evidence and propagate interruptions after cleanup.
             case_error = safe_error(error, "case_dispatch_or_supervision")
             if not isinstance(error, Exception):
                 interruption = error
@@ -353,7 +353,7 @@ def execute(plan, registry_raw, frozen_raw, ports: MatrixPorts):
                     closed_cases.append(closed)
                     heads = {tenant: dict(closed["forward_after"][tenant]) for tenant in TENANTS}
                     result = dict(closed["result"])
-                except BaseException as error:
+                except BaseException as error:  # noqa: BLE001 -- Retain failure evidence and propagate interruptions after cleanup.
                     case_error = case_error or safe_error(error, "case_custody_or_restoration")
                     if not isinstance(error, Exception) and interruption is None:
                         interruption = error
@@ -366,7 +366,7 @@ def execute(plan, registry_raw, frozen_raw, ports: MatrixPorts):
                        or (closed is not None and closed["dispatch_stopped"]))
             try:
                 ports.record_case(plan, entry, result, closed, case_error)
-            except BaseException as error:
+            except BaseException as error:  # noqa: BLE001 -- Retain failure evidence and propagate interruptions after cleanup.
                 errors.append(safe_error(error, "case_publication")); blocked = True
                 results[-1] = failure_row(case, "matrix_case_publication_failed", assertions=result["assertions"],
                                           duration_ms=result["duration_ms"])
@@ -380,7 +380,7 @@ def execute(plan, registry_raw, frozen_raw, ports: MatrixPorts):
                                              deadline=min(deadline, ports.monotonic() + HEALTH_SECONDS))
             validate_health(final_health, plan=plan, heads=heads, now=ports.utcnow(),
                             previous_case=None if not closed_cases else closed_cases[-1]["closure"])
-        except BaseException as error:
+        except BaseException as error:  # noqa: BLE001 -- Retain failure evidence and propagate interruptions after cleanup.
             errors.append(safe_error(error, "final_full_health"))
             if not isinstance(error, Exception) and interruption is None:
                 interruption = error

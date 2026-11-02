@@ -2638,31 +2638,31 @@
         },
         {
           "assertions": [
-            "The default assembled management service rejects activation of the selected approved but unsupported capability before binding, outbox or receipt mutation. Selected parameter: ipv4."
+            "The default assembled management service rejects activation of the selected approved but unsupported capability before binding, outbox or receipt mutation. Selected parameter: injection-input."
           ],
-          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-HTTPS-RELEASE-REJECTS-APPROVED-UNSUPPORTED-POLICY-WITHOUT-WRITES-IPV4",
+          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-HTTPS-RELEASE-REJECTS-APPROVED-UNSUPPORTED-POLICY-WITHOUT-WRITES-INJECTION-INPUT",
           "family": "capability_admission",
           "mode": "remote",
-          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_https_release_rejects_approved_unsupported_policy_without_writes[ipv4]",
+          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_https_release_rejects_approved_unsupported_policy_without_writes[injection-input]",
           "profile": "local",
           "requirement_id": "P2.G4",
           "timeout_s": 120
         },
         {
           "assertions": [
-            "The default assembled management service rejects activation of the selected approved but unsupported capability before binding, outbox or receipt mutation. Selected parameter: content-list."
+            "The default assembled management service rejects activation of the selected approved but unsupported capability before binding, outbox or receipt mutation. Selected parameter: injection-output."
           ],
-          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-HTTPS-RELEASE-REJECTS-APPROVED-UNSUPPORTED-POLICY-WITHOUT-WRITES-CONTENT-LIST",
+          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-HTTPS-RELEASE-REJECTS-APPROVED-UNSUPPORTED-POLICY-WITHOUT-WRITES-INJECTION-OUTPUT",
           "family": "capability_admission",
           "mode": "remote",
-          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_https_release_rejects_approved_unsupported_policy_without_writes[content-list]",
+          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_https_release_rejects_approved_unsupported_policy_without_writes[injection-output]",
           "profile": "local",
           "requirement_id": "P2.G4",
           "timeout_s": 120
         },
         {
           "assertions": [
-            "The authenticated catalog advertises only pinned supported text PII capabilities without spawning control-plane workers; a supported release remains pending until real receipts arrive."
+            "The authenticated catalog advertises the five installed Rules capabilities for input and output with text and JSON parts without spawning control-plane workers; a supported IPv4 and content-list policy remains pending until real receipts arrive."
           ],
           "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-HTTPS-CATALOG-AND-SUPPORTED-RELEASE-ARE-STATIC-AND-PENDING",
           "family": "capability_admission",
@@ -2686,24 +2686,24 @@
         },
         {
           "assertions": [
-            "Default snapshot distribution rejects the selected unsupported desired policy and preserves the prior signed pointer and cached bytes. Selected parameter: ipv4."
+            "Default snapshot distribution rejects the selected unsupported desired policy and preserves the prior signed pointer and cached bytes. Selected parameter: injection-input."
           ],
-          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-DISTRIBUTOR-REJECTS-UNSUPPORTED-DESIRED-POLICY-AND-RETAINS-SIGNED-POINTER-IPV4",
+          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-DISTRIBUTOR-REJECTS-UNSUPPORTED-DESIRED-POLICY-AND-RETAINS-SIGNED-POINTER-INJECTION-INPUT",
           "family": "capability_admission",
           "mode": "remote",
-          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_distributor_rejects_unsupported_desired_policy_and_retains_signed_pointer[ipv4]",
+          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_distributor_rejects_unsupported_desired_policy_and_retains_signed_pointer[injection-input]",
           "profile": "local",
           "requirement_id": "P2.G4",
           "timeout_s": 120
         },
         {
           "assertions": [
-            "Default snapshot distribution rejects the selected unsupported desired policy and preserves the prior signed pointer and cached bytes. Selected parameter: content-list."
+            "Default snapshot distribution rejects the selected unsupported desired policy and preserves the prior signed pointer and cached bytes. Selected parameter: injection-output."
           ],
-          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-DISTRIBUTOR-REJECTS-UNSUPPORTED-DESIRED-POLICY-AND-RETAINS-SIGNED-POINTER-CONTENT-LIST",
+          "case_id": "DET-CAPABILITY-ADMISSION-DEFAULT-DISTRIBUTOR-REJECTS-UNSUPPORTED-DESIRED-POLICY-AND-RETAINS-SIGNED-POINTER-INJECTION-OUTPUT",
           "family": "capability_admission",
           "mode": "remote",
-          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_distributor_rejects_unsupported_desired_policy_and_retains_signed_pointer[content-list]",
+          "nodeid": "mvp/tests/evolution/integration/test_management_capabilities.py::test_default_distributor_rejects_unsupported_desired_policy_and_retains_signed_pointer[injection-output]",
           "profile": "local",
           "requirement_id": "P2.G4",
           "timeout_s": 120

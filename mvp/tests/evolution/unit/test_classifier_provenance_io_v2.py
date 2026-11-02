@@ -9,6 +9,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from evolution import classifier_provenance as original
 from evolution import classifier_provenance_io_v2 as io
 from evolution import classifier_provenance_v2 as p
 from evolution.registry import EvidenceError
@@ -31,9 +32,11 @@ def isolated(monkeypatch):
         raise AssertionError("live operation forbidden")
     monkeypatch.setattr(socket, "socket", forbidden)
     monkeypatch.setattr(subprocess, "Popen", forbidden)
-    monkeypatch.setattr(p, "BASELINE_CORPORA", {key: hashlib.sha256(p.canonical(synthetic_corpus(key)) + b"\n").hexdigest()
-        for key in ("original", "heldout_1", "heldout_2")})
-    monkeypatch.setattr(p, "SELECTION_APPROVAL_SHA256", hashlib.sha256(p.canonical(synthetic_approval()) + b"\n").hexdigest())
+    # The versioned verifier delegates original corpus checks to this module.
+    for module in (original, p):
+        monkeypatch.setattr(module, "BASELINE_CORPORA", {key: hashlib.sha256(p.canonical(synthetic_corpus(key)) + b"\n").hexdigest()
+            for key in ("original", "heldout_1", "heldout_2")})
+        monkeypatch.setattr(module, "SELECTION_APPROVAL_SHA256", hashlib.sha256(p.canonical(synthetic_approval()) + b"\n").hexdigest())
 
 
 def put(path, raw=b'{"synthetic":true}\n', mode=0o600):

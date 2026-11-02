@@ -149,7 +149,7 @@ class _Recorder:
 def _safe(call, *args, **kwargs):
     try:
         return call(*args, **kwargs)
-    except Exception:
+    except Exception:  # noqa: BLE001 -- Recorder failures must never affect routing.
         # Do not expose content, replace provider exceptions, or affect routing.
         if _RECORDER is not None:
             _RECORDER.loss = True

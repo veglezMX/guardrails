@@ -45,7 +45,7 @@ def _hash(value):
 def _storage_failure(error):
     code = (
         "upstream_timeout"
-        if getattr(getattr(error, "orig", None), "sqlstate", None) in {"57014", "55P03"}
+        if getattr(getattr(error, "orig", None), "sqlstate", None) in {"57014", "55P03", "25P04"}
         else "evaluator_unavailable"
     )
     raise EvolutionError(code) from None

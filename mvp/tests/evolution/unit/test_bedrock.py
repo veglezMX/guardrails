@@ -574,7 +574,8 @@ class WaitingTransport(Transport):
 @pytest.mark.asyncio
 async def test_one_deadline_cancels_transport_and_releases_capacity():
     transport = WaitingTransport()
-    instance = adapter(transport=transport, timeout_ms=20)
+    # Allow signing/setup to finish before exercising cancellation in transport.
+    instance = adapter(transport=transport, timeout_ms=500)
     with pytest.raises(EvolutionError) as caught:
         await evaluate(instance)
     assert (
@@ -776,15 +777,19 @@ async def test_synchronous_work_cannot_dispatch_or_return_after_deadline(
 ):
     name = "sign_request" if phase == "sign" else "response_findings"
     original = getattr(subject, name)
+    clock = [time.monotonic()]
+    monkeypatch.setattr(subject, "time", SimpleNamespace(monotonic=lambda: clock[0]))
 
     def delayed(*args, **kwargs):
         result = original(*args, **kwargs)
-        time.sleep(0.03)
+        # Advance the adapter clock at the exact synchronous boundary, without
+        # making pre-dispatch setup race a 20 ms wall-clock timeout.
+        clock[0] += 1
         return result
 
     monkeypatch.setattr(subject, name, delayed)
     transport = Transport()
-    instance = adapter(transport=transport, timeout_ms=20)
+    instance = adapter(transport=transport, timeout_ms=500)
     with pytest.raises(EvolutionError) as caught:
         await evaluate(instance)
     assert caught.value.code == "evaluation_timeout" and len(transport.calls) == (

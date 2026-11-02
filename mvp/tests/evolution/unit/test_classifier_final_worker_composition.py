@@ -12,8 +12,8 @@ from evolution import classifier_final_worker_qualification as s
 from evolution import classifier_provenance as p
 from evolution.registry import EvidenceError
 from guardrails.evolution.classifier_contract import canonical
-from mvp.tests.evolution.unit.test_classifier_provenance import synthetic_corpus
 
+from mvp.tests.evolution.unit.test_classifier_provenance import synthetic_corpus
 from services.classifier import bounded_qualification_core as core
 from services.classifier import bounded_qualification_evidence as initial
 from services.classifier.tests.test_bounded_qualification_evidence import network

@@ -22,6 +22,7 @@ from guardrails.evolution.classifier_contract import (
     parse,
     score_checked,
 )
+
 from services.classifier.bounded_qualification_core_extended import (
     Specification,
     require,

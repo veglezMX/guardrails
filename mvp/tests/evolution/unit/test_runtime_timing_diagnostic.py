@@ -7,11 +7,15 @@ import time
 from types import SimpleNamespace
 
 import pytest
-
 from guardrails.evolution import plugins, runtime_api
 from guardrails.evolution.errors import EvolutionError
+
 from mvp.tests.evolution.unit.test_deterministic_rules import rule
-from mvp.tests.evolution.unit.test_runtime_execution_profiles import exercise, fixture_runtime, payload
+from mvp.tests.evolution.unit.test_runtime_execution_profiles import (
+    exercise,
+    fixture_runtime,
+    payload,
+)
 
 
 @pytest.fixture

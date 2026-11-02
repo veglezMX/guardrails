@@ -80,7 +80,7 @@ class TenantRepository:
                 tx._apply_deadline()
         except (DBAPIError, PoolTimeout) as error:
             if current_deadline.get() is not None and (
-                isinstance(error, PoolTimeout) or getattr(error.orig, "sqlstate", None) in {"57014", "55P03"}
+                isinstance(error, PoolTimeout) or getattr(error.orig, "sqlstate", None) in {"57014", "55P03", "25P04"}
             ):
                 raise EvolutionError("upstream_timeout") from None
             raise
@@ -138,7 +138,25 @@ class TenantTransaction:
     def _apply_deadline(self):
         budget = remaining_ms()
         if budget is not None:
-            self.connection.execute(text("SELECT set_config('statement_timeout', :budget, true)"), {"budget": str(budget)})
+            root = self.connection.get_transaction()
+            scope = (root, self.connection.get_nested_transaction(), current_deadline.get())
+            previous = self.connection.info.get("evolution_deadline")
+            if previous == scope:
+                return
+            if previous is None or previous[0] is not root:
+                # PostgreSQL 18 bounds the whole transaction, including idle
+                # time and commit. Avoid a second round trip for every query;
+                # the local check still runs before every query and commit.
+                self.connection.execute(text("SELECT set_config('statement_timeout', :budget, true), "
+                                             "set_config('transaction_timeout', :budget, true)"), {"budget": str(budget)})
+                self.connection.info["evolution_deadline"] = scope
+            else:
+                # A shorter budget or savepoint rollback can change local GUCs.
+                # PostgreSQL does not rearm an already active transaction timer
+                # when its value changes. Fall back to per-statement bounds for
+                # the rest of this transaction, retaining its original timer.
+                self.connection.execute(text("SELECT set_config('statement_timeout', :budget, true)"), {"budget": str(budget)})
+                self.connection.info["evolution_deadline"] = (root, None, None)
             remaining_ms()
 
     def lock(self, key: str) -> None:

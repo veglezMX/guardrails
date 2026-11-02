@@ -11,6 +11,7 @@ from types import SimpleNamespace
 
 import pytest
 from guardrails.evolution.classifier_contract import ClassifierError, canonical
+
 from services.classifier import bounded_qualification_core_extended as q
 from services.classifier import bounded_qualification_process_v5 as p
 

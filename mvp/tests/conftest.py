@@ -1,4 +1,24 @@
+import hashlib
+import os
+from pathlib import Path
+
 import pytest
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config):
+    # Native evidence readers reject world-writable ancestors, including /tmp.
+    # Keep pytest's normal retention and respect explicit operator overrides.
+    if config.option.basetemp or "PYTEST_DEBUG_TEMPROOT" in os.environ:
+        return
+    repository = Path(__file__).resolve().parents[2]
+    identity = hashlib.sha256(str(repository).encode()).hexdigest()[:16]
+    # Synthetic repositories must live outside this checkout: otherwise pytest
+    # discovers our pyproject.toml and changes their closed worker node IDs.
+    temporary = Path.home() / ".cache" / "guardrails-pytest" / identity
+    temporary.mkdir(mode=0o700, parents=True, exist_ok=True)
+    os.environ["PYTEST_DEBUG_TEMPROOT"] = str(temporary)
+    config.add_cleanup(lambda: os.environ.pop("PYTEST_DEBUG_TEMPROOT", None))
 
 
 @pytest.fixture
@@ -59,6 +79,7 @@ def https_runtime():
 @pytest.fixture(scope='session')
 def gateways():
     import os
+
     from proof.gateway_test_support import GatewayStack
     if os.environ.get('PROOF_ACCEPTANCE_STATE'):
         from proof.acceptance_stack import AcceptanceStack

@@ -55,7 +55,7 @@ def _timing_safe(function, *args):
     """Recorder-only failures must never replace an original operation or error."""
     try:
         return function(*args)
-    except BaseException:  # noqa: BLE001,S110 -- Only diagnostic bookkeeping is enclosed.
+    except BaseException:  # noqa: BLE001 -- Only diagnostic bookkeeping is enclosed.
         return None
 
 

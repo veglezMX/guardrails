@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gc
 import ipaddress
 import multiprocessing
 import os
@@ -118,6 +119,12 @@ def serve_https(factory, directory):
     url = f"https://127.0.0.1:{listener.getsockname()[1]}"
 
     def run():
+        # The fork inherits pytest's entire heap. Keep its old objects out of
+        # collection scans: a measured generation-2 scan consumed over 200 ms
+        # inside a 500 ms request. Collect before serving and freeze only the
+        # inherited heap; new application/request objects remain collectable.
+        gc.collect()
+        gc.freeze()
         with open(os.devnull, "w") as sink:
             os.dup2(sink.fileno(), 1)
             os.dup2(sink.fileno(), 2)

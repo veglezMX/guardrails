@@ -190,12 +190,11 @@ def test_caddy_resources_accept_equivalent_quantities_from_rendered_chart(tmp_pa
             target["resources"][kind] = expected
 
 
-def test_actual_pinned_caddy_executes_read_only_capless_copy_and_starts_tls(rendered):
+def test_actual_pinned_caddy_executes_read_only_capless_copy_and_starts_tls(rendered, tmp_path):
     row, template = rendered
     image = row["sidecar"]["image"]
     initial = next(x for x in template["spec"]["initContainers"] if x["name"] == "caddy-binary")
     name = "evolution-caddy-test-" + uuid4().hex[:12]
-    state = Path(os.environ["EVOLUTION_DEPLOYMENT_STATE"])
     security = ["--pull=never", "--network=none", "--read-only", "--user", "10001:10001",
                 "--cap-drop=ALL", "--security-opt=no-new-privileges"]
     init_security = [*security, "--memory=64m", "--cpus=0.1"]
@@ -222,8 +221,13 @@ def test_actual_pinned_caddy_executes_read_only_capless_copy_and_starts_tls(rend
         assert original.returncode == 255
         assert b"operation not permitted" in original.stderr.lower()
         files = {"Caddyfile": b"{ admin off\n auto_https off\n}\n:8443 {\n tls /config/tls.crt /config/tls.key\n reverse_proxy 127.0.0.1:11434\n}\n"}
-        for filename in ("tls.crt", "tls.key"):
-            files[filename] = (state / "assembly/tls/gr-model/ollama" / filename).read_bytes()
+        # Exercise the pinned image with fresh test credentials, independently
+        # of any existing deployment's private or expired certificate files.
+        from mvp.tests.evolution.integration.https_support import tls_files
+
+        tls = tls_files(tmp_path / "caddy-tls")
+        files["tls.crt"] = tls["cert"].read_bytes()
+        files["tls.key"] = tls["key"].read_bytes()
         for executable, code in (("getcap", 41), ("cmp", 42)):
             files["fault-" + executable + "/" + executable] = f"#!/bin/sh\nexit {code}\n".encode()
         archive = io.BytesIO()

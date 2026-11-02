@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from uuid import UUID
 
 import pytest
+from evolution import classifier_provenance as original
 from evolution import classifier_provenance_v3 as p
 from evolution.registry import EvidenceError
 
@@ -273,9 +274,11 @@ def no_operations(monkeypatch):
         raise AssertionError("synthetic unit attempted an operation")
     # Synthetic fixture anchors are explicit test-only substitutions. Production
     # retains literal immutable original corpus and real user-approval SHA pins.
-    monkeypatch.setattr(p, "BASELINE_CORPORA", {name: hashlib.sha256(p.canonical(synthetic_corpus(name)) + b"\n").hexdigest()
-        for name in ("original", "heldout_1", "heldout_2")})
-    monkeypatch.setattr(p, "SELECTION_APPROVAL_SHA256", hashlib.sha256(p.canonical(synthetic_approval()) + b"\n").hexdigest())
+    # The versioned verifier delegates original corpus checks to this module.
+    for module in (original, p):
+        monkeypatch.setattr(module, "BASELINE_CORPORA", {name: hashlib.sha256(p.canonical(synthetic_corpus(name)) + b"\n").hexdigest()
+            for name in ("original", "heldout_1", "heldout_2")})
+        monkeypatch.setattr(module, "SELECTION_APPROVAL_SHA256", hashlib.sha256(p.canonical(synthetic_approval()) + b"\n").hexdigest())
     monkeypatch.setattr(socket, "socket", forbidden)
     monkeypatch.setattr(subprocess, "Popen", forbidden)
 

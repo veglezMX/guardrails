@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 from guardrails.evolution.classifier_contract import canonical, parse
+
 from services.classifier import bounded_qualification_consumer_v5 as c
 from services.classifier.tests.test_bounded_qualification_core import (
     no_ml_or_network,

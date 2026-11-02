@@ -16,15 +16,23 @@ import json
 import math
 import re
 from datetime import datetime, timezone
+from functools import lru_cache
 from typing import Annotated, Any, Literal, Mapping, Self, get_args, get_origin
 from uuid import UUID as ParsedUUID
 
-from .errors import EvolutionError
-
 from pydantic import (
-    AfterValidator, BaseModel, BeforeValidator, ConfigDict, Field,
-    JsonValue as PydanticJsonValue, model_validator,
+    AfterValidator,
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    model_validator,
 )
+from pydantic import (
+    JsonValue as PydanticJsonValue,
+)
+
+from .errors import EvolutionError
 
 Mode = Literal["remote", "gateway", "customer"]
 State = Literal["disabled", "observe", "warn", "redact", "block"]
@@ -170,6 +178,20 @@ def canonical_json_bytes(value: Any) -> bytes:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
 
 
+@lru_cache(maxsize=512, typed=True)
+def _wire_shape(annotation):
+    """Cache schema reflection only; every submitted value is still validated."""
+    origin, arguments = get_origin(annotation), get_args(annotation)
+    options = arguments if origin is Literal else None
+    is_tuple = origin is tuple or any(get_origin(arg) is tuple for arg in arguments)
+    # Optional Annotated tuples retain their inner wrapper in field annotations.
+    is_tuple = is_tuple or any(
+        get_origin(arg) is Annotated and get_origin(get_args(arg)[0]) is tuple
+        for arg in arguments
+    )
+    return options, is_tuple
+
+
 class DomainModel(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True, frozen=True, validate_default=True, allow_inf_nan=False)
 
@@ -180,18 +202,14 @@ class DomainModel(BaseModel):
             return value
         result = dict(value)
         for name, field in cls.model_fields.items():
-            annotation = field.annotation
-            if get_origin(annotation) is Literal and name in result:
-                options = get_args(annotation)
-                if not any(type(result[name]) is type(option) and result[name] == option for option in options):
-                    raise ValueError("Literal value has an invalid type or value")
-            is_tuple = get_origin(annotation) is tuple or any(get_origin(arg) is tuple for arg in get_args(annotation))
-            # Optional Annotated tuples retain the inner Annotated wrapper in
-            # Pydantic's field annotation (e.g. Decision.transformed_parts).
-            is_tuple = is_tuple or any(
-                get_origin(arg) is Annotated and get_origin(get_args(arg)[0]) is tuple
-                for arg in get_args(annotation)
-            )
+            try:
+                options, is_tuple = _wire_shape(field.annotation)
+            except TypeError:
+                # User-defined Annotated metadata can be unhashable.
+                options, is_tuple = _wire_shape.__wrapped__(field.annotation)
+            if (options is not None and name in result
+                    and not any(type(result[name]) is type(option) and result[name] == option for option in options)):
+                raise ValueError("Literal value has an invalid type or value")
             if is_tuple and isinstance(result.get(name), list):
                 result[name] = tuple(result[name])
         return result

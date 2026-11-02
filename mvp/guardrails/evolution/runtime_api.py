@@ -36,7 +36,13 @@ from .models import (
     parse_time,
     strict_json_loads,
 )
-from .plugins import EvaluatorRegistry, _TIMING_CONTEXT, _TimingCapture, _timing_event, _timing_safe
+from .plugins import (
+    _TIMING_CONTEXT,
+    EvaluatorRegistry,
+    _timing_event,
+    _timing_safe,
+    _TimingCapture,
+)
 from .runtime_apply import RuntimeApplyClient, RuntimeSnapshotStore
 from .snapshots import stamp
 

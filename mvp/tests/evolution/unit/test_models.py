@@ -2,22 +2,58 @@
 
 import json
 from datetime import datetime, timedelta, timezone
+from typing import Annotated, Literal
 
 import pytest
-from pydantic import ValidationError
-
 from guardrails.evolution.config import load_config
 from guardrails.evolution.errors import EvolutionError
 from guardrails.evolution.models import (
-    AdminSession, AuditEvent, ContentPart, Credential, Decision, Destination,
-    EvaluationRequest, Finding, ListSet, PolicyRef, Principal, Quota,
-    ResidencyProfile, Rule, RuntimeInstall, ToolSpec, Workload, ZERO_DIGEST,
-    canonical_json_bytes, strict_json_loads, validate_schema, with_resource_digest,
+    ZERO_DIGEST,
+    AdminSession,
+    AuditEvent,
+    ContentPart,
+    Credential,
+    Decision,
+    Destination,
+    DomainModel,
+    EvaluationRequest,
+    Finding,
+    ListSet,
+    PolicyRef,
+    Principal,
+    Quota,
+    ResidencyProfile,
+    Rule,
+    RuntimeInstall,
+    ToolSpec,
+    Workload,
+    canonical_json_bytes,
+    strict_json_loads,
+    validate_schema,
+    with_resource_digest,
 )
+from pydantic import Field, ValidationError
 
 U1 = "00000000-0000-4000-8000-000000000001"
 U2 = "00000000-0000-4000-8000-000000000002"
 STAMP = "2026-10-10T00:00:00Z"
+
+
+def test_repeated_wire_validation_preserves_strict_literals_and_annotated_arrays():
+    class Sample(DomainModel):
+        tag: Literal[1]
+        entries: tuple[Annotated[int, {"note": "unhashable schema metadata"}], ...]
+        optional: Annotated[tuple[int, ...], Field(max_length=2)] | None = None
+
+    original = {"tag": 1, "entries": [2, 3], "optional": [4]}
+    for _ in range(2):
+        value = Sample.model_validate(original)
+        assert value.entries == (2, 3) and value.optional == (4,)
+        assert original == {"tag": 1, "entries": [2, 3], "optional": [4]}
+        for invalid in ({"tag": True}, {"tag": 1.0}, {"entries": [True]},
+                        {"optional": [1, 2, 3]}):
+            with pytest.raises(ValidationError):
+                Sample.model_validate(original | invalid)
 
 
 def rule(**updates):

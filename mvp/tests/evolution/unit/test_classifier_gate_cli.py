@@ -19,7 +19,7 @@ def authority(tmp_path, monkeypatch):
     events = []
     final = ModuleType('evolution.classifier_final_worker_qualification')
     final.verify = lambda **kwargs: pytest.fail('CLI must not evaluate a model or receipt')
-    coordinator = ModuleType('evolution.classifier_parent_context')
+    coordinator = ModuleType('evolution.classifier_parent_context_v3')
     class Context:
         def __init__(self, reference, root, deadline, *, qualify_final_worker):
             events.append(('construct', reference, root, deadline, qualify_final_worker))

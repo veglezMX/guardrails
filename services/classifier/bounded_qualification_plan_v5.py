@@ -17,6 +17,7 @@ from evolution.classifier_corpus_extension import (
     verify_corpus_manifest,
 )
 from guardrails.evolution.classifier_contract import canonical, parse
+
 from services.classifier import bounded_qualification_core_extended as core
 from services.classifier import bounded_qualification_evidence_extended as evidence
 from services.classifier import bounded_qualification_process_v5 as process

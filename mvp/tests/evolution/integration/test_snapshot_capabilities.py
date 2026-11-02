@@ -9,6 +9,7 @@ from uuid import uuid4
 
 import pytest
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+from evolution.evaluator_cases import control
 from guardrails.evolution import models
 from guardrails.evolution.compiler import policy_digest
 from guardrails.evolution.errors import EvolutionError
@@ -84,7 +85,7 @@ def test_registry_rejects_unsupported_policy_before_activation_and_cache_replace
         try:
             service = system["service"]
             payload = deepcopy(system["payload"])
-            payload["rules"][0]["config"]["entities"] = ["ipv4"]
+            payload["rules"] = [control("injection", "input")]
             with system["repo"].transaction(system["tenant"]) as tx:
                 candidate = service.governance.submit(tx, system["actors"]["author"], "unsupported", payload)
                 service.governance.review(tx, system["actors"]["approver"], "unsupported", 1, outcome="approve", compiled_digest=candidate["compiled_digest"], reason="Validate capability boundary")

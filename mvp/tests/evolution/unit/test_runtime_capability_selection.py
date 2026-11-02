@@ -14,6 +14,9 @@ def selected(candidate, *, stages=("input", "output")):
     identity = SimpleNamespace(tenant_id="team-a", workload_id="chat")
 
     class Tx:
+        def lock_governance(self):
+            authorized.append("organization-lock")
+
         def lock(self, name):
             authorized.append(name)
 
@@ -42,7 +45,7 @@ def selected(candidate, *, stages=("input", "output")):
     runtime.slots = {"team-a": SimpleNamespace(store=SimpleNamespace(current=lambda workload: (None, None, candidate)))}
     runtime.registry = SimpleNamespace(capabilities=lambda tenant: catalog)
     result = runtime.capabilities_for(identity)
-    assert authorized == ["identity", "governance-admission", "credential", "runtime", "eligible"]
+    assert authorized == ["identity", "organization-lock", "governance-admission", "credential", "runtime", "eligible"]
     return {(value.stage, value.evaluator_revision) for value in result}
 
 
