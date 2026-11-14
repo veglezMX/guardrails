@@ -1,0 +1,49 @@
+{
+  "schema": "guardrails-recovery-checkpoint-v1",
+  "recorded_date": "2026-11-14",
+  "phase3_passed": false,
+  "status": "source preparation and independent reviews complete; startup and operational recovery pending",
+  "primary_checkout": "/home/veglez/own/ai/guardrails",
+  "long_lived_branches": [
+    "main",
+    "dev"
+  ],
+  "recovery_snapshot": {
+    "path": "/home/veglez/.worktrees/own/ai/guardrails/phase3-resume-cf25f535",
+    "kind": "plain frozen directory; not a Git worktree",
+    "reason": "Preserve exact paths and executable source hashes pinned by reviewed recovery packages."
+  },
+  "canonical_source_handoff": {
+    "path": "/home/veglez/.agent-sessions/own/ai/guardrails/sessions/2026-11-14T1621Z_gpt-6-astra_408df0cc_resume-phase3-recovery/SOURCE-HANDOFF-v1.json",
+    "sha256": "1fb6c71cd6b0863edc6a8dacab08907b30f9c4be41d9261c7fe74ef4c044b310"
+  },
+  "final_integration_review": {
+    "path": "/home/veglez/.agent-sessions/own/ai/guardrails/sessions/2026-11-14T1621Z_gpt-6-astra_408df0cc_resume-phase3-recovery/tasks/16-final-integration-review/REVIEW-v1.json",
+    "sha256": "c96b0c3f86cd9578497768067755aa466fd5e2e845d01fe92dafad909676c042"
+  },
+  "active_access_preparer": {
+    "path": "/home/veglez/.agent-sessions/own/ai/guardrails/sessions/2026-11-14T1621Z_gpt-6-astra_408df0cc_resume-phase3-recovery/agents/2026-11-14T1625Z_gpt-6-astra_lineage-completion/successors/access-preparer-v2/prepare_access_v2.py",
+    "sha256": "dfa0bf23b0ce98653a5f2df6a9398d96a8c7d02ae17601c34c050bd19fc3b4cd"
+  },
+  "invalid_historical_preparers": "access-executor-v1/v2/v3/src/prepare_access.py are preserved but unusable; use active_access_preparer only",
+  "recovery_deadline": "2026-11-21T06:00:00Z",
+  "credential_lifetime": {
+    "more_than_seconds": 14400,
+    "maximum_seconds": 86400,
+    "exact_identities": 17,
+    "fixed_window_selected": false
+  },
+  "startup": "pending by explicit user direction; unchanged minimum available memory is 10 GiB",
+  "classifier": "Measure token counts and synthetic-input latency first; retain all original limits and hold one-shot qualification unless measurements meet the 3-second limit.",
+  "pending": [
+    "startup readiness and actual successful closure",
+    "fresh qualification and concrete package reviews",
+    "fixed authority window selection when ready",
+    "TLS discovery/backup/maintenance and actual reviewed snapshot",
+    "exact17 credential issuance and actual reviewed snapshot",
+    "fresh access execution and continuation",
+    "live matrix",
+    "classifier measurements; C5 held unless original limits pass"
+  ],
+  "portability": "Recovery helpers, private state and review artifacts are durable local session records; this checkpoint links them without publishing those files."
+}

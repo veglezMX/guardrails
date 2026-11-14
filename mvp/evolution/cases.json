@@ -92286,6 +92286,486 @@
           "profile": "local",
           "requirement_id": "P3.5",
           "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "The pinned inventory retains exactly 100 runtime and 80 gateway cases, including 40 gateway cases for team B. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-EXACT-INVENTORY-KEEPS-100-RUNTIME-AND-80-GATEWAY-F0AD9E6F7F05",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_exact_inventory_keeps_100_runtime_and_80_gateway",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Changed inventory order, membership, timeout bounds or assertions are rejected against the frozen digest. Variant [missing]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FROZEN-INVENTORY-NEVER-RELAXES-ROWS-FFA49628B1BF",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_frozen_inventory_never_relaxes_rows[missing]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Changed inventory order, membership, timeout bounds or assertions are rejected against the frozen digest. Variant [reordered]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FROZEN-INVENTORY-NEVER-RELAXES-ROWS-68DB89A6FC3B",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_frozen_inventory_never_relaxes_rows[reordered]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Changed inventory order, membership, timeout bounds or assertions are rejected against the frozen digest. Variant [bounds]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FROZEN-INVENTORY-NEVER-RELAXES-ROWS-C2E0B5FA2A7F",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_frozen_inventory_never_relaxes_rows[bounds]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Changed inventory order, membership, timeout bounds or assertions are rejected against the frozen digest. Variant [assertions]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FROZEN-INVENTORY-NEVER-RELAXES-ROWS-EC12FEF32B35",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_frozen_inventory_never_relaxes_rows[assertions]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A changed live registry projection is rejected against the frozen deterministic target rows. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-CURRENT-REGISTRY-ROW-CHANGE-REFUSED-FA45C357B485",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_current_registry_row_change_refused",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Increasing any original matrix, case, worker, cleanup, closure or health time bound is rejected. Variant [maximum_seconds-54001]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ORIGINAL-BUDGETS-UNCHANGED-C303CC453739",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_original_budgets_unchanged[maximum_seconds-54001]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Increasing any original matrix, case, worker, cleanup, closure or health time bound is rejected. Variant [maximum_case_seconds-311]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ORIGINAL-BUDGETS-UNCHANGED-8B53B196B072",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_original_budgets_unchanged[maximum_case_seconds-311]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Increasing any original matrix, case, worker, cleanup, closure or health time bound is rejected. Variant [maximum_worker_seconds-301]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ORIGINAL-BUDGETS-UNCHANGED-7B3A2B15E5ED",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_original_budgets_unchanged[maximum_worker_seconds-301]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Increasing any original matrix, case, worker, cleanup, closure or health time bound is rejected. Variant [maximum_cleanup_seconds-91]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ORIGINAL-BUDGETS-UNCHANGED-698F65495E70",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_original_budgets_unchanged[maximum_cleanup_seconds-91]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Increasing any original matrix, case, worker, cleanup, closure or health time bound is rejected. Variant [maximum_closure_seconds-11]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ORIGINAL-BUDGETS-UNCHANGED-B3B478B8425D",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_original_budgets_unchanged[maximum_closure_seconds-11]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Increasing any original matrix, case, worker, cleanup, closure or health time bound is rejected. Variant [maximum_health_seconds-191]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ORIGINAL-BUDGETS-UNCHANGED-903AAF1605EB",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_original_budgets_unchanged[maximum_health_seconds-191]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "All 180 synthetic cases run and settle sequentially with current tenant forward heads and 181 health observations; gate_pass remains false. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-ALL-180-SEQUENTIAL-WITH-BOTH-TENANT-HEADS-5438A9230D50",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_all_180_sequential_with_both_tenant_heads",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A case failure stops subsequent dispatch, retains all 180 outcomes and never upgrades the failed case. Variant [0]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FAILURE-RETAINS-ALL-REMAINING-ROWS-AND-NEVER-UPGRADES-00F12CA6B02E",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_failure_retains_all_remaining_rows_and_never_upgrades[0]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A case failure stops subsequent dispatch, retains all 180 outcomes and never upgrades the failed case. Variant [1]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FAILURE-RETAINS-ALL-REMAINING-ROWS-AND-NEVER-UPGRADES-143AA126A99B",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_failure_retains_all_remaining_rows_and_never_upgrades[1]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A case failure stops subsequent dispatch, retains all 180 outcomes and never upgrades the failed case. Variant [79]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FAILURE-RETAINS-ALL-REMAINING-ROWS-AND-NEVER-UPGRADES-C989974C9646",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_failure_retains_all_remaining_rows_and_never_upgrades[79]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A case failure stops subsequent dispatch, retains all 180 outcomes and never upgrades the failed case. Variant [80]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FAILURE-RETAINS-ALL-REMAINING-ROWS-AND-NEVER-UPGRADES-CDCD109392A1",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_failure_retains_all_remaining_rows_and_never_upgrades[80]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A case failure stops subsequent dispatch, retains all 180 outcomes and never upgrades the failed case. Variant [179]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FAILURE-RETAINS-ALL-REMAINING-ROWS-AND-NEVER-UPGRADES-078616C9FA09",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_failure_retains_all_remaining_rows_and_never_upgrades[179]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Unresolved worker cleanup, native cleanup, governance, mutation or route restoration prevents further dispatch and successful closure. Variant [worker_reaped-False]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-UNRESOLVED-OR-FORGED-CLOSURE-LATCHES-C2AB186EC3EA",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_unresolved_or_forged_closure_latches[worker_reaped-False]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Unresolved worker cleanup, native cleanup, governance, mutation or route restoration prevents further dispatch and successful closure. Variant [native_nonforward_closed-False]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-UNRESOLVED-OR-FORGED-CLOSURE-LATCHES-5AEB72428281",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_unresolved_or_forged_closure_latches[native_nonforward_closed-False]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Unresolved worker cleanup, native cleanup, governance, mutation or route restoration prevents further dispatch and successful closure. Variant [governance_verified-False]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-UNRESOLVED-OR-FORGED-CLOSURE-LATCHES-8CD0D0799471",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_unresolved_or_forged_closure_latches[governance_verified-False]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Unresolved worker cleanup, native cleanup, governance, mutation or route restoration prevents further dispatch and successful closure. Variant [unknown_mutation-True]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-UNRESOLVED-OR-FORGED-CLOSURE-LATCHES-333784DE3A3A",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_unresolved_or_forged_closure_latches[unknown_mutation-True]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Unresolved worker cleanup, native cleanup, governance, mutation or route restoration prevents further dispatch and successful closure. Variant [route_restored-False]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-UNRESOLVED-OR-FORGED-CLOSURE-LATCHES-3F6DA05AF4BE",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_unresolved_or_forged_closure_latches[route_restored-False]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Unresolved worker cleanup, native cleanup, governance, mutation or route restoration prevents further dispatch and successful closure. Variant [original_case_passed-False]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-UNRESOLVED-OR-FORGED-CLOSURE-LATCHES-F4ED3F862BC7",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_unresolved_or_forged_closure_latches[original_case_passed-False]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [old_other_head]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-15136AEAE361",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[old_other_head]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [wrong_previous]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-BDAFC6F2DFD8",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[wrong_previous]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [stale]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-F26D4A0A1632",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[stale]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [exact_age_limit]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-5D1BFB96879B",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[exact_age_limit]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [future]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-63EF45BD9C36",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[future]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [expiry]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-9494571BFD31",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[expiry]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Wrong tenant heads, prior closure, stale or future observations, insufficient validity and incomplete readsets prevent dispatch. Variant [readset]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-HEALTH-MUST-COVER-EXACT-CURRENT-TWO-HEADS-AND-FRESHNESS-8F9126FA9C0F",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_health_must_cover_exact_current_two_heads_and_freshness[readset]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Expired outer time prevents new health admission while preserving the original failed case and its settlement. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-CLOSED-EVIDENCE-PUBLICATION-AFTER-OUTER-DEADLINE-DOES-NOT-NEED-NEW-HEALTH-32115E1BAC66",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_closed_evidence_publication_after_outer_deadline_does_not_need_new_health",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Interruption settles the active case and publishes all 180 failed or unexecuted outcomes before propagation. Variant [error0]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-INTERRUPTION-SETTLES-THEN-RETAINS-ALL-ROWS-BEFORE-PROPAGATING-4BD8ECF2DC92",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_interruption_settles_then_retains_all_rows_before_propagating[error0]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Interruption settles the active case and publishes all 180 failed or unexecuted outcomes before propagation. Variant [error1]. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-INTERRUPTION-SETTLES-THEN-RETAINS-ALL-ROWS-BEFORE-PROPAGATING-5B6756775A8F",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_interruption_settles_then_retains_all_rows_before_propagating[error1]",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A final publication error does not replace the original KeyboardInterrupt after active-case settlement. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-FINAL-PUBLICATION-FAILURE-DOES-NOT-HIDE-ORIGINAL-INTERRUPTION-DD8FFDAD3407",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_final_publication_failure_does_not_hide_original_interruption",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A case publication error halts dispatch, retains all outcomes and reports matrix_case_publication_failed. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-CASE-PUBLICATION-FAILURE-BLOCKS-DISPATCH-AND-IS-NOT-PASS-D80D53799E41",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_case_publication_failure_blocks_dispatch_and_is_not_pass",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Private exception text is absent from the report while the finite custody/restoration stage is retained. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-PRIVATE-EXCEPTION-ARGUMENTS-ARE-NEVER-COPIED-F96B7F5E5764",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_private_exception_arguments_are_never_copied",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "Duplicate per-case operation identifiers are rejected before execution. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-DUPLICATE-OPERATION-AND-ESCAPING-CASE-PATH-REFUSED-4A3C5F0A0543",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_duplicate_operation_and_escaping_case_path_refused",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A runtime case claiming a gateway route-restoration transition fails and stops dispatch. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-RUNTIME-CASE-CANNOT-CLAIM-ROUTE-TRANSITION-806D317B1D14",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_runtime_case_cannot_claim_route_transition",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
+        },
+        {
+          "assertions": [
+            "A successful original case remains recorded as successful while a transport stop fails the matrix and blocks subsequent dispatch. Synthetic coordinator contract only; no deployed acceptance or classifier qualification claim."
+          ],
+          "case_id": "GOV-P3-DETERMINISTIC-MATRIX-SUCCESSFUL-ORIGINAL-RESULT-WITH-TRANSPORT-STOP-IS-PRESERVED-BUT-BLOCKS-DISPATCH-AC7170F13681",
+          "family": "worker-failure",
+          "mode": "remote",
+          "nodeid": "mvp/tests/evolution/unit/test_deterministic_matrix.py::test_successful_original_result_with_transport_stop_is_preserved_but_blocks_dispatch",
+          "profile": "local",
+          "requirement_id": "P3.5",
+          "timeout_s": 120
         }
       ],
       "required_families": [

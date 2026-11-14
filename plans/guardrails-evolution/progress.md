@@ -1,5 +1,15 @@
 # Implementation Progress
 
+## Current checkpoint — 2026-11-14
+
+Phase 3 source preparation and independent reviews are complete; operational acceptance remains incomplete. The current source handoff, review hashes and corrected access preparer are linked in [recovery-checkpoint.json](recovery-checkpoint.json). Canonical recovery helpers and their evidence remain under `~/.agent-sessions/own/ai/guardrails/`, following the session-record convention. Earlier records below are historical and do not override this checkpoint.
+
+The user authorized consolidating repository work into `main` and keeping only `main` and `dev` as Git branches. New repository work starts from `/home/veglez/own/ai/guardrails`. The reviewed recovery directory at `/home/veglez/.worktrees/own/ai/guardrails/phase3-resume-cf25f535` is preserved as a plain frozen snapshot, without a Git worktree registration or branch, because approved recovery packages pin its exact path. Preserve its environment and source hashes; rebind and review the packages before changing their executable sources or paths.
+
+Startup remains pending by explicit user direction after the unchanged 10-GiB memory preflight refused admission. The separately approved second read-only clock attempt passed all six checks; the first timeout remains recorded. No node start, TLS signing, credential issuance, SQL connection or model/tokenizer call occurred in the November 14 source session. The recovery deadline is **2026-11-21T06:00:00Z** (end of November 20, Mexico City time). The coordinator may choose one fixed credential window when ready, within that deadline, retaining the same 17 identities and credential lifetime strictly greater than 4 hours and at most 24 hours. No fixed window has yet been selected.
+
+**Next task:** Resume operational recovery only after startup readiness and fresh admission evidence are available; prepare and review concrete runtime packages from the operative source handoff. Candidate 10 must first undergo token-count and synthetic-input latency measurement with all original limits unchanged; its one-shot qualification remains held unless those measurements meet the existing 3-second limit. Deployed deterministic evidence and classifier qualification remain missing. Phases 4–6 remain gated.
+
 ## Consolidation — 2026-11-01
 
 All 14 original implementation branches have been reconciled into one history. The combined implementation retains the later governance, quota, deadline, audit, transport and lifecycle safeguards, plus classifier qualification support, gateway/runtime timing diagnostics and the deterministic matrix runner. Historical candidate artifacts remain evidence and are not newly enabled evaluators.
@@ -8,6 +18,34 @@ Validation and integration repairs are recorded in the durable reconciliation se
 
 Phase 3 operational acceptance remains incomplete. The October recovery windows have expired and cannot authorize a new deployment attempt. Continuing the live gate requires fresh environment/credential assessment and current operational instructions. Phases 4–6 remain planned. This consolidation does not declare those gates complete.
 
+
+## Historical live continuation — 2026-11-02T19:52Z, superseded by the current checkpoint
+
+The user has explicitly lifted the preparation-only hold, authorized recovery changes and removed the nine-candidate classifier limit. All quality gates, held-out evidence, resource/deadline/security safeguards and prior failed outcomes remain intact. Session [007](sessions/007.md) records this continuation. The approved fixed credential expiry remains 2026-11-03T03:00:00Z, with issuance strictly before 2026-11-02T23:00:00Z for the same 17 identities.
+
+Fresh available memory was 8.798 GiB. The user explicitly authorized temporarily stopping `firecrawl-api-1` (about 2.24 GiB) and restoring it after Guardrails validation. The production startup check passed after the stop. Firecrawl was restored while storage approval was pending, and its HTTP endpoint returned 200. The 10-GiB startup requirement is unchanged; no other unrelated workload was changed.
+
+The separately approved proxy hostname repair completed successfully on November 2 at 21:44:36 UTC. The API Service route passed TLS verification; Calico and both PostgreSQL containers are ready. The exact one-field DaemonSet change preserved the offline firewall, original application identities and source/private-file guards. The original failed startup/activation/qualification records remain preserved. Qualification03 subsequently failed at its unchanged 10-second WSL clock-source query; tracking had succeeded. That clock failure was reconciled without a restart or changed timeout. Qualification04 passed clock checks, then refused the existing PostgreSQL volume because its node-affinity constraint is absent. The user approved that permanent binding. A fresh PV-only operation applied it successfully on November 3 at 00:13 UTC; PostgreSQL and storage identities stayed intact. The prior credential issuance window has now closed, so a new fixed credential expiry requires separate approval. TLS/credential recovery and actual classifier qualification remain pending. Candidate 10's 7,800-case source chain is independently reviewed and bound for loading; no model has yet been loaded or scored.
+
+**Next task:** Obtain the pending fixed-window decision, then bind and review the current recovery sources before fresh qualification and renewal of the same 17 identities. The reviewed proposal requests expiry on November 4 at 00:00 UTC, with issuance strictly before November 3 at 20:00 UTC; this window is not yet approved. Then run the deployed deterministic evidence and classifier qualification, retaining all acceptance and per-attempt safeguards. Phase 3 remains incomplete.
+
+## Preparation checkpoint — 2026-11-02, superseded by live continuation above
+
+Phase 3 remains incomplete. Session [006](sessions/006.md) resumes bounded implementation from consolidated `main` at `0c04d1c` in persistent worktree `phase3-resume-cf25f535`. No later phase is opened.
+
+Earlier read-only observations in this session found the exact owned Docker node stopped, a responsive Docker daemon and no D-state process in two host snapshots. This is not cluster health evidence, and the historical WSL shutdown proposal is not a current prerequisite. The archived deployment state is preserved under the reconciliation session; public certificate inspection confirms the CA expired on October 17 and all eight positive leaves on October 14. No credential, key, certificate or cluster database was changed.
+
+The existing deterministic matrix coordinator passes its 40 synthetic contract cases. Those cases were missing from the consolidated closed registry and are now added under P3.G2; all 6,403 previous Phase 3 rows and every other phase are unchanged. Phase 3 has 6,443 registered cases and remains `unavailable`. Registry publication does not authorize deployment or establish operational acceptance.
+
+The retained nine-slot classifier campaign is exhausted with no qualifying candidate. The user explicitly retained that cap and directed completion of other Phase 3 work first; no new selection, retry or enablement is authorized. The user has now approved fixed credential expiry **2026-11-03T03:00:00Z** for the same 17 identities and explicitly selected **preparation only**. The unchanged predicate `now + 4h < expiry <= now + 24h` permits issuance only in `[2026-11-02T03:00Z, 2026-11-02T23:00Z)`. This is a scope decision, not permission to execute while the preparation hold remains. The expiry does not roll, and memory recovery does not lift the hold.
+
+Session 006 validation passes: 53 matrix/runner cases, 128 real PostgreSQL/HTTPS/process composition cases, 162 local Bedrock/managed-profile cases and 87 pinned synthetic same-key CA/publication cases. These separate scopes do not satisfy the deployed Phase 3 gate. A verified copy of the archived deployment files is restored at the original persistent state path, preserving all 179 private-file fingerprints and 84 prepared artifacts; the production ownership check passes. No service or database restore was performed. The original cluster remains stopped. The last available-memory observation was below the unchanged 10-GiB startup threshold. No unrelated workload, key, certificate or credential was changed.
+
+File-only preparation is recorded under the durable session's `tasks/03-recovery-preparation/`: a 651-file source catalogue, two matching passes over 179 private-file fingerprints, all 75 pinned distributions and wheel artifacts, 25 matching historical package references, and retained evidence for the 430 passing checks. The source comparison records 70 added and 22 changed files against the historical 581-file catalogue; it is not approval of an executable source transition. The exported 180-case deterministic inventory matches the coordinator's exact frozen digest (80 gateway, 100 runtime; five engines, both tenants and stages). No case was dispatched. Historical consumed packages were neither imported nor executed.
+
+**Last completed task:** P3.R2h — Record the fixed window and preparation hold; verify file-only recovery inputs and export the exact deterministic target inventory.
+**Next task:** Retain the preparation-only hold. Before any later live continuation, rebuild and review current source/environment/boot/operation bindings, obtain current admission evidence and satisfy the unchanged resource floor after the user lifts the hold. Do not replay a consumed package or extend the fixed expiry. Deployed deterministic evidence and classifier qualification remain missing.
+**Sessions completed:** 5 (001–004 and 006; historical session 005 remains unclosed).
 
 ## Historical operational status (through October 2026)
 
@@ -157,7 +195,9 @@ Session005 update at 2026-10-28T00:46:52.351403+00:00: activation successorf7729
 - [ ] P3.R2e — Complete separately reviewed normal activation of existing configured runtime units and a new read-only qualification, preserving the actual failed-start provenance and all original recovery safeguards.
 - [x] P3.R2f — Preserve closed historical timing evidence across the observed idle clock discontinuity using an exact reviewed boundary; keep all new phase and freshness checks strict.
 - [ ] P3.R2g — Resolve the observed persistent shared-kernel RTNL wait through a separately approved host recovery, then reconcile boot/process/private/node state before new qualification.
+- [x] P3.R2h — Record the newly approved fixed expiry and preparation-only hold; verify current source/dependency/private-file inputs, audit historical helper references and export the exact 180-case deterministic inventory without live admission. This does not complete recovery or permit replay of historical packages.
 - [ ] P3.G1 — Renew expiring deployment TLS leaves under unchanged CA/keys with coherent backup, offline restore, prepared inventory publication and a new cold-start/access proof before long acceptance runs.
+- [x] P3.G2 — Register the consolidated deterministic matrix coordinator's 40 passing synthetic contract cases, preserving all original rows and the unavailable Phase 3 gate. This closes a registry omission only; deployed matrix execution remains pending.
 - [ ] P3.1 — Implement `RuleEvaluators` (see component-specs.md §RuleEvaluators).
   - Produces: `mvp/guardrails/evolution/rules.py`.
   - Tests: documented behavior/edges at the owning layer (see test-strategy.md).
